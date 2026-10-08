@@ -22,6 +22,15 @@ body{padding:0 16px}
 .offer .name{font:800 1.35rem var(--display)}
 .offer ul{margin:0;padding-left:20px;display:grid;gap:4px}
 .offer .ref{font:600 1rem var(--display);color:var(--accent-ink);background:var(--accent-soft);border-radius:8px;padding:8px 12px}
+.o-row{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:start;gap:6px;text-align:center}
+.o-item{display:grid;justify-items:center;gap:2px}
+.o-item strong{font:700 1rem var(--display)}
+.o-item span:last-child{font-size:.8rem;color:var(--muted);line-height:1.3}
+.o-ic svg{width:58px;height:58px;display:block}
+.o-plus{font:800 1.6rem var(--display);color:var(--accent-ink);padding-top:16px}
+.o-price{justify-self:center;font:800 1.6rem var(--display);background:var(--ink);color:var(--bg);border-radius:999px;padding:4px 18px}
+.offer .ref{justify-self:center;text-align:center}
+@media (max-width:420px){.o-ic svg{width:46px;height:46px}.o-plus{font-size:1.3rem;padding-top:10px}}
 .field{display:grid;gap:8px}
 .field > label,.field legend{font:600 1rem var(--display);padding:0}
 fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
@@ -97,20 +106,27 @@ const START = Date.now();
 const answers = { id: rid(), version: VERSION };
 
 /* ---------- briques d'interface ---------- */
+const ICONS = {
+  ticket: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 18h48v8a6 6 0 0 0 0 12v8H8v-8a6 6 0 0 0 0-12z" fill="var(--accent-soft)" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round"/><path d="M40 20v24" stroke="var(--accent-ink)" stroke-width="2.5" stroke-dasharray="3 4"/><path d="M18 30h14M18 36h10" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round"/></svg>`,
+  popcorn: `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="22" cy="20" r="7" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><circle cx="32" cy="15" r="8" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><circle cx="42" cy="20" r="7" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><path d="M14 24h36l-5 32H19z" fill="#fff" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round"/><path d="M26 24l2 32M38 24l-2 32" stroke="#C9372C" stroke-width="4"/></svg>`,
+  drink: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M36 6l-4 14" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round"/><path d="M18 20h28l-4 38H22z" fill="#CFE3F7" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round"/><path d="M16 20h32" stroke="var(--accent-ink)" stroke-width="4" stroke-linecap="round"/><path d="M21 34h22" stroke="var(--accent-ink)" stroke-width="2" opacity=".6"/></svg>`
+};
 function offerHTML(withPrice) {
-  return `<div class="offer" aria-label="Description de l'offre">
+  const item = (icon, title, sub) => `<div class="o-item"><span class="o-ic">${ICONS[icon]}</span><strong>${title}</strong><span>${sub}</span></div>`;
+  return `<div class="offer" aria-label="Pack Ciné Pathé : 1 place de cinéma, 1 popcorn moyen et 1 boisson de 50 centilitres">
     <span class="name">Pack Ciné Pathé</span>
-    <ul>
-      <li>1 place de cinéma, pour la séance de votre choix (hors IMAX et 4DX)</li>
-      <li>1 popcorn moyen, sucré ou salé</li>
-      <li>1 boisson de 50 cl</li>
-    </ul>
-    <span class="small">Valable tous les jours, dans les cinémas Pathé, à acheter en ligne avec votre billet ou en caisse.</span>
-    ${withPrice ? `<span class="name" style="font-size:1.15rem">Prix du pack : ${fmt(CONFIG.PRIX_PACK)}</span>` : ""}
-    ${VERSION === "B" ? `<span class="ref">Achetés séparément, ces trois produits coûtent ${fmt(CONFIG.PRIX_SEPARES)} chez Pathé.</span>` : ""}
+    <div class="o-row">
+      ${item("ticket", "1 place", "hors IMAX et 4DX")}
+      <span class="o-plus" aria-hidden="true">+</span>
+      ${item("popcorn", "1 popcorn", "moyen, sucré ou salé")}
+      <span class="o-plus" aria-hidden="true">+</span>
+      ${item("drink", "1 boisson", "50 cl")}
+    </div>
+    <span class="small">Tous les jours, chez Pathé · en ligne ou en caisse</span>
+    ${withPrice ? `<span class="o-price">${fmt(CONFIG.PRIX_PACK)}</span>` : ""}
+    ${VERSION === "B" ? `<span class="ref">Achetés séparément : ${fmt(CONFIG.PRIX_SEPARES)}</span>` : ""}
   </div>`;
-}
-const radios = (name, opts) => `<div class="choices">${opts.map((o, i) => `<label class="choice"><input type="radio" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div>`;
+}const radios = (name, opts) => `<div class="choices">${opts.map((o, i) => `<label class="choice"><input type="radio" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div>`;
 const question = (name, label, opts) => `<fieldset class="field"><legend>${label}</legend>${radios(name, opts)}</fieldset>`;
 const euro = (name, label) => `<div class="field"><label for="${name}">${label}</label><div class="euro"><input type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" id="${name}" name="${name}"><span>€</span></div></div>`;
 const LIKERT = ["Pas du tout d'accord", "Plutôt pas d'accord", "Ni l'un ni l'autre", "Plutôt d'accord", "Tout à fait d'accord"];
@@ -187,6 +203,7 @@ const STEPS = [
 
   { id: "pack", html: () => `<div class="step">
       <h2>Le pack et vous</h2>
+      ${offerHTML(true)}
       ${question("q3_plus_souvent", `Avec ce pack à ${fmt(CONFIG.PRIX_PACK)}, prendriez-vous popcorn et boisson plus souvent qu'aujourd'hui ?`, [["plus", "Oui, plus souvent"], ["pareil", "Pareil"], ["non", "Non"]])}
       ${question("q8_format", "Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
     </div>`,
