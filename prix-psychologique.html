@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prix psychologique · Dossier Pathé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+.ab{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.ab .card{border-width:2px}
+.ab .tag{font:700 .8rem var(--mono);color:var(--accent-ink)}
+.ab .ref{font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:6px 10px}
+ol.steps{margin:0;padding-left:22px;display:grid;gap:8px}
+code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">Pathé <span>·</span> pack ciné</a>
+  <nav class="nav" aria-label="Pages du dossier">
+    <a href="index.html">Accueil</a>
+    <a href="marche.html">Le marché</a>
+    <a href="entreprise.html">L'entreprise</a>
+    <a href="prix-psychologique.html" aria-current="page">Prix psychologique</a>
+    <a href="recommandation.html">Recommandation</a>
+    <a href="sources.html">Sources et méthode</a>
+  </nav>
+</header>
+<main>
+  <div class="hero">
+    <p class="eyebrow">Page 3 · Prix psychologique · questionnaire prêt le 12 octobre, collecte du 12 au 21 octobre</p>
+    <h1>Afficher l'économie fait-il accepter un prix plus élevé ?</h1>
+    <p class="lede">Notre questionnaire mesure le prix que les clients acceptent pour le pack, et teste une seule variation : indiquer ou non ce que coûtent les mêmes produits achetés séparément. C'est l'effet d'ancrage vu au CM 1, mesuré par un test A/B.</p>
+    <p><a class="pill up" href="questionnaire.html" style="text-decoration:none">Ouvrir le questionnaire</a></p>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="num">01</span><h2>Le test A/B</h2></div>
+    <p>À l'ouverture du questionnaire, le hasard attribue à chaque répondant la version A ou la version B. Tout le reste est identique au mot près. La version vue est enregistrée avec ses réponses.</p>
+    <div class="ab">
+      <div class="card"><span class="tag">Version A</span><h3>L'offre seule</h3><p>Pack Ciné Pathé : 1 place (hors IMAX et 4DX), 1 popcorn moyen, 1 boisson de 50 cl. Valable tous les jours.</p></div>
+      <div class="card"><span class="tag">Version B</span><h3>L'offre + le prix de référence</h3><p>La même description, plus une phrase :</p><p class="ref">« Achetés séparément, ces trois produits coûtent 22,00 € chez Pathé. »</p></div>
+    </div>
+    <div class="callout">
+      <span class="label">Hypothèse</span>
+      <p>Les répondants de la version B, qui voient le prix des produits achetés séparément, acceptent un prix plus élevé pour le pack que ceux de la version A.</p>
+    </div>
+    <div class="todo-box"><strong>À faire avant le lancement</strong><p>Les 22,00 € (place à 13,50 € + menu estimé à 8,50 €) doivent être remplacés par le vrai prix relevé en caisse. Une seule ligne à changer : <code>PRIX_SEPARES</code> en haut de <code>questionnaire.html</code>.</p></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">02</span><h2>Les 7 étapes du questionnaire</h2></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Étape</th><th>Contenu</th><th>Pourquoi</th></tr></thead>
+        <tbody>
+          <tr><td>1 · Accueil</td><td>Objet de l'étude, durée, anonymat, accord pour participer</td><td>Obligation d'information (CNIL) ; pas de nom, d'e-mail ni d'adresse IP</td></tr>
+          <tr><td>2 · Filtre</td><td>Êtes-vous allé au cinéma au cours des 12 derniers mois ?</td><td>Garder seulement la cible ; les autres sortent du questionnaire</td></tr>
+          <tr><td>3 · Offre</td><td>Version A ou B, tirée au sort</td><td>La seule différence entre les deux groupes</td></tr>
+          <tr><td>4 · Mesure</td><td>Van Westendorp (4 questions, réponse libre en euros, toujours dans le même ordre) puis Gabor-Granger (5 prix, oui ou non)</td><td>Van Westendorp trace la zone acceptable, Gabor-Granger choisit un prix dedans</td></tr>
+          <tr><td>5 · Contrôle</td><td>Le prix des produits achetés séparément était-il indiqué ?</td><td>Vérifier que la différence a été vue</td></tr>
+          <tr><td>6 · Perception</td><td>3 affirmations de 1 à 5 : bonne affaire, envie d'y aller plus souvent, cohérence avec l'image de Pathé</td><td>Comprendre le pourquoi des écarts de prix</td></tr>
+          <tr><td>7 · Profil</td><td>Âge, fréquence, avec qui, achat de confiserie, cinéma habituel</td><td>Le strict nécessaire pour décrire l'échantillon et comparer A et B</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">03</span><h2>Nos choix de mesure</h2></div>
+    <ul class="check">
+      <li><strong>Prix testés en Gabor-Granger : 19,90 €, 18,90 €, 17,90 €, 16,90 €, 15,90 €</strong>, toujours dans cet ordre, du plus cher au moins cher, pour tous les répondants. La fourchette va de notre plancher estimé (place 13,50 € + coût des produits environ 2,30 € = environ 15,80 €) jusqu'au-dessus de notre plafond de 19,50 €.</li>
+      <li><strong>Van Westendorp</strong> : bon marché, cher, trop cher, trop bon marché, dans cet ordre.</li>
+      <li><strong>Nettoyage automatique signalé, pas effacé</strong> : le fichier contient une colonne <code>vw_coherent</code> (les quatre prix doivent monter : trop bon marché ≤ bon marché ≤ cher ≤ trop cher) et une colonne <code>gg_coherent</code> (accepter un prix élevé puis refuser un prix plus bas est incohérent). On dira combien de répondants on écarte.</li>
+      <li><strong>Contrôle</strong> : la colonne <code>controle_ok</code> indique si le répondant a bien perçu sa version.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">04</span><h2>Mise en ligne et enregistrement</h2></div>
+    <p>Comme le recommande le cours, le questionnaire est une page de notre site, publiée sur GitHub Pages. Une page publiée ne garde rien seule : elle envoie chaque réponse à une feuille Google Sheets.</p>
+    <ol class="steps">
+      <li>Créer une feuille Google Sheets vide, puis <em>Extensions › Apps Script</em> et coller le fichier <code>outils/google-apps-script.gs</code>.</li>
+      <li><em>Déployer › Nouveau déploiement › Application Web</em>, exécuter en tant que « Moi », accès « Tout le monde ». Copier l'adresse qui finit par <code>/exec</code>.</li>
+      <li>Coller cette adresse dans <code>CONFIG.ENDPOINT</code> en haut de <code>questionnaire.html</code>. Tant qu'elle est vide, le questionnaire affiche « Mode test » et n'envoie rien.</li>
+      <li>Publier le site sur GitHub Pages, puis répondre une fois pour vérifier qu'une ligne apparaît dans la feuille.</li>
+      <li>Faire tester par 3 ou 4 personnes extérieures au groupe, corriger ce qui est mal compris, puis vider la feuille avant le lancement.</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">05</span><h2>Collecte</h2></div>
+    <ul class="check">
+      <li>Du 12 au 21 octobre ; analyse en Analyse de données le 21 octobre</li>
+      <li>Viser des personnes qui vont vraiment au cinéma : groupes locaux en ligne, entourage élargi, et si possible à la sortie des cinémas de Clermont</li>
+      <li>Noter comment les répondants ont été trouvés, pour pouvoir décrire l'échantillon</li>
+      <li>Suivre l'équilibre entre A et B, sans jamais choisir qui reçoit quelle version</li>
+    </ul>
+  </section>
+</main>
+<footer>
+  <span>Dossier « Prix et budgets marketing », M1 Marketing, IAE Clermont Auvergne, 2026-2027</span>
+  <span>Page mise à jour le 8 octobre 2026</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Votre avis sur un pack cinéma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+body{padding:0 16px}
+.q-wrap{max-width:640px;margin:0 auto;padding-block:28px 56px;display:grid;gap:22px}
+.q-top{display:flex;justify-content:space-between;align-items:center;gap:12px;font:500 .8rem var(--mono);color:var(--muted)}
+.bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+.step{display:grid;gap:18px}
+.step h1{font-size:clamp(1.6rem,4.5vw,2.2rem)}
+.step h2{font-size:1.3rem}
+.step p{font-size:1.02rem}
+.offer{background:var(--surface);border:2px solid var(--accent);border-radius:12px;padding:20px 22px;display:grid;gap:10px}
+.offer .name{font:800 1.35rem var(--display)}
+.offer ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.offer .ref{font:600 1rem var(--display);color:var(--accent-ink);background:var(--accent-soft);border-radius:8px;padding:8px 12px}
+.field{display:grid;gap:8px}
+.field > label,.field legend{font:600 1rem var(--display);padding:0}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
+.choices{display:grid;gap:8px}
+.choice{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;font-size:.98rem}
+.choice:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.choice input{accent-color:var(--accent);width:18px;height:18px;flex:none}
+.euro{display:flex;align-items:center;gap:8px}
+.euro input{font:600 1.15rem var(--mono);width:140px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.euro span{font:600 1.1rem var(--mono);color:var(--muted)}
+.likert{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.likert label{display:grid;justify-items:center;gap:4px;font:500 .72rem var(--mono);color:var(--muted);text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 2px;cursor:pointer}
+.likert label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
+.likert input{accent-color:var(--accent)}
+.gg-row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.gg-row .p{font:700 1.1rem var(--mono)}
+.gg-row .yn{display:flex;gap:6px}
+.gg-row .yn label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:.92rem}
+.gg-row .yn label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.err{color:var(--bad);font:500 .9rem var(--display);min-height:1.2em}
+.nav-q{display:flex;justify-content:space-between;gap:10px}
+.btn{font:700 1rem var(--display);border-radius:999px;padding:12px 22px;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--bg)}
+.btn.ghost{background:none;color:var(--ink);border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.small{font-size:.85rem;color:var(--muted)}
+.testmode{font:500 .78rem var(--mono);background:var(--accent-soft);color:var(--accent-ink);border-radius:6px;padding:6px 10px}
+</style>
+</head>
+<body>
+<div class="q-wrap">
+  <div class="q-top"><span>Étude M1 Marketing · IAE Clermont Auvergne</span><span id="count"></span></div>
+  <div class="bar" aria-hidden="true"><span id="progress"></span></div>
+  <div id="testmode" class="testmode" hidden>Mode test : les réponses ne sont pas envoyées (adresse d'enregistrement non configurée).</div>
+  <form id="form" novalidate>
+    <div id="steps"></div>
+    <p class="err" id="err" role="alert"></p>
+    <div class="nav-q">
+      <button type="button" class="btn ghost" id="prev">Retour</button>
+      <button type="submit" class="btn" id="next">Commencer</button>
+    </div>
+  </form>
+</div>
+
+<script>
+/* ================== RÉGLAGES DU GROUPE ================== */
+const CONFIG = {
+  // Adresse de l'application Google Apps Script qui enregistre dans Google Sheets (voir prix-psychologique.html).
+  ENDPOINT: "",
+  // Prix de référence montré dans la version B : place plein tarif + menu, achetés séparément.
+  // À METTRE À JOUR après le relevé en caisse (13,50 € + prix réel du Menu Gourmand).
+  PRIX_SEPARES: 22.00,
+  // Prix testés en Gabor-Granger, présentés du plus cher au moins cher (ordre fixe pour tous).
+  GG_PRIX: [19.90, 18.90, 17.90, 16.90, 15.90]
+};
+/* ======================================================== */
+
+const fmt = v => v.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+const rid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+
+// Tirage au sort à l'ouverture, une seule fois par répondant
+const VERSION = Math.random() < 0.5 ? "A" : "B";
+const START = Date.now();
+const answers = { id: rid(), version: VERSION };
+
+function offerHTML() {
+  return `<div class="offer" aria-label="Description de l'offre">
+    <span class="name">Pack Ciné Pathé</span>
+    <ul>
+      <li>1 place de cinéma, pour la séance de votre choix (hors IMAX et 4DX)</li>
+      <li>1 popcorn moyen, sucré ou salé</li>
+      <li>1 boisson de 50 cl</li>
+    </ul>
+    <span class="small">Valable tous les jours, dans les cinémas Pathé, à acheter en ligne avec votre billet ou en caisse.</span>
+    ${VERSION === "B" ? `<span class="ref">Achetés séparément, ces trois produits coûtent ${fmt(CONFIG.PRIX_SEPARES)} chez Pathé.</span>` : ""}
+  </div>`;
+}
+const radios = (name, opts) => `<div class="choices">${opts.map((o, i) => `<label class="choice"><input type="radio" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div>`;
+const euro = (name, label) => `<div class="field"><label for="${name}">${label}</label><div class="euro"><input type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" id="${name}" name="${name}"><span>€</span></div></div>`;
+const likert = (name, label) => `<fieldset class="field"><legend>${label}</legend><div class="likert">${["Pas du tout d'accord","Plutôt pas d'accord","Ni l'un ni l'autre","Plutôt d'accord","Tout à fait d'accord"].map((t, i) => `<label><input type="radio" name="${name}" value="${i + 1}">${t}</label>`).join("")}</div></fieldset>`;
+
+const STEPS = [
+  { id: "accueil", button: "Commencer", html: () => `<div class="step">
+      <h1>Votre avis sur un pack cinéma</h1>
+      <p>Nous sommes des étudiants en Master 1 Marketing à l'IAE Clermont Auvergne. Dans le cadre d'un cours, nous étudions le prix d'une offre de cinéma.</p>
+      <p><strong>Le questionnaire dure environ 3 minutes.</strong> Il est <strong>anonyme</strong> : nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP. Les réponses servent uniquement à ce travail universitaire.</p>
+      ${radios("consentement", [["oui", "J'accepte de participer"], ["non", "Je ne souhaite pas participer"]])}
+    </div>`,
+    check: f => f.consentement ? "" : "Indiquez si vous acceptez de participer.",
+    stop: f => f.consentement === "non" },
+
+  { id: "filtre", html: () => `<div class="step">
+      <h2>Êtes-vous allé au cinéma au moins une fois au cours des 12 derniers mois ?</h2>
+      ${radios("filtre", [["oui", "Oui"], ["non", "Non"]])}
+    </div>`,
+    check: f => f.filtre ? "" : "Choisissez une réponse.",
+    stop: f => f.filtre === "non" },
+
+  { id: "offre", button: "J'ai lu l'offre", html: () => `<div class="step">
+      <h2>Voici l'offre</h2>
+      <p>Lisez-la attentivement : les questions suivantes portent sur elle.</p>
+      ${offerHTML()}
+    </div>`, check: () => "" },
+
+  { id: "vw", html: () => `<div class="step">
+      <h2>Pour ce pack, à partir de quel prix…</h2>
+      ${offerHTML()}
+      ${euro("vw_bon_marche", "…le trouveriez-vous <strong>bon marché</strong>, une bonne affaire ?")}
+      ${euro("vw_cher", "…le trouveriez-vous <strong>cher</strong>, mais vous pourriez quand même l'acheter ?")}
+      ${euro("vw_trop_cher", "…le trouveriez-vous <strong>trop cher</strong> pour l'acheter ?")}
+      ${euro("vw_trop_bon_marche", "…le trouveriez-vous <strong>trop bon marché</strong>, au point de douter de sa qualité ?")}
+    </div>`,
+    check: f => {
+      const keys = ["vw_bon_marche", "vw_cher", "vw_trop_cher", "vw_trop_bon_marche"];
+      if (!keys.every(k => f[k] !== "" && f[k] != null)) return "Indiquez un prix pour chacune des quatre questions.";
+      if (!keys.every(k => /^\d+(\.\d+)?$/.test(f[k]) && Number(f[k]) <= 500)) return "Écrivez seulement un montant en euros, par exemple 15 ou 17,50.";
+      return "";
+    } },
+
+  { id: "gg", html: () => `<div class="step">
+      <h2>Achèteriez-vous ce pack à ces prix ?</h2>
+      ${offerHTML()}
+      ${CONFIG.GG_PRIX.map((p, i) => `<div class="gg-row"><span class="p">${fmt(p)}</span><span class="yn"><label><input type="radio" name="gg_${i}" value="oui"> Oui</label><label><input type="radio" name="gg_${i}" value="non"> Non</label></span></div>`).join("")}
+    </div>`,
+    check: f => CONFIG.GG_PRIX.every((_, i) => f["gg_" + i]) ? "" : "Répondez oui ou non pour chaque prix." },
+
+  { id: "controle", html: () => `<div class="step">
+      <h2>Dans la description de l'offre, le prix de ces produits achetés séparément était-il indiqué ?</h2>
+      ${radios("controle", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
+    </div>`,
+    check: f => f.controle ? "" : "Choisissez une réponse." },
+
+  { id: "perception", html: () => `<div class="step">
+      <h2>Que pensez-vous de ce pack ?</h2>
+      ${likert("lk_bonne_affaire", "Ce pack est une bonne affaire.")}
+      ${likert("lk_envie", "Ce pack me donnerait envie d'aller plus souvent au cinéma.")}
+      ${likert("lk_image", "Ce pack correspond à l'image que j'ai de Pathé.")}
+    </div>`,
+    check: f => ["lk_bonne_affaire", "lk_envie", "lk_image"].every(k => f[k]) ? "" : "Répondez aux trois affirmations." },
+
+  { id: "profil", button: "Envoyer mes réponses", html: () => `<div class="step">
+      <h2>Pour finir, quelques questions sur vous</h2>
+      <fieldset class="field"><legend>Votre âge</legend>${radios("age", [["-18", "Moins de 18 ans"], ["18-24", "18 à 24 ans"], ["25-34", "25 à 34 ans"], ["35-49", "35 à 49 ans"], ["50-64", "50 à 64 ans"], ["65+", "65 ans et plus"]])}</fieldset>
+      <fieldset class="field"><legend>Combien de fois êtes-vous allé au cinéma ces 3 derniers mois ?</legend>${radios("frequence", [["0", "0"], ["1", "1 fois"], ["2-3", "2 ou 3 fois"], ["4+", "4 fois ou plus"]])}</fieldset>
+      <fieldset class="field"><legend>Le plus souvent, vous y allez…</legend>${radios("avec_qui", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"]])}</fieldset>
+      <fieldset class="field"><legend>Achetez-vous du popcorn ou une boisson au cinéma ?</legend>${radios("confiserie", [["jamais", "Jamais"], ["parfois", "Parfois"], ["toujours", "Presque à chaque fois"]])}</fieldset>
+      <fieldset class="field"><legend>Dans quel cinéma allez-vous le plus souvent ?</legend>${radios("cinema", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"]])}</fieldset>
+    </div>`,
+    check: f => ["age", "frequence", "avec_qui", "confiserie", "cinema"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." }
+];
+
+const stepsEl = document.getElementById("steps"), errEl = document.getElementById("err");
+const nextBtn = document.getElementById("next"), prevBtn = document.getElementById("prev");
+let cur = 0;
+if (!CONFIG.ENDPOINT) document.getElementById("testmode").hidden = false;
+
+function collect() {
+  const f = {};
+  stepsEl.querySelectorAll("input").forEach(i => {
+    if (i.type === "radio") { if (i.checked) f[i.name] = i.value; }
+    else f[i.name] = i.value.trim().replace(/\s|€/g, "").replace(",", ".");
+  });
+  return f;
+}
+function restore() {
+  stepsEl.querySelectorAll("input").forEach(i => {
+    const v = answers[i.name];
+    if (v == null) return;
+    if (i.type === "radio") i.checked = i.value === v; else i.value = v;
+  });
+}
+function render() {
+  const s = STEPS[cur];
+  stepsEl.innerHTML = s.html();
+  restore();
+  errEl.textContent = "";
+  prevBtn.hidden = cur === 0;
+  nextBtn.textContent = s.button || "Suivant";
+  document.getElementById("progress").style.width = (cur / STEPS.length * 100) + "%";
+  document.getElementById("count").textContent = `Étape ${cur + 1} sur ${STEPS.length}`;
+  window.scrollTo(0, 0);
+  const first = stepsEl.querySelector("input"); if (first && cur > 0) first.focus({ preventScroll: true });
+}
+function endScreen(msg) {
+  document.getElementById("form").innerHTML = `<div class="step"><h1>Merci !</h1><p>${msg}</p></div>`;
+  document.getElementById("progress").style.width = "100%";
+  document.getElementById("count").textContent = "";
+}
+
+function buildRow() {
+  const n = k => (answers[k] === "" || answers[k] == null) ? "" : Number(answers[k]);
+  const vw = [n("vw_trop_bon_marche"), n("vw_bon_marche"), n("vw_cher"), n("vw_trop_cher")];
+  const vwOk = vw.every(v => v !== "" && !isNaN(v)) && vw[0] <= vw[1] && vw[1] <= vw[2] && vw[2] <= vw[3];
+  // Gabor-Granger : prix décroissants ; accepter un prix plus élevé puis refuser un plus bas = incohérent
+  const gg = CONFIG.GG_PRIX.map((_, i) => answers["gg_" + i]);
+  let ggOk = true, seenYes = false;
+  gg.forEach(a => { if (a === "oui") seenYes = true; else if (seenYes) ggOk = false; });
+  const row = {
+    id: answers.id, horodatage: new Date().toISOString(), version: VERSION,
+    filtre: answers.filtre,
+    vw_trop_bon_marche: vw[0], vw_bon_marche: vw[1], vw_cher: vw[2], vw_trop_cher: vw[3], vw_coherent: vwOk ? 1 : 0
+  };
+  CONFIG.GG_PRIX.forEach((p, i) => { row["gg_" + String(p.toFixed(2)).replace(".", "_")] = gg[i] === "oui" ? 1 : 0; });
+  Object.assign(row, {
+    gg_coherent: ggOk ? 1 : 0,
+    controle: answers.controle, controle_ok: (VERSION === "B" ? answers.controle === "oui" : answers.controle === "non") ? 1 : 0,
+    lk_bonne_affaire: n("lk_bonne_affaire"), lk_envie: n("lk_envie"), lk_image: n("lk_image"),
+    age: answers.age, frequence: answers.frequence, avec_qui: answers.avec_qui, confiserie: answers.confiserie, cinema: answers.cinema,
+    prix_separes_affiche: VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
+    duree_sec: Math.round((Date.now() - START) / 1000)
+  });
+  return row;
+}
+async function send(row) {
+  if (!CONFIG.ENDPOINT) { try { const k = "q-test-rows"; const a = JSON.parse(localStorage.getItem(k) || "[]"); a.push(row); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} console.log("Réponse (mode test) :", row); return true; }
+  try {
+    await fetch(CONFIG.ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(row) });
+    return true;
+  } catch (e) { return false; }
+}
+
+document.getElementById("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = collect();
+  const s = STEPS[cur];
+  const msg = s.check(f);
+  if (msg) { errEl.textContent = msg; return; }
+  Object.assign(answers, f);
+  if (s.stop && s.stop(f)) {
+    endScreen(s.id === "accueil" ? "Vous avez choisi de ne pas participer. Bonne journée !" : "Ce questionnaire s'adresse aux personnes allées au cinéma dans l'année. Merci d'avoir pris le temps de répondre.");
+    return;
+  }
+  if (cur < STEPS.length - 1) { cur++; render(); return; }
+  nextBtn.disabled = true; nextBtn.textContent = "Envoi…";
+  const ok = await send(buildRow());
+  if (ok) endScreen("Vos réponses ont bien été enregistrées. Merci pour votre participation !");
+  else { nextBtn.disabled = false; nextBtn.textContent = "Réessayer l'envoi"; errEl.textContent = "L'envoi n'a pas fonctionné. Vérifiez votre connexion internet, puis réessayez."; }
+});
+prevBtn.addEventListener("click", () => { Object.assign(answers, collect()); if (cur > 0) { cur--; render(); } });
+render();
+</script>
+</body>
+</html>
