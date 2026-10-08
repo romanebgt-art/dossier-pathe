@@ -111,7 +111,7 @@ const ICONS = {
   popcorn: `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="22" cy="20" r="7" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><circle cx="32" cy="15" r="8" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><circle cx="42" cy="20" r="7" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><path d="M14 24h36l-5 32H19z" fill="#fff" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round"/><path d="M26 24l2 32M38 24l-2 32" stroke="#C9372C" stroke-width="4"/></svg>`,
   drink: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M36 6l-4 14" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round"/><path d="M18 20h28l-4 38H22z" fill="#CFE3F7" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round"/><path d="M16 20h32" stroke="var(--accent-ink)" stroke-width="4" stroke-linecap="round"/><path d="M21 34h22" stroke="var(--accent-ink)" stroke-width="2" opacity=".6"/></svg>`
 };
-function offerHTML(withPrice) {
+function offerHTML(withPrice, showRef = true) {
   const item = (icon, title, sub) => `<div class="o-item"><span class="o-ic">${ICONS[icon]}</span><strong>${title}</strong><span>${sub}</span></div>`;
   return `<div class="offer" aria-label="Pack Ciné Pathé : 1 place de cinéma, 1 popcorn moyen et 1 boisson de 50 centilitres">
     <span class="name">Pack Ciné Pathé</span>
@@ -124,7 +124,7 @@ function offerHTML(withPrice) {
     </div>
     <span class="small">Tous les jours, chez Pathé · en ligne ou en caisse</span>
     ${withPrice ? `<span class="o-price">${fmt(CONFIG.PRIX_PACK)}</span>` : ""}
-    ${VERSION === "B" ? `<span class="ref">Achetés séparément : ${fmt(CONFIG.PRIX_SEPARES)}</span>` : ""}
+    ${VERSION === "B" && showRef ? `<span class="ref">Achetés séparément : ${fmt(CONFIG.PRIX_SEPARES)}</span>` : ""}
   </div>`;
 }const radios = (name, opts) => `<div class="choices">${opts.map((o, i) => `<label class="choice"><input type="radio" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div>`;
 const question = (name, label, opts) => `<fieldset class="field"><legend>${label}</legend>${radios(name, opts)}</fieldset>`;
@@ -143,32 +143,48 @@ const LK_ITEMS = [
   ["lk_plus_souvent", "Ce pack me donnerait envie d'aller plus souvent au cinéma."],
   ["lk_recommande", "Je recommanderais ce pack à mes proches."]
 ];
+const isA = () => answers.filtre === "oui";   // va au cinéma : partie A
+const isB = () => answers.filtre === "non";   // ne va pas au cinéma : partie B
 
 const STEPS = [
+  /* ---------- tronc commun ---------- */
   { id: "accueil", button: "Commencer", html: () => `<div class="step">
       <h1>Votre avis sur un pack cinéma</h1>
       <p>Nous sommes des étudiants en Master 1 Marketing à l'IAE Clermont Auvergne. Dans le cadre d'un cours, nous étudions le prix d'une offre de cinéma.</p>
-      <p><strong>Le questionnaire dure environ 4 minutes.</strong> Il est <strong>anonyme</strong> : nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP. Les réponses servent uniquement à ce travail universitaire.</p>
+      <p><strong>Le questionnaire dure 2 à 4 minutes.</strong> Il est <strong>anonyme</strong> : nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP. Les réponses servent uniquement à ce travail universitaire.</p>
       ${radios("consentement", [["oui", "J'accepte de participer"], ["non", "Je ne souhaite pas participer"]])}
     </div>`,
     check: f => f.consentement ? "" : "Indiquez si vous acceptez de participer.",
     stop: f => f.consentement === "non" },
 
   { id: "filtre", html: () => `<div class="step">
-      ${question("filtre", "Êtes-vous allé au cinéma au moins une fois au cours des 12 derniers mois ?", [["oui", "Oui"], ["non", "Non"]])}
+      ${question("filtre", "Au cours des 12 derniers mois, êtes-vous allé au cinéma ?", [["oui", "Oui"], ["non", "Non"]])}
     </div>`,
-    check: f => f.filtre ? "" : "Choisissez une réponse.",
-    stop: f => f.filtre === "non" },
+    check: f => f.filtre ? "" : "Choisissez une réponse." },
 
-  { id: "offre", button: "J'ai lu l'offre", html: () => `<div class="step">
+  /* ---------- PARTIE A : va au cinéma ---------- */
+  { id: "a_habitudes", when: isA, html: () => `<div class="step">
+      <h2>Vos habitudes au cinéma</h2>
+      ${question("q1_dernier_achat", "Lors de votre dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_menu", "La place + un menu"]])}
+      ${euro("q2_depense", "Combien dépensez-vous en moyenne en confiserie par séance ? (0 si vous n'en achetez jamais)")}
+      ${question("q5_frein", "Si vous n'achetez pas de confiserie, pourquoi ?", [["cher", "Trop cher"], ["envie", "Pas envie"], ["snacks", "J'apporte mes snacks"], ["mange", "J'ai mangé avant"], ["autre", "Autre"], ["achete", "Je n'ai pas ce cas : j'en achète"]])}
+      ${question("q7_canal", "Comment achetez-vous habituellement votre place ?", [["appli", "Sur l'application ou le site"], ["caisse", "En caisse"], ["ce", "Via un comité d'entreprise ou une carte"]])}
+    </div>`,
+    check: f => {
+      if (!f.q1_dernier_achat || !f.q5_frein || !f.q7_canal || !f.q2_depense) return "Répondez à toutes les questions de cette page.";
+      if (!isAmount(f.q2_depense)) return "Pour la dépense, écrivez seulement un montant en euros, par exemple 0, 6 ou 8,50.";
+      return "";
+    } },
+
+  { id: "a_offre", when: isA, button: "J'ai lu l'offre", html: () => `<div class="step">
       <h2>Voici l'offre</h2>
-      <p>Lisez-la attentivement : les questions suivantes portent sur elle.</p>
-      ${offerHTML()}
+      <p>Regardez-la attentivement : les questions suivantes portent sur elle.</p>
+      ${offerHTML(false, true)}
     </div>`, check: () => "" },
 
-  { id: "vw", html: () => `<div class="step">
+  { id: "a_vw", when: isA, html: () => `<div class="step">
       <h2>Pour ce pack, à partir de quel prix…</h2>
-      ${offerHTML()}
+      ${offerHTML(false, true)}
       ${euro("vw_bon_marche", "…le trouveriez-vous <strong>bon marché</strong>, une bonne affaire ?")}
       ${euro("vw_cher", "…le trouveriez-vous <strong>cher</strong>, mais vous pourriez quand même l'acheter ?")}
       ${euro("vw_trop_cher", "…le trouveriez-vous <strong>trop cher</strong> pour l'acheter ?")}
@@ -181,35 +197,35 @@ const STEPS = [
       return "";
     } },
 
-  { id: "gg", html: () => `<div class="step">
+  { id: "a_gg", when: isA, html: () => `<div class="step">
       <h2>Achèteriez-vous ce pack à ces prix ?</h2>
-      ${offerHTML()}
+      ${offerHTML(false, true)}
       ${CONFIG.GG_PRIX.map((p, i) => `<div class="gg-row"><span class="p">${fmt(p)}</span><span class="yn"><label><input type="radio" name="gg_${i}" value="oui"> Oui</label><label><input type="radio" name="gg_${i}" value="non"> Non</label></span></div>`).join("")}
     </div>`,
     check: f => CONFIG.GG_PRIX.every((_, i) => f["gg_" + i]) ? "" : "Répondez oui ou non pour chaque prix." },
 
-  { id: "controle", html: () => `<div class="step">
+  { id: "a_controle", when: isA, html: () => `<div class="step">
       ${question("controle", "Dans la description du pack, était-il indiqué combien coûtent la place, le popcorn et la boisson si on les achète séparément ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
     </div>`,
     check: f => f.controle ? "" : "Choisissez une réponse." },
 
-  { id: "perception", html: () => `<div class="step">
+  { id: "a_perception", when: isA, html: () => `<div class="step">
       <h2>Imaginons que ce pack soit proposé à ${fmt(CONFIG.PRIX_PACK)}.</h2>
-      ${offerHTML(true)}
+      ${offerHTML(true, true)}
       <p><strong>Êtes-vous d'accord avec ces phrases ?</strong></p>
       ${LK_ITEMS.map(([n, l]) => likert(n, l)).join("")}
     </div>`,
     check: f => LK_ITEMS.every(([n]) => f[n]) ? "" : "Répondez aux six phrases." },
 
-  { id: "pack", html: () => `<div class="step">
+  { id: "a_pack", when: isA, html: () => `<div class="step">
       <h2>Le pack et vous</h2>
-      ${offerHTML(true)}
+      ${offerHTML(true, true)}
       ${question("q3_plus_souvent", `Avec ce pack à ${fmt(CONFIG.PRIX_PACK)}, prendriez-vous popcorn et boisson plus souvent qu'aujourd'hui ?`, [["plus", "Oui, plus souvent"], ["pareil", "Pareil"], ["non", "Non"]])}
       ${question("q8_format", "Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
     </div>`,
     check: f => (f.q3_plus_souvent && f.q8_format) ? "" : "Répondez aux deux questions." },
 
-  { id: "enseignes", html: () => `<div class="step">
+  { id: "a_enseignes", when: isA, html: () => `<div class="step">
       <h2>Notez chaque cinéma de 1 à 10</h2>
       <p class="small">Prix : 1 = très bon marché, 10 = très cher. Qualité : 1 = très mauvaise, 10 = excellente. Si vous ne connaissez pas un cinéma, choisissez « Je ne connais pas ».</p>
       <div class="notes">
@@ -219,29 +235,43 @@ const STEPS = [
     </div>`,
     check: f => CONFIG.ENSEIGNES.every(([k]) => f["prix_" + k] && f["qualite_" + k]) ? "" : "Donnez une note (ou « Je ne connais pas ») pour chaque cinéma." },
 
-  { id: "habitudes", html: () => `<div class="step">
-      <h2>Vos habitudes au cinéma</h2>
-      ${question("q1_dernier_achat", "Lors de votre dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_menu", "La place + un menu"]])}
-      ${euro("q2_depense", "Combien dépensez-vous en moyenne en confiserie par séance ? (0 si vous n'en achetez jamais)")}
-      ${question("q5_frein", "Si vous n'achetez pas de confiserie, pourquoi ?", [["cher", "Trop cher"], ["envie", "Pas envie"], ["snacks", "J'apporte mes snacks"], ["mange", "J'ai mangé avant"], ["autre", "Autre"], ["achete", "Je n'ai pas ce cas : j'en achète"]])}
-      ${question("q7_canal", "Comment achetez-vous habituellement votre place ?", [["appli", "Sur l'application ou le site"], ["caisse", "En caisse"], ["ce", "Via un comité d'entreprise ou une carte"]])}
+  /* ---------- PARTIE B : ne va pas au cinéma ---------- */
+  { id: "b_raisons", when: isB, html: () => `<div class="step">
+      <h2>Le cinéma et vous</h2>
+      ${question("b1_raison", "Pour quelle raison principale n'êtes-vous pas allé au cinéma cette année ?", [["cher", "Trop cher"], ["temps", "Pas le temps"], ["maison", "Je préfère regarder chez moi"], ["films", "Pas de film qui m'intéresse"], ["loin", "Cinéma trop loin"], ["personne", "Personne avec qui y aller"], ["autre", "Autre"]])}
+      ${question("b2_films", "Comment regardez-vous des films aujourd'hui ?", [["streaming", "Plateforme de streaming"], ["tv", "Télévision ou replay"], ["telechargement", "Téléchargement"], ["aucun", "Je ne regarde pas de films"]])}
+      ${question("b3_confiserie", "Quand vous alliez au cinéma, achetiez-vous du popcorn ou une boisson ?", [["jamais", "Jamais"], ["parfois", "Parfois"], ["toujours", "À chaque fois"], ["jamais_alle", "Je n'y suis jamais allé"]])}
+    </div>`,
+    check: f => (f.b1_raison && f.b2_films && f.b3_confiserie) ? "" : "Répondez aux trois questions." },
+
+  { id: "b_pack", when: isB, html: () => `<div class="step">
+      <h2>Imaginons ce pack proposé à ${fmt(CONFIG.PRIX_PACK)}.</h2>
+      ${offerHTML(true, false)}
+      ${likert("b4_envie", "Ce pack me donnerait envie de retourner au cinéma.")}
+      ${euro("b5_prix_max", "Quel est le prix maximum que vous paieriez pour ce pack ?")}
+      ${question("b6_revenir", "Qu'est-ce qui vous ferait le plus revenir au cinéma ?", [["prix", "Des prix plus bas"], ["films", "Des films qui me plaisent plus"], ["confort", "Plus de confort en salle"], ["sortie", "Une sortie organisée avec des proches"], ["rien", "Rien, je préfère chez moi"]])}
     </div>`,
     check: f => {
-      if (!f.q1_dernier_achat || !f.q5_frein || !f.q7_canal || f.q2_depense === "" || f.q2_depense == null) return "Répondez à toutes les questions de cette page.";
-      if (!isAmount(f.q2_depense)) return "Pour la dépense, écrivez seulement un montant en euros, par exemple 0, 6 ou 8,50.";
+      if (!f.b4_envie || !f.b5_prix_max || !f.b6_revenir) return "Répondez aux trois questions.";
+      if (!isAmount(f.b5_prix_max)) return "Pour le prix, écrivez seulement un montant en euros, par exemple 12 ou 15,50.";
       return "";
     } },
 
+  /* ---------- PARTIE C : profil, tout le monde ---------- */
   { id: "profil", button: "Envoyer mes réponses", html: () => `<div class="step">
       <h2>Pour finir, quelques questions sur vous</h2>
       ${question("age", "Votre âge", [["-18", "Moins de 18 ans"], ["18-24", "18 à 24 ans"], ["25-34", "25 à 34 ans"], ["35-49", "35 à 49 ans"], ["50-64", "50 à 64 ans"], ["65+", "65 ans et plus"]])}
       ${question("q10_situation", "Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
+      ${question("q9_streaming", "Êtes-vous abonné à une plateforme de streaming (Netflix, Disney+, Prime Video…) ?", [["oui", "Oui"], ["non", "Non"]])}
+      ${isA() ? `
       ${question("frequence", "Combien de fois êtes-vous allé au cinéma ces 3 derniers mois ?", [["0", "0"], ["1", "1 fois"], ["2-3", "2 ou 3 fois"], ["4+", "4 fois ou plus"]])}
       ${question("avec_qui", "Le plus souvent, vous y allez…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"]])}
-      ${question("cinema", "Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"]])}
-      ${question("q9_streaming", "Êtes-vous abonné à une plateforme de streaming (Netflix, Disney+, Prime Video…) ?", [["oui", "Oui"], ["non", "Non"]])}
+      ${question("cinema", "Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"]])}` : ""}
     </div>`,
-    check: f => ["age", "q10_situation", "frequence", "avec_qui", "cinema", "q9_streaming"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." }
+    check: f => {
+      const keys = ["age", "q10_situation", "q9_streaming"].concat(isA() ? ["frequence", "avec_qui", "cinema"] : []);
+      return keys.every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page.";
+    } }
 ];
 
 /* ---------- moteur ---------- */
@@ -249,6 +279,7 @@ const stepsEl = document.getElementById("steps"), errEl = document.getElementByI
 const nextBtn = document.getElementById("next"), prevBtn = document.getElementById("prev");
 let cur = 0;
 if (!CONFIG.ENDPOINT) document.getElementById("testmode").hidden = false;
+const active = () => STEPS.filter(s => !s.when || s.when());
 
 function collect() {
   const f = {};
@@ -267,14 +298,16 @@ function restore() {
   });
 }
 function render() {
-  const s = STEPS[cur];
+  const list = active(), s = list[cur];
   stepsEl.innerHTML = s.html();
   restore();
   errEl.textContent = "";
   prevBtn.hidden = cur === 0;
   nextBtn.textContent = s.button || "Suivant";
-  document.getElementById("progress").style.width = (cur / STEPS.length * 100) + "%";
-  document.getElementById("count").textContent = `Étape ${cur + 1} sur ${STEPS.length}`;
+  // Tant que le filtre n'est pas passé, on annonce la longueur du parcours A (le plus long)
+  const total = answers.filtre ? list.length : STEPS.filter(x => !x.when || x.when === isA).length;
+  document.getElementById("progress").style.width = (cur / total * 100) + "%";
+  document.getElementById("count").textContent = `Étape ${cur + 1} sur ${total}`;
   window.scrollTo(0, 0);
 }
 function endScreen(msg) {
@@ -285,34 +318,45 @@ function endScreen(msg) {
 
 function buildRow() {
   const n = k => (answers[k] === "" || answers[k] == null) ? "" : Number(answers[k]);
-  const note = k => (answers[k] === "nc" || answers[k] == null) ? "" : Number(answers[k]);
+  const note = k => (answers[k] === "nc" || answers[k] == null || answers[k] === "") ? "" : Number(answers[k]);
+  const s = k => answers[k] == null ? "" : answers[k];
+  const A = isA();
+  const row = {
+    id: answers.id, horodatage: new Date().toISOString(),
+    parcours: A ? "A_spectateur" : "B_non_spectateur",
+    version: A ? VERSION : "", filtre: answers.filtre
+  };
+  // Partie A
   const vw = [n("vw_trop_bon_marche"), n("vw_bon_marche"), n("vw_cher"), n("vw_trop_cher")];
-  const vwOk = vw.every(v => v !== "" && !isNaN(v)) && vw[0] <= vw[1] && vw[1] <= vw[2] && vw[2] <= vw[3];
-  // Gabor-Granger : prix décroissants ; accepter un prix plus élevé puis refuser un plus bas = incohérent
+  const vwOk = A && vw.every(v => v !== "" && !isNaN(v)) && vw[0] <= vw[1] && vw[1] <= vw[2] && vw[2] <= vw[3];
   const gg = CONFIG.GG_PRIX.map((_, i) => answers["gg_" + i]);
   let ggOk = true, seenYes = false;
   gg.forEach(a => { if (a === "oui") seenYes = true; else if (seenYes) ggOk = false; });
-  const row = {
-    id: answers.id, horodatage: new Date().toISOString(), version: VERSION, filtre: answers.filtre,
-    vw_trop_bon_marche: vw[0], vw_bon_marche: vw[1], vw_cher: vw[2], vw_trop_cher: vw[3], vw_coherent: vwOk ? 1 : 0
-  };
-  CONFIG.GG_PRIX.forEach((p, i) => { row["gg_" + p.toFixed(2).replace(".", "_")] = gg[i] === "oui" ? 1 : 0; });
-  row.gg_coherent = ggOk ? 1 : 0;
-  row.controle = answers.controle;
-  row.controle_ok = (VERSION === "B" ? answers.controle === "oui" : answers.controle === "non") ? 1 : 0;
-  LK_ITEMS.forEach(([k]) => { row[k] = n(k); });
-  row.q3_plus_souvent = answers.q3_plus_souvent;
-  row.q8_format = answers.q8_format;
-  CONFIG.ENSEIGNES.forEach(([k]) => { row["prix_" + k] = note("prix_" + k); row["qualite_" + k] = note("qualite_" + k); });
   Object.assign(row, {
-    q1_dernier_achat: answers.q1_dernier_achat,
-    type_client: answers.q1_dernier_achat === "place" ? "A" : "B",
-    q2_depense: n("q2_depense"),
-    q5_frein: answers.q5_frein,
-    q7_canal: answers.q7_canal,
-    age: answers.age, q10_situation: answers.q10_situation, frequence: answers.frequence,
-    avec_qui: answers.avec_qui, cinema: answers.cinema, q9_streaming: answers.q9_streaming,
-    prix_separes_affiche: VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
+    q1_dernier_achat: A ? s("q1_dernier_achat") : "",
+    type_client: A ? (answers.q1_dernier_achat === "place" ? "A" : "B") : "",
+    q2_depense: A ? n("q2_depense") : "", q5_frein: A ? s("q5_frein") : "", q7_canal: A ? s("q7_canal") : "",
+    vw_trop_bon_marche: A ? vw[0] : "", vw_bon_marche: A ? vw[1] : "", vw_cher: A ? vw[2] : "", vw_trop_cher: A ? vw[3] : "",
+    vw_coherent: A ? (vwOk ? 1 : 0) : ""
+  });
+  CONFIG.GG_PRIX.forEach((p, i) => { row["gg_" + p.toFixed(2).replace(".", "_")] = A ? (gg[i] === "oui" ? 1 : 0) : ""; });
+  row.gg_coherent = A ? (ggOk ? 1 : 0) : "";
+  row.controle = A ? s("controle") : "";
+  row.controle_ok = A ? ((VERSION === "B" ? answers.controle === "oui" : answers.controle === "non") ? 1 : 0) : "";
+  LK_ITEMS.forEach(([k]) => { row[k] = A ? n(k) : ""; });
+  row.q3_plus_souvent = A ? s("q3_plus_souvent") : "";
+  row.q8_format = A ? s("q8_format") : "";
+  CONFIG.ENSEIGNES.forEach(([k]) => { row["prix_" + k] = A ? note("prix_" + k) : ""; row["qualite_" + k] = A ? note("qualite_" + k) : ""; });
+  // Partie B
+  Object.assign(row, {
+    b1_raison: A ? "" : s("b1_raison"), b2_films: A ? "" : s("b2_films"), b3_confiserie: A ? "" : s("b3_confiserie"),
+    b4_envie: A ? "" : n("b4_envie"), b5_prix_max: A ? "" : n("b5_prix_max"), b6_revenir: A ? "" : s("b6_revenir")
+  });
+  // Partie C
+  Object.assign(row, {
+    age: s("age"), q10_situation: s("q10_situation"), q9_streaming: s("q9_streaming"),
+    frequence: A ? s("frequence") : "", avec_qui: A ? s("avec_qui") : "", cinema: A ? s("cinema") : "",
+    prix_separes_affiche: A && VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
     prix_pack_affiche: CONFIG.PRIX_PACK,
     duree_sec: Math.round((Date.now() - START) / 1000)
   });
@@ -329,15 +373,12 @@ async function send(row) {
 document.getElementById("form").addEventListener("submit", async e => {
   e.preventDefault();
   const f = collect();
-  const s = STEPS[cur];
+  const s = active()[cur];
   const msg = s.check(f);
   if (msg) { errEl.textContent = msg; return; }
   Object.assign(answers, f);
-  if (s.stop && s.stop(f)) {
-    endScreen(s.id === "accueil" ? "Vous avez choisi de ne pas participer. Bonne journée !" : "Ce questionnaire s'adresse aux personnes allées au cinéma dans l'année. Merci d'avoir pris le temps de répondre.");
-    return;
-  }
-  if (cur < STEPS.length - 1) { cur++; render(); return; }
+  if (s.stop && s.stop(f)) { endScreen("Vous avez choisi de ne pas participer. Bonne journée !"); return; }
+  if (cur < active().length - 1) { cur++; render(); return; }
   nextBtn.disabled = true; nextBtn.textContent = "Envoi…";
   const ok = await send(buildRow());
   if (ok) endScreen("Vos réponses ont bien été enregistrées. Merci pour votre participation !");
@@ -345,6 +386,7 @@ document.getElementById("form").addEventListener("submit", async e => {
 });
 prevBtn.addEventListener("click", () => { Object.assign(answers, collect()); if (cur > 0) { cur--; render(); } });
 render();
+
 </script>
 </body>
 </html>
