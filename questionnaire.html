@@ -81,6 +81,8 @@ const CONFIG = {
   PRIX_SEPARES: 22.00,
   // Prix testés en Gabor-Granger, présentés du plus cher au moins cher (ordre fixe pour tous).
   GG_PRIX: [19.90, 18.90, 17.90, 16.90, 15.90],
+  // Prix du pack montré au moment des affirmations (identique en version A et B).
+  PRIX_PACK: 18.90,
   // Enseignes notées de 1 à 10 (carte perceptuelle).
   ENSEIGNES: [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["kinepolis", "Kinepolis"]]
 };
@@ -95,7 +97,7 @@ const START = Date.now();
 const answers = { id: rid(), version: VERSION };
 
 /* ---------- briques d'interface ---------- */
-function offerHTML() {
+function offerHTML(withPrice) {
   return `<div class="offer" aria-label="Description de l'offre">
     <span class="name">Pack Ciné Pathé</span>
     <ul>
@@ -104,6 +106,7 @@ function offerHTML() {
       <li>1 boisson de 50 cl</li>
     </ul>
     <span class="small">Valable tous les jours, dans les cinémas Pathé, à acheter en ligne avec votre billet ou en caisse.</span>
+    ${withPrice ? `<span class="name" style="font-size:1.15rem">Prix du pack : ${fmt(CONFIG.PRIX_PACK)}</span>` : ""}
     ${VERSION === "B" ? `<span class="ref">Achetés séparément, ces trois produits coûtent ${fmt(CONFIG.PRIX_SEPARES)} chez Pathé.</span>` : ""}
   </div>`;
 }
@@ -170,19 +173,21 @@ const STEPS = [
     check: f => CONFIG.GG_PRIX.every((_, i) => f["gg_" + i]) ? "" : "Répondez oui ou non pour chaque prix." },
 
   { id: "controle", html: () => `<div class="step">
-      ${question("controle", "Dans la description de l'offre, le prix de ces produits achetés séparément était-il indiqué ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
+      ${question("controle", "Dans la description du pack, était-il indiqué combien coûtent la place, le popcorn et la boisson si on les achète séparément ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
     </div>`,
     check: f => f.controle ? "" : "Choisissez une réponse." },
 
   { id: "perception", html: () => `<div class="step">
-      <h2>Êtes-vous d'accord avec ces phrases sur le pack ?</h2>
+      <h2>Imaginons que ce pack soit proposé à ${fmt(CONFIG.PRIX_PACK)}.</h2>
+      ${offerHTML(true)}
+      <p><strong>Êtes-vous d'accord avec ces phrases ?</strong></p>
       ${LK_ITEMS.map(([n, l]) => likert(n, l)).join("")}
     </div>`,
     check: f => LK_ITEMS.every(([n]) => f[n]) ? "" : "Répondez aux six phrases." },
 
   { id: "pack", html: () => `<div class="step">
       <h2>Le pack et vous</h2>
-      ${question("q3_plus_souvent", "Avec ce pack, prendriez-vous popcorn et boisson plus souvent qu'aujourd'hui ?", [["plus", "Oui, plus souvent"], ["pareil", "Pareil"], ["non", "Non"]])}
+      ${question("q3_plus_souvent", `Avec ce pack à ${fmt(CONFIG.PRIX_PACK)}, prendriez-vous popcorn et boisson plus souvent qu'aujourd'hui ?`, [["plus", "Oui, plus souvent"], ["pareil", "Pareil"], ["non", "Non"]])}
       ${question("q8_format", "Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
     </div>`,
     check: f => (f.q3_plus_souvent && f.q8_format) ? "" : "Répondez aux deux questions." },
@@ -291,6 +296,7 @@ function buildRow() {
     age: answers.age, q10_situation: answers.q10_situation, frequence: answers.frequence,
     avec_qui: answers.avec_qui, cinema: answers.cinema, q9_streaming: answers.q9_streaming,
     prix_separes_affiche: VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
+    prix_pack_affiche: CONFIG.PRIX_PACK,
     duree_sec: Math.round((Date.now() - START) / 1000)
   });
   return row;
