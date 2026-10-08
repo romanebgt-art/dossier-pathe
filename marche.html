@@ -174,6 +174,21 @@
     </article>
   </section>
 
+  <!-- 3 bis. Carte perceptuelle -->
+  <section id="carte-perceptuelle">
+    <div class="sec-head"><span class="num">03 bis</span><h2>La carte perceptuelle : prix et qualité</h2></div>
+    <p>Comment chaque enseigne est-elle perçue, entre prix et qualité ? <strong>Ces positions sont une hypothèse de départ</strong>, estimée à partir de l'offre de chaque enseigne (formats premium, prix des places, programmation). Elles seront remplacées par les notes moyennes données par nos répondants. Les points se déplacent à la souris ou au clavier ; vos réglages restent enregistrés dans votre navigateur.</p>
+    <div class="chart"><svg id="perc" viewBox="0 0 900 620" role="img" aria-label="Carte perceptuelle prix et qualité des enseignes de cinéma"></svg></div>
+    <div class="legend" style="justify-content:space-between">
+      <label style="display:inline-flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="showStream"> Afficher le streaming (substitut, pas concurrent direct)</label>
+      <button id="percReset" type="button" style="font:500 12px var(--mono);background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer">Revenir aux positions de départ</button>
+    </div>
+    <div class="callout">
+      <span class="label">Ce que la carte suggère pour le pack</span>
+      <p>Pathé est perçu comme l'enseigne la plus chère et la plus premium. Un pack moins cher que place + menu achetés séparément ne doit pas la faire glisser vers le « bon plan » : c'est une limite à discuter. Le questionnaire peut mesurer ces positions en demandant de noter de 1 à 10 le prix et la qualité de chaque enseigne.</p>
+    </div>
+  </section>
+
   <!-- 4. Santé financière comparée -->
   <section id="finances">
     <div class="sec-head"><span class="num">04</span><h2>La santé financière, côte à côte</h2></div>
@@ -280,6 +295,65 @@ const fr = (v, d = 1) => v.toLocaleString("fr-FR", { minimumFractionDigits: d, m
     });
   });
   document.getElementById("rnLegend").innerHTML = S.map(s => `<span><span class="dot" style="background:var(${s.c});opacity:${s.light ? .5 : 1}"></span>${s.name}</span>`).join("") + `<span>n.p. : comptes 2025 pas encore publiés</span>`;
+})();
+
+/* Carte perceptuelle */
+(function(){
+  const BRANDS = [
+    { id: "pathe", name: "Pathé", c: "var(--c-pathe)", x: 78, y: 84, big: true },
+    { id: "ugc", name: "UGC", c: "var(--c-ugc)", x: 72, y: 66 },
+    { id: "kine", name: "Kinepolis", c: "var(--c-kine)", x: 66, y: 74 },
+    { id: "mk2", name: "MK2", c: "#D9468F", x: 70, y: 56 },
+    { id: "cgr", name: "CGR", c: "var(--c-cgr)", x: 52, y: 62 },
+    { id: "mega", name: "Mégarama", c: "var(--c-mega)", x: 40, y: 46 },
+    { id: "indep", name: "Indépendants / Art et Essai", c: "var(--c-indep)", x: 24, y: 34 },
+    { id: "stream", name: "Streaming (Netflix…)", c: "var(--c-stream)", x: 12, y: 14, stream: true }
+  ];
+  const KEY = "perc-positions-site-v1";
+  const defaults = () => Object.fromEntries(BRANDS.map(b => [b.id, { x: b.x, y: b.y }]));
+  let pos;
+  try { pos = JSON.parse(localStorage.getItem(KEY)) || defaults(); } catch (e) { pos = defaults(); }
+  for (const b of BRANDS) if (!pos[b.id]) pos[b.id] = { x: b.x, y: b.y };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(pos)); } catch (e) {} };
+  const P = document.getElementById("perc");
+  const X0 = 70, X1 = 870, Y0 = 30, Y1 = 560;
+  const px = v => X0 + v / 100 * (X1 - X0), py = v => Y1 - v / 100 * (Y1 - Y0);
+  const clamp = v => Math.max(2, Math.min(98, v));
+  let showStream = false;
+  function draw() {
+    P.innerHTML = "";
+    for (let i = 0; i <= 4; i++) { el(P, "line", { class: "grid", x1: px(i * 25), x2: px(i * 25), y1: Y0, y2: Y1 }); el(P, "line", { class: "grid", x1: X0, x2: X1, y1: py(i * 25), y2: py(i * 25) }); }
+    el(P, "line", { class: "zero", x1: px(50), x2: px(50), y1: Y0, y2: Y1 });
+    el(P, "line", { class: "zero", x1: X0, x2: X1, y1: py(50), y2: py(50) });
+    el(P, "text", { x: X0, y: Y1 + 30 }, "Prix bas");
+    el(P, "text", { x: X1, y: Y1 + 30, "text-anchor": "end" }, "Prix haut →");
+    el(P, "text", { x: (X0 + X1) / 2, y: Y1 + 30, "text-anchor": "middle", class: "lbl" }, "PRIX");
+    el(P, "text", { x: X0 - 14, y: Y1, transform: `rotate(-90 ${X0 - 14} ${Y1})` }, "Qualité basse");
+    el(P, "text", { x: X0 - 14, y: Y0, "text-anchor": "end", transform: `rotate(-90 ${X0 - 14} ${Y0})` }, "Qualité haute →");
+    el(P, "text", { x: X0 - 14, y: (Y0 + Y1) / 2, "text-anchor": "middle", class: "lbl", transform: `rotate(-90 ${X0 - 14} ${(Y0 + Y1) / 2})` }, "QUALITÉ");
+    el(P, "text", { x: px(97), y: py(96), "text-anchor": "end" }, "Prix haut · qualité haute");
+    el(P, "text", { x: px(3), y: py(96) }, "Prix bas · qualité haute");
+    el(P, "text", { x: px(97), y: py(3), "text-anchor": "end" }, "Prix haut · qualité basse");
+    el(P, "text", { x: px(3), y: py(3) }, "Prix bas · qualité basse");
+    for (const b of BRANDS) {
+      if (b.stream && !showStream) continue;
+      const g = el(P, "g", { tabindex: 0, role: "button", style: "cursor:grab", "aria-label": `${b.name} : déplacer avec les flèches du clavier` });
+      const r = b.big ? 15 : 11;
+      const c = el(g, "circle", { r, fill: b.c, "fill-opacity": b.stream ? .35 : .95, stroke: b.c, "stroke-width": b.stream ? 2 : 0, "stroke-dasharray": b.stream ? "4 3" : "" });
+      const t = el(g, "text", { class: "lbl" }, b.name);
+      const place = () => { const p = pos[b.id], right = p.x < 72; c.setAttribute("cx", px(p.x)); c.setAttribute("cy", py(p.y)); t.setAttribute("x", px(p.x) + (right ? r + 7 : -r - 7)); t.setAttribute("y", py(p.y) + 4); t.setAttribute("text-anchor", right ? "start" : "end"); };
+      place();
+      let drag = false;
+      g.addEventListener("pointerdown", e => { drag = true; g.setPointerCapture(e.pointerId); });
+      g.addEventListener("pointermove", e => { if (!drag) return; const pt = P.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const s = pt.matrixTransform(P.getScreenCTM().inverse()); pos[b.id] = { x: clamp((s.x - X0) / (X1 - X0) * 100), y: clamp((Y1 - s.y) / (Y1 - Y0) * 100) }; place(); });
+      const end = () => { if (drag) { drag = false; save(); } };
+      g.addEventListener("pointerup", end); g.addEventListener("pointercancel", end);
+      g.addEventListener("keydown", e => { const d = { ArrowLeft: [-2, 0], ArrowRight: [2, 0], ArrowUp: [0, 2], ArrowDown: [0, -2] }[e.key]; if (!d) return; e.preventDefault(); pos[b.id] = { x: clamp(pos[b.id].x + d[0]), y: clamp(pos[b.id].y + d[1]) }; place(); save(); });
+    }
+  }
+  document.getElementById("showStream").addEventListener("change", e => { showStream = e.target.checked; draw(); });
+  document.getElementById("percReset").addEventListener("click", () => { pos = defaults(); save(); draw(); });
+  draw();
 })();
 
 /* Plafond : place + menu */

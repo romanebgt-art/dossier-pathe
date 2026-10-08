@@ -79,7 +79,78 @@ code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-r
   </section>
 
   <section>
-    <div class="sec-head"><span class="num">04</span><h2>Mise en ligne et enregistrement</h2></div>
+    <div class="sec-head"><span class="num">04</span><h2>Le modèle à tester : la valeur perçue fait-elle acheter ?</h2></div>
+    <p>Au-delà du prix accepté, nous voulons savoir si le fait de juger le pack avantageux donne envie de l'acheter. Ces deux concepts ne s'observent pas directement : on les mesure chacun par trois affirmations notées de 1 à 5, puis on relie les deux par un modèle d'équations structurelles. <strong>Proposition, en discussion dans le groupe.</strong></p>
+    <div class="chart">
+      <svg viewBox="0 0 900 400" role="img" aria-label="Modèle d'équations structurelles : la valeur perçue, mesurée par Q1 à Q3, influence l'intention d'achat, mesurée par Q4 à Q6">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/></marker>
+        </defs>
+        <!-- modèles de mesure -->
+        <rect x="14" y="24" width="300" height="300" rx="10" fill="none" stroke="var(--c-cgr)" stroke-width="2" stroke-dasharray="7 5"/>
+        <rect x="586" y="24" width="300" height="300" rx="10" fill="none" stroke="var(--c-cgr)" stroke-width="2" stroke-dasharray="7 5"/>
+        <text x="450" y="372" text-anchor="middle" class="lbl" fill="var(--c-cgr)" style="fill:var(--c-cgr)">modèles de mesure (analyse factorielle confirmatoire)</text>
+        <line x1="164" y1="324" x2="400" y2="360" stroke="var(--c-cgr)" stroke-dasharray="3 4"/>
+        <line x1="736" y1="324" x2="500" y2="360" stroke="var(--c-cgr)" stroke-dasharray="3 4"/>
+        <!-- modèle structurel -->
+        <rect x="190" y="104" width="520" height="140" rx="10" fill="none" stroke="var(--c-ugc)" stroke-width="2" stroke-dasharray="7 5"/>
+        <text x="450" y="232" text-anchor="middle" class="lbl" style="fill:var(--c-ugc)">modèle structurel</text>
+        <!-- items gauche -->
+        <g font-family="var(--mono)">
+          <rect x="44" y="54" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="79" y="81" text-anchor="middle" class="lbl">Q1</text>
+          <rect x="44" y="152" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="79" y="179" text-anchor="middle" class="lbl">Q2</text>
+          <rect x="44" y="250" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="79" y="277" text-anchor="middle" class="lbl">Q3</text>
+          <rect x="786" y="54" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="821" y="81" text-anchor="middle" class="lbl">Q4</text>
+          <rect x="786" y="152" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="821" y="179" text-anchor="middle" class="lbl">Q5</text>
+          <rect x="786" y="250" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="821" y="277" text-anchor="middle" class="lbl">Q6</text>
+          <!-- erreurs -->
+          <text x="22" y="72">ε1</text><text x="22" y="170">ε2</text><text x="22" y="268">ε3</text>
+          <text x="862" y="72">ε4</text><text x="862" y="170">ε5</text><text x="862" y="268">ε6</text>
+          <line x1="36" y1="76" x2="44" y2="76" stroke="var(--ink)" marker-end="url(#ar)"/><line x1="36" y1="174" x2="44" y2="174" stroke="var(--ink)" marker-end="url(#ar)"/><line x1="36" y1="272" x2="44" y2="272" stroke="var(--ink)" marker-end="url(#ar)"/>
+          <line x1="866" y1="76" x2="856" y2="76" stroke="var(--ink)" marker-end="url(#ar)"/><line x1="866" y1="174" x2="856" y2="174" stroke="var(--ink)" marker-end="url(#ar)"/><line x1="866" y1="272" x2="856" y2="272" stroke="var(--ink)" marker-end="url(#ar)"/>
+        </g>
+        <!-- concepts -->
+        <circle cx="260" cy="174" r="58" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.5"/>
+        <text x="260" y="170" text-anchor="middle" class="lbl">Valeur</text><text x="260" y="188" text-anchor="middle" class="lbl">perçue</text>
+        <circle cx="640" cy="174" r="58" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.5"/>
+        <text x="640" y="170" text-anchor="middle" class="lbl">Intention</text><text x="640" y="188" text-anchor="middle" class="lbl">d'achat</text>
+        <!-- flèches de mesure (le concept explique les réponses) -->
+        <line x1="210" y1="146" x2="116" y2="80" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="202" y1="174" x2="116" y2="174" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="210" y1="202" x2="116" y2="268" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="690" y1="146" x2="784" y2="80" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="698" y1="174" x2="784" y2="174" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="690" y1="202" x2="784" y2="268" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
+        <text x="150" y="104">λ1</text><text x="150" y="166">λ2</text><text x="150" y="250">λ3</text>
+        <text x="734" y="104">λ4</text><text x="734" y="166">λ5</text><text x="734" y="250">λ6</text>
+        <!-- lien structurel -->
+        <line x1="318" y1="174" x2="580" y2="174" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#ar)"/>
+        <text x="450" y="164" text-anchor="middle" class="lbl" style="font-size:18px">β</text>
+        <line x1="640" y1="60" x2="640" y2="114" stroke="var(--ink)" marker-end="url(#ar)"/><text x="646" y="56">ζ</text>
+      </svg>
+    </div>
+    <p class="caption">En carrés, les affirmations posées ; en cercles, les concepts qu'on cherche à mesurer et qu'on ne voit pas directement. En bleu, les modèles de mesure ; en rouge, le modèle structurel qui relie les concepts. Schéma de notre groupe, construit sur la représentation vue en Analyse de données.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Concept</th><th>Affirmation, notée de 1 « pas du tout d'accord » à 5 « tout à fait d'accord »</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="3"><strong>Valeur perçue</strong></td><td>Q1 · Ce pack est une bonne affaire.</td></tr>
+          <tr><td>Q2 · Pour ce qu'il contient, le prix de ce pack est raisonnable.</td></tr>
+          <tr><td>Q3 · Ce pack vaut plus que ce qu'il coûte.</td></tr>
+          <tr><td rowspan="3"><strong>Intention d'achat</strong></td><td>Q4 · J'achèterais ce pack lors de ma prochaine séance.</td></tr>
+          <tr><td>Q5 · Ce pack me donnerait envie d'aller plus souvent au cinéma.</td></tr>
+          <tr><td>Q6 · Je recommanderais ce pack à mes proches.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="label">Hypothèses</span>
+      <p><strong>H1</strong> : plus un répondant juge le pack avantageux, plus il a l'intention de l'acheter (β positif). <strong>H2</strong> : la version B, qui montre le prix des produits achetés séparément, augmente la valeur perçue par rapport à la version A.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">05</span><h2>Mise en ligne et enregistrement</h2></div>
     <p>Comme le recommande le cours, le questionnaire est une page de notre site, publiée sur GitHub Pages. Une page publiée ne garde rien seule : elle envoie chaque réponse à une feuille Google Sheets.</p>
     <ol class="steps">
       <li>Créer une feuille Google Sheets vide, puis <em>Extensions › Apps Script</em> et coller le fichier <code>outils/google-apps-script.gs</code>.</li>
@@ -91,7 +162,7 @@ code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-r
   </section>
 
   <section>
-    <div class="sec-head"><span class="num">05</span><h2>Collecte</h2></div>
+    <div class="sec-head"><span class="num">06</span><h2>Collecte</h2></div>
     <ul class="check">
       <li>Du 12 au 21 octobre ; analyse en Analyse de données le 21 octobre</li>
       <li>Viser des personnes qui vont vraiment au cinéma : groupes locaux en ligne, entourage élargi, et si possible à la sortie des cinémas de Clermont</li>
