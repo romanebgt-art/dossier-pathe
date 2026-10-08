@@ -14,7 +14,7 @@ body{padding:0 16px}
 .bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
 .bar span{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
 @media (prefers-reduced-motion:reduce){.bar span{transition:none}}
-.step{display:grid;gap:18px}
+.step{display:grid;gap:22px}
 .step h1{font-size:clamp(1.6rem,4.5vw,2.2rem)}
 .step h2{font-size:1.3rem}
 .step p{font-size:1.02rem}
@@ -41,6 +41,12 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 .gg-row .yn{display:flex;gap:6px}
 .gg-row .yn label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:.92rem}
 .gg-row .yn label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.notes{display:grid;gap:8px}
+.notes .row{display:grid;grid-template-columns:1fr 110px 110px;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.notes .head{background:none;border:0;padding:0 12px;font:500 .78rem var(--mono);color:var(--muted)}
+.notes .name{font:600 1rem var(--display)}
+.notes select{font:500 .95rem var(--body);padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%}
+@media (max-width:420px){.notes .row{grid-template-columns:1fr 92px 92px}}
 .err{color:var(--bad);font:500 .9rem var(--display);min-height:1.2em}
 .nav-q{display:flex;justify-content:space-between;gap:10px}
 .btn{font:700 1rem var(--display);border-radius:999px;padding:12px 22px;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--bg)}
@@ -74,18 +80,21 @@ const CONFIG = {
   // À METTRE À JOUR après le relevé en caisse (13,50 € + prix réel du Menu Gourmand).
   PRIX_SEPARES: 22.00,
   // Prix testés en Gabor-Granger, présentés du plus cher au moins cher (ordre fixe pour tous).
-  GG_PRIX: [19.90, 18.90, 17.90, 16.90, 15.90]
+  GG_PRIX: [19.90, 18.90, 17.90, 16.90, 15.90],
+  // Enseignes notées de 1 à 10 (carte perceptuelle).
+  ENSEIGNES: [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["kinepolis", "Kinepolis"]]
 };
 /* ======================================================== */
 
 const fmt = v => v.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
-const rid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+const rid = () => (window.crypto && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
 
 // Tirage au sort à l'ouverture, une seule fois par répondant
 const VERSION = Math.random() < 0.5 ? "A" : "B";
 const START = Date.now();
 const answers = { id: rid(), version: VERSION };
 
+/* ---------- briques d'interface ---------- */
 function offerHTML() {
   return `<div class="offer" aria-label="Description de l'offre">
     <span class="name">Pack Ciné Pathé</span>
@@ -99,22 +108,35 @@ function offerHTML() {
   </div>`;
 }
 const radios = (name, opts) => `<div class="choices">${opts.map((o, i) => `<label class="choice"><input type="radio" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div>`;
+const question = (name, label, opts) => `<fieldset class="field"><legend>${label}</legend>${radios(name, opts)}</fieldset>`;
 const euro = (name, label) => `<div class="field"><label for="${name}">${label}</label><div class="euro"><input type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" id="${name}" name="${name}"><span>€</span></div></div>`;
-const likert = (name, label) => `<fieldset class="field"><legend>${label}</legend><div class="likert">${["Pas du tout d'accord","Plutôt pas d'accord","Ni l'un ni l'autre","Plutôt d'accord","Tout à fait d'accord"].map((t, i) => `<label><input type="radio" name="${name}" value="${i + 1}">${t}</label>`).join("")}</div></fieldset>`;
+const LIKERT = ["Pas du tout d'accord", "Plutôt pas d'accord", "Ni l'un ni l'autre", "Plutôt d'accord", "Tout à fait d'accord"];
+const likert = (name, label) => `<fieldset class="field"><legend>${label}</legend><div class="likert">${LIKERT.map((t, i) => `<label><input type="radio" name="${name}" value="${i + 1}">${t}</label>`).join("")}</div></fieldset>`;
+const noteSelect = name => `<select name="${name}" id="${name}" aria-label="${name}"><option value="">—</option>${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}<option value="nc">Je ne connais pas</option></select>`;
+const isAmount = v => /^\d+(\.\d+)?$/.test(v) && Number(v) <= 500;
+
+/* ---------- les questions ---------- */
+const LK_ITEMS = [
+  ["lk_bonne_affaire", "Ce pack est une bonne affaire."],
+  ["lk_prix_raisonnable", "Pour ce qu'il contient, le prix de ce pack est raisonnable."],
+  ["lk_vaut_plus", "Ce pack vaut plus que ce qu'il coûte."],
+  ["lk_achat_prochaine", "J'achèterais ce pack lors de ma prochaine séance."],
+  ["lk_plus_souvent", "Ce pack me donnerait envie d'aller plus souvent au cinéma."],
+  ["lk_recommande", "Je recommanderais ce pack à mes proches."]
+];
 
 const STEPS = [
   { id: "accueil", button: "Commencer", html: () => `<div class="step">
       <h1>Votre avis sur un pack cinéma</h1>
       <p>Nous sommes des étudiants en Master 1 Marketing à l'IAE Clermont Auvergne. Dans le cadre d'un cours, nous étudions le prix d'une offre de cinéma.</p>
-      <p><strong>Le questionnaire dure environ 3 minutes.</strong> Il est <strong>anonyme</strong> : nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP. Les réponses servent uniquement à ce travail universitaire.</p>
+      <p><strong>Le questionnaire dure environ 4 minutes.</strong> Il est <strong>anonyme</strong> : nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP. Les réponses servent uniquement à ce travail universitaire.</p>
       ${radios("consentement", [["oui", "J'accepte de participer"], ["non", "Je ne souhaite pas participer"]])}
     </div>`,
     check: f => f.consentement ? "" : "Indiquez si vous acceptez de participer.",
     stop: f => f.consentement === "non" },
 
   { id: "filtre", html: () => `<div class="step">
-      <h2>Êtes-vous allé au cinéma au moins une fois au cours des 12 derniers mois ?</h2>
-      ${radios("filtre", [["oui", "Oui"], ["non", "Non"]])}
+      ${question("filtre", "Êtes-vous allé au cinéma au moins une fois au cours des 12 derniers mois ?", [["oui", "Oui"], ["non", "Non"]])}
     </div>`,
     check: f => f.filtre ? "" : "Choisissez une réponse.",
     stop: f => f.filtre === "non" },
@@ -135,8 +157,8 @@ const STEPS = [
     </div>`,
     check: f => {
       const keys = ["vw_bon_marche", "vw_cher", "vw_trop_cher", "vw_trop_bon_marche"];
-      if (!keys.every(k => f[k] !== "" && f[k] != null)) return "Indiquez un prix pour chacune des quatre questions.";
-      if (!keys.every(k => /^\d+(\.\d+)?$/.test(f[k]) && Number(f[k]) <= 500)) return "Écrivez seulement un montant en euros, par exemple 15 ou 17,50.";
+      if (!keys.every(k => f[k])) return "Indiquez un prix pour chacune des quatre questions.";
+      if (!keys.every(k => isAmount(f[k]))) return "Écrivez seulement un montant en euros, par exemple 15 ou 17,50.";
       return "";
     } },
 
@@ -148,30 +170,59 @@ const STEPS = [
     check: f => CONFIG.GG_PRIX.every((_, i) => f["gg_" + i]) ? "" : "Répondez oui ou non pour chaque prix." },
 
   { id: "controle", html: () => `<div class="step">
-      <h2>Dans la description de l'offre, le prix de ces produits achetés séparément était-il indiqué ?</h2>
-      ${radios("controle", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
+      ${question("controle", "Dans la description de l'offre, le prix de ces produits achetés séparément était-il indiqué ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
     </div>`,
     check: f => f.controle ? "" : "Choisissez une réponse." },
 
   { id: "perception", html: () => `<div class="step">
-      <h2>Que pensez-vous de ce pack ?</h2>
-      ${likert("lk_bonne_affaire", "Ce pack est une bonne affaire.")}
-      ${likert("lk_envie", "Ce pack me donnerait envie d'aller plus souvent au cinéma.")}
-      ${likert("lk_image", "Ce pack correspond à l'image que j'ai de Pathé.")}
+      <h2>Êtes-vous d'accord avec ces phrases sur le pack ?</h2>
+      ${LK_ITEMS.map(([n, l]) => likert(n, l)).join("")}
     </div>`,
-    check: f => ["lk_bonne_affaire", "lk_envie", "lk_image"].every(k => f[k]) ? "" : "Répondez aux trois affirmations." },
+    check: f => LK_ITEMS.every(([n]) => f[n]) ? "" : "Répondez aux six phrases." },
+
+  { id: "pack", html: () => `<div class="step">
+      <h2>Le pack et vous</h2>
+      ${question("q3_plus_souvent", "Avec ce pack, prendriez-vous popcorn et boisson plus souvent qu'aujourd'hui ?", [["plus", "Oui, plus souvent"], ["pareil", "Pareil"], ["non", "Non"]])}
+      ${question("q8_format", "Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
+    </div>`,
+    check: f => (f.q3_plus_souvent && f.q8_format) ? "" : "Répondez aux deux questions." },
+
+  { id: "enseignes", html: () => `<div class="step">
+      <h2>Notez chaque cinéma de 1 à 10</h2>
+      <p class="small">Prix : 1 = très bon marché, 10 = très cher. Qualité : 1 = très mauvaise, 10 = excellente. Si vous ne connaissez pas un cinéma, choisissez « Je ne connais pas ».</p>
+      <div class="notes">
+        <div class="row head"><span>Cinéma</span><span>Prix</span><span>Qualité</span></div>
+        ${CONFIG.ENSEIGNES.map(([k, n]) => `<div class="row"><span class="name">${n}</span>${noteSelect("prix_" + k)}${noteSelect("qualite_" + k)}</div>`).join("")}
+      </div>
+    </div>`,
+    check: f => CONFIG.ENSEIGNES.every(([k]) => f["prix_" + k] && f["qualite_" + k]) ? "" : "Donnez une note (ou « Je ne connais pas ») pour chaque cinéma." },
+
+  { id: "habitudes", html: () => `<div class="step">
+      <h2>Vos habitudes au cinéma</h2>
+      ${question("q1_dernier_achat", "Lors de votre dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_menu", "La place + un menu"]])}
+      ${euro("q2_depense", "Combien dépensez-vous en moyenne en confiserie par séance ? (0 si vous n'en achetez jamais)")}
+      ${question("q5_frein", "Si vous n'achetez pas de confiserie, pourquoi ?", [["cher", "Trop cher"], ["envie", "Pas envie"], ["snacks", "J'apporte mes snacks"], ["mange", "J'ai mangé avant"], ["autre", "Autre"], ["achete", "Je n'ai pas ce cas : j'en achète"]])}
+      ${question("q7_canal", "Comment achetez-vous habituellement votre place ?", [["appli", "Sur l'application ou le site"], ["caisse", "En caisse"], ["ce", "Via un comité d'entreprise ou une carte"]])}
+    </div>`,
+    check: f => {
+      if (!f.q1_dernier_achat || !f.q5_frein || !f.q7_canal || f.q2_depense === "" || f.q2_depense == null) return "Répondez à toutes les questions de cette page.";
+      if (!isAmount(f.q2_depense)) return "Pour la dépense, écrivez seulement un montant en euros, par exemple 0, 6 ou 8,50.";
+      return "";
+    } },
 
   { id: "profil", button: "Envoyer mes réponses", html: () => `<div class="step">
       <h2>Pour finir, quelques questions sur vous</h2>
-      <fieldset class="field"><legend>Votre âge</legend>${radios("age", [["-18", "Moins de 18 ans"], ["18-24", "18 à 24 ans"], ["25-34", "25 à 34 ans"], ["35-49", "35 à 49 ans"], ["50-64", "50 à 64 ans"], ["65+", "65 ans et plus"]])}</fieldset>
-      <fieldset class="field"><legend>Combien de fois êtes-vous allé au cinéma ces 3 derniers mois ?</legend>${radios("frequence", [["0", "0"], ["1", "1 fois"], ["2-3", "2 ou 3 fois"], ["4+", "4 fois ou plus"]])}</fieldset>
-      <fieldset class="field"><legend>Le plus souvent, vous y allez…</legend>${radios("avec_qui", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"]])}</fieldset>
-      <fieldset class="field"><legend>Achetez-vous du popcorn ou une boisson au cinéma ?</legend>${radios("confiserie", [["jamais", "Jamais"], ["parfois", "Parfois"], ["toujours", "Presque à chaque fois"]])}</fieldset>
-      <fieldset class="field"><legend>Dans quel cinéma allez-vous le plus souvent ?</legend>${radios("cinema", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"]])}</fieldset>
+      ${question("age", "Votre âge", [["-18", "Moins de 18 ans"], ["18-24", "18 à 24 ans"], ["25-34", "25 à 34 ans"], ["35-49", "35 à 49 ans"], ["50-64", "50 à 64 ans"], ["65+", "65 ans et plus"]])}
+      ${question("q10_situation", "Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
+      ${question("frequence", "Combien de fois êtes-vous allé au cinéma ces 3 derniers mois ?", [["0", "0"], ["1", "1 fois"], ["2-3", "2 ou 3 fois"], ["4+", "4 fois ou plus"]])}
+      ${question("avec_qui", "Le plus souvent, vous y allez…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"]])}
+      ${question("cinema", "Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"]])}
+      ${question("q9_streaming", "Êtes-vous abonné à une plateforme de streaming (Netflix, Disney+, Prime Video…) ?", [["oui", "Oui"], ["non", "Non"]])}
     </div>`,
-    check: f => ["age", "frequence", "avec_qui", "confiserie", "cinema"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." }
+    check: f => ["age", "q10_situation", "frequence", "avec_qui", "cinema", "q9_streaming"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." }
 ];
 
+/* ---------- moteur ---------- */
 const stepsEl = document.getElementById("steps"), errEl = document.getElementById("err");
 const nextBtn = document.getElementById("next"), prevBtn = document.getElementById("prev");
 let cur = 0;
@@ -179,14 +230,15 @@ if (!CONFIG.ENDPOINT) document.getElementById("testmode").hidden = false;
 
 function collect() {
   const f = {};
-  stepsEl.querySelectorAll("input").forEach(i => {
+  stepsEl.querySelectorAll("input, select").forEach(i => {
     if (i.type === "radio") { if (i.checked) f[i.name] = i.value; }
+    else if (i.tagName === "SELECT") f[i.name] = i.value;
     else f[i.name] = i.value.trim().replace(/\s|€/g, "").replace(",", ".");
   });
   return f;
 }
 function restore() {
-  stepsEl.querySelectorAll("input").forEach(i => {
+  stepsEl.querySelectorAll("input, select").forEach(i => {
     const v = answers[i.name];
     if (v == null) return;
     if (i.type === "radio") i.checked = i.value === v; else i.value = v;
@@ -202,7 +254,6 @@ function render() {
   document.getElementById("progress").style.width = (cur / STEPS.length * 100) + "%";
   document.getElementById("count").textContent = `Étape ${cur + 1} sur ${STEPS.length}`;
   window.scrollTo(0, 0);
-  const first = stepsEl.querySelector("input"); if (first && cur > 0) first.focus({ preventScroll: true });
 }
 function endScreen(msg) {
   document.getElementById("form").innerHTML = `<div class="step"><h1>Merci !</h1><p>${msg}</p></div>`;
@@ -212,6 +263,7 @@ function endScreen(msg) {
 
 function buildRow() {
   const n = k => (answers[k] === "" || answers[k] == null) ? "" : Number(answers[k]);
+  const note = k => (answers[k] === "nc" || answers[k] == null) ? "" : Number(answers[k]);
   const vw = [n("vw_trop_bon_marche"), n("vw_bon_marche"), n("vw_cher"), n("vw_trop_cher")];
   const vwOk = vw.every(v => v !== "" && !isNaN(v)) && vw[0] <= vw[1] && vw[1] <= vw[2] && vw[2] <= vw[3];
   // Gabor-Granger : prix décroissants ; accepter un prix plus élevé puis refuser un plus bas = incohérent
@@ -219,16 +271,25 @@ function buildRow() {
   let ggOk = true, seenYes = false;
   gg.forEach(a => { if (a === "oui") seenYes = true; else if (seenYes) ggOk = false; });
   const row = {
-    id: answers.id, horodatage: new Date().toISOString(), version: VERSION,
-    filtre: answers.filtre,
+    id: answers.id, horodatage: new Date().toISOString(), version: VERSION, filtre: answers.filtre,
     vw_trop_bon_marche: vw[0], vw_bon_marche: vw[1], vw_cher: vw[2], vw_trop_cher: vw[3], vw_coherent: vwOk ? 1 : 0
   };
-  CONFIG.GG_PRIX.forEach((p, i) => { row["gg_" + String(p.toFixed(2)).replace(".", "_")] = gg[i] === "oui" ? 1 : 0; });
+  CONFIG.GG_PRIX.forEach((p, i) => { row["gg_" + p.toFixed(2).replace(".", "_")] = gg[i] === "oui" ? 1 : 0; });
+  row.gg_coherent = ggOk ? 1 : 0;
+  row.controle = answers.controle;
+  row.controle_ok = (VERSION === "B" ? answers.controle === "oui" : answers.controle === "non") ? 1 : 0;
+  LK_ITEMS.forEach(([k]) => { row[k] = n(k); });
+  row.q3_plus_souvent = answers.q3_plus_souvent;
+  row.q8_format = answers.q8_format;
+  CONFIG.ENSEIGNES.forEach(([k]) => { row["prix_" + k] = note("prix_" + k); row["qualite_" + k] = note("qualite_" + k); });
   Object.assign(row, {
-    gg_coherent: ggOk ? 1 : 0,
-    controle: answers.controle, controle_ok: (VERSION === "B" ? answers.controle === "oui" : answers.controle === "non") ? 1 : 0,
-    lk_bonne_affaire: n("lk_bonne_affaire"), lk_envie: n("lk_envie"), lk_image: n("lk_image"),
-    age: answers.age, frequence: answers.frequence, avec_qui: answers.avec_qui, confiserie: answers.confiserie, cinema: answers.cinema,
+    q1_dernier_achat: answers.q1_dernier_achat,
+    type_client: answers.q1_dernier_achat === "place" ? "A" : "B",
+    q2_depense: n("q2_depense"),
+    q5_frein: answers.q5_frein,
+    q7_canal: answers.q7_canal,
+    age: answers.age, q10_situation: answers.q10_situation, frequence: answers.frequence,
+    avec_qui: answers.avec_qui, cinema: answers.cinema, q9_streaming: answers.q9_streaming,
     prix_separes_affiche: VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
     duree_sec: Math.round((Date.now() - START) / 1000)
   });
