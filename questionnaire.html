@@ -37,6 +37,7 @@ fieldset.qcard{min-width:0}
 .choice:hover{border-color:var(--muted)}
 .choice:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
 .choice input{accent-color:var(--accent);width:18px;height:18px;flex:none;margin:0}
+.sub{font:700 .92rem var(--display);color:var(--muted);margin-top:4px}
 .other{font:500 1rem var(--display);padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
 
 .euro{display:flex;align-items:center;gap:10px}
@@ -188,6 +189,7 @@ const FREINS = [
   ["fr_queue", "Faire la queue au comptoir me décourage."]
 ];
 const PHRASES = VALEUR.concat(INTENTION, FREINS);
+const ENSEIGNES = [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["kinepolis", "Kinepolis"], ["megarama", "Mégarama"], ["independant", "Un cinéma indépendant"], ["nsp", "Je ne sais pas"]];
 const CANAUX = [["cn_appli", "Application ou site"], ["cn_caisse", "En caisse"], ["cn_carte", "Carte ou comité d'entreprise"]];
 const FREQ3 = [["jamais", "Jamais"], ["parfois", "Parfois"], ["souvent", "Souvent"]];
 
@@ -245,22 +247,32 @@ const STEPS = [
     check: f => PHRASES.every(([n]) => f[n]) ? "" : "Notez chaque phrase de 1 à 5." },
 
   { id: "tableaux", html: () => `<div class="step">
-      ${head("Partie 4 sur 5", "Vos habitudes d'achat")}
+      ${head("Partie 4 sur 5", "Vos habitudes et les cinémas")}
       ${matrix(11, "Comment achetez-vous votre place ?", CANAUX, FREQ3)}
-      ${matrix(12, "Entre Pathé (Aubière) et CGR (Val Arena), lequel est selon vous…", [["cmp_prix", "le moins cher"], ["cmp_qualite", "le plus agréable (confort, image, son)"]], [["pathe", "Pathé"], ["cgr", "CGR"], ["pareil", "Pareil"], ["nsp", "Je ne sais pas"]])}
+      <fieldset class="qcard">${title(12, "Selon vous, parmi ces enseignes de cinéma, laquelle est…")}
+        <span class="sub">a. la moins chère ?</span>
+        ${choices("cmp_prix", ENSEIGNES)}
+        <span class="sub">b. la plus agréable (confort, image, son) ?</span>
+        ${choices("cmp_qualite", ENSEIGNES)}
+      </fieldset>
     </div>`,
-    check: f => CANAUX.every(([n]) => f[n]) && f.cmp_prix && f.cmp_qualite ? "" : "Répondez à chaque ligne des deux tableaux." },
+    check: f => {
+      if (!CANAUX.every(([n]) => f[n])) return "Question 11 : répondez à chaque ligne du tableau.";
+      if (!f.cmp_prix || !f.cmp_qualite) return "Question 12 : répondez aux parties a et b.";
+      return "";
+    } },
 
   { id: "depenses", button: "Envoyer mes réponses", html: () => `<div class="step">
       ${head("Partie 5 sur 5", "Vos dépenses")}
       ${euro(13, "depense", "Combien dépensez-vous en popcorn, boissons et confiseries par séance de cinéma ?", "En moyenne. Écrivez 0 si vous n'en achetez jamais.")}
-      ${checks(14, "plateformes", "À quelles plateformes de vidéo êtes-vous abonné ?", [["netflix", "Netflix"], ["disney", "Disney+"], ["prime", "Prime Video"], ["canal", "Canal+"], ["autre", "Une autre"], ["aucune", "Aucune"]], "Vous ou votre foyer. Plusieurs réponses possibles.")}
+      ${checks(14, "plateformes", "À quelles plateformes de vidéo êtes-vous abonné ?", [["netflix", "Netflix"], ["disney", "Disney+"], ["prime", "Prime Video"], ["canal", "Canal+"], ["autre", "Une autre"], ["aucune", "Aucune"]], "Vous ou votre foyer. Plusieurs réponses possibles.").replace("</fieldset>", `<input class="other" type="text" name="plateformes_autre" id="plateformes_autre" placeholder="Si « Une autre », précisez laquelle" maxlength="120" aria-label="Précisez la plateforme"></fieldset>`)}
       ${euro(15, "depense_streaming", "Combien payez-vous au total par mois pour ces abonnements ?", "Écrivez 0 si vous n'en avez aucun.")}
     </div>`,
     check: f => {
       if (!f.depense || !isAmount(f.depense)) return "Question 13 : indiquez un montant en euros, par exemple 0, 6 ou 8,50.";
       if (!f.plateformes) return "Question 14 : cochez au moins une réponse (ou « Aucune »).";
       if (f.plateformes.split(";").includes("aucune") && f.plateformes.includes(";")) return "Question 14 : vous avez coché « Aucune » et une plateforme, corrigez votre réponse.";
+      if (f.plateformes.split(";").includes("autre") && !f.plateformes_autre) return "Question 14 : précisez quelle autre plateforme.";
       if (!f.depense_streaming || !isAmount(f.depense_streaming)) return "Question 15 : indiquez un montant en euros, par exemple 0 ou 13,99.";
       return "";
     } }
@@ -329,7 +341,7 @@ function buildRow() {
   CANAUX.forEach(([k]) => { row[k] = s(k); });
   Object.assign(row, {
     cmp_prix: s("cmp_prix"), cmp_qualite: s("cmp_qualite"),
-    depense: n("depense"), plateformes: s("plateformes"), depense_streaming: n("depense_streaming"),
+    depense: n("depense"), plateformes: s("plateformes"), plateformes_autre: String(answers.plateformes || "").split(";").includes("autre") ? s("plateformes_autre") : "", depense_streaming: n("depense_streaming"),
     prix_separes_affiche: VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
     prix_pack_affiche: CONFIG.PRIX_PACK,
     duree_sec: Math.round((Date.now() - START) / 1000)
