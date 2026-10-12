@@ -18,6 +18,7 @@ body{padding:0 16px}
 .step h1{font-size:clamp(1.6rem,4.5vw,2.2rem)}
 .step h2{font-size:1.3rem}
 .step p{font-size:1.02rem}
+.step h3{font:700 1.05rem var(--display);margin:6px 0 -8px}
 .offer{background:var(--surface);border:2px solid var(--accent);border-radius:12px;padding:20px 22px;display:grid;gap:10px}
 .offer .name{font:800 1.35rem var(--display)}
 .offer ul{margin:0;padding-left:20px;display:grid;gap:4px}
@@ -198,16 +199,37 @@ const STEPS = [
     check: f => f.consentement ? "" : "Indiquez si vous acceptez de participer.",
     stop: f => f.consentement === "non" },
 
-  /* Bloc 1 · L'offre (version A ou B tirée au sort) */
+  /* Questions 1 à 3 · Vos habitudes */
+  { id: "habitudes", html: () => `<div class="step">
+      <h2>Vos habitudes au cinéma</h2>
+      ${question("derniere_seance", "1. Quand êtes-vous allé au cinéma pour la dernière fois ?", [["1s", "Il y a moins d'une semaine"], ["2s", "Il y a 1 à 2 semaines"], ["1m", "Il y a 2 semaines à 1 mois"], ["3m", "Il y a 1 à 3 mois"], ["6m", "Il y a 3 à 6 mois"], ["12m", "Il y a 6 mois à 1 an"], ["24m", "Il y a 1 à 2 ans"], ["plus", "Il y a plus de 2 ans"], ["jamais", "Je n'y suis jamais allé"]])}
+      ${question("dernier_achat", "2. Lors de cette dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_popcorn_boisson", "La place + popcorn + boisson"], ["nsp", "Je ne m'en souviens pas, ou je n'y suis jamais allé"]])}
+      ${euro("depense", "3. En général, combien dépensez-vous en popcorn, boissons et confiseries par séance ? (0 si vous n'en achetez jamais)")}
+    </div>`,
+    check: f => {
+      if (!f.derniere_seance || !f.dernier_achat || !f.depense) return "Répondez aux trois questions.";
+      if (!isAmount(f.depense)) return "Pour la dépense, écrivez seulement un montant en euros, par exemple 0, 6 ou 8,50.";
+      return "";
+    } },
+
+  /* Questions 4 et 5 · Les deux matrices */
+  { id: "matrices", html: () => `<div class="step">
+      <h2>La confiserie et l'achat de votre place</h2>
+      ${matrix("4. Êtes-vous d'accord avec ces phrases ?", FREINS, AGREE5)}
+      ${matrix("5. Comment achetez-vous votre place de cinéma ?", CANAUX, FREQ3)}
+    </div>`,
+    check: f => FREINS.concat(CANAUX).every(([n]) => f[n]) ? "" : "Répondez à chaque ligne des deux tableaux." },
+
+  /* L'offre, version A ou B tirée au sort */
   { id: "offre", button: "J'ai regardé l'offre", html: () => `<div class="step">
       <h2>Voici l'offre</h2>
       <p>Regardez-la attentivement : les questions suivantes portent sur elle.</p>
       ${offerHTML(false)}
     </div>`, check: () => "" },
 
-  /* Bloc 2 · Le prix : Van Westendorp (montants libres) */
+  /* Question 6 · Van Westendorp */
   { id: "vw", html: () => `<div class="step">
-      <h2>Pour ce pack, à partir de quel prix…</h2>
+      <h2>6. Pour ce pack, à partir de quel prix…</h2>
       ${offerHTML(false)}
       ${euro("vw_bon_marche", "…le trouveriez-vous <strong>bon marché</strong>, une bonne affaire ?")}
       ${euro("vw_cher", "…le trouveriez-vous <strong>cher</strong>, mais vous pourriez quand même l'acheter ?")}
@@ -221,77 +243,69 @@ const STEPS = [
       return "";
     } },
 
-  /* Bloc 3 · Le prix : Gabor-Granger (oui / non) */
+  /* Question 7 · Gabor-Granger */
   { id: "gg", html: () => `<div class="step">
-      <h2>Achèteriez-vous ce pack à ces prix ?</h2>
+      <h2>7. Achèteriez-vous ce pack à ces prix ?</h2>
       ${offerHTML(false)}
       ${CONFIG.GG_PRIX.map((p, i) => `<div class="gg-row"><span class="p">${fmt(p)}</span><span class="yn"><label><input type="radio" name="gg_${i}" value="oui"> Oui</label><label><input type="radio" name="gg_${i}" value="non"> Non</label></span></div>`).join("")}
     </div>`,
     check: f => CONFIG.GG_PRIX.every((_, i) => f["gg_" + i]) ? "" : "Répondez oui ou non pour chaque prix." },
 
-  /* Bloc 4 · Contrôle (sans l'offre affichée) */
+  /* Question 8 · Contrôle (sans l'offre affichée) */
   { id: "controle", html: () => `<div class="step">
-      ${question("controle", "Dans la description du pack, était-il indiqué combien coûtent la place, le popcorn et la boisson si on les achète séparément ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
+      ${question("controle", "8. Dans la description du pack, était-il indiqué combien coûtent la place, le popcorn et la boisson si on les achète séparément ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
     </div>`,
     check: f => f.controle ? "" : "Choisissez une réponse." },
 
-  /* Bloc 5 · Toutes les échelles de Likert sur le pack (valeur perçue + intention d'achat) */
+  /* Questions 9 et 10 · Toutes les échelles de Likert ensemble */
   { id: "likert_pack", html: () => `<div class="step">
       <h2>Imaginons que ce pack soit proposé à ${fmt(CONFIG.PRIX_PACK)}.</h2>
       ${offerHTML(true)}
       <p><strong>Pour chaque phrase, choisissez de 1 (pas du tout d'accord) à 7 (tout à fait d'accord).</strong></p>
-      ${ITEMS_7.map(([n, l]) => scale7(n, l)).join("")}
+      <h3>9. Ce que vous pensez du pack</h3>
+      ${VALEUR.map(([n, l]) => scale7(n, l)).join("")}
+      <h3>10. Votre envie de l'acheter</h3>
+      ${INTENTION.map(([n, l]) => scale7(n, l)).join("")}
     </div>`,
     check: f => ITEMS_7.every(([n]) => f[n]) ? "" : "Répondez aux huit phrases." },
 
-  /* Bloc 6 · Les choix sur le pack (choix unique) */
+  /* Questions 11 et 12 · Les choix sur le pack */
   { id: "choix_pack", html: () => `<div class="step">
       <h2>Le pack et vous</h2>
-      ${question("pourquoi_pack", "Qu'est-ce qui vous donnerait le plus envie de prendre ce pack plutôt que la place seule ?", [["economie", "L'économie par rapport aux produits achetés séparément"], ["pratique", "Tout acheter en une fois, en ligne avec ma place"], ["queue", "Ne pas faire la queue au comptoir"], ["rien", "Rien : je préfère la place seule"]])}
-      ${question("format", "Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
+      ${question("pourquoi_pack", "11. Qu'est-ce qui vous donnerait le plus envie de prendre ce pack plutôt que la place seule ?", [["economie", "L'économie par rapport aux produits achetés séparément"], ["pratique", "Tout acheter en une fois, en ligne avec ma place"], ["queue", "Ne pas faire la queue au comptoir"], ["rien", "Rien : je préfère la place seule"]])}
+      ${question("format", "12. Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
     </div>`,
     check: f => (f.pourquoi_pack && f.format) ? "" : "Répondez aux deux questions." },
 
-  /* Bloc 7 · Pathé ou CGR (matrice) */
+  /* Questions 13 et 14 · Pathé ou CGR */
   { id: "concurrence", html: () => `<div class="step">
       <h2>Pathé et CGR, les deux grands cinémas de Clermont-Ferrand</h2>
-      ${matrix("Selon vous, lequel est…", [["cmp_prix", "le moins cher ?"], ["cmp_qualite", "le meilleur en expérience (confort, image, son) ?"]], [["pathe", "Pathé"], ["cgr", "CGR"], ["pareil", "C'est pareil"], ["nsp", "Je ne sais pas"]])}
+      ${question("cmp_prix", "13. Selon vous, lequel est le moins cher ?", [["pathe", "Pathé (Aubière)"], ["cgr", "CGR (Val Arena)"], ["pareil", "C'est pareil"], ["nsp", "Je ne sais pas"]])}
+      ${question("cmp_qualite", "14. Selon vous, lequel offre la meilleure expérience (confort, image, son) ?", [["pathe", "Pathé (Aubière)"], ["cgr", "CGR (Val Arena)"], ["pareil", "C'est pareil"], ["nsp", "Je ne sais pas"]])}
     </div>`,
-    check: f => (f.cmp_prix && f.cmp_qualite) ? "" : "Répondez aux deux lignes du tableau." },
+    check: f => (f.cmp_prix && f.cmp_qualite) ? "" : "Répondez aux deux questions." },
 
-  /* Bloc 8 · Les matrices sur vos habitudes : freins (Likert) et canaux (fréquence) */
-  { id: "matrices", html: () => `<div class="step">
-      <h2>La confiserie et l'achat de votre place</h2>
-      ${matrix("Êtes-vous d'accord avec ces phrases ?", FREINS, AGREE5)}
-      ${matrix("Comment achetez-vous votre place de cinéma ?", CANAUX, FREQ3)}
-    </div>`,
-    check: f => FREINS.concat(CANAUX).every(([n]) => f[n]) ? "" : "Répondez à chaque ligne des deux tableaux." },
-
-  /* Bloc 9 · Les montants : confiserie et streaming */
-  { id: "depenses", html: () => `<div class="step">
-      <h2>Vos dépenses</h2>
-      ${euro("depense", "En général, combien dépensez-vous en popcorn, boissons et confiseries par séance de cinéma ? (0 si vous n'en achetez jamais)")}
-      ${checks("plateformes", "À quelles plateformes de vidéo êtes-vous abonné aujourd'hui (vous ou votre foyer) ? Plusieurs réponses possibles.", [["netflix", "Netflix"], ["disney", "Disney+"], ["prime", "Prime Video"], ["canal", "Canal+"], ["autre", "Une autre plateforme"], ["aucune", "Aucune"]])}
-      ${euro("depense_streaming", "Combien votre foyer paie-t-il au total par mois pour ces abonnements ? (0 si aucun)")}
+  /* Questions 15 et 16 · Le streaming */
+  { id: "streaming", html: () => `<div class="step">
+      <h2>Les films à la maison</h2>
+      ${checks("plateformes", "15. À quelles plateformes de vidéo êtes-vous abonné aujourd'hui (vous ou votre foyer) ? Plusieurs réponses possibles.", [["netflix", "Netflix"], ["disney", "Disney+"], ["prime", "Prime Video"], ["canal", "Canal+"], ["autre", "Une autre plateforme"], ["aucune", "Aucune"]])}
+      ${euro("depense_streaming", "16. Combien votre foyer paie-t-il au total par mois pour ces abonnements ? (0 si aucun)")}
     </div>`,
     check: f => {
-      if (!f.depense || !isAmount(f.depense)) return "Pour la confiserie, indiquez un montant en euros, par exemple 0, 6 ou 8,50.";
       if (!f.plateformes) return "Cochez au moins une plateforme (ou « Aucune »).";
       if (f.plateformes.split(";").includes("aucune") && f.plateformes.includes(";")) return "Vous avez coché « Aucune » et une plateforme : corrigez votre réponse.";
-      if (!f.depense_streaming || !isAmount(f.depense_streaming)) return "Pour le streaming, indiquez un montant en euros, par exemple 0 ou 13,99.";
+      if (!f.depense_streaming || !isAmount(f.depense_streaming)) return "Indiquez un montant en euros, par exemple 0 ou 13,99.";
       return "";
     } },
 
-  /* Bloc 10 · Vous et le cinéma (choix unique), à la fin, pour tout le monde */
+  /* Questions 17 à 19 · Profil */
   { id: "profil", button: "Envoyer mes réponses", html: () => `<div class="step">
-      <h2>Pour finir, vous et le cinéma</h2>
-      ${question("derniere_seance", "Quand êtes-vous allé au cinéma pour la dernière fois ?", [["1s", "Il y a moins d'une semaine"], ["2s", "Il y a 1 à 2 semaines"], ["1m", "Il y a 2 semaines à 1 mois"], ["3m", "Il y a 1 à 3 mois"], ["6m", "Il y a 3 à 6 mois"], ["12m", "Il y a 6 mois à 1 an"], ["24m", "Il y a 1 à 2 ans"], ["plus", "Il y a plus de 2 ans"], ["jamais", "Je n'y suis jamais allé"]])}
-      ${question("dernier_achat", "Lors de cette dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_popcorn_boisson", "La place + popcorn + boisson"], ["nsp", "Je ne m'en souviens pas, ou je n'y suis jamais allé"]])}
-      ${question("avec_qui", "Le plus souvent, vous allez au cinéma…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"], ["jamais", "Je n'y vais pas"]])}
-      ${question("cinema", "Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"], ["aucun", "Aucun"]])}
-      ${question("situation", "Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
+      <h2>Pour finir, quelques questions sur vous</h2>
+      ${question("situation", "17. Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
+      ${question("avec_qui", "18. Le plus souvent, vous allez au cinéma…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"], ["jamais", "Je n'y vais pas"]])}
+      ${question("cinema", "19. Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"], ["aucun", "Aucun"]])}
     </div>`,
-    check: f => ["derniere_seance", "dernier_achat", "avec_qui", "cinema", "situation"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." }
+    check: f => ["situation", "avec_qui", "cinema"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." }
 ];
 
 /* ---------- moteur ---------- */
