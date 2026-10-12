@@ -8,74 +8,90 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <link rel="stylesheet" href="style.css">
 <style>
-body{padding:0 16px}
-.q-wrap{max-width:640px;margin:0 auto;padding-block:28px 56px;display:grid;gap:22px}
+body{padding:0 16px;font-family:var(--display)}
+.q-wrap{max-width:680px;margin:0 auto;padding-block:28px 64px;display:grid;gap:20px}
 .q-top{display:flex;justify-content:space-between;align-items:center;gap:12px;font:500 .8rem var(--mono);color:var(--muted)}
-.bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
-.bar span{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.bar{height:8px;background:var(--soft);border-radius:999px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--accent);width:0;border-radius:999px;transition:width .3s}
 @media (prefers-reduced-motion:reduce){.bar span{transition:none}}
-.step{display:grid;gap:22px}
-.step h1{font-size:clamp(1.6rem,4.5vw,2.2rem)}
-.step h2{font-size:1.3rem}
-.step p{font-size:1.02rem}
-.step h3{font:700 1.05rem var(--display);margin:6px 0 -8px}
-.offer{background:var(--surface);border:2px solid var(--accent);border-radius:12px;padding:20px 22px;display:grid;gap:10px}
-.offer .name{font:800 1.35rem var(--display)}
-.offer ul{margin:0;padding-left:20px;display:grid;gap:4px}
-.offer .ref{font:600 1rem var(--display);color:var(--accent-ink);background:var(--accent-soft);border-radius:8px;padding:8px 12px}
+.testmode{font:500 .78rem var(--mono);background:var(--accent-soft);color:var(--accent-ink);border-radius:8px;padding:8px 12px}
+
+.step{display:grid;gap:16px}
+.step-head{display:grid;gap:6px;margin-bottom:4px}
+.step-head .kicker{font:600 .75rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
+.step h1{font:800 clamp(1.7rem,4.5vw,2.3rem)/1.1 var(--display);margin:0}
+.step h2{font:800 1.45rem/1.2 var(--display);margin:0}
+.step p{margin:0;font:400 1rem/1.6 var(--body);color:var(--ink)}
+.step .hint{color:var(--muted);font-size:.95rem}
+
+/* une question = une carte */
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px;margin:0}
+fieldset.qcard{min-width:0}
+.qtitle{display:flex;gap:12px;align-items:flex-start;font:700 1.05rem/1.35 var(--display);color:var(--ink);float:left;width:100%;padding:0;margin-bottom:12px}
+.qtitle + *{clear:both}
+.qnum{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:999px;background:var(--accent);color:#fff;font:800 .9rem var(--display)}
+.qsub{display:block;font:400 .88rem/1.4 var(--body);color:var(--muted);margin-top:2px}
+
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.choice{display:flex;gap:10px;align-items:center;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;cursor:pointer;font:500 .97rem/1.3 var(--display);transition:border-color .15s,background .15s}
+.choice:hover{border-color:var(--muted)}
+.choice:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.choice input{accent-color:var(--accent);width:18px;height:18px;flex:none;margin:0}
+.other{font:500 1rem var(--display);padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
+
+.euro{display:flex;align-items:center;gap:10px}
+.euro input{font:700 1.2rem var(--mono);width:150px;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+.euro span{font:700 1.15rem var(--mono);color:var(--muted)}
+
+/* échelle de 1 à 7 */
+.lk-group{display:grid;gap:10px}
+.lk-group h3{font:700 .8rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 0 0}
+.lk-item{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:10px}
+.lk-item .txt{font:600 .98rem/1.35 var(--display)}
+.s7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.s7 label{display:grid;place-items:center;height:40px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font:700 .95rem var(--mono);background:var(--surface);transition:border-color .15s,background .15s}
+.s7 label:hover{border-color:var(--muted)}
+.s7 label:has(input:checked){border-color:var(--accent);background:var(--accent);color:#fff}
+.s7 input{position:absolute;opacity:0;pointer-events:none}
+.s7 label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.legend7{display:flex;justify-content:space-between;font:500 .78rem var(--mono);color:var(--muted);padding:0 2px}
+
+/* tableaux */
+.mx{display:grid;gap:6px}
+.mx-row{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(var(--cols),minmax(0,1fr));gap:4px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.mx-head{background:none;border:0;padding:0 12px;font:600 .72rem/1.2 var(--mono);color:var(--muted);text-align:center}
+.mx-l{font:600 .95rem/1.3 var(--display)}
+.mx-row label{display:grid;place-items:center;padding:6px 0;cursor:pointer}
+.mx-row input{accent-color:var(--accent);width:20px;height:20px}
+@media (max-width:480px){.mx-row{grid-template-columns:minmax(0,1.2fr) repeat(var(--cols),minmax(0,1fr));padding:10px 8px}.mx-head{font-size:.62rem;padding:0 8px}.mx-l{font-size:.88rem}}
+
+/* Gabor-Granger */
+.gg-row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+.gg-row .p{font:800 1.25rem var(--mono)}
+.gg-row .yn{display:flex;gap:8px}
+.gg-row .yn label{display:flex;gap:6px;align-items:center;border:1.5px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer;font:600 .95rem var(--display);background:var(--surface)}
+.gg-row .yn label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+
+/* l'offre */
+.offer{background:var(--surface);border:2px solid var(--accent);border-radius:16px;padding:20px;display:grid;gap:12px}
+.offer .name{font:800 1.3rem var(--display);text-align:center}
 .o-row{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:start;gap:6px;text-align:center}
 .o-item{display:grid;justify-items:center;gap:2px}
 .o-item strong{font:700 1rem var(--display)}
 .o-item span:last-child{font-size:.8rem;color:var(--muted);line-height:1.3}
 .o-ic svg{width:58px;height:58px;display:block}
 .o-plus{font:800 1.6rem var(--display);color:var(--accent-ink);padding-top:16px}
-.o-price{justify-self:center;font:800 1.6rem var(--display);background:var(--ink);color:var(--bg);border-radius:999px;padding:4px 18px}
-.offer .ref{justify-self:center;text-align:center}
+.o-price{justify-self:center;font:800 1.6rem var(--display);background:var(--ink);color:var(--bg);border-radius:999px;padding:4px 20px}
+.offer .small{font-size:.85rem;color:var(--muted);text-align:center}
+.offer .ref{justify-self:center;text-align:center;font:700 1rem var(--display);color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:7px 16px}
 @media (max-width:420px){.o-ic svg{width:46px;height:46px}.o-plus{font-size:1.3rem;padding-top:10px}}
-.field{display:grid;gap:8px}
-.field > label,.field legend{font:600 1rem var(--display);padding:0}
-fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
-.choices{display:grid;gap:8px}
-.choice{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;font-size:.98rem}
-.choice:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
-.choice input{accent-color:var(--accent);width:18px;height:18px;flex:none}
-.euro{display:flex;align-items:center;gap:8px}
-.euro input{font:600 1.15rem var(--mono);width:140px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
-.euro span{font:600 1.1rem var(--mono);color:var(--muted)}
-.likert{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.likert label{display:grid;justify-items:center;gap:4px;font:500 .72rem var(--mono);color:var(--muted);text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 2px;cursor:pointer}
-.likert label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
-.likert input{accent-color:var(--accent)}
-.gg-row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
-.gg-row .p{font:700 1.1rem var(--mono)}
-.gg-row .yn{display:flex;gap:6px}
-.gg-row .yn label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:.92rem}
-.gg-row .yn label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
-.notes{display:grid;gap:8px}
-.notes .row{display:grid;grid-template-columns:1fr 110px 110px;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
-.notes .head{background:none;border:0;padding:0 12px;font:500 .78rem var(--mono);color:var(--muted)}
-.notes .name{font:600 1rem var(--display)}
-.notes select{font:500 .95rem var(--body);padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%}
-@media (max-width:420px){.notes .row{grid-template-columns:1fr 92px 92px}}
-.s7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.s7 label{display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 0;cursor:pointer;font:600 1rem var(--mono)}
-.s7 label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
-.s7 input{position:absolute;opacity:0;pointer-events:none}
-.s7 label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
-.s7-ends{display:flex;justify-content:space-between;gap:12px;font:500 .74rem var(--mono);color:var(--muted)}
-.mx{display:grid;gap:6px}
-.mx-row{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(var(--cols),minmax(0,1fr));gap:4px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
-.mx-head{background:none;border:0;padding:0 10px;font:500 .66rem/1.2 var(--mono);color:var(--muted);text-align:center}
-.mx-l{font-size:.92rem;line-height:1.3}
-.mx-row label{display:grid;place-items:center;padding:6px 0;cursor:pointer}
-.mx-row input{accent-color:var(--accent);width:18px;height:18px}
-@media (max-width:480px){.mx-row{grid-template-columns:minmax(0,1.2fr) repeat(var(--cols),minmax(0,1fr));padding:8px 6px}.mx-head{font-size:.58rem;padding:0 6px}}.err{color:var(--bad);font:500 .9rem var(--display);min-height:1.2em}
+
+.err{color:var(--bad);font:600 .95rem var(--display);min-height:1.2em;margin:0}
 .nav-q{display:flex;justify-content:space-between;gap:10px}
-.btn{font:700 1rem var(--display);border-radius:999px;padding:12px 22px;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--bg)}
+.btn{font:700 1rem var(--display);border-radius:999px;padding:13px 26px;cursor:pointer;border:1.5px solid var(--ink);background:var(--ink);color:var(--bg)}
 .btn.ghost{background:none;color:var(--ink);border-color:var(--line)}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.small{font-size:.85rem;color:var(--muted)}
-.testmode{font:500 .78rem var(--mono);background:var(--accent-soft);color:var(--accent-ink);border-radius:6px;padding:6px 10px}
+.btn[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -99,32 +115,31 @@ const CONFIG = {
   // Adresse de l'application Google Apps Script qui enregistre dans Google Sheets (voir prix-psychologique.html).
   ENDPOINT: "",
   // Prix de référence montré dans la version B : place plein tarif + menu, achetés séparément.
-  // À METTRE À JOUR après le relevé en caisse (13,50 € + prix réel du Menu Gourmand).
+  // À METTRE À JOUR après le relevé en caisse (13,50 € + prix réel du menu).
   PRIX_SEPARES: 22.00,
-  // Prix testés en Gabor-Granger, présentés du plus cher au moins cher (ordre fixe pour tous).
-  GG_PRIX: [19.90, 18.90, 17.90, 16.90, 15.90],
-  // Prix du pack montré au moment des affirmations (identique en version A et B).
-  PRIX_PACK: 18.90,
-  // Enseignes notées de 1 à 10 (carte perceptuelle).
-  ENSEIGNES: [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["kinepolis", "Kinepolis"]]
+  // Prix testés en Gabor-Granger, du plus cher au moins cher (ordre fixe pour tous).
+  GG_PRIX: [18.90, 17.90, 16.90],
+  // Prix du pack montré au moment des phrases à noter (identique en version A et B).
+  PRIX_PACK: 18.90
 };
 /* ======================================================== */
 
 const fmt = v => v.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
 const rid = () => (window.crypto && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+const isAmount = v => /^\d+(\.\d+)?$/.test(v) && Number(v) <= 500;
 
-// Tirage au sort à l'ouverture, une seule fois par répondant
+// Test A/B : tirage au sort à l'ouverture, une seule fois par répondant
 const VERSION = Math.random() < 0.5 ? "A" : "B";
 const START = Date.now();
 const answers = { id: rid(), version: VERSION };
 
-/* ---------- briques d'interface ---------- */
+/* ---------- l'offre en image ---------- */
 const ICONS = {
   ticket: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 18h48v8a6 6 0 0 0 0 12v8H8v-8a6 6 0 0 0 0-12z" fill="var(--accent-soft)" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round"/><path d="M40 20v24" stroke="var(--accent-ink)" stroke-width="2.5" stroke-dasharray="3 4"/><path d="M18 30h14M18 36h10" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round"/></svg>`,
   popcorn: `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="22" cy="20" r="7" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><circle cx="32" cy="15" r="8" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><circle cx="42" cy="20" r="7" fill="#F6E7CB" stroke="var(--accent-ink)" stroke-width="2.5"/><path d="M14 24h36l-5 32H19z" fill="#fff" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round"/><path d="M26 24l2 32M38 24l-2 32" stroke="#C9372C" stroke-width="4"/></svg>`,
   drink: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M36 6l-4 14" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round"/><path d="M18 20h28l-4 38H22z" fill="#CFE3F7" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round"/><path d="M16 20h32" stroke="var(--accent-ink)" stroke-width="4" stroke-linecap="round"/><path d="M21 34h22" stroke="var(--accent-ink)" stroke-width="2" opacity=".6"/></svg>`
 };
-function offerHTML(withPrice, showRef = true) {
+function offerHTML(withPrice) {
   const item = (icon, title, sub) => `<div class="o-item"><span class="o-ic">${ICONS[icon]}</span><strong>${title}</strong><span>${sub}</span></div>`;
   return `<div class="offer" aria-label="Pack Ciné Pathé : 1 place de cinéma, 1 popcorn moyen et 1 boisson de 50 centilitres">
     <span class="name">Pack Ciné Pathé</span>
@@ -137,152 +152,116 @@ function offerHTML(withPrice, showRef = true) {
     </div>
     <span class="small">Tous les jours, chez Pathé · en ligne ou en caisse</span>
     ${withPrice ? `<span class="o-price">${fmt(CONFIG.PRIX_PACK)}</span>` : ""}
-    ${VERSION === "B" && showRef ? `<span class="ref">Achetés séparément : ${fmt(CONFIG.PRIX_SEPARES)}</span>` : ""}
+    ${VERSION === "B" ? `<span class="ref">Achetés séparément : ${fmt(CONFIG.PRIX_SEPARES)}</span>` : ""}
   </div>`;
-}const radios = (name, opts) => `<div class="choices">${opts.map((o, i) => `<label class="choice"><input type="radio" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div>`;
-const question = (name, label, opts) => `<fieldset class="field"><legend>${label}</legend>${radios(name, opts)}</fieldset>`;
-const euro = (name, label) => `<div class="field"><label for="${name}">${label}</label><div class="euro"><input type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" id="${name}" name="${name}"><span>€</span></div></div>`;
-const LIKERT = ["Pas du tout d'accord", "Plutôt pas d'accord", "Ni l'un ni l'autre", "Plutôt d'accord", "Tout à fait d'accord"];
-const likert = (name, label) => `<fieldset class="field"><legend>${label}</legend><div class="likert">${LIKERT.map((t, i) => `<label><input type="radio" name="${name}" value="${i + 1}">${t}</label>`).join("")}</div></fieldset>`;
-const noteSelect = name => `<select name="${name}" id="${name}" aria-label="${name}"><option value="">—</option>${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}<option value="nc">Je ne connais pas</option></select>`;
-const isAmount = v => /^\d+(\.\d+)?$/.test(v) && Number(v) <= 500;
+}
 
-/* ---------- les questions ---------- */
-/* ---------- nouvelles briques : échelle en 7 points, matrices, cases à cocher ---------- */
-const scale7 = (name, label, left = "Pas du tout d'accord", right = "Tout à fait d'accord") => `<fieldset class="field"><legend>${label}</legend>
-  <div class="s7">${[1, 2, 3, 4, 5, 6, 7].map(v => `<label><input type="radio" name="${name}" value="${v}"><span>${v}</span></label>`).join("")}</div>
-  <div class="s7-ends"><span>${left}</span><span>${right}</span></div></fieldset>`;
-const matrix = (title, rows, cols) => `<fieldset class="field"><legend>${title}</legend>
+/* ---------- briques d'interface : une question = une carte ---------- */
+const title = (num, label, sub) => `<legend class="qtitle"><span class="qnum">${num}</span><span>${label}${sub ? `<span class="qsub">${sub}</span>` : ""}</span></legend>`;
+const choices = (name, opts, type = "radio") => `<div class="choices">${opts.map((o, i) => `<label class="choice"><input type="${type}" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div>`;
+const question = (num, name, label, opts, sub) => `<fieldset class="qcard">${title(num, label, sub)}${choices(name, opts)}</fieldset>`;
+const checks = (num, name, label, opts, sub) => `<fieldset class="qcard">${title(num, label, sub)}${choices(name, opts, "checkbox")}</fieldset>`;
+const euro = (num, name, label, sub) => `<fieldset class="qcard">${title(num, label, sub)}<div class="euro"><input type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" id="${name}" name="${name}" data-money="1" aria-label="Montant en euros"><span>€</span></div></fieldset>`;
+const scale7 = (name, label) => `<div class="lk-item" role="radiogroup" aria-label="${label}"><span class="txt">${label}</span>
+  <div class="s7">${[1, 2, 3, 4, 5, 6, 7].map(v => `<label><input type="radio" name="${name}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`;
+const matrix = (num, label, rows, cols, sub) => `<fieldset class="qcard">${title(num, label, sub)}
   <div class="mx" style="--cols:${cols.length}">
     <div class="mx-row mx-head"><span></span>${cols.map(c => `<span>${c[1]}</span>`).join("")}</div>
-    ${rows.map(([name, label]) => `<div class="mx-row"><span class="mx-l">${label}</span>${cols.map(c => `<label aria-label="${label} : ${c[1]}"><input type="radio" name="${name}" value="${c[0]}"></label>`).join("")}</div>`).join("")}
+    ${rows.map(([name, l]) => `<div class="mx-row"><span class="mx-l">${l}</span>${cols.map(c => `<label aria-label="${l} : ${c[1]}"><input type="radio" name="${name}" value="${c[0]}"></label>`).join("")}</div>`).join("")}
   </div></fieldset>`;
-const checks = (name, label, opts) => `<fieldset class="field"><legend>${label}</legend><div class="choices">${opts.map((o, i) => `<label class="choice"><input type="checkbox" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div></fieldset>`;
-const AGREE5 = [["1", "Pas du tout d'accord"], ["2", "Plutôt pas d'accord"], ["3", "Ni l'un ni l'autre"], ["4", "Plutôt d'accord"], ["5", "Tout à fait d'accord"]];
+const head = (kicker, h, p) => `<div class="step-head"><span class="kicker">${kicker}</span><h2>${h}</h2>${p ? `<p class="hint">${p}</p>` : ""}</div>`;
 
-/* ---------- les échelles de mesure ---------- */
-// Valeur perçue et intention d'achat : adaptées de Dodds, Monroe et Grewal (1991), Journal of Marketing Research.
+/* ---------- les phrases à noter (les plus utiles seulement) ---------- */
+// Valeur perçue et intention d'achat : adaptées de Dodds, Monroe et Grewal (1991), 3 phrases par concept.
 const VALEUR = [
-  ["vp1", "Au prix indiqué, ce pack est une bonne affaire."],
-  ["vp2", "Au prix indiqué, ce pack est économique."],
-  ["vp3", "Le prix indiqué pour ce pack est acceptable."],
-  ["vp4", "Ce pack offre un bon rapport qualité-prix."]
+  ["vp_bonne_affaire", "Ce pack est une bonne affaire."],
+  ["vp_prix_acceptable", "Le prix de ce pack est acceptable."],
+  ["vp_qualite_prix", "Ce pack offre un bon rapport qualité-prix."]
 ];
 const INTENTION = [
-  ["ia1", "Au prix indiqué, j'envisagerais d'acheter ce pack."],
-  ["ia2", "La probabilité que j'achète ce pack est élevée."],
-  ["ia3", "Je suis prêt(e) à acheter ce pack."],
-  ["ia4", "Lors de ma prochaine séance chez Pathé, j'achèterais ce pack."]
+  ["ia_envisager", "J'envisagerais d'acheter ce pack."],
+  ["ia_pret", "Je suis prêt(e) à acheter ce pack."],
+  ["ia_prochaine", "Lors de ma prochaine séance chez Pathé, j'achèterais ce pack."]
 ];
 const FREINS = [
   ["fr_cher", "Le popcorn et les boissons au cinéma sont trop chers."],
-  ["fr_snacks", "Je préfère apporter mes propres snacks."],
-  ["fr_envie", "Je n'ai pas envie de manger pendant un film."],
   ["fr_queue", "Faire la queue au comptoir me décourage."]
 ];
-const CANAUX = [
-  ["cn_appli", "Sur l'application ou le site du cinéma"],
-  ["cn_caisse", "En caisse, au cinéma"],
-  ["cn_carte", "Avec une carte prépayée, un abonnement ou un billet de comité d'entreprise"]
-];
+const PHRASES = VALEUR.concat(INTENTION, FREINS);
+const CANAUX = [["cn_appli", "Application ou site"], ["cn_caisse", "En caisse"], ["cn_carte", "Carte ou comité d'entreprise"]];
 const FREQ3 = [["jamais", "Jamais"], ["parfois", "Parfois"], ["souvent", "Souvent"]];
-const ITEMS_7 = VALEUR.concat(INTENTION);
 
 const STEPS = [
-  /* Accueil */
   { id: "accueil", button: "Commencer", html: () => `<div class="step">
-      <h1>Votre avis sur un pack cinéma</h1>
-      <p>Nous sommes des étudiants en Master 1 Marketing à l'IAE Clermont Auvergne. Dans le cadre d'un cours, nous étudions le prix d'une offre de cinéma.</p>
-      <p><strong>Le questionnaire dure environ 4 minutes.</strong> Il est <strong>anonyme</strong> : nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP. Les réponses servent uniquement à ce travail universitaire.</p>
-      ${radios("consentement", [["oui", "J'accepte de participer"], ["non", "Je ne souhaite pas participer"]])}
+      <div class="step-head"><span class="kicker">Questionnaire · 3 minutes</span><h1>Votre avis sur un pack cinéma</h1></div>
+      <p>Nous sommes des étudiants en Master 1 Marketing à l'IAE Clermont Auvergne. Nous étudions le prix d'une offre de cinéma.</p>
+      <p class="hint">Le questionnaire est <strong>anonyme</strong> : ni nom, ni e-mail, ni adresse IP. Les réponses servent uniquement à ce travail universitaire.</p>
+      <fieldset class="qcard">${choices("consentement", [["oui", "J'accepte de participer"], ["non", "Je ne souhaite pas participer"]])}</fieldset>
     </div>`,
     check: f => f.consentement ? "" : "Indiquez si vous acceptez de participer.",
     stop: f => f.consentement === "non" },
 
-  /* Questions 1 à 5 · Vous et le cinéma (choix unique) */
   { id: "vous", html: () => `<div class="step">
-      <h2>Vous et le cinéma</h2>
-      ${question("derniere_seance", "1. Quand êtes-vous allé au cinéma pour la dernière fois ?", [["1s", "Il y a moins d'une semaine"], ["1m", "Il y a entre 1 semaine et 1 mois"], ["6m", "Il y a entre 1 et 6 mois"], ["12m", "Il y a entre 6 mois et 1 an"], ["plus", "Il y a plus d'un an"], ["jamais", "Je n'y suis jamais allé, ou je ne m'en souviens plus"]])}
-      ${question("dernier_achat", "2. Lors de cette dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_popcorn_boisson", "La place + popcorn + boisson"], ["nsp", "Je ne m'en souviens pas, ou je n'y suis jamais allé"]])}
-      ${question("avec_qui", "3. Le plus souvent, vous allez au cinéma…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"], ["jamais", "Je n'y vais pas"]])}
-      ${question("cinema", "4. Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"], ["aucun", "Aucun"]])}
-      ${question("situation", "5. Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
+      ${head("Partie 1 sur 5", "Vous et le cinéma")}
+      ${question(1, "derniere_seance", "Quand êtes-vous allé au cinéma pour la dernière fois ?", [["1s", "Il y a moins d'une semaine"], ["1m", "Entre 1 semaine et 1 mois"], ["6m", "Entre 1 et 6 mois"], ["12m", "Entre 6 mois et 1 an"], ["plus", "Il y a plus d'un an"], ["jamais", "Jamais, ou je ne m'en souviens plus"]])}
+      ${question(2, "dernier_achat", "Lors de cette dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_popcorn_boisson", "La place + popcorn + boisson"], ["nsp", "Je ne sais plus"]])}
+      ${question(3, "avec_qui", "Le plus souvent, vous y allez…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"], ["jamais", "Je n'y vais pas"]])}
+      ${question(4, "cinema", "Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["autre", "Un autre cinéma"], ["aucun", "Aucun"]])}
+      ${question(5, "situation", "Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
     </div>`,
-    check: f => ["derniere_seance", "dernier_achat", "avec_qui", "cinema", "situation"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." },
-  /* L'offre, version A ou B tirée au sort */
+    check: f => ["derniere_seance", "dernier_achat", "avec_qui", "cinema", "situation"].every(k => f[k]) ? "" : "Répondez aux cinq questions de cette page." },
+
   { id: "offre", button: "J'ai regardé l'offre", html: () => `<div class="step">
-      <h2>Voici l'offre</h2>
-      <p>Regardez-la attentivement : les questions suivantes portent sur elle.</p>
+      ${head("Partie 2 sur 5", "Voici l'offre", "Regardez-la bien : les questions suivantes portent sur elle.")}
       ${offerHTML(false)}
     </div>`, check: () => "" },
 
-  /* Question 1 · Van Westendorp (montants libres, méthode à part) */
-  { id: "vw", html: () => `<div class="step">
-      <h2>6. Pour ce pack, à partir de quel prix…</h2>
+  { id: "prix", html: () => `<div class="step">
+      ${head("Partie 2 sur 5", "Le prix du pack")}
       ${offerHTML(false)}
-      ${euro("vw_bon_marche", "…le trouveriez-vous <strong>bon marché</strong>, une bonne affaire ?")}
-      ${euro("vw_cher", "…le trouveriez-vous <strong>cher</strong>, mais vous pourriez quand même l'acheter ?")}
-      ${euro("vw_trop_cher", "…le trouveriez-vous <strong>trop cher</strong> pour l'acheter ?")}
-      ${euro("vw_trop_bon_marche", "…le trouveriez-vous <strong>trop bon marché</strong>, au point de douter de sa qualité ?")}
+      <fieldset class="qcard">${title(6, "Achèteriez-vous ce pack à ces prix ?", "Répondez pour chacun des trois prix.")}
+        ${CONFIG.GG_PRIX.map((p, i) => `<div class="gg-row"><span class="p">${fmt(p)}</span><span class="yn"><label><input type="radio" name="gg_${i}" value="oui"> Oui</label><label><input type="radio" name="gg_${i}" value="non"> Non</label></span></div>`).join("")}
+      </fieldset>
+      <fieldset class="qcard">${title(7, "Qu'est-ce qui vous donnerait le plus envie de prendre ce pack plutôt que la place seule ?")}
+        ${choices("pourquoi_pack", [["economie", "L'économie réalisée"], ["pratique", "Tout acheter en une fois, en ligne"], ["queue", "Ne pas faire la queue au comptoir"], ["rien", "Rien : je préfère la place seule"], ["autre", "Autre"]])}
+        <input class="other" type="text" name="pourquoi_autre" id="pourquoi_autre" placeholder="Si « Autre », précisez ici" maxlength="200" aria-label="Précisez votre réponse">
+      </fieldset>
     </div>`,
     check: f => {
-      const keys = ["vw_bon_marche", "vw_cher", "vw_trop_cher", "vw_trop_bon_marche"];
-      if (!keys.every(k => f[k])) return "Indiquez un prix pour chacune des quatre questions.";
-      if (!keys.every(k => isAmount(f[k]))) return "Écrivez seulement un montant en euros, par exemple 15 ou 17,50.";
+      if (!CONFIG.GG_PRIX.every((_, i) => f["gg_" + i])) return "Question 6 : répondez oui ou non pour chaque prix.";
+      if (!f.pourquoi_pack) return "Question 7 : choisissez une réponse.";
+      if (f.pourquoi_pack === "autre" && !f.pourquoi_autre) return "Question 7 : précisez votre réponse « Autre ».";
       return "";
     } },
 
-  /* Question 2 · Gabor-Granger (oui / non, méthode à part) */
-  { id: "gg", html: () => `<div class="step">
-      <h2>7. Achèteriez-vous ce pack à ces prix ?</h2>
-      ${offerHTML(false)}
-      ${CONFIG.GG_PRIX.map((p, i) => `<div class="gg-row"><span class="p">${fmt(p)}</span><span class="yn"><label><input type="radio" name="gg_${i}" value="oui"> Oui</label><label><input type="radio" name="gg_${i}" value="non"> Non</label></span></div>`).join("")}
-    </div>`,
-    check: f => CONFIG.GG_PRIX.every((_, i) => f["gg_" + i]) ? "" : "Répondez oui ou non pour chaque prix." },
-
-  /* Questions 8 à 10 · Le pack (choix unique), contrôle en premier, sans l'offre affichée */
-  { id: "choix_pack", html: () => `<div class="step">
-      <h2>Le pack et vous</h2>
-      ${question("controle", "8. Dans la description du pack, était-il indiqué combien coûtent la place, le popcorn et la boisson si on les achète séparément ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
-      ${question("pourquoi_pack", "9. Qu'est-ce qui vous donnerait le plus envie de prendre ce pack plutôt que la place seule ?", [["economie", "L'économie par rapport aux produits achetés séparément"], ["pratique", "Tout acheter en une fois, en ligne avec ma place"], ["queue", "Ne pas faire la queue au comptoir"], ["rien", "Rien : je préfère la place seule"]])}
-      ${question("format", "10. Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
-    </div>`,
-    check: f => ["controle", "pourquoi_pack", "format"].every(k => f[k]) ? "" : "Répondez aux trois questions." },
-  /* Questions 11 à 13 · Toutes les échelles de Likert (1 à 7) */
-  { id: "likert", html: () => `<div class="step">
-      <h2>Êtes-vous d'accord avec ces phrases ?</h2>
-      <p><strong>Pour chaque phrase, choisissez de 1 (pas du tout d'accord) à 7 (tout à fait d'accord).</strong></p>
-      <p>Imaginons que ce pack soit proposé à ${fmt(CONFIG.PRIX_PACK)} :</p>
+  { id: "avis", html: () => `<div class="step">
+      ${head("Partie 3 sur 5", `Imaginons ce pack à ${fmt(CONFIG.PRIX_PACK)}`, "Pour chaque phrase, choisissez de 1 (pas du tout d'accord) à 7 (tout à fait d'accord).")}
       ${offerHTML(true)}
-      <h3>11. Ce que vous pensez du pack</h3>
-      ${VALEUR.map(([n, l]) => scale7(n, l)).join("")}
-      <h3>12. Votre envie de l'acheter</h3>
-      ${INTENTION.map(([n, l]) => scale7(n, l)).join("")}
-      <h3>13. Vous et la confiserie au cinéma</h3>
-      ${FREINS.map(([n, l]) => scale7(n, l)).join("")}
+      <div class="legend7"><span>1 · Pas du tout d'accord</span><span>7 · Tout à fait d'accord</span></div>
+      <fieldset class="qcard">${title(8, "Ce que vous pensez du pack")}<div class="lk-group">${VALEUR.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
+      <fieldset class="qcard">${title(9, "Votre envie de l'acheter")}<div class="lk-group">${INTENTION.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
+      <fieldset class="qcard">${title(10, "Vous et la confiserie au cinéma")}<div class="lk-group">${FREINS.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
     </div>`,
-    check: f => ITEMS_7.concat(FREINS).every(([n]) => f[n]) ? "" : "Répondez à toutes les phrases de cette page." },
+    check: f => PHRASES.every(([n]) => f[n]) ? "" : "Notez chaque phrase de 1 à 7." },
 
-  /* Questions 14 et 15 · Les tableaux à cocher */
-  { id: "matrices", html: () => `<div class="step">
-      <h2>Deux tableaux à remplir</h2>
-      ${matrix("14. Comment achetez-vous votre place de cinéma ?", CANAUX, FREQ3)}
-      ${matrix("15. Entre Pathé (Aubière) et CGR (Val Arena), lequel est selon vous…", [["cmp_prix", "le moins cher ?"], ["cmp_qualite", "le meilleur en expérience (confort, image, son) ?"]], [["pathe", "Pathé"], ["cgr", "CGR"], ["pareil", "C'est pareil"], ["nsp", "Je ne sais pas"]])}
+  { id: "tableaux", html: () => `<div class="step">
+      ${head("Partie 4 sur 5", "Vos habitudes d'achat")}
+      ${matrix(11, "Comment achetez-vous votre place ?", CANAUX, FREQ3)}
+      ${matrix(12, "Entre Pathé (Aubière) et CGR (Val Arena), lequel est selon vous…", [["cmp_prix", "le moins cher"], ["cmp_qualite", "le plus agréable (confort, image, son)"]], [["pathe", "Pathé"], ["cgr", "CGR"], ["pareil", "Pareil"], ["nsp", "Je ne sais pas"]])}
     </div>`,
     check: f => CANAUX.every(([n]) => f[n]) && f.cmp_prix && f.cmp_qualite ? "" : "Répondez à chaque ligne des deux tableaux." },
 
-  /* Questions 16 à 18 · Les montants en euros */
   { id: "depenses", button: "Envoyer mes réponses", html: () => `<div class="step">
-      <h2>Vos dépenses</h2>
-      ${euro("depense", "16. En général, combien dépensez-vous en popcorn, boissons et confiseries par séance de cinéma ? (0 si vous n'en achetez jamais)")}
-      ${checks("plateformes", "17. À quelles plateformes de vidéo êtes-vous abonné aujourd'hui (vous ou votre foyer) ? Plusieurs réponses possibles.", [["netflix", "Netflix"], ["disney", "Disney+"], ["prime", "Prime Video"], ["canal", "Canal+"], ["autre", "Une autre plateforme"], ["aucune", "Aucune"]])}
-      ${euro("depense_streaming", "18. Combien votre foyer paie-t-il au total par mois pour ces abonnements ? (0 si aucun)")}
+      ${head("Partie 5 sur 5", "Vos dépenses")}
+      ${euro(13, "depense", "Combien dépensez-vous en popcorn, boissons et confiseries par séance de cinéma ?", "En moyenne. Écrivez 0 si vous n'en achetez jamais.")}
+      ${checks(14, "plateformes", "À quelles plateformes de vidéo êtes-vous abonné ?", [["netflix", "Netflix"], ["disney", "Disney+"], ["prime", "Prime Video"], ["canal", "Canal+"], ["autre", "Une autre"], ["aucune", "Aucune"]], "Vous ou votre foyer. Plusieurs réponses possibles.")}
+      ${euro(15, "depense_streaming", "Combien payez-vous au total par mois pour ces abonnements ?", "Écrivez 0 si vous n'en avez aucun.")}
     </div>`,
     check: f => {
-      if (!f.depense || !isAmount(f.depense)) return "Question 16 : indiquez un montant en euros, par exemple 0, 6 ou 8,50.";
-      if (!f.plateformes) return "Question 17 : cochez au moins une plateforme (ou « Aucune »).";
-      if (f.plateformes.split(";").includes("aucune") && f.plateformes.includes(";")) return "Question 17 : vous avez coché « Aucune » et une plateforme, corrigez votre réponse.";
-      if (!f.depense_streaming || !isAmount(f.depense_streaming)) return "Question 18 : indiquez un montant en euros, par exemple 0 ou 13,99.";
+      if (!f.depense || !isAmount(f.depense)) return "Question 13 : indiquez un montant en euros, par exemple 0, 6 ou 8,50.";
+      if (!f.plateformes) return "Question 14 : cochez au moins une réponse (ou « Aucune »).";
+      if (f.plateformes.split(";").includes("aucune") && f.plateformes.includes(";")) return "Question 14 : vous avez coché « Aucune » et une plateforme, corrigez votre réponse.";
+      if (!f.depense_streaming || !isAmount(f.depense_streaming)) return "Question 15 : indiquez un montant en euros, par exemple 0 ou 13,99.";
       return "";
     } }
 ];
@@ -295,16 +274,16 @@ if (!CONFIG.ENDPOINT) document.getElementById("testmode").hidden = false;
 
 function collect() {
   const f = {};
-  stepsEl.querySelectorAll("input, select").forEach(i => {
+  stepsEl.querySelectorAll("input").forEach(i => {
     if (i.type === "radio") { if (i.checked) f[i.name] = i.value; }
     else if (i.type === "checkbox") { if (i.checked) f[i.name] = f[i.name] ? f[i.name] + ";" + i.value : i.value; else if (!(i.name in f)) f[i.name] = ""; }
-    else if (i.tagName === "SELECT") f[i.name] = i.value;
-    else f[i.name] = i.value.trim().replace(/\s|€/g, "").replace(",", ".");
+    else if (i.dataset.money) f[i.name] = i.value.trim().replace(/\s|€/g, "").replace(",", ".");
+    else f[i.name] = i.value.trim();
   });
   return f;
 }
 function restore() {
-  stepsEl.querySelectorAll("input, select").forEach(i => {
+  stepsEl.querySelectorAll("input").forEach(i => {
     const v = answers[i.name];
     if (v == null) return;
     if (i.type === "radio") i.checked = i.value === v;
@@ -320,11 +299,11 @@ function render() {
   prevBtn.hidden = cur === 0;
   nextBtn.textContent = s.button || "Suivant";
   document.getElementById("progress").style.width = (cur / STEPS.length * 100) + "%";
-  document.getElementById("count").textContent = `Étape ${cur + 1} sur ${STEPS.length}`;
+  document.getElementById("count").textContent = cur === 0 ? "" : `Page ${cur} sur ${STEPS.length - 1}`;
   window.scrollTo(0, 0);
 }
 function endScreen(msg) {
-  document.getElementById("form").innerHTML = `<div class="step"><h1>Merci !</h1><p>${msg}</p></div>`;
+  document.getElementById("form").innerHTML = `<div class="step"><div class="step-head"><span class="kicker">Terminé</span><h1>Merci !</h1></div><p>${msg}</p></div>`;
   document.getElementById("progress").style.width = "100%";
   document.getElementById("count").textContent = "";
 }
@@ -332,8 +311,6 @@ function endScreen(msg) {
 function buildRow() {
   const n = k => (answers[k] === "" || answers[k] == null) ? "" : Number(answers[k]);
   const s = k => answers[k] == null ? "" : answers[k];
-  const vw = [n("vw_trop_bon_marche"), n("vw_bon_marche"), n("vw_cher"), n("vw_trop_cher")];
-  const vwOk = vw.every(v => v !== "" && !isNaN(v)) && vw[0] <= vw[1] && vw[1] <= vw[2] && vw[2] <= vw[3];
   // Gabor-Granger : prix décroissants ; accepter un prix plus élevé puis refuser un plus bas = incohérent
   const gg = CONFIG.GG_PRIX.map((_, i) => answers["gg_" + i]);
   let ggOk = true, seenYes = false;
@@ -342,20 +319,17 @@ function buildRow() {
     id: answers.id, horodatage: new Date().toISOString(), version: VERSION,
     derniere_seance: s("derniere_seance"), dernier_achat: s("dernier_achat"),
     type_client: answers.dernier_achat === "place" ? "A_place_seule" : (answers.dernier_achat === "nsp" ? "" : "B_avec_confiserie"),
-    depense: n("depense")
+    avec_qui: s("avec_qui"), cinema: s("cinema"), situation: s("situation")
   };
-  FREINS.concat(CANAUX).forEach(([k]) => { row[k] = FREINS.some(x => x[0] === k) ? n(k) : s(k); });
-  Object.assign(row, { vw_trop_bon_marche: vw[0], vw_bon_marche: vw[1], vw_cher: vw[2], vw_trop_cher: vw[3], vw_coherent: vwOk ? 1 : 0 });
   CONFIG.GG_PRIX.forEach((p, i) => { row["gg_" + p.toFixed(2).replace(".", "_")] = gg[i] === "oui" ? 1 : 0; });
   row.gg_coherent = ggOk ? 1 : 0;
-  row.controle = s("controle");
-  row.controle_ok = (VERSION === "B" ? answers.controle === "oui" : answers.controle === "non") ? 1 : 0;
-  ITEMS_7.forEach(([k]) => { row[k] = n(k); });
+  row.pourquoi_pack = s("pourquoi_pack");
+  row.pourquoi_autre = answers.pourquoi_pack === "autre" ? s("pourquoi_autre") : "";
+  PHRASES.forEach(([k]) => { row[k] = n(k); });
+  CANAUX.forEach(([k]) => { row[k] = s(k); });
   Object.assign(row, {
-    pourquoi_pack: s("pourquoi_pack"), format: s("format"),
     cmp_prix: s("cmp_prix"), cmp_qualite: s("cmp_qualite"),
-    plateformes: s("plateformes"), depense_streaming: n("depense_streaming"),
-    situation: s("situation"), avec_qui: s("avec_qui"), cinema: s("cinema"),
+    depense: n("depense"), plateformes: s("plateformes"), depense_streaming: n("depense_streaming"),
     prix_separes_affiche: VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
     prix_pack_affiche: CONFIG.PRIX_PACK,
     duree_sec: Math.round((Date.now() - START) / 1000)
@@ -386,7 +360,6 @@ document.getElementById("form").addEventListener("submit", async e => {
 });
 prevBtn.addEventListener("click", () => { Object.assign(answers, collect()); if (cur > 0) { cur--; render(); } });
 render();
-
 </script>
 </body>
 </html>
