@@ -9,11 +9,12 @@
 <link rel="stylesheet" href="style.css">
 <style>
 .ab{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.ab .card{border-width:2px}
 .ab .tag{font:700 .8rem var(--mono);color:var(--accent-ink)}
 .ab .ref{font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:6px 10px}
 ol.steps{margin:0;padding-left:22px;display:grid;gap:8px}
 code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-radius:4px}
+.obj{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.obj .card .kpi{font-size:1.4rem}
 </style>
 </head>
 <body>
@@ -30,143 +31,133 @@ code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-r
 </header>
 <main>
   <div class="hero">
-    <p class="eyebrow">Page 3 · Prix psychologique · questionnaire prêt le 12 octobre, collecte du 12 au 21 octobre</p>
-    <h1>Afficher l'économie fait-il accepter un prix plus élevé ?</h1>
-    <p class="lede">Notre questionnaire mesure le prix que les clients acceptent pour le pack, et teste une seule variation : indiquer ou non ce que coûtent les mêmes produits achetés séparément. C'est l'effet d'ancrage vu au CM 1, mesuré par un test A/B.</p>
+    <p class="eyebrow">Page 3 · Prix psychologique · version revue après le TD 2 du 12 octobre · collecte du 12 au 21 octobre</p>
+    <h1>Pourquoi acheter un pack plutôt qu'une place seule, et à quel prix ?</h1>
+    <p class="lede">Notre questionnaire vend le même pack de deux façons différentes, tirées au sort, et cherche d'où vient la différence d'acceptation. Toutes les personnes répondent aux mêmes questions.</p>
     <p><a class="pill up" href="questionnaire.html" style="text-decoration:none">Ouvrir le questionnaire</a></p>
   </div>
 
   <section>
-    <div class="sec-head"><span class="num">01</span><h2>Le test A/B</h2></div>
-    <p>À l'ouverture du questionnaire, le hasard attribue à chaque répondant la version A ou la version B. Tout le reste est identique au mot près. La version vue est enregistrée avec ses réponses.</p>
-    <div class="ab">
-      <div class="card"><span class="tag">Version A</span><h3>L'offre seule</h3><p>Pack Ciné Pathé : 1 place (hors IMAX et 4DX), 1 popcorn moyen, 1 boisson de 50 cl. Valable tous les jours.</p></div>
-      <div class="card"><span class="tag">Version B</span><h3>L'offre + le prix de référence</h3><p>La même description, plus une phrase :</p><p class="ref">« Achetés séparément, ces trois produits coûtent 22,00 € chez Pathé. »</p></div>
+    <div class="sec-head"><span class="num">01</span><h2>Ce que nous voulons savoir</h2></div>
+    <div class="obj">
+      <div class="card"><span class="kpi">O1</span><h3>À quel prix vendre le pack ?</h3><p>Le prix qui fait acheter le plus de monde, et celui qui rapporte le plus de marge (Van Westendorp, Gabor-Granger).</p></div>
+      <div class="card"><span class="kpi">O2</span><h3>Quelle présentation le fait mieux accepter ?</h3><p>Le même pack présenté de deux façons : d'où vient la variation du prix accepté (test A/B).</p></div>
+      <div class="card"><span class="kpi">O3</span><h3>Pourquoi un pack plutôt qu'une place seule ?</h3><p>La valeur perçue du pack mène-t-elle à l'intention de l'acheter, et pour quelle raison (économie, praticité, file d'attente) ?</p></div>
+      <div class="card"><span class="kpi">O4</span><h3>Qui le pack peut-il convaincre ?</h3><p>Les clients qui ne prennent que la place (ceux qui font gagner de l'argent) et ce qui les freine aujourd'hui.</p></div>
+      <div class="card"><span class="kpi">O5</span><h3>À quoi le pack est-il comparé ?</h3><p>Les prix de référence du client : sa dépense en confiserie, ses abonnements de streaming, l'image de Pathé face à CGR.</p></div>
     </div>
-    <div class="callout">
-      <span class="label">Hypothèse</span>
-      <p>Les répondants de la version B, qui voient le prix des produits achetés séparément, acceptent un prix plus élevé pour le pack que ceux de la version A.</p>
-    </div>
-    <div class="todo-box"><strong>À faire avant le lancement</strong><p>Les 22,00 € (place à 13,50 € + menu estimé à 8,50 €) doivent être remplacés par le vrai prix relevé en caisse. Une seule ligne à changer : <code>PRIX_SEPARES</code> en haut de <code>questionnaire.html</code>.</p></div>
   </section>
 
   <section>
-    <div class="sec-head"><span class="num">02</span><h2>Les 7 étapes du questionnaire</h2></div>
+    <div class="sec-head"><span class="num">02</span><h2>Le test A/B : une seule différence</h2></div>
+    <p>À l'ouverture du questionnaire, le hasard attribue à chaque répondant la version A ou la version B. L'offre est présentée en image, et tout le reste est identique.</p>
+    <div class="ab">
+      <div class="card"><span class="tag">Version A</span><h3>Le pack seul</h3><p>1 place + 1 popcorn moyen + 1 boisson de 50 cl.</p></div>
+      <div class="card"><span class="tag">Version B</span><h3>Le pack + son prix de référence</h3><p>La même image, plus un badge :</p><p class="ref">« Achetés séparément : 22,00 € »</p></div>
+    </div>
+    <div class="callout">
+      <span class="label">Hypothèses</span>
+      <p><strong>H1</strong> : la version B fait accepter un prix plus élevé (Van Westendorp, Gabor-Granger). <strong>H2</strong> : la version B augmente la valeur perçue. <strong>H3</strong> : plus la valeur perçue est élevée, plus l'intention d'achat est forte.</p>
+    </div>
+    <div class="todo-box"><strong>Le prix de référence de 22 €</strong><p>Place plein tarif à Aubière (13,50 €) + menu popcorn et boisson estimé à 8,50 €. Le prix du menu n'est pas publié en ligne : notre estimation et ses sources sont détaillées sur la page <a href="marche.html#plafond">Le marché</a>. À remplacer par le prix relevé en caisse (une ligne à changer : <code>PRIX_SEPARES</code>).</p></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">03</span><h2>Les questions, et à quoi elles servent</h2></div>
     <div class="scroll">
       <table>
-        <thead><tr><th>Étape</th><th>Contenu</th><th>Pourquoi</th></tr></thead>
+        <thead><tr><th>Thème</th><th>Question</th><th>Échelle</th><th>Pourquoi</th></tr></thead>
         <tbody>
-          <tr><td>1 · Accueil</td><td>Objet de l'étude, durée, anonymat, accord pour participer</td><td>Obligation d'information (CNIL) ; pas de nom, d'e-mail ni d'adresse IP</td></tr>
-          <tr><td>2 · Filtre</td><td>Au cours des 12 derniers mois, êtes-vous allé au cinéma ? Oui → parcours A (spectateurs, test A/B) ; Non → parcours B (non-spectateurs)</td><td>Les spectateurs mesurent le prix du pack ; les non-spectateurs disent pourquoi ils ne viennent plus et si le pack pourrait les ramener</td></tr>
-          <tr><td>Parcours B</td><td>Raison principale de ne pas aller au cinéma, façon de regarder des films, achat de confiserie autrefois ; le pack à 18,90 € : envie de revenir (Likert 5 points), prix maximum accepté (question directe), ce qui ferait revenir</td><td>Mesurer le potentiel du pack auprès des clients perdus. La question directe sur le prix est simple mais moins fiable que Van Westendorp : limite à signaler</td></tr>
-          <tr><td>3 · Offre</td><td>Version A ou B, tirée au sort</td><td>La seule différence entre les deux groupes</td></tr>
-          <tr><td>4 · Mesure</td><td>Van Westendorp (4 questions, réponse libre en euros, toujours dans le même ordre) puis Gabor-Granger (5 prix, oui ou non)</td><td>Van Westendorp trace la zone acceptable, Gabor-Granger choisit un prix dedans</td></tr>
-          <tr><td>5 · Contrôle</td><td>Le prix des produits achetés séparément était-il indiqué ?</td><td>Vérifier que la différence a été vue</td></tr>
-          <tr><td>6 · Perception</td><td>6 affirmations en Likert 5 points (valeur perçue, intention d'achat) ; effet du pack sur l'achat de confiserie ; format préféré (solo, duo, famille) ; notes de 1 à 10 du prix et de la qualité de Pathé, CGR, UGC et Kinepolis</td><td>Le modèle valeur perçue → intention d'achat, et une vraie carte perceptuelle</td></tr>
-          <tr><td>7 · Habitudes et profil</td><td>Dernier achat (place seule ou avec confiserie), dépense en confiserie, raison de ne pas en acheter, canal d'achat de la place ; âge, situation, fréquence, avec qui, cinéma habituel, abonnement streaming</td><td>Séparer les clients A et B pour le calcul de rentabilité, et décrire l'échantillon</td></tr>
+          <tr><td>Accueil</td><td>Objet, durée, anonymat, accord</td><td>Choix unique</td><td>Obligation d'information (CNIL)</td></tr>
+          <tr><td rowspan="3">Habitudes (bloc de fin)</td><td>Quand êtes-vous allé au cinéma pour la dernière fois ?</td><td>Ordinale (9 modalités, de moins d'une semaine à jamais)</td><td>Remplace le filtre : tout le monde répond, et on mesure la récence de fréquentation (O4)</td></tr>
+          <tr><td>Lors de cette dernière séance, qu'avez-vous acheté ?</td><td>Nominale</td><td>Sépare les clients qui ne prennent que la place de ceux qui prennent déjà la confiserie : le calcul de rentabilité en dépend (O4)</td></tr>
+          <tr><td>En général, combien dépensez-vous en confiserie par séance ?</td><td>Quantitative (€)</td><td>Le prix de référence réel du client pour la partie confiserie du pack, et la dépense moyenne à utiliser dans le calcul de marge (O5)</td></tr>
+          <tr><td rowspan="2">Matrices</td><td>4 phrases sur la confiserie : trop chère, j'apporte mes snacks, pas envie de manger, la queue me décourage</td><td>Matrice, Likert 5 points (d'accord / pas d'accord)</td><td>Ce qui freine l'achat de confiserie : le pack ne lève que le frein du prix et, en partie, celui de la queue (O4)</td></tr>
+          <tr><td>Comment achetez-vous votre place : application ou site, caisse, carte ou comité d'entreprise</td><td>Matrice : jamais, parfois, souvent</td><td>Le canal où vendre le pack (prix, canaux, marché : attendus du dossier)</td></tr>
+          <tr><td>Offre</td><td>Le pack en image, version A ou B</td><td>—</td><td>La seule différence entre les deux groupes (O2)</td></tr>
+          <tr><td rowspan="2">Prix</td><td>Van Westendorp : bon marché, cher, trop cher, trop bon marché</td><td>Quantitative (€ libres)</td><td>La zone de prix acceptable (O1)</td></tr>
+          <tr><td>Gabor-Granger : achèteriez-vous ce pack à 19,90 €, 18,90 €, 17,90 €, 16,90 €, 15,90 € ?</td><td>Dichotomique (oui / non)</td><td>La part d'acheteurs à chaque prix : le prix qui fait acheter le plus de monde et celui qui maximise la marge (O1)</td></tr>
+          <tr><td>Contrôle</td><td>Le prix des produits achetés séparément était-il indiqué ?</td><td>Nominale</td><td>Vérifier que la différence entre A et B a été vue</td></tr>
+          <tr><td rowspan="4">Perception</td><td>Valeur perçue : 4 phrases (bonne affaire, économique, prix acceptable, rapport qualité-prix)</td><td>Likert 7 points</td><td>Échelle de Dodds, Monroe et Grewal (1991) : premier concept du modèle (O3)</td></tr>
+          <tr><td>Intention d'achat : 4 phrases (envisager l'achat, probabilité, prêt à acheter, prochaine séance)</td><td>Likert 7 points</td><td>Même source : second concept du modèle (O3)</td></tr>
+          <tr><td>Qu'est-ce qui donnerait le plus envie de prendre le pack plutôt que la place seule ?</td><td>Nominale</td><td>La raison d'acheter un pack plutôt qu'une place : économie, praticité, file d'attente (O3)</td></tr>
+          <tr><td>Format préféré : solo, duo, famille</td><td>Nominale</td><td>Les déclinaisons à proposer dans la recommandation</td></tr>
+          <tr><td>Concurrence</td><td>Entre Pathé et CGR, lequel est le moins cher ? Lequel offre la meilleure expérience ?</td><td>Nominale</td><td>Remplace les notes de 1 à 10, jugées trop larges : une comparaison simple entre les deux cinémas de Clermont, pour situer Pathé sur la carte perceptuelle (O5)</td></tr>
+          <tr><td rowspan="2">Dépenses</td><td>À quelles plateformes êtes-vous abonné ?</td><td>Nominale, choix multiple</td><td rowspan="2">Le streaming est le prix de référence d'un divertissement à domicile. Nous comparerons le prix accepté pour le pack chez les abonnés et chez les non-abonnés, et selon le montant payé (O5)</td></tr>
+          <tr><td>Combien votre foyer paie-t-il par mois pour ces abonnements ?</td><td>Quantitative (€)</td></tr>
+          <tr><td>Profil (bloc de fin)</td><td>Situation (étudiant, actif, retraité), avec qui, cinéma habituel</td><td>Nominales</td><td>Décrire l'échantillon et vérifier que les groupes A et B se ressemblent</td></tr>
         </tbody>
       </table>
     </div>
-  </section>
-
-  <section>
-    <div class="sec-head"><span class="num">03</span><h2>Nos choix de mesure</h2></div>
-    <ul class="check">
-      <li><strong>Prix testés en Gabor-Granger : 19,90 €, 18,90 €, 17,90 €, 16,90 €, 15,90 €</strong>, toujours dans cet ordre, du plus cher au moins cher, pour tous les répondants. La fourchette va de notre plancher estimé (place 13,50 € + coût des produits environ 2,30 € = environ 15,80 €) jusqu'au-dessus de notre plafond de 19,50 €.</li>
-      <li><strong>Van Westendorp</strong> : bon marché, cher, trop cher, trop bon marché, dans cet ordre.</li>
-      <li><strong>Nettoyage automatique signalé, pas effacé</strong> : le fichier contient une colonne <code>vw_coherent</code> (les quatre prix doivent monter : trop bon marché ≤ bon marché ≤ cher ≤ trop cher) et une colonne <code>gg_coherent</code> (accepter un prix élevé puis refuser un prix plus bas est incohérent). On dira combien de répondants on écarte.</li>
-      <li><strong>Contrôle</strong> : la colonne <code>controle_ok</code> indique si le répondant a bien perçu sa version.</li>
-    </ul>
+    <p class="caption">Changements après les remarques du professeur : suppression du filtre et des deux parcours (une seule série de questions pour tous), récence de fréquentation à la place du filtre, question « prendriez-vous plus souvent du popcorn ? » remplacée par l'échelle d'intention d'achat, échelle de valeur perçue issue de la littérature, freins et canaux mesurés en matrice, notes de 1 à 10 remplacées par une comparaison Pathé / CGR, question streaming rendue mesurable, question sur l'âge retirée (la situation suffit à décrire l'échantillon). Ordre final, par blocs de même type : offre, prix (Van Westendorp puis Gabor-Granger), contrôle, les 8 phrases de Likert ensemble, choix sur le pack, Pathé ou CGR, les deux matrices, les montants, puis les habitudes et le profil à la fin. Tout le monde répond aux mêmes questions.</p>
   </section>
 
   <section>
     <div class="sec-head"><span class="num">04</span><h2>Le modèle à tester : la valeur perçue fait-elle acheter ?</h2></div>
-    <p>Au-delà du prix accepté, nous voulons savoir si le fait de juger le pack avantageux donne envie de l'acheter. Ces deux concepts ne s'observent pas directement : on les mesure chacun par trois affirmations notées de 1 à 5, puis on relie les deux par un modèle d'équations structurelles. <strong>Proposition, en discussion dans le groupe.</strong></p>
+    <p>Les deux concepts ne s'observent pas directement : chacun est mesuré par quatre phrases notées de 1 à 7, adaptées de l'échelle de <strong>Dodds, Monroe et Grewal (1991)</strong>, qui relie justement la valeur perçue d'un produit à la volonté de l'acheter.</p>
     <div class="chart">
-      <svg viewBox="0 0 900 400" role="img" aria-label="Modèle d'équations structurelles : la valeur perçue, mesurée par Q1 à Q3, influence l'intention d'achat, mesurée par Q4 à Q6">
-        <defs>
-          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/></marker>
-        </defs>
-        <!-- modèles de mesure -->
-        <rect x="14" y="24" width="300" height="300" rx="10" fill="none" stroke="var(--c-cgr)" stroke-width="2" stroke-dasharray="7 5"/>
-        <rect x="586" y="24" width="300" height="300" rx="10" fill="none" stroke="var(--c-cgr)" stroke-width="2" stroke-dasharray="7 5"/>
-        <text x="450" y="372" text-anchor="middle" class="lbl" fill="var(--c-cgr)" style="fill:var(--c-cgr)">modèles de mesure (analyse factorielle confirmatoire)</text>
-        <line x1="164" y1="324" x2="400" y2="360" stroke="var(--c-cgr)" stroke-dasharray="3 4"/>
-        <line x1="736" y1="324" x2="500" y2="360" stroke="var(--c-cgr)" stroke-dasharray="3 4"/>
-        <!-- modèle structurel -->
-        <rect x="190" y="104" width="520" height="140" rx="10" fill="none" stroke="var(--c-ugc)" stroke-width="2" stroke-dasharray="7 5"/>
-        <text x="450" y="232" text-anchor="middle" class="lbl" style="fill:var(--c-ugc)">modèle structurel</text>
-        <!-- items gauche -->
-        <g font-family="var(--mono)">
-          <rect x="44" y="54" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="79" y="81" text-anchor="middle" class="lbl">Q1</text>
-          <rect x="44" y="152" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="79" y="179" text-anchor="middle" class="lbl">Q2</text>
-          <rect x="44" y="250" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="79" y="277" text-anchor="middle" class="lbl">Q3</text>
-          <rect x="786" y="54" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="821" y="81" text-anchor="middle" class="lbl">Q4</text>
-          <rect x="786" y="152" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="821" y="179" text-anchor="middle" class="lbl">Q5</text>
-          <rect x="786" y="250" width="70" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="821" y="277" text-anchor="middle" class="lbl">Q6</text>
-          <!-- erreurs -->
-          <text x="22" y="72">ε1</text><text x="22" y="170">ε2</text><text x="22" y="268">ε3</text>
-          <text x="862" y="72">ε4</text><text x="862" y="170">ε5</text><text x="862" y="268">ε6</text>
-          <line x1="36" y1="76" x2="44" y2="76" stroke="var(--ink)" marker-end="url(#ar)"/><line x1="36" y1="174" x2="44" y2="174" stroke="var(--ink)" marker-end="url(#ar)"/><line x1="36" y1="272" x2="44" y2="272" stroke="var(--ink)" marker-end="url(#ar)"/>
-          <line x1="866" y1="76" x2="856" y2="76" stroke="var(--ink)" marker-end="url(#ar)"/><line x1="866" y1="174" x2="856" y2="174" stroke="var(--ink)" marker-end="url(#ar)"/><line x1="866" y1="272" x2="856" y2="272" stroke="var(--ink)" marker-end="url(#ar)"/>
-        </g>
-        <!-- concepts -->
-        <circle cx="260" cy="174" r="58" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.5"/>
-        <text x="260" y="170" text-anchor="middle" class="lbl">Valeur</text><text x="260" y="188" text-anchor="middle" class="lbl">perçue</text>
-        <circle cx="640" cy="174" r="58" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.5"/>
-        <text x="640" y="170" text-anchor="middle" class="lbl">Intention</text><text x="640" y="188" text-anchor="middle" class="lbl">d'achat</text>
-        <!-- flèches de mesure (le concept explique les réponses) -->
-        <line x1="210" y1="146" x2="116" y2="80" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
-        <line x1="202" y1="174" x2="116" y2="174" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
-        <line x1="210" y1="202" x2="116" y2="268" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
-        <line x1="690" y1="146" x2="784" y2="80" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
-        <line x1="698" y1="174" x2="784" y2="174" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
-        <line x1="690" y1="202" x2="784" y2="268" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#ar)"/>
-        <text x="150" y="104">λ1</text><text x="150" y="166">λ2</text><text x="150" y="250">λ3</text>
-        <text x="734" y="104">λ4</text><text x="734" y="166">λ5</text><text x="734" y="250">λ6</text>
-        <!-- lien structurel -->
-        <line x1="318" y1="174" x2="580" y2="174" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#ar)"/>
-        <text x="450" y="164" text-anchor="middle" class="lbl" style="font-size:18px">β</text>
-        <line x1="640" y1="60" x2="640" y2="114" stroke="var(--ink)" marker-end="url(#ar)"/><text x="646" y="56">ζ</text>
+      <svg viewBox="0 0 900 420" role="img" aria-label="Modèle d'équations structurelles : la valeur perçue, mesurée par VP1 à VP4, influence l'intention d'achat, mesurée par IA1 à IA4">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/></marker></defs>
+        <rect x="14" y="20" width="300" height="340" rx="10" fill="none" stroke="var(--c-cgr)" stroke-width="2" stroke-dasharray="7 5"/>
+        <rect x="586" y="20" width="300" height="340" rx="10" fill="none" stroke="var(--c-cgr)" stroke-width="2" stroke-dasharray="7 5"/>
+        <text x="450" y="402" text-anchor="middle" class="lbl" style="fill:var(--c-cgr)">modèles de mesure (analyse factorielle confirmatoire)</text>
+        <rect x="190" y="120" width="520" height="140" rx="10" fill="none" stroke="var(--c-ugc)" stroke-width="2" stroke-dasharray="7 5"/>
+        <text x="450" y="248" text-anchor="middle" class="lbl" style="fill:var(--c-ugc)">modèle structurel</text>
+        <g id="items"></g>
+        <circle cx="260" cy="190" r="58" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.5"/>
+        <text x="260" y="186" text-anchor="middle" class="lbl">Valeur</text><text x="260" y="204" text-anchor="middle" class="lbl">perçue</text>
+        <circle cx="640" cy="190" r="58" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.5"/>
+        <text x="640" y="186" text-anchor="middle" class="lbl">Intention</text><text x="640" y="204" text-anchor="middle" class="lbl">d'achat</text>
+        <line x1="318" y1="190" x2="580" y2="190" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#ar)"/>
+        <text x="450" y="180" text-anchor="middle" class="lbl" style="font-size:18px">β</text>
+        <line x1="640" y1="78" x2="640" y2="130" stroke="var(--ink)" marker-end="url(#ar)"/><text x="646" y="74">ζ</text>
       </svg>
     </div>
-    <p class="caption">En carrés, les affirmations posées ; en cercles, les concepts qu'on cherche à mesurer et qu'on ne voit pas directement. En bleu, les modèles de mesure ; en rouge, le modèle structurel qui relie les concepts. Schéma de notre groupe, construit sur la représentation vue en Analyse de données.</p>
+    <p class="caption">En carrés, les phrases posées ; en cercles, les concepts mesurés. En bleu, les modèles de mesure ; en rouge, le modèle structurel. Schéma de notre groupe, d'après la représentation vue en Analyse de données.</p>
     <div class="scroll">
       <table>
-        <thead><tr><th>Concept</th><th>Affirmation, notée de 1 « pas du tout d'accord » à 5 « tout à fait d'accord »</th></tr></thead>
+        <thead><tr><th>Concept</th><th>Phrase, notée de 1 « pas du tout d'accord » à 7 « tout à fait d'accord »</th></tr></thead>
         <tbody>
-          <tr><td rowspan="3"><strong>Valeur perçue</strong></td><td>Q1 · Ce pack est une bonne affaire.</td></tr>
-          <tr><td>Q2 · Pour ce qu'il contient, le prix de ce pack est raisonnable.</td></tr>
-          <tr><td>Q3 · Ce pack vaut plus que ce qu'il coûte.</td></tr>
-          <tr><td rowspan="3"><strong>Intention d'achat</strong></td><td>Q4 · J'achèterais ce pack lors de ma prochaine séance.</td></tr>
-          <tr><td>Q5 · Ce pack me donnerait envie d'aller plus souvent au cinéma.</td></tr>
-          <tr><td>Q6 · Je recommanderais ce pack à mes proches.</td></tr>
+          <tr><td rowspan="4"><strong>Valeur perçue</strong></td><td>VP1 · Au prix indiqué, ce pack est une bonne affaire.</td></tr>
+          <tr><td>VP2 · Au prix indiqué, ce pack est économique.</td></tr>
+          <tr><td>VP3 · Le prix indiqué pour ce pack est acceptable.</td></tr>
+          <tr><td>VP4 · Ce pack offre un bon rapport qualité-prix.</td></tr>
+          <tr><td rowspan="4"><strong>Intention d'achat</strong></td><td>IA1 · Au prix indiqué, j'envisagerais d'acheter ce pack.</td></tr>
+          <tr><td>IA2 · La probabilité que j'achète ce pack est élevée.</td></tr>
+          <tr><td>IA3 · Je suis prêt(e) à acheter ce pack.</td></tr>
+          <tr><td>IA4 · Lors de ma prochaine séance chez Pathé, j'achèterais ce pack.</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="callout">
-      <span class="label">Hypothèses</span>
-      <p><strong>H1</strong> : plus un répondant juge le pack avantageux, plus il a l'intention de l'acheter (β positif). <strong>H2</strong> : la version B, qui montre le prix des produits achetés séparément, augmente la valeur perçue par rapport à la version A.</p>
-    </div>
+    <div class="todo-box"><strong>À vérifier à la BU</strong><p>Les phrases sont notre traduction adaptée au pack. Comparez-les avec les items originaux de l'article (Dodds W. B., Monroe K. B. et Grewal D., 1991, « Effects of Price, Brand, and Store Information on Buyers' Product Evaluations », <em>Journal of Marketing Research</em>, 28(3), p. 307-319), accessible avec vos identifiants UCA, et citez-le ainsi dans le dossier.</p></div>
   </section>
 
   <section>
-    <div class="sec-head"><span class="num">05</span><h2>Mise en ligne et enregistrement</h2></div>
-    <p>Comme le recommande le cours, le questionnaire est une page de notre site, publiée sur GitHub Pages. Une page publiée ne garde rien seule : elle envoie chaque réponse à une feuille Google Sheets.</p>
+    <div class="sec-head"><span class="num">05</span><h2>Gabor-Granger : le prix qui fait acheter le plus, ou celui qui rapporte le plus ?</h2></div>
+    <p>Pour chaque prix, on calcule la part de répondants qui répondent « oui ». Trois lectures en découlent :</p>
+    <ul class="check">
+      <li><strong>Le volume</strong> : le prix le plus bas fait acheter le plus de monde, mais c'est rarement le meilleur pour Pathé.</li>
+      <li><strong>Le chiffre d'affaires attendu</strong> : part d'acheteurs × prix. Il passe par un maximum.</li>
+      <li><strong>La marge attendue</strong> : part d'acheteurs × (prix − coût du pack). C'est le critère que nous retiendrons, avec le coût calculé au TD 2.</li>
+    </ul>
+    <p>Les prix testés vont de 15,90 € (proche de notre plancher : place 13,50 € + coût des produits) à 19,90 € (au-dessus de notre plafond de 19,50 €), toujours présentés du plus cher au moins cher.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">06</span><h2>Mise en ligne et enregistrement</h2></div>
     <ol class="steps">
       <li>Créer une feuille Google Sheets vide, puis <em>Extensions › Apps Script</em> et coller le fichier <code>outils/google-apps-script.gs</code>.</li>
       <li><em>Déployer › Nouveau déploiement › Application Web</em>, exécuter en tant que « Moi », accès « Tout le monde ». Copier l'adresse qui finit par <code>/exec</code>.</li>
       <li>Coller cette adresse dans <code>CONFIG.ENDPOINT</code> en haut de <code>questionnaire.html</code>. Tant qu'elle est vide, le questionnaire affiche « Mode test » et n'envoie rien.</li>
-      <li>Publier le site sur GitHub Pages, puis répondre une fois pour vérifier qu'une ligne apparaît dans la feuille.</li>
-      <li>Faire tester par 3 ou 4 personnes extérieures au groupe, corriger ce qui est mal compris, puis vider la feuille avant le lancement.</li>
+      <li>Répondre une fois pour vérifier qu'une ligne apparaît dans la feuille, puis faire tester par 3 ou 4 personnes extérieures au groupe, et vider la feuille avant le lancement.</li>
     </ol>
   </section>
 
   <section>
-    <div class="sec-head"><span class="num">06</span><h2>Collecte</h2></div>
+    <div class="sec-head"><span class="num">07</span><h2>Collecte</h2></div>
     <ul class="check">
       <li>Du 12 au 21 octobre ; analyse en Analyse de données le 21 octobre</li>
-      <li>Viser des personnes qui vont vraiment au cinéma : groupes locaux en ligne, entourage élargi, et si possible à la sortie des cinémas de Clermont</li>
+      <li>Viser des personnes qui vont au cinéma : groupes locaux en ligne, entourage élargi, sortie des cinémas de Clermont</li>
       <li>Noter comment les répondants ont été trouvés, pour pouvoir décrire l'échantillon</li>
       <li>Suivre l'équilibre entre A et B, sans jamais choisir qui reçoit quelle version</li>
     </ul>
@@ -174,7 +165,24 @@ code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-r
 </main>
 <footer>
   <span>Dossier « Prix et budgets marketing », M1 Marketing, IAE Clermont Auvergne, 2026-2027</span>
-  <span>Page mise à jour le 8 octobre 2026</span>
+  <span>Page mise à jour le 12 octobre 2026</span>
 </footer>
+<script>
+(function(){
+  const NS = "http://www.w3.org/2000/svg", g = document.getElementById("items");
+  const el = (t, a, x) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (x != null) e.textContent = x; g.appendChild(e); return e; };
+  const ys = [40, 120, 200, 280];
+  [["VP", 44, 116, 260, 36, "ε", 1], ["IA", 786, 784, 640, 862, "ε", 5]].forEach(([p, bx, tx, cx, ex, e, start], side) => {
+    ys.forEach((y, i) => {
+      el("rect", { x: bx, y, width: 70, height: 40, fill: "var(--surface)", stroke: "var(--ink)", "stroke-width": 1.5 });
+      el("text", { x: bx + 35, y: y + 25, "text-anchor": "middle", class: "lbl" }, p + (i + 1));
+      const yy = y + 20, left = side === 0;
+      el("line", { x1: left ? cx - 50 : cx + 50, y1: 190 + (yy - 190) * 0.35, x2: left ? bx + 72 : bx - 2, y2: yy, stroke: "var(--ink)", "stroke-width": 1.5, "marker-end": "url(#ar)" });
+      el("text", { x: left ? 18 : 866, y: yy + 4 }, e + (start + i));
+      el("line", { x1: left ? 34 : 866, y1: yy, x2: left ? 44 : 856, y2: yy, stroke: "var(--ink)", "marker-end": "url(#ar)" });
+    });
+  });
+})();
+</script>
 </body>
 </html>
