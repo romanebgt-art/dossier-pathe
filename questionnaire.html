@@ -199,6 +199,16 @@ const STEPS = [
     check: f => f.consentement ? "" : "Indiquez si vous acceptez de participer.",
     stop: f => f.consentement === "non" },
 
+  /* Questions 1 à 5 · Vous et le cinéma (choix unique) */
+  { id: "vous", html: () => `<div class="step">
+      <h2>Vous et le cinéma</h2>
+      ${question("derniere_seance", "1. Quand êtes-vous allé au cinéma pour la dernière fois ?", [["1s", "Il y a moins d'une semaine"], ["1m", "Il y a entre 1 semaine et 1 mois"], ["6m", "Il y a entre 1 et 6 mois"], ["12m", "Il y a entre 6 mois et 1 an"], ["plus", "Il y a plus d'un an"], ["jamais", "Je n'y suis jamais allé, ou je ne m'en souviens plus"]])}
+      ${question("dernier_achat", "2. Lors de cette dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_popcorn_boisson", "La place + popcorn + boisson"], ["nsp", "Je ne m'en souviens pas, ou je n'y suis jamais allé"]])}
+      ${question("avec_qui", "3. Le plus souvent, vous allez au cinéma…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"], ["jamais", "Je n'y vais pas"]])}
+      ${question("cinema", "4. Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"], ["aucun", "Aucun"]])}
+      ${question("situation", "5. Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
+    </div>`,
+    check: f => ["derniere_seance", "dernier_achat", "avec_qui", "cinema", "situation"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." },
   /* L'offre, version A ou B tirée au sort */
   { id: "offre", button: "J'ai regardé l'offre", html: () => `<div class="step">
       <h2>Voici l'offre</h2>
@@ -208,7 +218,7 @@ const STEPS = [
 
   /* Question 1 · Van Westendorp (montants libres, méthode à part) */
   { id: "vw", html: () => `<div class="step">
-      <h2>1. Pour ce pack, à partir de quel prix…</h2>
+      <h2>6. Pour ce pack, à partir de quel prix…</h2>
       ${offerHTML(false)}
       ${euro("vw_bon_marche", "…le trouveriez-vous <strong>bon marché</strong>, une bonne affaire ?")}
       ${euro("vw_cher", "…le trouveriez-vous <strong>cher</strong>, mais vous pourriez quand même l'acheter ?")}
@@ -224,26 +234,20 @@ const STEPS = [
 
   /* Question 2 · Gabor-Granger (oui / non, méthode à part) */
   { id: "gg", html: () => `<div class="step">
-      <h2>2. Achèteriez-vous ce pack à ces prix ?</h2>
+      <h2>7. Achèteriez-vous ce pack à ces prix ?</h2>
       ${offerHTML(false)}
       ${CONFIG.GG_PRIX.map((p, i) => `<div class="gg-row"><span class="p">${fmt(p)}</span><span class="yn"><label><input type="radio" name="gg_${i}" value="oui"> Oui</label><label><input type="radio" name="gg_${i}" value="non"> Non</label></span></div>`).join("")}
     </div>`,
     check: f => CONFIG.GG_PRIX.every((_, i) => f["gg_" + i]) ? "" : "Répondez oui ou non pour chaque prix." },
 
-  /* Questions 3 à 10 · Toutes les questions à choix unique (contrôle en premier, sans l'offre affichée) */
-  { id: "choix", html: () => `<div class="step">
-      <h2>Quelques questions à choix unique</h2>
-      ${question("controle", "3. Dans la description du pack, était-il indiqué combien coûtent la place, le popcorn et la boisson si on les achète séparément ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
-      ${question("derniere_seance", "4. Quand êtes-vous allé au cinéma pour la dernière fois ?", [["1s", "Il y a moins d'une semaine"], ["1m", "Il y a entre 1 semaine et 1 mois"], ["6m", "Il y a entre 1 et 6 mois"], ["12m", "Il y a entre 6 mois et 1 an"], ["plus", "Il y a plus d'un an"], ["jamais", "Je n'y suis jamais allé, ou je ne m'en souviens plus"]])}
-      ${question("dernier_achat", "5. Lors de cette dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_popcorn_boisson", "La place + popcorn + boisson"], ["nsp", "Je ne m'en souviens pas, ou je n'y suis jamais allé"]])}
-      ${question("pourquoi_pack", "6. Qu'est-ce qui vous donnerait le plus envie de prendre ce pack plutôt que la place seule ?", [["economie", "L'économie par rapport aux produits achetés séparément"], ["pratique", "Tout acheter en une fois, en ligne avec ma place"], ["queue", "Ne pas faire la queue au comptoir"], ["rien", "Rien : je préfère la place seule"]])}
-      ${question("format", "7. Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
-      ${question("situation", "8. Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
-      ${question("avec_qui", "9. Le plus souvent, vous allez au cinéma…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"], ["jamais", "Je n'y vais pas"]])}
-      ${question("cinema", "10. Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["autre", "Un autre cinéma"], ["aucun", "Aucun"]])}
+  /* Questions 8 à 10 · Le pack (choix unique), contrôle en premier, sans l'offre affichée */
+  { id: "choix_pack", html: () => `<div class="step">
+      <h2>Le pack et vous</h2>
+      ${question("controle", "8. Dans la description du pack, était-il indiqué combien coûtent la place, le popcorn et la boisson si on les achète séparément ?", [["oui", "Oui"], ["non", "Non"], ["nsp", "Je ne sais pas"]])}
+      ${question("pourquoi_pack", "9. Qu'est-ce qui vous donnerait le plus envie de prendre ce pack plutôt que la place seule ?", [["economie", "L'économie par rapport aux produits achetés séparément"], ["pratique", "Tout acheter en une fois, en ligne avec ma place"], ["queue", "Ne pas faire la queue au comptoir"], ["rien", "Rien : je préfère la place seule"]])}
+      ${question("format", "10. Quel format de pack vous intéresserait le plus ?", [["solo", "Solo"], ["duo", "Duo"], ["famille", "Famille"]])}
     </div>`,
-    check: f => ["controle", "derniere_seance", "dernier_achat", "pourquoi_pack", "format", "situation", "avec_qui", "cinema"].every(k => f[k]) ? "" : "Répondez à toutes les questions de cette page." },
-
+    check: f => ["controle", "pourquoi_pack", "format"].every(k => f[k]) ? "" : "Répondez aux trois questions." },
   /* Questions 11 à 13 · Toutes les échelles de Likert (1 à 7) */
   { id: "likert", html: () => `<div class="step">
       <h2>Êtes-vous d'accord avec ces phrases ?</h2>
