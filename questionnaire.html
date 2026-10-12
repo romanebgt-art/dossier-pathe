@@ -48,7 +48,7 @@ fieldset.qcard{min-width:0}
 .lk-group h3{font:700 .8rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 0 0}
 .lk-item{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:10px}
 .lk-item .txt{font:600 .98rem/1.35 var(--display)}
-.s7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.s7{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 .s7 label{display:grid;place-items:center;height:40px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font:700 .95rem var(--mono);background:var(--surface);transition:border-color .15s,background .15s}
 .s7 label:hover{border-color:var(--muted)}
 .s7 label:has(input:checked){border-color:var(--accent);background:var(--accent);color:#fff}
@@ -163,7 +163,7 @@ const question = (num, name, label, opts, sub) => `<fieldset class="qcard">${tit
 const checks = (num, name, label, opts, sub) => `<fieldset class="qcard">${title(num, label, sub)}${choices(name, opts, "checkbox")}</fieldset>`;
 const euro = (num, name, label, sub) => `<fieldset class="qcard">${title(num, label, sub)}<div class="euro"><input type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" id="${name}" name="${name}" data-money="1" aria-label="Montant en euros"><span>€</span></div></fieldset>`;
 const scale7 = (name, label) => `<div class="lk-item" role="radiogroup" aria-label="${label}"><span class="txt">${label}</span>
-  <div class="s7">${[1, 2, 3, 4, 5, 6, 7].map(v => `<label><input type="radio" name="${name}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`;
+  <div class="s7">${[1, 2, 3, 4, 5].map(v => `<label><input type="radio" name="${name}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`;
 const matrix = (num, label, rows, cols, sub) => `<fieldset class="qcard">${title(num, label, sub)}
   <div class="mx" style="--cols:${cols.length}">
     <div class="mx-row mx-head"><span></span>${cols.map(c => `<span>${c[1]}</span>`).join("")}</div>
@@ -235,14 +235,14 @@ const STEPS = [
     } },
 
   { id: "avis", html: () => `<div class="step">
-      ${head("Partie 3 sur 5", `Imaginons ce pack à ${fmt(CONFIG.PRIX_PACK)}`, "Pour chaque phrase, choisissez de 1 (pas du tout d'accord) à 7 (tout à fait d'accord).")}
+      ${head("Partie 3 sur 5", `Imaginons ce pack à ${fmt(CONFIG.PRIX_PACK)}`, "Pour chaque phrase, choisissez de 1 (pas du tout d'accord) à 5 (tout à fait d'accord).")}
       ${offerHTML(true)}
-      <div class="legend7"><span>1 · Pas du tout d'accord</span><span>7 · Tout à fait d'accord</span></div>
+      <div class="legend7"><span>1 · Pas du tout d'accord</span><span>5 · Tout à fait d'accord</span></div>
       <fieldset class="qcard">${title(8, "Ce que vous pensez du pack")}<div class="lk-group">${VALEUR.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
       <fieldset class="qcard">${title(9, "Votre envie de l'acheter")}<div class="lk-group">${INTENTION.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
       <fieldset class="qcard">${title(10, "Vous et la confiserie au cinéma")}<div class="lk-group">${FREINS.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
     </div>`,
-    check: f => PHRASES.every(([n]) => f[n]) ? "" : "Notez chaque phrase de 1 à 7." },
+    check: f => PHRASES.every(([n]) => f[n]) ? "" : "Notez chaque phrase de 1 à 5." },
 
   { id: "tableaux", html: () => `<div class="step">
       ${head("Partie 4 sur 5", "Vos habitudes d'achat")}
