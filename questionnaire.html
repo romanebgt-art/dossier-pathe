@@ -407,6 +407,8 @@ function buildRow() {
     depense: n("depense"), plateformes: s("plateformes"),
     plateformes_autre: has(answers.plateformes, "autre") ? s("plateformes_autre") : "",
     depense_streaming: n("depense_streaming"),
+    // Test A/B : 1 = la personne a vu « Achetés séparément : 22,00 € » (version B), 0 = non (version A)
+    vu_prix_22: VERSION === "B" ? 1 : 0,
     prix_separes_affiche: VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
     prix_pack_affiche: CONFIG.PRIX_PACK,
     duree_sec: Math.round((Date.now() - START) / 1000)
