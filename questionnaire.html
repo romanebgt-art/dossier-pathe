@@ -87,7 +87,28 @@ fieldset.qcard{min-width:0}
 .offer .ref{justify-self:center;text-align:center;font:700 1rem var(--display);color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:7px 16px}
 @media (max-width:420px){.o-ic svg{width:46px;height:46px}.o-plus{font-size:1.3rem;padding-top:10px}}
 
-.err{color:var(--bad);font:600 .95rem var(--display);min-height:1.2em;margin:0}
+.choices.col{grid-template-columns:1fr}
+.lk-group{display:grid;gap:18px}
+.lk-item .txt{display:block;font-weight:600;margin-bottom:8px}
+.lk7{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.lk7 label{display:grid;place-items:center;text-align:center;min-height:52px;padding:6px 4px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font:600 .78rem/1.2 var(--display);background:var(--surface);transition:border-color .15s,background .15s}
+.lk7 label:hover{border-color:var(--muted)}
+.lk7 label:has(input:checked){border-color:var(--accent);background:var(--accent);color:#fff}
+.lk7 input{position:absolute;opacity:0;pointer-events:none}
+.lk7 label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:700px){.lk7{grid-template-columns:1fr}.lk7 label{min-height:0;padding:10px 12px;place-items:start;text-align:left;font-size:.92rem}}.sd-group{display:grid;gap:18px}
+.sd-item .txt{display:block;font-weight:600;margin-bottom:8px}
+.sd{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+.sd-end{font-size:.86rem;color:var(--muted);line-height:1.25}
+.sd-end.neg{text-align:right}
+.sd-dots{display:flex;gap:6px}
+.sd-dots label{cursor:pointer;display:grid;place-items:center;width:34px;height:34px}
+.sd-dots input{position:absolute;opacity:0;pointer-events:none}
+.sd-dots span{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:var(--surface);transition:border-color .15s,background .15s,transform .15s}
+.sd-dots label:hover span{border-color:var(--muted)}
+.sd-dots input:checked+span{background:var(--accent);border-color:var(--accent);transform:scale(1.12)}
+.sd-dots input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:620px){.sd{grid-template-columns:1fr 1fr;gap:6px 10px}.sd-dots{grid-column:1/-1;grid-row:2;justify-content:space-between}.sd-end.neg{text-align:left}.sd-end.pos{text-align:right}.sd-dots label{width:auto;flex:1}}.gg-row[hidden]{display:none}.err{color:var(--bad);font:600 .95rem var(--display);min-height:1.2em;margin:0}
 .nav-q{display:flex;justify-content:space-between;gap:10px}
 .btn{font:700 1rem var(--display);border-radius:999px;padding:13px 26px;cursor:pointer;border:1.5px solid var(--ink);background:var(--ink);color:var(--bg)}
 .btn.ghost{background:none;color:var(--ink);border-color:var(--line)}
@@ -114,11 +135,11 @@ fieldset.qcard{min-width:0}
 /* ================== RÉGLAGES DU GROUPE ================== */
 const CONFIG = {
   // Adresse de l'application Google Apps Script qui enregistre dans Google Sheets (voir prix-psychologique.html).
-  ENDPOINT: "",
+  ENDPOINT: "https://script.google.com/macros/s/AKfycbyvD-00uuhXcXurZtePV09qsy3-6L_hXOkmc0BoLtAec18zW_ufGWmQSkpBK8UQIQGH/exec",
   // Prix de référence montré dans la version B : place plein tarif + menu, achetés séparément.
   // À METTRE À JOUR après le relevé en caisse (13,50 € + prix réel du menu).
   PRIX_SEPARES: 22.00,
-  // Prix testés en Gabor-Granger, du plus cher au moins cher (ordre fixe pour tous).
+  // Prix testés en Gabor-Granger. Affichés du plus petit au plus grand, un par un : on passe au suivant seulement après un « oui ».
   GG_PRIX: [18.90, 17.90, 16.90],
   // Prix du pack montré au moment des phrases à noter (identique en version A et B).
   PRIX_PACK: 18.90
@@ -172,26 +193,29 @@ const matrix = (num, label, rows, cols, sub) => `<fieldset class="qcard">${title
   </div></fieldset>`;
 const head = (kicker, h, p) => `<div class="step-head"><span class="kicker">${kicker}</span><h2>${h}</h2>${p ? `<p class="hint">${p}</p>` : ""}</div>`;
 
-/* ---------- les phrases à noter (les plus utiles seulement) ---------- */
-// Valeur perçue et intention d'achat : adaptées de Dodds, Monroe et Grewal (1991), 3 phrases par concept.
+/* ---------- briques supplémentaires ---------- */
+// Échelle de Likert en 5 points, chaque point nommé
+const AGREE5 = [["1", "Pas du tout d'accord"], ["2", "Plutôt pas d'accord"], ["3", "Neutre"], ["4", "Plutôt d'accord"], ["5", "Tout à fait d'accord"]];
+const likert5 = (name, label) => `<div class="lk-item" role="radiogroup" aria-label="${label}"><span class="txt">${label}</span>
+  <div class="lk7">${AGREE5.map(([v, t]) => `<label><input type="radio" name="${name}" value="${v}"><span>${t}</span></label>`).join("")}</div></div>`;
+// Valeur perçue : 3 items de Dodds, Monroe et Grewal (1991, annexe p. 318), traduits et adaptés au pack
 const VALEUR = [
   ["vp_bonne_affaire", "Ce pack est une bonne affaire."],
   ["vp_prix_acceptable", "Le prix de ce pack est acceptable."],
   ["vp_qualite_prix", "Ce pack offre un bon rapport qualité-prix."]
 ];
-const INTENTION = [
-  ["ia_envisager", "J'envisagerais d'acheter ce pack."],
-  ["ia_pret", "Je suis prêt(e) à acheter ce pack."],
-  ["ia_prochaine", "Lors de ma prochaine séance chez Pathé, j'achèterais ce pack."]
-];
-const FREINS = [
-  ["fr_cher", "Le popcorn et les boissons au cinéma sont trop chers."],
-  ["fr_queue", "Faire la queue au comptoir me décourage."]
-];
-const PHRASES = VALEUR.concat(INTENTION, FREINS);
-const ENSEIGNES = [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["kinepolis", "Kinepolis"], ["megarama", "Mégarama"], ["independant", "Un cinéma indépendant"], ["nsp", "Je ne sais pas"]];
+const column = (name, opts, type = "radio") => `<div class="choices col">${opts.map((o, i) => `<label class="choice"><input type="${type}" name="${name}" value="${o[0]}" id="${name}-${i}"> ${o[1]}</label>`).join("")}</div>`;
+const otherField = (name, ph) => `<input class="other" type="text" name="${name}" id="${name}" placeholder="${ph}" maxlength="150" aria-label="Précisez votre réponse">`;
+const has = (v, x) => String(v || "").split(";").includes(x);
+
+/* ---------- listes ---------- */
+const ENSEIGNES = [["pathe", "Pathé"], ["cgr", "CGR"], ["ugc", "UGC"], ["kinepolis", "Kinepolis"], ["megarama", "Mégarama"], ["independant", "Un cinéma indépendant"]];
+
+const RAISONS = [["rx_economie", "L'économie réalisée"], ["rx_pratique", "Tout acheter en une fois, en ligne"], ["rx_queue", "Ne pas faire la queue au comptoir"]];
+const IMPORTANCE = [["pas", "Pas du tout"], ["peu", "Un peu"], ["beaucoup", "Beaucoup"]];
 const CANAUX = [["cn_appli", "Application ou site"], ["cn_caisse", "En caisse"], ["cn_carte", "Carte ou comité d'entreprise"]];
-const FREQ3 = [["jamais", "Jamais"], ["parfois", "Parfois"], ["souvent", "Souvent"]];
+const FREQ4 = [["jamais", "Jamais"], ["parfois", "Parfois"], ["souvent", "Souvent"], ["toujours", "Toujours"]];
+const GG_ASC = CONFIG.GG_PRIX.slice().sort((a, b) => a - b);   // du plus petit au plus grand
 
 const STEPS = [
   { id: "accueil", button: "Commencer", html: () => `<div class="step">
@@ -205,13 +229,32 @@ const STEPS = [
 
   { id: "vous", html: () => `<div class="step">
       ${head("Partie 1 sur 5", "Vous et le cinéma")}
-      ${question(1, "derniere_seance", "Quand êtes-vous allé au cinéma pour la dernière fois ?", [["1s", "Il y a moins d'une semaine"], ["1m", "Entre 1 semaine et 1 mois"], ["6m", "Entre 1 et 6 mois"], ["12m", "Entre 6 mois et 1 an"], ["plus", "Il y a plus d'un an"], ["jamais", "Jamais, ou je ne m'en souviens plus"]])}
-      ${question(2, "dernier_achat", "Lors de cette dernière séance, qu'avez-vous acheté ?", [["place", "La place seulement"], ["place_plus", "La place + popcorn ou boisson"], ["place_popcorn_boisson", "La place + popcorn + boisson"], ["nsp", "Je ne sais plus"]])}
-      ${question(3, "avec_qui", "Le plus souvent, vous y allez…", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"], ["jamais", "Je n'y vais pas"]])}
-      ${question(4, "cinema", "Dans quel cinéma allez-vous le plus souvent ?", [["pathe", "Pathé"], ["cgr", "CGR"], ["autre", "Un autre cinéma"], ["aucun", "Aucun"]])}
-      ${question(5, "situation", "Quelle est votre situation ?", [["etudiant", "Étudiant"], ["actif", "Actif"], ["retraite", "Retraité"], ["autre", "Autre"]])}
+      <fieldset class="qcard">${title(1, "Quand êtes-vous allé au cinéma pour la dernière fois ?")}
+        ${column("derniere_seance", [["1s", "Il y a moins d'une semaine"], ["1m", "Entre 1 semaine et 1 mois"], ["6m", "Entre 1 et 6 mois"], ["12m", "Entre 6 mois et 1 an"], ["plus", "Il y a plus d'un an"], ["jamais", "Jamais, ou je ne m'en souviens plus"]])}
+      </fieldset>
+      <fieldset class="qcard">${title(2, "Lors de cette dernière séance, qu'avez-vous acheté ?", "Plusieurs réponses possibles.")}
+        ${choices("achats", [["place", "Une place"], ["popcorn", "Du pop-corn"], ["snacks", "D'autres snacks (bonbons, chocolat, nachos…)"], ["boissons", "Des boissons"], ["derives", "Des produits dérivés (affiches, goodies…)"], ["nsp", "Je ne sais plus"]], "checkbox")}
+      </fieldset>
+      <fieldset class="qcard">${title(3, "Avec qui allez-vous au cinéma ?", "Plusieurs réponses possibles.")}
+        ${choices("avec_qui", [["seul", "Seul"], ["couple", "En couple"], ["famille", "En famille"], ["amis", "Entre amis"], ["jamais", "Je n'y vais pas"]], "checkbox")}
+      </fieldset>
+      ${question(4, "cinema", "Dans quel cinéma allez-vous le plus souvent ?", ENSEIGNES.concat([["autre", "Un autre cinéma"], ["aucun", "Aucun"]]))}
+      <fieldset class="qcard">${title(5, "Quelle est votre situation ?")}
+        ${choices("situation", [["etudiant", "Étudiant"], ["actif", "Actif"], ["sans_emploi", "Sans emploi"], ["retraite", "Retraité"], ["autre", "Autre"]])}
+        ${otherField("situation_autre", "Si « Autre », précisez")}
+      </fieldset>
     </div>`,
-    check: f => ["derniere_seance", "dernier_achat", "avec_qui", "cinema", "situation"].every(k => f[k]) ? "" : "Répondez aux cinq questions de cette page." },
+    check: f => {
+      if (!f.derniere_seance) return "Question 1 : choisissez une réponse.";
+      if (!f.achats) return "Question 2 : cochez au moins une réponse.";
+      if (has(f.achats, "nsp") && f.achats.includes(";")) return "Question 2 : vous avez coché « Je ne sais plus » et un achat, corrigez votre réponse.";
+      if (!f.avec_qui) return "Question 3 : cochez au moins une réponse.";
+      if (has(f.avec_qui, "jamais") && f.avec_qui.includes(";")) return "Question 3 : vous avez coché « Je n'y vais pas » et une autre réponse, corrigez votre réponse.";
+      if (!f.cinema) return "Question 4 : choisissez une réponse.";
+      if (!f.situation) return "Question 5 : choisissez une réponse.";
+      if (f.situation === "autre" && !f.situation_autre) return "Question 5 : précisez votre situation.";
+      return "";
+    } },
 
   { id: "offre", button: "J'ai regardé l'offre", html: () => `<div class="step">
       ${head("Partie 2 sur 5", "Voici l'offre", "Regardez-la bien : les questions suivantes portent sur elle.")}
@@ -221,59 +264,72 @@ const STEPS = [
   { id: "prix", html: () => `<div class="step">
       ${head("Partie 2 sur 5", "Le prix du pack")}
       ${offerHTML(false)}
-      <fieldset class="qcard">${title(6, "Achèteriez-vous ce pack à ces prix ?", "Répondez pour chacun des trois prix.")}
-        ${CONFIG.GG_PRIX.map((p, i) => `<div class="gg-row"><span class="p">${fmt(p)}</span><span class="yn"><label><input type="radio" name="gg_${i}" value="oui"> Oui</label><label><input type="radio" name="gg_${i}" value="non"> Non</label></span></div>`).join("")}
+      <fieldset class="qcard">${title(6, "Achèteriez-vous ce pack à ce prix ?", "Les prix s'affichent l'un après l'autre.")}
+        ${GG_ASC.map((p, i) => `<div class="gg-row" data-i="${i}"${i ? " hidden" : ""}><span class="p">${fmt(p)}</span><span class="yn"><label><input type="radio" name="gga_${i}" value="oui"> Oui</label><label><input type="radio" name="gga_${i}" value="non"> Non</label></span></div>`).join("")}
       </fieldset>
-      <fieldset class="qcard">${title(7, "Qu'est-ce qui vous donnerait le plus envie de prendre ce pack plutôt que la place seule ?")}
-        ${choices("pourquoi_pack", [["economie", "L'économie réalisée"], ["pratique", "Tout acheter en une fois, en ligne"], ["queue", "Ne pas faire la queue au comptoir"], ["rien", "Rien : je préfère la place seule"], ["autre", "Autre"]])}
-        <input class="other" type="text" name="pourquoi_autre" id="pourquoi_autre" placeholder="Si « Autre », précisez ici" maxlength="200" aria-label="Précisez votre réponse">
-      </fieldset>
+      ${matrix(7, "Ces raisons vous donneraient-elles envie de prendre ce pack plutôt que la place seule ?", RAISONS, IMPORTANCE)}
     </div>`,
+    after: () => {
+      // Gabor-Granger progressif : on affiche le prix suivant seulement après un « oui »
+      const rows = [...stepsEl.querySelectorAll(".gg-row")];
+      const update = () => {
+        let stop = false;
+        rows.forEach((r, i) => {
+          const val = (r.querySelector("input:checked") || {}).value;
+          if (stop) { r.hidden = true; r.querySelectorAll("input").forEach(x => x.checked = false); return; }
+          r.hidden = false;
+          if (val !== "oui") stop = true;
+        });
+      };
+      rows.forEach(r => r.addEventListener("change", update));
+      update();
+    },
     check: f => {
-      if (!CONFIG.GG_PRIX.every((_, i) => f["gg_" + i])) return "Question 6 : répondez oui ou non pour chaque prix.";
-      if (!f.pourquoi_pack) return "Question 7 : choisissez une réponse.";
-      if (f.pourquoi_pack === "autre" && !f.pourquoi_autre) return "Question 7 : précisez votre réponse « Autre ».";
-      return "";
+      for (let i = 0; i < GG_ASC.length; i++) {
+        const v = f["gga_" + i];
+        if (!v) return "Question 6 : répondez oui ou non au prix affiché.";
+        if (v === "non") break;
+      }
+      return RAISONS.every(([n]) => f[n]) ? "" : "Question 7 : répondez à chaque ligne du tableau.";
     } },
 
   { id: "avis", html: () => `<div class="step">
-      ${head("Partie 3 sur 5", `Imaginons ce pack à ${fmt(CONFIG.PRIX_PACK)}`, "Pour chaque phrase, choisissez de 1 (pas du tout d'accord) à 5 (tout à fait d'accord).")}
+      ${head("Partie 3 sur 5", `Imaginons ce pack à ${fmt(CONFIG.PRIX_PACK)}`)}
       ${offerHTML(true)}
-      <div class="legend7"><span>1 · Pas du tout d'accord</span><span>5 · Tout à fait d'accord</span></div>
-      <fieldset class="qcard">${title(8, "Ce que vous pensez du pack")}<div class="lk-group">${VALEUR.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
-      <fieldset class="qcard">${title(9, "Votre envie de l'acheter")}<div class="lk-group">${INTENTION.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
-      <fieldset class="qcard">${title(10, "Vous et la confiserie au cinéma")}<div class="lk-group">${FREINS.map(([n, l]) => scale7(n, l)).join("")}</div></fieldset>
+      <fieldset class="qcard">${title(8, "Êtes-vous d'accord avec ces phrases ?")}<div class="lk-group">${VALEUR.map(([n, l]) => likert5(n, l)).join("")}</div></fieldset>
     </div>`,
-    check: f => PHRASES.every(([n]) => f[n]) ? "" : "Notez chaque phrase de 1 à 5." },
-
-  { id: "tableaux", html: () => `<div class="step">
+    check: f => VALEUR.every(([n]) => f[n]) ? "" : "Question 8 : répondez aux trois phrases." },
+  { id: "habitudes", html: () => `<div class="step">
       ${head("Partie 4 sur 5", "Vos habitudes et les cinémas")}
-      ${matrix(11, "Comment achetez-vous votre place ?", CANAUX, FREQ3)}
-      <fieldset class="qcard">${title(12, "Selon vous, parmi ces enseignes de cinéma, laquelle est…")}
+      ${matrix(9, "Comment achetez-vous votre place ?", CANAUX, FREQ4)}
+      <fieldset class="qcard">${title(10, "Selon vous, parmi ces enseignes de cinéma, laquelle est…")}
         <span class="sub">a. la moins chère ?</span>
-        ${choices("cmp_prix", ENSEIGNES)}
+        ${choices("cmp_prix", ENSEIGNES.concat([["nsp", "Je ne sais pas"]]))}
         <span class="sub">b. la plus agréable (confort, image, son) ?</span>
-        ${choices("cmp_qualite", ENSEIGNES)}
+        ${choices("cmp_qualite", ENSEIGNES.concat([["nsp", "Je ne sais pas"]]))}
       </fieldset>
     </div>`,
     check: f => {
-      if (!CANAUX.every(([n]) => f[n])) return "Question 11 : répondez à chaque ligne du tableau.";
-      if (!f.cmp_prix || !f.cmp_qualite) return "Question 12 : répondez aux parties a et b.";
+      if (!CANAUX.every(([n]) => f[n])) return "Question 9 : répondez à chaque ligne du tableau.";
+      if (!f.cmp_prix || !f.cmp_qualite) return "Question 10 : répondez aux parties a et b.";
       return "";
     } },
 
   { id: "depenses", button: "Envoyer mes réponses", html: () => `<div class="step">
       ${head("Partie 5 sur 5", "Vos dépenses")}
-      ${euro(13, "depense", "Combien dépensez-vous en popcorn, boissons et confiseries par séance de cinéma ?", "En moyenne. Écrivez 0 si vous n'en achetez jamais.")}
-      ${checks(14, "plateformes", "À quelles plateformes de vidéo êtes-vous abonné ?", [["netflix", "Netflix"], ["disney", "Disney+"], ["prime", "Prime Video"], ["canal", "Canal+"], ["autre", "Une autre"], ["aucune", "Aucune"]], "Vous ou votre foyer. Plusieurs réponses possibles.").replace("</fieldset>", `<input class="other" type="text" name="plateformes_autre" id="plateformes_autre" placeholder="Si « Une autre », précisez laquelle" maxlength="120" aria-label="Précisez la plateforme"></fieldset>`)}
-      ${euro(15, "depense_streaming", "Combien payez-vous au total par mois pour ces abonnements ?", "Écrivez 0 si vous n'en avez aucun.")}
+      ${euro(11, "depense", "Combien dépensez-vous en pop-corn, snacks et boissons par séance de cinéma ?", "En moyenne. Écrivez 0 si vous n'en achetez jamais.")}
+      <fieldset class="qcard">${title(12, "À quelles plateformes de vidéo êtes-vous abonné ?", "Vous ou votre foyer. Plusieurs réponses possibles.")}
+        ${choices("plateformes", [["netflix", "Netflix"], ["disney", "Disney+"], ["prime", "Prime Video"], ["canal", "Canal+"], ["autre", "Une autre"], ["aucune", "Aucune"]], "checkbox")}
+        ${otherField("plateformes_autre", "Si « Une autre », précisez laquelle")}
+      </fieldset>
+      ${euro(13, "depense_streaming", "Combien payez-vous au total par mois pour ces abonnements ?", "Écrivez 0 si vous n'en avez aucun.")}
     </div>`,
     check: f => {
-      if (!f.depense || !isAmount(f.depense)) return "Question 13 : indiquez un montant en euros, par exemple 0, 6 ou 8,50.";
-      if (!f.plateformes) return "Question 14 : cochez au moins une réponse (ou « Aucune »).";
-      if (f.plateformes.split(";").includes("aucune") && f.plateformes.includes(";")) return "Question 14 : vous avez coché « Aucune » et une plateforme, corrigez votre réponse.";
-      if (f.plateformes.split(";").includes("autre") && !f.plateformes_autre) return "Question 14 : précisez quelle autre plateforme.";
-      if (!f.depense_streaming || !isAmount(f.depense_streaming)) return "Question 15 : indiquez un montant en euros, par exemple 0 ou 13,99.";
+      if (!f.depense || !isAmount(f.depense)) return "Question 11 : indiquez un montant en euros, par exemple 0, 6 ou 8,50.";
+      if (!f.plateformes) return "Question 12 : cochez au moins une réponse (ou « Aucune »).";
+      if (has(f.plateformes, "aucune") && f.plateformes.includes(";")) return "Question 12 : vous avez coché « Aucune » et une plateforme, corrigez votre réponse.";
+      if (has(f.plateformes, "autre") && !f.plateformes_autre) return "Question 12 : précisez quelle autre plateforme.";
+      if (!f.depense_streaming || !isAmount(f.depense_streaming)) return "Question 13 : indiquez un montant en euros, par exemple 0 ou 13,99.";
       return "";
     } }
 ];
@@ -299,7 +355,7 @@ function restore() {
     const v = answers[i.name];
     if (v == null) return;
     if (i.type === "radio") i.checked = i.value === v;
-    else if (i.type === "checkbox") i.checked = String(v).split(";").includes(i.value);
+    else if (i.type === "checkbox") i.checked = has(v, i.value);
     else i.value = v;
   });
 }
@@ -307,6 +363,7 @@ function render() {
   const s = STEPS[cur];
   stepsEl.innerHTML = s.html();
   restore();
+  if (s.after) s.after();
   errEl.textContent = "";
   prevBtn.hidden = cur === 0;
   nextBtn.textContent = s.button || "Suivant";
@@ -323,25 +380,33 @@ function endScreen(msg) {
 function buildRow() {
   const n = k => (answers[k] === "" || answers[k] == null) ? "" : Number(answers[k]);
   const s = k => answers[k] == null ? "" : answers[k];
-  // Gabor-Granger : prix décroissants ; accepter un prix plus élevé puis refuser un plus bas = incohérent
-  const gg = CONFIG.GG_PRIX.map((_, i) => answers["gg_" + i]);
-  let ggOk = true, seenYes = false;
-  gg.forEach(a => { if (a === "oui") seenYes = true; else if (seenYes) ggOk = false; });
+  const a = s("achats");
+  const confiserie = ["popcorn", "snacks", "boissons"].some(x => has(a, x));
   const row = {
     id: answers.id, horodatage: new Date().toISOString(), version: VERSION,
-    derniere_seance: s("derniere_seance"), dernier_achat: s("dernier_achat"),
-    type_client: answers.dernier_achat === "place" ? "A_place_seule" : (answers.dernier_achat === "nsp" ? "" : "B_avec_confiserie"),
-    avec_qui: s("avec_qui"), cinema: s("cinema"), situation: s("situation")
+    derniere_seance: s("derniere_seance"), achats: a,
+    achat_place: has(a, "place") ? 1 : 0, achat_popcorn: has(a, "popcorn") ? 1 : 0, achat_snacks: has(a, "snacks") ? 1 : 0,
+    achat_boissons: has(a, "boissons") ? 1 : 0, achat_derives: has(a, "derives") ? 1 : 0,
+    type_client: has(a, "nsp") ? "" : (confiserie ? "B_avec_confiserie" : "A_sans_confiserie"),
+    avec_qui: s("avec_qui"), cinema: s("cinema"),
+    situation: s("situation"), situation_autre: answers.situation === "autre" ? s("situation_autre") : ""
   };
-  CONFIG.GG_PRIX.forEach((p, i) => { row["gg_" + p.toFixed(2).replace(".", "_")] = gg[i] === "oui" ? 1 : 0; });
-  row.gg_coherent = ggOk ? 1 : 0;
-  row.pourquoi_pack = s("pourquoi_pack");
-  row.pourquoi_autre = answers.pourquoi_pack === "autre" ? s("pourquoi_autre") : "";
-  PHRASES.forEach(([k]) => { row[k] = n(k); });
+  // Gabor-Granger progressif (prix croissants) : un prix non affiché après un « non » compte comme « non »
+  let seuil = "";
+  GG_ASC.forEach((p, i) => {
+    const ok = answers["gga_" + i] === "oui";
+    row["gg_" + p.toFixed(2).replace(".", "_")] = ok ? 1 : 0;
+    if (ok) seuil = p;
+  });
+  row.gg_prix_max_accepte = seuil;
+  RAISONS.forEach(([k]) => { row[k] = s(k); });
+  VALEUR.forEach(([k]) => { row[k] = n(k); });
   CANAUX.forEach(([k]) => { row[k] = s(k); });
   Object.assign(row, {
     cmp_prix: s("cmp_prix"), cmp_qualite: s("cmp_qualite"),
-    depense: n("depense"), plateformes: s("plateformes"), plateformes_autre: String(answers.plateformes || "").split(";").includes("autre") ? s("plateformes_autre") : "", depense_streaming: n("depense_streaming"),
+    depense: n("depense"), plateformes: s("plateformes"),
+    plateformes_autre: has(answers.plateformes, "autre") ? s("plateformes_autre") : "",
+    depense_streaming: n("depense_streaming"),
     prix_separes_affiche: VERSION === "B" ? CONFIG.PRIX_SEPARES : "",
     prix_pack_affiche: CONFIG.PRIX_PACK,
     duree_sec: Math.round((Date.now() - START) / 1000)
@@ -349,7 +414,7 @@ function buildRow() {
   return row;
 }
 async function send(row) {
-  if (!CONFIG.ENDPOINT) { try { const k = "q-test-rows"; const a = JSON.parse(localStorage.getItem(k) || "[]"); a.push(row); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} console.log("Réponse (mode test) :", row); return true; }
+  if (!CONFIG.ENDPOINT) { try { const k = "q-test-rows"; const x = JSON.parse(localStorage.getItem(k) || "[]"); x.push(row); localStorage.setItem(k, JSON.stringify(x)); } catch (e) {} console.log("Réponse (mode test) :", row); return true; }
   try {
     await fetch(CONFIG.ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(row) });
     return true;
@@ -372,6 +437,7 @@ document.getElementById("form").addEventListener("submit", async e => {
 });
 prevBtn.addEventListener("click", () => { Object.assign(answers, collect()); if (cur > 0) { cur--; render(); } });
 render();
+
 </script>
 </body>
 </html>
