@@ -78,7 +78,7 @@ code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-r
           <tr><td rowspan="2">Prix</td><td>Van Westendorp : bon marché, cher, trop cher, trop bon marché</td><td>Quantitative (€ libres)</td><td>La zone de prix acceptable (O1)</td></tr>
           <tr><td>Gabor-Granger : achèteriez-vous ce pack à 19,90 €, 18,90 €, 17,90 €, 16,90 €, 15,90 € ?</td><td>Dichotomique (oui / non)</td><td>La part d'acheteurs à chaque prix : le prix qui fait acheter le plus de monde et celui qui maximise la marge (O1)</td></tr>
           <tr><td>Contrôle</td><td>Le prix des produits achetés séparément était-il indiqué ?</td><td>Nominale</td><td>Vérifier que la différence entre A et B a été vue</td></tr>
-          <tr><td rowspan="4">Perception</td><td>Valeur perçue : 4 phrases (bonne affaire, économique, prix acceptable, rapport qualité-prix)</td><td>Likert 7 points</td><td>Échelle de Dodds, Monroe et Grewal (1991) : premier concept du modèle (O3)</td></tr>
+          <tr><td rowspan="4">Perception</td><td>Valeur perçue : 3 phrases (bonne affaire, prix acceptable, rapport qualité-prix)</td><td>Likert 5 points</td><td>Échelle de Dodds, Monroe et Grewal (1991) (O3)</td></tr>
           <tr><td>Intention d'achat : 4 phrases (envisager l'achat, probabilité, prêt à acheter, prochaine séance)</td><td>Likert 7 points</td><td>Même source : second concept du modèle (O3)</td></tr>
           <tr><td>Qu'est-ce qui donnerait le plus envie de prendre le pack plutôt que la place seule ?</td><td>Nominale</td><td>La raison d'acheter un pack plutôt qu'une place : économie, praticité, file d'attente (O3)</td></tr>
           <tr><td>Format préféré : solo, duo, famille</td><td>Nominale</td><td>Les déclinaisons à proposer dans la recommandation</td></tr>
@@ -93,44 +93,21 @@ code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-r
   </section>
 
   <section>
-    <div class="sec-head"><span class="num">04</span><h2>Le modèle à tester : la valeur perçue fait-elle acheter ?</h2></div>
-    <p>Les deux concepts ne s'observent pas directement : chacun est mesuré par quatre phrases notées de 1 à 7, adaptées de l'échelle de <strong>Dodds, Monroe et Grewal (1991)</strong>, qui relie justement la valeur perçue d'un produit à la volonté de l'acheter.</p>
-    <div class="chart">
-      <svg viewBox="0 0 900 420" role="img" aria-label="Modèle d'équations structurelles : la valeur perçue, mesurée par VP1 à VP4, influence l'intention d'achat, mesurée par IA1 à IA4">
-        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/></marker></defs>
-        <rect x="14" y="20" width="300" height="340" rx="10" fill="none" stroke="var(--c-cgr)" stroke-width="2" stroke-dasharray="7 5"/>
-        <rect x="586" y="20" width="300" height="340" rx="10" fill="none" stroke="var(--c-cgr)" stroke-width="2" stroke-dasharray="7 5"/>
-        <text x="450" y="402" text-anchor="middle" class="lbl" style="fill:var(--c-cgr)">modèles de mesure (analyse factorielle confirmatoire)</text>
-        <rect x="190" y="120" width="520" height="140" rx="10" fill="none" stroke="var(--c-ugc)" stroke-width="2" stroke-dasharray="7 5"/>
-        <text x="450" y="248" text-anchor="middle" class="lbl" style="fill:var(--c-ugc)">modèle structurel</text>
-        <g id="items"></g>
-        <circle cx="260" cy="190" r="58" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.5"/>
-        <text x="260" y="186" text-anchor="middle" class="lbl">Valeur</text><text x="260" y="204" text-anchor="middle" class="lbl">perçue</text>
-        <circle cx="640" cy="190" r="58" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.5"/>
-        <text x="640" y="186" text-anchor="middle" class="lbl">Intention</text><text x="640" y="204" text-anchor="middle" class="lbl">d'achat</text>
-        <line x1="318" y1="190" x2="580" y2="190" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#ar)"/>
-        <text x="450" y="180" text-anchor="middle" class="lbl" style="font-size:18px">β</text>
-        <line x1="640" y1="78" x2="640" y2="130" stroke="var(--ink)" marker-end="url(#ar)"/><text x="646" y="74">ζ</text>
-      </svg>
-    </div>
-    <p class="caption">En carrés, les phrases posées ; en cercles, les concepts mesurés. En bleu, les modèles de mesure ; en rouge, le modèle structurel. Schéma de notre groupe, d'après la représentation vue en Analyse de données.</p>
+    <div class="sec-head"><span class="num">04</span><h2>Question 8 : une échelle de Likert reprise de la littérature</h2></div>
+    <p>La valeur perçue ne s'observe pas directement : on la mesure avec plusieurs phrases. Nous ne les avons pas inventées : ce sont <strong>3 des 5 items de valeur perçue de Dodds, Monroe et Grewal (1991)</strong>, une échelle très citée (alpha de Cronbach = 0,93 dans l'article) qui relie le prix d'un produit à la valeur que le client lui accorde.</p>
+    <p>Nos choix : <strong>3 items</strong> pour garder un questionnaire court, et une <strong>échelle de Likert en 5 points</strong> nommés (Pas du tout d'accord, Plutôt pas d'accord, Neutre, Plutôt d'accord, Tout à fait d'accord), plus simple à lire que les 7 points de l'article. Deux items étaient des paires de mots opposés (« very acceptable / very unacceptable ») : ils sont reformulés en phrases, pour garder un seul format.</p>
     <div class="scroll">
       <table>
-        <thead><tr><th>Concept</th><th>Phrase, notée de 1 « pas du tout d'accord » à 7 « tout à fait d'accord »</th></tr></thead>
+        <thead><tr><th>Item original (annexe, p. 318)</th><th>Format d'origine</th><th>Notre traduction, adaptée au pack</th></tr></thead>
         <tbody>
-          <tr><td rowspan="4"><strong>Valeur perçue</strong></td><td>VP1 · Au prix indiqué, ce pack est une bonne affaire.</td></tr>
-          <tr><td>VP2 · Au prix indiqué, ce pack est économique.</td></tr>
-          <tr><td>VP3 · Le prix indiqué pour ce pack est acceptable.</td></tr>
-          <tr><td>VP4 · Ce pack offre un bon rapport qualité-prix.</td></tr>
-          <tr><td rowspan="4"><strong>Intention d'achat</strong></td><td>IA1 · Au prix indiqué, j'envisagerais d'acheter ce pack.</td></tr>
-          <tr><td>IA2 · La probabilité que j'achète ce pack est élevée.</td></tr>
-          <tr><td>IA3 · Je suis prêt(e) à acheter ce pack.</td></tr>
-          <tr><td>IA4 · Lors de ma prochaine séance chez Pathé, j'achèterais ce pack.</td></tr>
+          <tr><td>The product is considered to be a good buy</td><td>D'accord / pas d'accord</td><td>Ce pack est une bonne affaire.</td></tr>
+          <tr><td>The price shown for the product is: very acceptable … very unacceptable</td><td>Paire de mots opposés</td><td>Le prix de ce pack est acceptable.</td></tr>
+          <tr><td>This product is a: very good value for the money … very poor value for the money</td><td>Paire de mots opposés</td><td>Ce pack offre un bon rapport qualité-prix.</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="todo-box"><strong>À vérifier à la BU</strong><p>Les phrases sont notre traduction adaptée au pack. Comparez-les avec les items originaux de l'article (Dodds W. B., Monroe K. B. et Grewal D., 1991, « Effects of Price, Brand, and Store Information on Buyers' Product Evaluations », <em>Journal of Marketing Research</em>, 28(3), p. 307-319), accessible avec vos identifiants UCA, et citez-le ainsi dans le dossier.</p></div>
-  </section>
+    <p class="caption">Source : Dodds W. B., Monroe K. B. et Grewal D. (1991), « Effects of Price, Brand, and Store Information on Buyers' Product Evaluations », <em>Journal of Marketing Research</em>, 28(3), p. 307-319, doi:10.2307/3172866. Article consulté sur JSTOR (accès Université Clermont Auvergne) le 15 octobre 2026 : items en annexe p. 318 ; échelles en 7 points et alpha p. 312.</p>
+    <p>Pour l'analyse : on fait la moyenne des 3 réponses de chaque personne (score de valeur perçue de 1 à 5), on vérifie l'alpha de Cronbach sur nos données, puis on compare ce score entre la version A et la version B du test.</p>  </section>
 
   <section>
     <div class="sec-head"><span class="num">05</span><h2>Gabor-Granger : le prix qui fait acheter le plus, ou celui qui rapporte le plus ?</h2></div>
@@ -165,24 +142,8 @@ code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-r
 </main>
 <footer>
   <span>Dossier « Prix et budgets marketing », M1 Marketing, IAE Clermont Auvergne, 2026-2027</span>
-  <span>Page mise à jour le 12 octobre 2026</span>
+  <span>Page mise à jour le 15 octobre 2026</span>
 </footer>
-<script>
-(function(){
-  const NS = "http://www.w3.org/2000/svg", g = document.getElementById("items");
-  const el = (t, a, x) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (x != null) e.textContent = x; g.appendChild(e); return e; };
-  const ys = [40, 120, 200, 280];
-  [["VP", 44, 116, 260, 36, "ε", 1], ["IA", 786, 784, 640, 862, "ε", 5]].forEach(([p, bx, tx, cx, ex, e, start], side) => {
-    ys.forEach((y, i) => {
-      el("rect", { x: bx, y, width: 70, height: 40, fill: "var(--surface)", stroke: "var(--ink)", "stroke-width": 1.5 });
-      el("text", { x: bx + 35, y: y + 25, "text-anchor": "middle", class: "lbl" }, p + (i + 1));
-      const yy = y + 20, left = side === 0;
-      el("line", { x1: left ? cx - 50 : cx + 50, y1: 190 + (yy - 190) * 0.35, x2: left ? bx + 72 : bx - 2, y2: yy, stroke: "var(--ink)", "stroke-width": 1.5, "marker-end": "url(#ar)" });
-      el("text", { x: left ? 18 : 866, y: yy + 4 }, e + (start + i));
-      el("line", { x1: left ? 34 : 866, y1: yy, x2: left ? 44 : 856, y2: yy, stroke: "var(--ink)", "marker-end": "url(#ar)" });
-    });
-  });
-})();
-</script>
+
 </body>
 </html>
