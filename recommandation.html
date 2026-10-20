@@ -33,7 +33,7 @@
     <p>Pour chaque répondant qui achèterait le pack au prix testé, nous calculons ce que Pathé gagne ou perd, à partir de <strong>sa propre dépense en confiserie</strong> (question 11), plutôt que d'un menu supposé :</p>
     <div class="formula">variation de marge = (confiserie du pack HT − coût du menu) − dépense actuelle en confiserie HT × 73,4 %</div>
     <ul>
-      <li><strong>Confiserie du pack</strong> = prix du pack − 13,50 € (la place reste comptée au plein tarif), hors TVA à 10 % ; <strong>coût du menu</strong> = 2,06 € (<a href="couts.html#confiserie">partie 4</a>).</li>
+      <li><strong>Confiserie du pack</strong> = prix du pack − 13,50 € (la place reste comptée au plein tarif), hors TVA à 10 % ; <strong>coût du menu</strong> = <span id="vCout">1,36 €</span> de pop-corn, sirop et gobelet (<a href="couts.html#confiserie">partie 4</a>).</li>
       <li><strong>Dépense actuelle</strong> <span class="tag obs">Observé</span> déclaratif : ce que le répondant dit dépenser en confiserie par séance. Pathé y gardait 73,4 % de marge (<a href="entreprise.html#marge">comptes 2025</a>) : c'est ce qu'il perd si ce client remplace ses achats par le pack.</li>
       <li><strong>Qui achète</strong> <span class="tag obs">Observé</span> déclaratif : réponse « oui » au prix testé (question 6). Ce que les gens disent, pas ce qu'ils feraient.</li>
       <li>Un acheteur du pack remplace toutes ses dépenses habituelles de confiserie par le pack <span class="tag hyp">Hypothèse</span> : s'il achetait encore des bonbons en plus, la perte serait plus faible.</li>
@@ -70,7 +70,7 @@
   <section aria-labelledby="erreur">
     <div class="sec-head"><span class="num">03 · Si nous nous trompons</span><h2 id="erreur">Ce que coûte une erreur de prix</h2></div>
     <div class="two">
-      <div class="card"><h3>Prix trop bas</h3><p>À 16,90 €, il faut environ 4,5 clients « place seule » convertis pour compenser un seul client qui prenait déjà place + menu (<a href="couts.html#ratio">partie 4</a>). Si les clients B passent massivement au pack, Pathé perd de la marge sur sa confiserie, le seul poste qui progresse (<a href="entreprise.html#argent">partie 1</a>).</p></div>
+      <div class="card"><h3>Prix trop bas</h3><p>À 16,90 €, il faut environ <span id="r1b">2,7</span> clients « place seule » convertis pour compenser un seul client qui prenait déjà place + menu (<a href="couts.html#ratio">partie 4</a>). Si les clients B passent massivement au pack, Pathé perd de la marge sur sa confiserie, le seul poste qui progresse (<a href="entreprise.html#argent">partie 1</a>).</p></div>
       <div class="card"><h3>Prix trop haut</h3><p>Au-dessus de 19,50 €, la même sortie revient moins cher chez CGR ; et un pack proche du prix séparé (22 €) n'apporte pas assez d'économie pour convertir les clients « place seule ».</p></div>
       <div class="card"><h3>Pour limiter le risque</h3><p>Tester le pack quelques semaines au Pathé d'Aubière seulement, mesurer la part réelle de clients A et B parmi les acheteurs du pack, et le vendre d'abord en ligne avec le billet (canal mesuré à la question 9).</p></div>
     </div>
@@ -103,6 +103,8 @@
 (async function(){
   const $ = id => document.getElementById(id);
   $("pPlancher").textContent = FMT.e(ECO.plancher());
+  $("r1b").textContent = FMT.n(ECO.ratio(16.9), 1);
+  $("vCout").textContent = FMT.e(ECO.coutMenu());
   $("pR1").textContent = FMT.n(ECO.ratio(16.9), 1) + " pour 1";
   $("pR3").textContent = FMT.n(ECO.ratio(18.9), 1) + " pour 1";
 

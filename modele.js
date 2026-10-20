@@ -6,6 +6,11 @@ const MODELE = {
   prixMenu:    { v: 8.50,  statut: "est", label: "Menu pop-corn + boisson vendu seul (prix de la formule UGC, faute de relevé chez Pathé)", src: "https://www.ugc.fr/comptoir.html", date: "08/10/2026" },
   tvaConf:     { v: 0.10,  statut: "obs", label: "TVA sur un produit vendu pour une consommation immédiate, y compris dans un cinéma", src: "https://entreprendre.service-public.gouv.fr/vosdroits/F22399", date: "vérifié le 03/12/2025" },
   tauxAchat:   { v: 23.013519 / 86.444020, statut: "obs", label: "Coût d'achat de la confiserie en % des ventes HT (achats 22 902 374 € + variation de stock 111 145 €) ÷ ventes 86 444 020 €, Pathé Cinémas France 2025", src: "docs/pathe-cinemas-france-comptes-2025.pdf#page=9", date: "comptes 2025" },
+  // Coût du pack, ingrédient par ingrédient (pop-corn + boisson 50 cl, sans les autres confiseries)
+  coutPopcorn: { v: 0.10, statut: "est", label: "Pop-corn : maïs 2 à 3 centimes, huile 2 à 3, sel ou sucre moins de 1, cornet carton environ 4, pour un grand sachet", src: "https://www.letribunaldunet.fr/argent/pourquoi-pop-corn-cinema-si-cher-vrai-cout.html", date: "Le Tribunal du Net, 03/06/2026" },
+  siropBIB:    { v: 147.70, statut: "obs", label: "Sirop Coca-Cola post-mix, carton de 10 litres, prix hors TVA chez un grossiste", src: "https://www.foodsandgoods.nl/en/product/coca-cola-regular-post-mix-10-liters/", date: "Foods & Goods, consulté le 20/10/2026" },
+  rendementBIB:{ v: 64, statut: "obs", label: "Litres de boisson obtenus avec 10 litres de sirop (rendement moyen annoncé)", src: "https://www.foodsandgoods.nl/en/product/coca-cola-regular-post-mix-10-liters/", date: "Foods & Goods, consulté le 20/10/2026" },
+  gobelet:     { v: 107.03 / 1000, statut: "obs", label: "Gobelet carton 50 cl, carton de 1 000 à 107,03 € HT", src: "https://www.hellopro.fr/gobelet-50cl-carton-blanc-x1000-publiembal-blanc-7863577123953-2019015-16612113-produit.html", date: "Hellopro / Publiembal, consulté le 20/10/2026" },
   tvaPlace:    { v: 0.055, statut: "obs", label: "TVA sur les entrées de cinéma", src: "https://bofip.impots.gouv.fr/bofip/167-PGP.html/identifiant=BOI-TVA-LIQ-30-20-40-20200923", date: "BOFiP du 23/09/2020" },
   tsa:         { v: 0.1072, statut: "obs", label: "Taxe sur le prix des entrées (TSA), versée au CNC, en métropole", src: "https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537", date: "réponse ministérielle du 11/10/2022" },
   location:    { v: 0.50,  statut: "obs", label: "Part de la recette hors taxes reversée au distributeur (fourchette légale 25 à 50 %, moyenne en métropole « avoisine les 50 % »)", src: "https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537", date: "réponse ministérielle du 11/10/2022" },
@@ -16,8 +21,12 @@ const MODELE = {
 /* ---------- formules ---------- */
 const ECO = {
   ht: (ttc, tva) => ttc / (1 + tva),
-  // coût d'achat d'un menu pop-corn + boisson : taux d'achat × prix HT du menu vendu seul
-  coutMenu(m = MODELE) { return m.tauxAchat.v * ECO.ht(m.prixMenu.v, m.tvaConf.v); },
+  // coût de la boisson 50 cl : sirop (prix ÷ rendement × 0,5 L, sans glace : estimation haute) + gobelet
+  coutBoisson(m = MODELE) { return m.siropBIB.v / m.rendementBIB.v * 0.5 + m.gobelet.v; },
+  // coût variable d'un menu pop-corn + boisson, ingrédient par ingrédient
+  coutMenu(m = MODELE) { return m.coutPopcorn.v + ECO.coutBoisson(m); },
+  // comparaison : coût moyen si l'on applique le taux d'achat de toute la confiserie de Pathé (borne haute)
+  coutMenuMoyen(m = MODELE) { return m.tauxAchat.v * ECO.ht(m.prixMenu.v, m.tvaConf.v); },
   // Hypothèse de ventilation : la place reste déclarée à son plein tarif, la remise porte sur la confiserie
   confDansPack(prix, m = MODELE) { return prix - m.prixPlace.v; },
   // Client A : prenait la place seule, passe au pack → gagne la confiserie vendue dans le pack, moins son coût

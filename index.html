@@ -37,7 +37,7 @@
       <div class="kpi-box"><span class="kpi">−21,7<small>M€</small></span><p>Résultat net 2025 de Pathé Cinémas France <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=10">comptes 2025, p. 10</a></p></div>
       <div class="kpi-box"><span class="kpi">21,6<small>%</small></span><p>Part de la confiserie dans le chiffre d'affaires 2025 <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=30">note 4.1, p. 30</a></p></div>
       <div class="kpi-box"><span class="kpi">73,4<small>%</small></span><p>Marge commerciale sur la confiserie, calculée sur les comptes <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a></p></div>
-      <div class="kpi-box"><span class="kpi">15,76<small>€</small></span><p>Prix plancher du pack : en dessous, il fait perdre de l'argent même sur un nouveau client <a href="couts.html#plancher">calcul</a></p></div>
+      <div class="kpi-box"><span class="kpi" id="kPlancher">15,00 €</span><p>Prix plancher du pack : en dessous, il fait perdre de l'argent même sur un nouveau client <a href="couts.html#plancher">calcul</a></p></div>
     </div>
   </section>
 
@@ -47,7 +47,7 @@
       <span class="label">En attente des réponses définitives</span>
       <p>La collecte du questionnaire se termine le 21 octobre 2026. Le prix recommandé sera celui qui rapporte le plus à Pathé parmi les prix testés (16,90, 17,90 et 18,90 €), une fois les réponses importées. Le calcul et ses limites sont sur la page <a href="recommandation.html">La décision</a>.</p>
     </div>
-    <p class="muted">Ce que nous savons déjà sans les réponses, si le menu vendu seul coûte 8,50 € (estimation à confirmer en caisse) : à 16,90 €, il faut environ 4,5 clients « place seule » convertis pour compenser un client qui achetait déjà place + menu ; à 18,90 €, environ 1 pour 1. Le détail est sur la page <a href="couts.html#ratio">Coûts et marge</a>.</p>
+    <p class="muted">Ce que nous savons déjà sans les réponses, si le menu vendu seul coûte 8,50 € (estimation à confirmer en caisse) : à 16,90 €, il faut environ <span id="r1">2,7</span> clients « place seule » convertis pour compenser un client qui achetait déjà place + menu ; à 18,90 €, environ <span id="r3">0,8</span> pour 1. Le détail est sur la page <a href="couts.html#ratio">Coûts et marge</a>.</p>
   </section>
 
   <section aria-labelledby="etapes">
@@ -85,6 +85,9 @@
 <script src="modele.js"></script>
 <script>
 (async function(){
+  document.getElementById("kPlancher").textContent = FMT.e(ECO.plancher());
+  document.getElementById("r1").textContent = FMT.n(ECO.ratio(16.9), 1);
+  document.getElementById("r3").textContent = FMT.n(ECO.ratio(18.9), 1);
   let rows; try { rows = await DONNEES.charger(); } catch (e) { rows = null; }
   if (!rows || !rows.length) return;
   const G = DECISION.groupes(rows); if (!(G.A.length + G.B.length)) return;

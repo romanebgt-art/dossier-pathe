@@ -40,7 +40,7 @@
   <section aria-labelledby="conf" id="confiserie">
     <div class="sec-head"><span class="num">02 · La variation</span><h2 id="conf">Ce que coûtent le pop-corn et la boisson</h2></div>
     <div class="calc" id="calcConf"></div>
-    <p>Deux limites à garder en tête : le taux d'achat de 26,6 % est une moyenne sur toute la confiserie de Pathé (bonbons, bouteilles, pop-corn), et le prix du menu à 8,50 € n'est pas encore relevé au comptoir d'Aubière. Une estimation journalistique du seul coût des matières d'un sachet de pop-corn donne 8 à 10 centimes <a class="src" href="https://www.letribunaldunet.fr/argent/pourquoi-pop-corn-cinema-si-cher-vrai-cout.html">Le Tribunal du Net, 2026</a> : notre coût, qui inclut la boisson et toutes les autres confiseries, est donc prudent.</p>
+    <p><strong>Le pop-corn ne coûte presque rien : c'est la boisson qui pèse</strong>, surtout le sirop. Pour Pathé, le menu revient à environ 1,36 € en produits, alors que le client le paie 8,50 € (estimation) : sur un menu, il reste à Pathé plus de 6 € hors TVA pour payer le personnel du comptoir, les machines et l'énergie. Trois limites : les prix du sirop et des gobelets sont ceux d'un grossiste pour de petites quantités (Pathé, qui achète en très grand volume, paie sans doute moins cher) ; le coût du pop-corn est une estimation journalistique ; et le prix du menu à 8,50 € n'est pas relevé au comptoir d'Aubière. Le coût moyen de toute la confiserie, tiré des comptes (2,06 €), sert de borne haute.</p>
   </section>
 
   <section aria-labelledby="clients" id="ratio">
@@ -76,7 +76,8 @@
     <div class="sec-head"><span class="num">05 · Tester les hypothèses</span><h2 id="sim">Changer une hypothèse, voir l'effet</h2><p>Les champs reprennent nos valeurs. Modifiez-les (par exemple avec le prix relevé en caisse) : les calculs de la page se mettent à jour. Rien n'est enregistré.</p></div>
     <div class="sim">
       <label>Prix du menu vendu seul (€ TTC)<span>Estimé : formule UGC</span><input type="number" step="0.10" min="0" id="inMenu"></label>
-      <label>Coût d'achat (% du prix HT)<span>Observé : comptes Pathé 2025</span><input type="number" step="0.1" min="0" max="100" id="inTaux"></label>
+      <label>Coût du pop-corn (€ HT)<span>Estimé : Le Tribunal du Net</span><input type="number" step="0.01" min="0" id="inPop"></label>
+      <label>Prix du sirop, 10 litres (€ HT)<span>Observé : grossiste</span><input type="number" step="1" min="0" id="inSirop"></label>
       <label>TVA sur la confiserie (%)<span>Observé : consommation immédiate</span><input type="number" step="0.5" min="0" id="inTva"></label>
       <label>Place plein tarif (€ TTC)<span>Observé : Pathé Aubière</span><input type="number" step="0.10" min="0" id="inPlace"></label>
     </div>
@@ -114,13 +115,14 @@
       row("− Part du distributeur, 50 %", e(pl.distrib), `${FMT.tag("obs")} moyenne en métropole « avoisine les 50 % » · ${src(M.location, "même réponse ministérielle")}`) +
       row("= Ce qu'il reste à Pathé", e(pl.reste), `soit ${FMT.p(pl.reste / pl.ttc, 0)} du prix payé, avant salaires, loyers et énergie`, "total");
 
-    const ht = ECO.ht(M.prixMenu.v, M.tvaConf.v), cout = ECO.coutMenu(M);
-    $("calcConf").innerHTML = `<div class="head">Coût variable d'un pop-corn + une boisson</div>` +
-      row("Menu vendu seul, prix payé", e(M.prixMenu.v), `${FMT.tag(M.prixMenu.statut)} prix de la formule UGC, faute de relevé chez Pathé · ${src(M.prixMenu, "ugc.fr, 20/10/2026")}`) +
-      row(`− TVA à ${FMT.p(M.tvaConf.v, 0)}`, e(M.prixMenu.v - ht), `${FMT.tag("obs")} produit vendu pour une consommation immédiate, y compris dans un cinéma · ${src(M.tvaConf, "service-public, vérifié le 03/12/2025")}`) +
-      row("= Prix hors TVA", e(ht), "", "sub") +
-      row(`× Taux d'achat ${FMT.p(M.tauxAchat.v, 1)}`, "", `${FMT.tag(M.tauxAchat.statut)} (22 902 374 + 111 145) ÷ 86 444 020 · ${src(M.tauxAchat, "comptes 2025, p. 9")}`) +
-      row("= Coût variable du menu pour Pathé", e(cout), "Ce que Pathé paie en produits pour un pop-corn + une boisson", "total");
+    const ht = ECO.ht(M.prixMenu.v, M.tvaConf.v), cout = ECO.coutMenu(M), sirop = M.siropBIB.v / M.rendementBIB.v * 0.5;
+    $("calcConf").innerHTML = `<div class="head">Coût variable d'un pop-corn + une boisson 50 cl, ingrédient par ingrédient</div>` +
+      row("Pop-corn : maïs, huile, sel ou sucre, cornet carton", e(M.coutPopcorn.v), `${FMT.tag(M.coutPopcorn.statut)} 8 à 10 centimes pour un grand sachet ; nous retenons le haut de la fourchette · ${src(M.coutPopcorn, "Le Tribunal du Net, 03/06/2026")}`) +
+      row("Boisson : sirop pour 50 cl", e(sirop), `${FMT.tag("obs")} 147,70 € HT les 10 litres de sirop, qui donnent 64 litres de boisson : 147,70 ÷ 64 × 0,5 · ${src(M.siropBIB, "grossiste Foods & Goods, 20/10/2026")}. Sans compter la glace, qui réduit la quantité de sirop : estimation haute`) +
+      row("Boisson : gobelet carton 50 cl", e(M.gobelet.v), `${FMT.tag("obs")} 107,03 € HT les 1 000 · ${src(M.gobelet, "Hellopro / Publiembal, 20/10/2026")}. Couvercle et paille non comptés (quelques centimes)`) +
+      row("= Coût variable du menu pour Pathé", e(cout), "Ce que Pathé paie en produits pour un pop-corn + une boisson", "total") +
+      row("Pour comparer : prix payé par le client", e(M.prixMenu.v), `${FMT.tag(M.prixMenu.statut)} formule UGC, faute de prix publié chez Pathé · ${src(M.prixMenu, "ugc.fr, 20/10/2026")}`, "sub") +
+      row("Pour comparer : coût moyen de toute la confiserie de Pathé", e(ECO.coutMenuMoyen(M)), `${FMT.tag("obs")} ${e(ht)} hors TVA × ${FMT.p(M.tauxAchat.v, 1)}, le taux d'achat de toute la confiserie (bonbons, bouteilles compris) · ${src(M.tauxAchat, "comptes 2025, p. 9")}`, "sub");
 
     const P = M.prixTestes;
     const rows = P.map(p => ({ p, conf: ECO.confDansPack(p, M), g: ECO.gainA(p, M), l: ECO.perteB(p, M), r: ECO.ratio(p, M) }));
@@ -192,7 +194,7 @@
     }).catch(() => {});
   }
 
-  const inputs = { inMenu: ["prixMenu", 1], inTaux: ["tauxAchat", 100], inTva: ["tvaConf", 100], inPlace: ["prixPlace", 1] };
+  const inputs = { inMenu: ["prixMenu", 1], inPop: ["coutPopcorn", 1], inSirop: ["siropBIB", 1], inTva: ["tvaConf", 100], inPlace: ["prixPlace", 1] };
   const fill = () => Object.entries(inputs).forEach(([id, [k, f]]) => $(id).value = +(M[k].v * f).toFixed(2));
   Object.entries(inputs).forEach(([id, [k, f]]) => $(id).addEventListener("input", ev => { const v = parseFloat(ev.target.value); if (Number.isFinite(v)) { M[k].v = v / f; render(); } }));
   $("reset").addEventListener("click", () => { M = JSON.parse(JSON.stringify(base)); fill(); render(); });
