@@ -3,63 +3,97 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pathé, pack ciné · Dossier</title>
+<title>Pathé, pack ciné · Dossier de prix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top">
+<header class="top"><div class="top-in">
   <a class="brand" href="index.html">Pathé <span>·</span> pack ciné</a>
-  <nav class="nav" aria-label="Pages du dossier">
-    <a href="index.html" aria-current="page">Accueil</a>
-    <a href="marche.html">Le marché</a>
-    <a href="entreprise.html">L'entreprise</a>
-    <a href="prix-psychologique.html">Prix psychologique</a>
-    <a href="recommandation.html">Recommandation</a>
-    <a href="sources.html">Sources et méthode</a>
+  <nav class="nav" aria-label="Parties du dossier">
+    <a href="entreprise.html"><b>1</b>L'entreprise</a>
+    <a href="marche.html"><b>2</b>Le marché</a>
+    <a href="prix-psychologique.html"><b>3</b>La mesure du prix</a>
+    <a href="couts.html"><b>4</b>Coûts et marge</a>
+    <a href="recommandation.html"><b>5</b>La décision</a>
+    <a href="sources.html">Sources</a>
   </nav>
-</header>
+</div></header>
 
 <main>
   <div class="hero">
-    <p class="eyebrow">Prix et budgets marketing · M1 Marketing · IAE Clermont Auvergne · 2026-2027</p>
-    <h1>Pathé doit-il vendre la place et le popcorn ensemble ?</h1>
-    <p class="lede">Pathé perd de l'argent en 2025 et ne peut pas baisser le prix de ses places. Mais un cinéma gagne surtout sur la confiserie, qu'il ne partage pas avec le distributeur du film. Ce dossier cherche le bon prix pour un pack permanent place + popcorn + boisson.</p>
+    <p class="eyebrow">Prix et budgets marketing · M1 Marketing Vente · IAE Clermont Auvergne · 2026-2027</p>
+    <h1>Pathé doit-il vendre la place, le pop-corn et la boisson ensemble, et à quel prix ?</h1>
+    <p class="lede">Pathé Cinémas France perd 21,7 M€ en 2025 alors que sa confiserie progresse. Nous étudions un pack permanent <strong>place + pop-corn + boisson</strong> pour le Pathé d'Aubière : le prix que les clients acceptent, ce qu'il coûte, et le prix sous lequel il fait perdre de l'argent.</p>
   </div>
 
-  <section>
-    <div class="sec-head"><span class="num">Notre question</span><h2>La décision de prix à trancher</h2></div>
+  <section aria-labelledby="q">
+    <div class="sec-head"><span class="num">La question posée</span><h2 id="q">Une décision de prix à trancher</h2></div>
     <div class="callout">
-      <p class="question">Pathé ; la place à 13,50 € et le Menu Gourmand vendus séparément ; faut-il créer un <em>pack permanent place + popcorn + boisson, autour de 18,90 €</em>, et combien de clients qui ne prenaient que la place doivent passer au pack pour compenser la remise accordée à ceux qui achetaient déjà les deux ?</p>
+      <p class="question">Pathé vend aujourd'hui la place (13,50 €) et la confiserie séparément. Faut-il créer un pack place + pop-corn + boisson, à quel prix, et combien de clients qui ne prenaient que la place doivent passer au pack pour compenser la remise faite à ceux qui achetaient déjà les deux ?</p>
     </div>
-    <div class="grid-3">
-      <div class="card"><span class="kpi">−21,7<small>M€</small></span><p>Résultat net 2025 de Pathé Cinémas France, la société qui exploite les salles.</p></div>
-      <div class="card"><span class="kpi">21,6<small>%</small></span><p>Part de la confiserie dans le chiffre d'affaires de Pathé Cinémas France en 2025 (+5,9 % en un an), contre −7 % pour la billetterie. Marge commerciale d'environ 73 %.</p></div>
-      <div class="card"><span class="kpi">0<small>pack permanent trouvé</small></span><p>En ligne, nous n'avons trouvé que des packs en promotion (Pathé en février 2026, CGR en 2021). À vérifier en caisse et dans les applications.</p></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head"><span class="num">Le dossier</span><h2>Les étapes</h2></div>
-    <div class="grid-3">
-      <a class="card" href="marche.html" style="text-decoration:none;color:inherit"><span class="pill up">TD 1 · 1er octobre</span><h3>Le marché</h3><p>Le marché en une phrase, les concurrents en trois cercles, leurs tarifs, leurs comptes, et notre plafond provisoire : 19,50 €.</p></a>
-      <a class="card" href="entreprise.html" style="text-decoration:none;color:inherit"><span class="pill todo">en cours</span><h3>L'entreprise</h3><p>Les comptes de Pathé : ce que l'entreprise peut se permettre.</p></a>
-      <a class="card" href="prix-psychologique.html" style="text-decoration:none;color:inherit"><span class="pill">CM 2 · 8 octobre</span><h3>Prix psychologique</h3><p>Un questionnaire court, Van Westendorp et Gabor-Granger, collecte du 12 au 26 octobre.</p></a>
-      <a class="card" href="recommandation.html" style="text-decoration:none;color:inherit"><span class="pill">TD 2 · 12 octobre</span><h3>Recommandation</h3><p>Le calcul de compensation, les coûts, le budget, et le prix que nous défendons.</p></a>
-      <a class="card" href="sources.html" style="text-decoration:none;color:inherit"><span class="pill">toujours à jour</span><h3>Sources et méthode</h3><p>Toutes les sources, datées, et la façon dont nous avons utilisé l'IA.</p></a>
+    <div class="kpis">
+      <div class="kpi-box"><span class="kpi">−21,7<small>M€</small></span><p>Résultat net 2025 de Pathé Cinémas France <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=10">comptes 2025, p. 10</a></p></div>
+      <div class="kpi-box"><span class="kpi">21,6<small>%</small></span><p>Part de la confiserie dans le chiffre d'affaires 2025 <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=30">note 4.1, p. 30</a></p></div>
+      <div class="kpi-box"><span class="kpi">73,4<small>%</small></span><p>Marge commerciale sur la confiserie, calculée sur les comptes <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a></p></div>
+      <div class="kpi-box"><span class="kpi">15,76<small>€</small></span><p>Prix plancher du pack : en dessous, il fait perdre de l'argent même sur un nouveau client <a href="couts.html#plancher">calcul</a></p></div>
     </div>
   </section>
 
-  <section>
-    <div class="sec-head"><span class="num">L'équipe</span><h2>Groupe</h2></div>
-    <p>Prénom Nom · Prénom Nom · Prénom Nom · Prénom Nom · Prénom Nom (groupe de TD : à compléter)</p>
+  <section aria-labelledby="reco">
+    <div class="sec-head"><span class="num">Notre réponse</span><h2 id="reco">Le prix recommandé</h2></div>
+    <div class="callout info" id="reco-box">
+      <span class="label">En attente des réponses définitives</span>
+      <p>La collecte du questionnaire se termine le 21 octobre 2026. Le prix recommandé sera celui qui rapporte le plus à Pathé parmi les prix testés (16,90, 17,90 et 18,90 €), une fois les réponses importées. Le calcul et ses limites sont sur la page <a href="recommandation.html">La décision</a>.</p>
+    </div>
+    <p class="muted">Ce que nous savons déjà sans les réponses, si le menu vendu seul coûte 8,50 € (estimation à confirmer en caisse) : à 16,90 €, il faut environ 4,5 clients « place seule » convertis pour compenser un client qui achetait déjà place + menu ; à 18,90 €, environ 1 pour 1. Le détail est sur la page <a href="couts.html#ratio">Coûts et marge</a>.</p>
+  </section>
+
+  <section aria-labelledby="etapes">
+    <div class="sec-head"><span class="num">Le dossier</span><h2 id="etapes">Cinq étapes, dans l'ordre demandé</h2></div>
+    <ol class="steps">
+      <li><a href="entreprise.html"><span class="n">1 · L'entreprise</span><h3>Ce que disent les comptes</h3><p>La billetterie recule, la confiserie progresse et rapporte 73 % de marge.</p></a></li>
+      <li><a href="marche.html"><span class="n">2 · Le marché</span><h3>Concurrents, prix, plafond</h3><p>CGR à 11 € la place à Clermont, aucun pack permanent repéré, plafond provisoire de 19,50 €.</p></a></li>
+      <li><a href="prix-psychologique.html"><span class="n">3 · La mesure du prix</span><h3>Questionnaire et test A/B</h3><p>Méthode, qui a répondu, prix acceptés avec et sans le prix de référence de 22 €.</p></a></li>
+      <li><a href="couts.html"><span class="n">4 · Coûts et marge</span><h3>Ce que le pack coûte et rapporte</h3><p>Coût de la place et de la confiserie, gain par client, prix plancher.</p></a></li>
+      <li><a href="recommandation.html"><span class="n">5 · La décision</span><h3>Prix retenu et stress test</h3><p>Scénarios, point de rupture, limites et ce que coûte une erreur.</p></a></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="lire">
+    <div class="sec-head"><span class="num">Comment lire ce dossier</span><h2 id="lire">Chaque chiffre dit d'où il vient</h2></div>
+    <p>Les sources sont en lien dans la phrase qui utilise le chiffre. Chaque montant du modèle est étiqueté :</p>
+    <div class="legend-tags">
+      <span><span class="tag obs">Observé</span> lu dans un document daté</span>
+      <span><span class="tag est">Estimé</span> déduit d'une source proche, faute de mieux</span>
+      <span><span class="tag hyp">Hypothèse</span> un choix de notre groupe, justifié</span>
+      <span><span class="tag miss">À fournir</span> donnée manquante, non inventée</span>
+    </div>
+  </section>
+
+  <section aria-labelledby="equipe">
+    <div class="sec-head"><span class="num">L'équipe</span><h2 id="equipe">Groupe</h2></div>
+    <p>Adriana Bonamy · Romane Bourguet · Félicie Brisebras · Auriane Fumard</p>
   </section>
 </main>
 
 <footer>
-  <span>Dossier « Prix et budgets marketing », M1 Marketing, IAE Clermont Auvergne, 2026-2027</span>
-  <span>Page mise à jour le 8 octobre 2026</span>
+  <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
+  <span>Page mise à jour le 20 octobre 2026</span>
 </footer>
+<script src="modele.js"></script>
+<script>
+(async function(){
+  let rows; try { rows = await DONNEES.charger(); } catch (e) { rows = null; }
+  if (!rows || !rows.length) return;
+  const G = DECISION.groupes(rows); if (!(G.A.length + G.B.length)) return;
+  const b = DECISION.meilleur(G), box = document.getElementById("reco-box");
+  box.className = "callout";
+  box.innerHTML = b.m > 0
+    ? `<span class="label">Prix qui rapporte le plus parmi les prix testés (${G.D.length} répondants)</span><p class="question">${FMT.e(b.p)}</p><p>+${FMT.e(b.m)} de marge supplémentaire pour 100 spectateurs, entre le prix plancher (${FMT.e(ECO.plancher())}) et le plafond des concurrents (19,50 €). Le calcul, les scénarios et les limites sont sur la page <a href="recommandation.html">La décision</a>.</p>`
+    : `<span class="label">Résultat (${G.D.length} répondants)</span><p>Aucun des prix testés ne rapporte de marge : le pack ferait perdre plus sur les clients qui achetaient déjà la confiserie qu'il ne rapporte sur les autres. Détail sur la page <a href="recommandation.html">La décision</a>.</p>`;
+})();
+</script>
 </body>
 </html>

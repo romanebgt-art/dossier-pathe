@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4 · Coûts et marge · Dossier Pathé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>#td2 text{font-size:14px}#td2 .lbl{font-size:15px}</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html">Pathé <span>·</span> pack ciné</a>
+  <nav class="nav" aria-label="Parties du dossier">
+    <a href="entreprise.html"><b>1</b>L'entreprise</a>
+    <a href="marche.html"><b>2</b>Le marché</a>
+    <a href="prix-psychologique.html"><b>3</b>La mesure du prix</a>
+    <a href="couts.html" aria-current="page"><b>4</b>Coûts et marge</a>
+    <a href="recommandation.html"><b>5</b>La décision</a>
+    <a href="sources.html">Sources</a>
+  </nav>
+</div></header>
+
+<main>
+  <div class="hero">
+    <p class="eyebrow">Partie 4 · La proposition : ce qu'elle coûte</p>
+    <h1>Ce que le pack coûte, et ce qu'il rapporte par client</h1>
+    <p class="lede">Le produit de base est la place ; la variation que nous proposons est d'y ajouter un pop-corn et une boisson, vendus ensemble à un prix unique. Nous chiffrons les deux, terme par terme, avec l'origine de chaque montant.</p>
+    <div class="legend-tags"><span class="tag obs">Observé</span><span class="tag est">Estimé</span><span class="tag hyp">Hypothèse</span><span class="tag miss">À fournir</span></div>
+  </div>
+
+  <section aria-labelledby="place" id="place">
+    <div class="sec-head"><span class="num">01 · Le produit de base</span><h2>Ce qu'il reste à Pathé sur une place à 13,50 €</h2></div>
+    <div class="calc" id="calcPlace"></div>
+    <p class="caption">Assiette de la TSA : nous l'appliquons au prix hors TVA <span class="tag hyp">Hypothèse</span> ; la réponse ministérielle donne le taux (10,72 %) sans détailler l'assiette. Recoupement : la ligne « achats de matières premières et approvisionnements » des comptes de Pathé, très probablement la location des films, représente 50,6 % de la billetterie <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">comptes 2025, p. 9</a>, ce qui est cohérent avec une part distributeur proche de 50 %.</p>
+    <p>Sur ces 5,71 €, Pathé doit encore payer ses salles, son personnel et son énergie : c'est pour cela que la place seule ne suffit plus (résultat d'exploitation de −20,5 M€ en 2025, <a href="entreprise.html#perte">partie 1</a>). <strong>Hypothèse de ventilation retenue</strong> <span class="tag hyp">Hypothèse</span> : dans le pack, la place reste comptée à son plein tarif de 13,50 €, et toute la remise porte sur la confiserie. La part du distributeur et la taxe CNC ne changent donc pas : seule la confiserie fait varier la marge. Ce choix de ventilation devra être validé avec le CNC et les distributeurs.</p>
+  </section>
+
+  <section aria-labelledby="conf" id="confiserie">
+    <div class="sec-head"><span class="num">02 · La variation</span><h2 id="conf">Ce que coûtent le pop-corn et la boisson</h2></div>
+    <div class="calc" id="calcConf"></div>
+    <p>Deux limites à garder en tête : le taux d'achat de 26,6 % est une moyenne sur toute la confiserie de Pathé (bonbons, bouteilles, pop-corn), et le prix du menu à 8,50 € n'est pas encore relevé au comptoir d'Aubière. Une estimation journalistique du seul coût des matières d'un sachet de pop-corn donne 8 à 10 centimes <a class="src" href="https://www.letribunaldunet.fr/argent/pourquoi-pop-corn-cinema-si-cher-vrai-cout.html">Le Tribunal du Net, 2026</a> : notre coût, qui inclut la boisson et toutes les autres confiseries, est donc prudent.</p>
+  </section>
+
+  <section aria-labelledby="clients" id="ratio">
+    <div class="sec-head"><span class="num">03 · Ce que rapporte chaque client</span><h2 id="clients">Trois types de clients, trois effets</h2><p>Le pack ne change rien pour celui qui garde la place seule. Il fait gagner de la marge sur celui qui prenait la place seule et passe au pack, et en fait perdre sur celui qui achetait déjà place + menu et paie désormais moins cher.</p></div>
+    <div class="scroll"><table id="tabClients"></table></div>
+    <div class="formula">gain par client A = (prix du pack − 13,50) ÷ 1,10 − coût du menu&nbsp;&nbsp;·&nbsp;&nbsp;perte par client B = (8,50 − (prix du pack − 13,50)) ÷ 1,10&nbsp;&nbsp;·&nbsp;&nbsp;clients A pour 1 client B = perte B ÷ gain A</div>
+    <div class="callout" id="lectureRatio"></div>
+  </section>
+
+  <section aria-labelledby="plancher" id="plancher">
+    <div class="sec-head"><span class="num">04 · Le prix plancher</span><h2>En dessous de ce prix, le pack fait perdre de l'argent sur tout le monde</h2></div>
+    <div class="calc" id="calcPlancher"></div>
+    <div class="chart">
+      <h3>Le graphique du TD 2 : coûts, prix plancher, prix testés et plafond</h3>
+      <svg id="td2" viewBox="0 0 900 300" role="img" aria-label="Décomposition du prix d'une place seule et d'un pack à 18,90 euros, avec le prix plancher et le plafond des concurrents"></svg>
+      <div class="legend" id="td2Legend"></div>
+      <p class="caption" id="td2Cap">Le prix accepté par nos répondants s'ajoute sur ce graphique dès que les réponses sont importées (partie 3).</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="complet-t" id="complet">
+    <div class="sec-head"><span class="num">05 · Le prix de revient complet</span><h2 id="complet-t">Ce que coûte un spectateur à Pathé, tout compris</h2><p>Prix de revient = coûts variables + coûts fixes ÷ volume. Les coûts fixes (personnel, loyers, énergie, amortissements) viennent des comptes ; le volume (nombre d'entrées) n'est pas publié et doit être estimé.</p></div>
+    <div class="calc" id="calcVolume"></div>
+    <div class="scroll"><table id="tabComplet"></table></div>
+    <p class="caption" id="capComplet"></p>
+    <div class="callout">
+      <span class="label">Ce que cela change pour le pack</span>
+      <p>Le pack n'ajoute presque aucun coût fixe : il est vendu par le même personnel, aux mêmes caisses, avec les mêmes machines à pop-corn. Seuls la communication de lancement et le paramétrage de la billetterie seraient nouveaux <span class="tag miss">Non chiffrés</span>. Le seuil de rentabilité en volume vaut donc : coûts fixes de lancement ÷ marge par pack. Or, avec nos réponses, la marge moyenne par pack vendu est négative à tous les prix testés (<a href="recommandation.html">partie 5</a>) : <strong>aucun volume de ventes ne rend alors le pack rentable</strong>, quel que soit le budget de lancement.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="sim">
+    <div class="sec-head"><span class="num">05 · Tester les hypothèses</span><h2 id="sim">Changer une hypothèse, voir l'effet</h2><p>Les champs reprennent nos valeurs. Modifiez-les (par exemple avec le prix relevé en caisse) : les calculs de la page se mettent à jour. Rien n'est enregistré.</p></div>
+    <div class="sim">
+      <label>Prix du menu vendu seul (€ TTC)<span>Estimé : formule UGC</span><input type="number" step="0.10" min="0" id="inMenu"></label>
+      <label>Coût d'achat (% du prix HT)<span>Observé : comptes Pathé 2025</span><input type="number" step="0.1" min="0" max="100" id="inTaux"></label>
+      <label>TVA sur la confiserie (%)<span>Observé : consommation immédiate</span><input type="number" step="0.5" min="0" id="inTva"></label>
+      <label>Place plein tarif (€ TTC)<span>Observé : Pathé Aubière</span><input type="number" step="0.10" min="0" id="inPlace"></label>
+    </div>
+    <p><button type="button" class="ghost" id="reset">Revenir à nos valeurs</button></p>
+  </section>
+
+  <nav class="next" aria-label="Pages voisines">
+    <a href="prix-psychologique.html"><small>← Partie 3</small>La mesure du prix</a>
+    <a href="recommandation.html" style="text-align:right"><small>Partie 5 →</small>La décision</a>
+  </nav>
+</main>
+
+<footer>
+  <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
+  <span>Page mise à jour le 20 octobre 2026</span>
+</footer>
+
+<script src="modele.js"></script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const base = JSON.parse(JSON.stringify(MODELE));
+  let M = JSON.parse(JSON.stringify(MODELE));
+  const e = FMT.e, src = (o, t) => `<a class="src" href="${o.src}">${t || o.date}</a>`;
+  const row = (t, v, o, cls = "") => `<div class="row ${cls}"><span class="t">${t}</span><span class="v">${v}</span><span class="o">${o}</span></div>`;
+
+  function render(){
+    const pl = ECO.place(M);
+    $("calcPlace").innerHTML = `<div class="head">Une place plein tarif, de ce que paie le client à ce que garde Pathé</div>` +
+      row("Prix payé par le client", e(pl.ttc), `${FMT.tag(M.prixPlace.statut)} ${src(M.prixPlace, "Allociné, 20/10/2026")}`) +
+      row("− TVA à 5,5 %", e(pl.tva), `${FMT.tag("obs")} ${src(M.tvaPlace, "BOFiP, taux des entrées de cinéma")}`) +
+      row("= Prix hors TVA", e(pl.ht), "13,50 ÷ 1,055", "sub") +
+      row("− Taxe CNC (TSA) à 10,72 %", e(pl.tsa), `${FMT.tag("obs")} taux ; ${FMT.tag("hyp")} assiette hors TVA · ${src(M.tsa, "réponse ministérielle, 11/10/2022")}`) +
+      row("= Recette hors taxes", e(pl.recetteHT), "", "sub") +
+      row("− Part du distributeur, 50 %", e(pl.distrib), `${FMT.tag("obs")} moyenne en métropole « avoisine les 50 % » · ${src(M.location, "même réponse ministérielle")}`) +
+      row("= Ce qu'il reste à Pathé", e(pl.reste), `soit ${FMT.p(pl.reste / pl.ttc, 0)} du prix payé, avant salaires, loyers et énergie`, "total");
+
+    const ht = ECO.ht(M.prixMenu.v, M.tvaConf.v), cout = ECO.coutMenu(M);
+    $("calcConf").innerHTML = `<div class="head">Coût variable d'un pop-corn + une boisson</div>` +
+      row("Menu vendu seul, prix payé", e(M.prixMenu.v), `${FMT.tag(M.prixMenu.statut)} prix de la formule UGC, faute de relevé chez Pathé · ${src(M.prixMenu, "ugc.fr, 20/10/2026")}`) +
+      row(`− TVA à ${FMT.p(M.tvaConf.v, 0)}`, e(M.prixMenu.v - ht), `${FMT.tag("obs")} produit vendu pour une consommation immédiate, y compris dans un cinéma · ${src(M.tvaConf, "service-public, vérifié le 03/12/2025")}`) +
+      row("= Prix hors TVA", e(ht), "", "sub") +
+      row(`× Taux d'achat ${FMT.p(M.tauxAchat.v, 1)}`, "", `${FMT.tag(M.tauxAchat.statut)} (22 902 374 + 111 145) ÷ 86 444 020 · ${src(M.tauxAchat, "comptes 2025, p. 9")}`) +
+      row("= Coût variable du menu pour Pathé", e(cout), "Ce que Pathé paie en produits pour un pop-corn + une boisson", "total");
+
+    const P = M.prixTestes;
+    const rows = P.map(p => ({ p, conf: ECO.confDansPack(p, M), g: ECO.gainA(p, M), l: ECO.perteB(p, M), r: ECO.ratio(p, M) }));
+    $("tabClients").innerHTML = `<thead><tr><th>Prix du pack</th><th class="n">Dont confiserie (TTC)</th><th class="n">Client A : gain de marge</th><th class="n">Client B : perte de marge</th><th class="n">Client C</th><th class="n">Clients A pour 1 client B</th></tr></thead><tbody>` +
+      rows.map(o => `<tr><td><strong>${e(o.p)}</strong></td><td class="n">${e(o.conf)}</td><td class="n ${o.g >= 0 ? "pos" : "neg"}">${o.g >= 0 ? "+" : ""}${e(o.g)}</td><td class="n neg">−${e(o.l)}</td><td class="n">0,00 €</td><td class="n"><strong>${isFinite(o.r) ? FMT.n(o.r, 1) : "jamais"}</strong></td></tr>`).join("") + `</tbody>`;
+    const r0 = rows[0], r2 = rows[rows.length - 1];
+    $("lectureRatio").innerHTML = `<span class="label">Lecture</span><p>À <strong>${e(r0.p)}</strong>, chaque client qui achetait déjà place + menu et passe au pack fait perdre ${e(r0.l)} de marge, et chaque client « place seule » converti n'en rapporte que ${e(r0.g)} : il faut <strong>${FMT.n(r0.r, 1)} conversions pour compenser un seul client B</strong>. À <strong>${e(r2.p)}</strong>, le rapport tombe à ${FMT.n(r2.r, 1)} pour 1. Le bon prix dépend donc de la part de clients A et B, et de combien acceptent le pack : c'est ce que mesure le questionnaire (<a href="recommandation.html">partie 5</a>).</p>`;
+
+    const pf = ECO.plancher(M);
+    $("calcPlancher").innerHTML = `<div class="head">Prix plancher du pack</div>` +
+      row("Place, comptée au plein tarif", e(M.prixPlace.v), "Hypothèse de ventilation (section 01)") +
+      row("+ Coût variable du menu, TVA comprise", e(cout * (1 + M.tvaConf.v)), `${e(cout)} × ${FMT.n(1 + M.tvaConf.v, 2)}`) +
+      row("= Prix plancher", e(pf), "En dessous, même un client « place seule » converti fait perdre de l'argent", "total");
+
+    drawTD2(pl, cout, pf);
+    renderComplet();
+  }
+
+  /* Prix de revient complet par spectateur : comptes 2025 (p. 9) ÷ entrées estimées */
+  function renderComplet(){
+    const BILLET_HT = 252447754, RECETTE_MOY = 7.42, CA = 399336460;
+    const entrees = BILLET_HT * (1 + M.tvaPlace.v) / RECETTE_MOY;
+    $("calcVolume").innerHTML = `<div class="head">Volume : nombre d'entrées de Pathé Cinémas France en 2025 <span class="tag est">Estimé</span></div>` +
+      row("Billetterie 2025, hors TVA", "252 447 754 €", `${FMT.tag("obs")} <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=30">comptes 2025, note 4.1, p. 30</a>`) +
+      row("× 1,055 (TVA réintégrée)", "266 332 380 €", "Pour comparer à une recette payée par le spectateur") +
+      row("÷ Recette moyenne par entrée en France en 2025", "7,42 €", `${FMT.tag("obs")} <a class="src" href="https://www.cnc.fr/professionnels/etudes-et-rapports/bilans/bilan-2025-du-cnc_2589800">CNC, Les chiffres clés 2025, p. 3</a>`) +
+      row("= Entrées estimées", FMT.n(entrees / 1e6, 1) + " millions", "Estimation haute : la place Pathé est plus chère que la moyenne nationale, donc le nombre réel d'entrées est probablement plus faible et le coût par spectateur plus élevé", "total");
+    const L = [
+      ["Location des films (part du distributeur)", 127778738, "var", "Achats de matières premières et approvisionnements, probablement la location des films"],
+      ["Achats de confiserie (marchandises vendues)", 23013519, "var", "Achats 22 902 374 € + variation de stock 111 145 €"],
+      ["Personnel (salaires + cotisations)", 49404883 + 17589356, "fixe", "49 404 883 € + 17 589 356 €, pour 1 373 salariés en moyenne"],
+      ["Autres achats et charges externes (loyers, énergie, services…)", 150936012, "fixe", "Les comptes ne détaillent pas cette ligne"],
+      ["Impôts et taxes", 4878711, "fixe", ""],
+      ["Dotations aux amortissements", 33250939, "fixe", "Usure des salles et des équipements"]
+    ];
+    const tot = L.reduce((s, x) => s + x[1], 0), totF = L.filter(x => x[2] === "fixe").reduce((s, x) => s + x[1], 0);
+    $("tabComplet").innerHTML = `<thead><tr><th>Charge 2025</th><th class="n">Montant (M€)</th><th class="n">Par spectateur</th><th>Nature</th></tr></thead><tbody>` +
+      L.map(([n, v, k, o]) => `<tr><td>${n}${o ? `<br><span class="muted" style="font-size:.85rem">${o}</span>` : ""}</td><td class="n">${FMT.n(v / 1e6, 1)}</td><td class="n">${FMT.e(v / entrees)}</td><td>${k === "fixe" ? "Fixe" : "Variable"}</td></tr>`).join("") +
+      `<tr class="hl"><td><strong>Coûts fixes par spectateur</strong></td><td class="n">${FMT.n(totF / 1e6, 1)}</td><td class="n"><strong>${FMT.e(totF / entrees)}</strong></td><td></td></tr>` +
+      `<tr class="hl"><td><strong>Coût complet par spectateur</strong> (lignes principales)</td><td class="n">${FMT.n(tot / 1e6, 1)}</td><td class="n"><strong>${FMT.e(tot / entrees)}</strong></td><td></td></tr>` +
+      `<tr><td>Chiffre d'affaires par spectateur (place, confiserie, publicité, divers)</td><td class="n">${FMT.n(CA / 1e6, 1)}</td><td class="n">${FMT.e(CA / entrees)}</td><td></td></tr></tbody>`;
+    $("capComplet").innerHTML = `Montants : compte de résultat 2025 <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a> ${FMT.tag("obs")} ; par spectateur = montant ÷ ${FMT.n(entrees / 1e6, 1)} millions d'entrées ${FMT.tag("est")}. Le classement fixe / variable est le nôtre ${FMT.tag("hyp")}. Lecture : chaque spectateur rapporte en moyenne ${FMT.e(CA / entrees)} et coûte déjà ${FMT.e(tot / entrees)} sur ces seules lignes principales (le tableau omet d'autres charges, dont 13,2 M€ d'« autres charges » et des provisions : la perte d'exploitation complète est de 20,5 M€, soit environ ${FMT.e(20532961 / entrees)} par spectateur). Même un spectateur plein tarif, sur qui Pathé garde 5,71 € (section 01), ne couvre pas les ${FMT.e(totF / entrees)} de coûts fixes moyens : c'est la confiserie qui doit combler la différence.`;
+  }
+
+  function drawTD2(pl, cout, pf){
+    const svg = $("td2"); svg.innerHTML = ""; const NS = "http://www.w3.org/2000/svg";
+    const el = (t, a, x) => { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); if (x != null) n.textContent = x; svg.appendChild(n); return n; };
+    const L = 150, R = 880, MAX = 22, x = v => L + v / MAX * (R - L);
+    const pack = M.prixTestes[M.prixTestes.length - 1];
+    const confTTC = pack - M.prixPlace.v, confHT = ECO.ht(confTTC, M.tvaConf.v);
+    const segPlace = [["Taxes (TVA, CNC)", pl.tva + pl.tsa, "var(--c-indep)"], ["Distributeur", pl.distrib, "var(--c-kine)"], ["Reste à Pathé", pl.reste, "var(--c-a)"]];
+    const segConf = [["TVA confiserie", confTTC - confHT, "var(--c-indep)"], ["Coût des produits", cout, "var(--bad)"], ["Marge confiserie", confHT - cout, "var(--good)"]];
+    const bar = (y, label, segs) => { el("text", { x: L - 12, y: y + 26, "text-anchor": "end", class: "lbl" }, label); let acc = 0; segs.forEach(([n, v, c]) => { const w = x(acc + Math.max(v, 0)) - x(acc); el("rect", { x: x(acc), y, width: Math.max(w, 0), height: 40, fill: c, "fill-opacity": .9 }); if (w > 46) el("text", { x: x(acc) + w / 2, y: y + 25, "text-anchor": "middle", style: "fill:#0F1013;font-weight:700" }, FMT.n(v, 2)); acc += Math.max(v, 0); }); el("text", { x: x(acc) + 6, y: y + 25 }, "= " + FMT.e(acc)); };
+    for (let v = 0; v <= MAX; v += 2) { el("line", { class: "grid", x1: x(v), x2: x(v), y1: 70, y2: 240 }); el("text", { x: x(v), y: 262, "text-anchor": "middle" }, v + " €"); }
+    bar(100, "Place seule", segPlace);
+    bar(170, `Pack à ${FMT.e(pack)}`, segPlace.concat(segConf));
+    const mark = (v, label, color, row) => { const ty = 18 + row * 18; el("line", { x1: x(v), x2: x(v), y1: ty + 4, y2: 240, stroke: color, "stroke-width": 2, "stroke-dasharray": "5 4" }); el("text", { x: x(v) - 6, y: ty, "text-anchor": "end", style: `fill:${color};font-weight:600` }, label); };
+    mark(pf, "plancher " + FMT.e(pf), "var(--bad)", 0);
+    mark(19.5, "plafond des concurrents 19,50 €", "var(--ink)", 2);
+    $("td2Legend").innerHTML = segPlace.concat(segConf.slice(1)).map(([n, , c]) => `<span><span class="dot" style="background:${c}"></span>${n}</span>`).join("");
+    // prix accepté (données réelles)
+    DONNEES.charger().then(rows => {
+      if (!rows || !rows.length) return;
+      const v = rows.map(r => DONNEES.num(r.gg_prix_max_accepte)).filter(x => x != null && x > 0).sort((a, b) => a - b);
+      if (!v.length) return;
+      const med = v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2;
+      mark(med, "prix maximum accepté médian " + FMT.e(med), "var(--accent)", 1);
+      $("td2Cap").textContent = `Prix maximum accepté médian parmi les ${v.length} répondants qui acceptent au moins 16,90 € (question 6) ; ${rows.length - v.length} répondant(s) refusent dès 16,90 €.`;
+    }).catch(() => {});
+  }
+
+  const inputs = { inMenu: ["prixMenu", 1], inTaux: ["tauxAchat", 100], inTva: ["tvaConf", 100], inPlace: ["prixPlace", 1] };
+  const fill = () => Object.entries(inputs).forEach(([id, [k, f]]) => $(id).value = +(M[k].v * f).toFixed(2));
+  Object.entries(inputs).forEach(([id, [k, f]]) => $(id).addEventListener("input", ev => { const v = parseFloat(ev.target.value); if (Number.isFinite(v)) { M[k].v = v / f; render(); } }));
+  $("reset").addEventListener("click", () => { M = JSON.parse(JSON.stringify(base)); fill(); render(); });
+  fill(); render();
+})();
+</script>
+</body>
+</html>

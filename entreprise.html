@@ -3,76 +3,85 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>L'entreprise · Dossier Pathé</title>
+<title>1 · L'entreprise · Dossier Pathé</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top">
+<header class="top"><div class="top-in">
   <a class="brand" href="index.html">Pathé <span>·</span> pack ciné</a>
-  <nav class="nav" aria-label="Pages du dossier">
-    <a href="index.html">Accueil</a>
-    <a href="marche.html">Le marché</a>
-    <a href="entreprise.html" aria-current="page">L'entreprise</a>
-    <a href="prix-psychologique.html">Prix psychologique</a>
-    <a href="recommandation.html">Recommandation</a>
-    <a href="sources.html">Sources et méthode</a>
+  <nav class="nav" aria-label="Parties du dossier">
+    <a href="entreprise.html" aria-current="page"><b>1</b>L'entreprise</a>
+    <a href="marche.html"><b>2</b>Le marché</a>
+    <a href="prix-psychologique.html"><b>3</b>La mesure du prix</a>
+    <a href="couts.html"><b>4</b>Coûts et marge</a>
+    <a href="recommandation.html"><b>5</b>La décision</a>
+    <a href="sources.html">Sources</a>
   </nav>
-</header>
+</div></header>
 
 <main>
   <div class="hero">
-    <p class="eyebrow">Page 2 · L'entreprise · comptes annuels 2025 de Pathé Cinémas France</p>
+    <p class="eyebrow">Partie 1 · L'entreprise</p>
     <h1>La billetterie recule, la confiserie progresse</h1>
-    <p class="lede">Ce que disent le bilan et le compte de résultat 2025 de Pathé Cinémas France, la société qui exploite les salles Pathé en France. Tous les chiffres viennent des comptes annuels approuvés le 23 avril 2026<sup class="s"><a href="sources.html#s39">39</a></sup>.</p>
+    <p class="lede">Qui est Pathé Cinémas France, de quoi vit la société, et que disent ses comptes 2025 ? Tous les chiffres de cette page viennent des <a href="docs/pathe-cinemas-france-comptes-2025.pdf">comptes annuels 2025 de Pathé Cinémas France</a> (comptes sociaux, assemblée du 23 avril 2026). Les numéros de page renvoient au PDF.</p>
   </div>
 
-  <!-- 1. CA -->
-  <section>
-    <div class="sec-head"><span class="num">01</span><h2>D'où vient l'argent</h2></div>
-    <p>L'annexe des comptes ventile le chiffre d'affaires par activité. C'est la donnée clé de notre dossier : elle sépare la billetterie de la confiserie (« Retail »).</p>
-    <div class="chart"><svg id="caChart" viewBox="0 0 900 250" role="img" aria-label="Chiffre d'affaires 2024 et 2025 par activité : billetterie, confiserie, publicité, ventes diverses"></svg><div class="legend" id="caLegend"></div></div>
+  <section aria-labelledby="qui">
+    <div class="sec-head"><span class="num">01 · Qui est-elle</span><h2 id="qui">La société qui exploite les salles Pathé en France</h2></div>
+    <p>Pathé Cinémas France (SIREN 444 567 127) est la filiale qui exploite les cinémas Pathé en France, dont celui d'Aubière près de Clermont-Ferrand. Elle appartient au groupe Pathé Cinémas, dont les comptes consolidés sont distincts. Son chiffre d'affaires passe de 3,2 M€ en 2021 à 155,1 M€ en 2022, puis 414,3 M€ en 2023 <a class="src" href="https://annuaire-entreprises.data.gouv.fr/donnees-financieres/444567127">Annuaire des entreprises, consulté le 20/10/2026</a> : elle n'exploite l'essentiel des salles que depuis 2022, et ses chiffres antérieurs ne sont pas comparables. En 2025, elle emploie en moyenne 1 373 personnes <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=34">p. 34</a>.</p>
+  </section>
+
+  <section aria-labelledby="argent">
+    <div class="sec-head"><span class="num">02 · De quoi elle vit</span><h2 id="argent">D'où vient le chiffre d'affaires</h2></div>
+    <div class="chart">
+      <h3>Chiffre d'affaires par activité, en millions d'euros</h3>
+      <svg id="caChart" viewBox="0 0 900 230" role="img" aria-label="Chiffre d'affaires 2024 et 2025 par activité : billetterie, confiserie, publicité, ventes diverses"></svg>
+      <div class="legend" id="caLegend"></div>
+    </div>
     <div class="scroll">
       <table>
-        <thead><tr><th>En millions d'euros</th><th class="n">2024</th><th class="n">2025</th><th class="n">Évolution</th><th class="n">Part du CA 2025</th></tr></thead>
+        <thead><tr><th>En millions d'euros</th><th class="n">2024</th><th class="n">2025</th><th class="n">Évolution</th><th class="n">Part en 2025</th></tr></thead>
         <tbody>
           <tr><td>Billetterie (« Box Office »)</td><td class="n">271,3</td><td class="n">252,4</td><td class="n neg">−7,0 %</td><td class="n">63,2 %</td></tr>
           <tr class="hl"><td><strong>Confiserie (« Retail »)</strong></td><td class="n">81,6</td><td class="n">86,4</td><td class="n pos">+5,9 %</td><td class="n">21,6 %</td></tr>
           <tr><td>Publicité</td><td class="n">14,6</td><td class="n">15,1</td><td class="n pos">+3,3 %</td><td class="n">3,8 %</td></tr>
           <tr><td>Ventes diverses</td><td class="n">40,7</td><td class="n">45,4</td><td class="n pos">+11,5 %</td><td class="n">11,4 %</td></tr>
-          <tr><td><strong>Chiffre d'affaires total</strong></td><td class="n">408,3</td><td class="n">399,3</td><td class="n neg">−2,2 %</td><td class="n">100 %</td></tr>
+          <tr><td><strong>Total</strong></td><td class="n">408,3</td><td class="n">399,3</td><td class="n neg">−2,2 %</td><td class="n">100 %</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="caption">Source : comptes annuels 2025, note 4.1 « Ventilation du chiffre d'affaires », p. 30 du PDF<sup class="s"><a href="sources.html#s39">39</a></sup>. Évolutions et parts calculées par nous.</p>
-    <div class="callout">
-      <span class="label">Ce que ça veut dire pour le pack</span>
-      <p>La billetterie perd 18,9 M€ en un an, la confiserie en gagne 4,8 M€. Chez Pathé, la confiserie pèse <strong>21,6 % du chiffre d'affaires</strong>, bien plus que les 13 % de la moyenne française mesurée par l'Insee en 2015<sup class="s"><a href="sources.html#s36">36</a></sup>. C'est le seul gros poste en croissance : un pack qui fait acheter plus de confiserie s'appuie sur ce qui marche déjà.</p>
+    <p class="caption">Source : note 4.1 « Ventilation du chiffre d'affaires » <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=30">p. 30</a> (2025 : 399 336 460 € ; 2024 : 408 252 871 €). Évolutions et parts calculées par nous. Les montants sont arrondis au dixième : leur somme peut différer du total de 0,1.</p>
+    <div class="callout bad">
+      <span class="label">Une incohérence dans les comptes de Pathé</span>
+      <p>Pour 2024, la note 4.1 donne 81,6 M€ de confiserie, mais le compte de résultat donne <strong>83,3 M€</strong> de ventes de marchandises (83 285 544 €) <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a>. La hausse de la confiserie en 2025 est donc de <strong>+5,9 %</strong> selon la note, ou de <strong>+3,8 %</strong> selon le compte de résultat. Les comptes ne l'expliquent pas (reclassement probable entre catégories). Dans les deux cas, la confiserie progresse alors que la billetterie recule.</p>
     </div>
   </section>
 
-  <!-- 2. Marge confiserie -->
-  <section>
-    <div class="sec-head"><span class="num">02</span><h2>Ce que rapporte la confiserie</h2></div>
-    <div class="grid-3">
-      <div class="card"><span class="kpi">86,4<small>M€</small></span><p>Ventes de marchandises (confiserie) en 2025<sup class="s"><a href="sources.html#s39">39</a></sup>.</p></div>
-      <div class="card"><span class="kpi">23,0<small>M€</small></span><p>Ce qu'elles ont coûté : achats de marchandises 22,9 M€ + variation de stock 0,1 M€<sup class="s"><a href="sources.html#s39">39</a></sup>.</p></div>
-      <div class="card"><span class="kpi">73<small>%</small></span><p>Taux de marge commerciale, calculé par nous : (86,4 − 23,0) ÷ 86,4. Sur 10 € de popcorn vendu, il reste environ 7,30 € après l'achat des produits.</p></div>
+  <section aria-labelledby="marge">
+    <div class="sec-head"><span class="num">03 · Ce que rapporte la confiserie</span><h2 id="marge">73 % de marge commerciale</h2></div>
+    <div class="calc">
+      <div class="head">Taux de marge commerciale 2025 <span class="tag obs">Observé</span></div>
+      <div class="row"><span class="t">Ventes de marchandises</span><span class="v">86 444 020 €</span><span class="o">Compte de résultat <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a></span></div>
+      <div class="row"><span class="t">− Achats de marchandises</span><span class="v">22 902 374 €</span><span class="o">Même page</span></div>
+      <div class="row"><span class="t">− Variation de stock de marchandises</span><span class="v">111 145 €</span><span class="o">Même page</span></div>
+      <div class="row sub"><span class="t">= Coût d'achat des marchandises vendues</span><span class="v">23 013 519 €</span><span class="o">soit 26,6 % des ventes</span></div>
+      <div class="row total"><span class="t">Marge commerciale ÷ ventes</span><span class="v">73,4 %</span><span class="o">(86 444 020 − 23 013 519) ÷ 86 444 020</span></div>
     </div>
-    <p>Sur la billetterie, le cinéma doit reverser une part de chaque place au distributeur du film. Le compte de résultat contient une ligne « achats de matières premières et autres approvisionnements » de 127,8 M€, soit 51 % de la billetterie : <strong>c'est probablement la location des films</strong>, mais les comptes ne le disent pas explicitement. À confirmer dans le rapport de gestion ou auprès du professeur.</p>
+    <p>Sur 10 € de confiserie vendus hors TVA, Pathé paie environ 2,66 € de produits. C'est ce taux de 26,6 % que nous utilisons pour chiffrer le coût du pop-corn et de la boisson du pack (<a href="couts.html#confiserie">partie 4</a>). Limite : c'est une moyenne sur toute la confiserie (bonbons, boissons en bouteille, pop-corn), pas le coût exact d'un menu.</p>
+    <p>Sur la billetterie, le cinéma reverse une part de chaque place au distributeur du film. Le compte de résultat contient 127,8 M€ d'« achats de matières premières et autres approvisionnements » <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a>, soit 50,6 % de la billetterie. C'est très probablement la location des films, ce que les comptes ne disent pas explicitement ; le niveau est cohérent avec la part légale reversée aux distributeurs, comprise entre 25 et 50 % de la recette <a class="src" href="https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537">réponse du ministère de la Culture, 11/10/2022</a>.</p>
   </section>
 
-  <!-- 3. Compte de résultat -->
-  <section>
-    <div class="sec-head"><span class="num">03</span><h2>Pourquoi Pathé perd de l'argent en 2025</h2></div>
+  <section aria-labelledby="perte">
+    <div class="sec-head"><span class="num">04 · Le résultat</span><h2 id="perte">Pourquoi Pathé perd de l'argent en 2025</h2></div>
     <div class="scroll">
       <table>
         <thead><tr><th>En millions d'euros</th><th class="n">2024</th><th class="n">2025</th><th class="n">Écart</th></tr></thead>
         <tbody>
           <tr><td>Chiffre d'affaires</td><td class="n">408,3</td><td class="n">399,3</td><td class="n neg">−8,9</td></tr>
           <tr><td>Achats de marchandises (confiserie)</td><td class="n">22,8</td><td class="n">22,9</td><td class="n">+0,1</td></tr>
-          <tr><td>Achats « matières premières et approvisionnements » (probablement les films)</td><td class="n">138,9</td><td class="n">127,8</td><td class="n pos">−11,1</td></tr>
+          <tr><td>Achats de matières premières et approvisionnements (probablement les films)</td><td class="n">138,9</td><td class="n">127,8</td><td class="n pos">−11,1</td></tr>
           <tr><td>Autres achats et charges externes (loyers, énergie, services…)</td><td class="n">142,0</td><td class="n">150,9</td><td class="n neg">+8,9</td></tr>
           <tr><td>Salaires et cotisations sociales</td><td class="n">59,4</td><td class="n">67,0</td><td class="n neg">+7,6</td></tr>
           <tr><td>Dotations aux amortissements</td><td class="n">31,3</td><td class="n">33,3</td><td class="n neg">+1,9</td></tr>
@@ -83,18 +92,31 @@
         </tbody>
       </table>
     </div>
-    <p class="caption">Source : compte de résultat 2025, p. 9 et 10 du PDF<sup class="s"><a href="sources.html#s39">39</a></sup>. Écarts calculés par nous ; sommes arrondies.</p>
-    <div class="grid-3">
-      <div class="card"><h3>Les recettes baissent</h3><p>−8,9 M€ de chiffre d'affaires, tirés par la billetterie (−18,9 M€). Moins d'entrées, comme dans tout le secteur.</p></div>
-      <div class="card"><h3>Les coûts fixes montent</h3><p>Charges externes +8,9 M€, salaires +7,6 M€ : ces coûts ne baissent pas quand les salles se vident. Effectif moyen : 1 373 personnes<sup class="s"><a href="sources.html#s39">39</a></sup>.</p></div>
-      <div class="card"><h3>Effet de ciseau</h3><p>Recettes en baisse, coûts fixes en hausse : le résultat d'exploitation passe de +3,0 M€ à −20,5 M€. La société ne peut pas se permettre de baisser ses prix.</p></div>
+    <p class="caption">Source : compte de résultat <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a> et <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=10">p. 10</a> (résultat net 2025 : −21 727 480 € ; 2024 : +2 759 905 €). Lignes principales seulement ; écarts calculés par nous.</p>
+    <div class="two">
+      <div class="card"><h3>Les recettes baissent</h3><p>−8,9 M€ de chiffre d'affaires, tirés par la billetterie (−18,9 M€).</p></div>
+      <div class="card"><h3>Les coûts fixes montent</h3><p>Charges externes +8,9 M€, salaires +7,6 M€ : ces coûts ne baissent pas quand les salles se vident.</p></div>
     </div>
-    <p class="caption">Attention : en 2025, la société a reçu 3 cinémas par apport (dont le Pathé Palace) et absorbé la société Cinémazarin<sup class="s"><a href="sources.html#s39">39</a></sup> (note 1.2, p. 14). Une partie des hausses de coûts vient de ce périmètre plus large.</p>
+    <div class="callout bad">
+      <span class="label">À périmètre comparable, la baisse est plus forte</span>
+      <p>En 2025, la société a reçu trois cinémas par apport (Cinémas de la Valentine, Pathé Palace, Le Cézanne) et absorbé la société Cinémazarin <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=14">faits caractéristiques, p. 14</a>. Les comptes recalculent donc 2024 comme si ces cinémas avaient déjà été dans la société :</p>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>À périmètre comparable, en millions d'euros</th><th class="n">2024 retraité</th><th class="n">2025</th><th class="n">Évolution</th></tr></thead>
+        <tbody>
+          <tr><td>Chiffre d'affaires</td><td class="n">440,0</td><td class="n">399,3</td><td class="n neg">−9,2 %</td></tr>
+          <tr><td>Résultat d'exploitation</td><td class="n pos">+7,3</td><td class="n neg">−20,5</td><td class="n neg">−27,8</td></tr>
+          <tr><td>Résultat net</td><td class="n pos">+6,5</td><td class="n neg">−21,7</td><td class="n neg">−28,3</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">Source : note 1.2.1 « Comparabilité des comptes à périmètre comparable » <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=14">p. 14</a> (2024 retraité : 439 957 166 € de chiffre d'affaires, 7 298 032 € de résultat d'exploitation, 6 549 777 € de résultat net). La même page signale la fermeture du Miramar (Paris) le 30 juin 2025.</p>
+    <p>Autrement dit, la baisse de −2,2 % du chiffre d'affaires publié masque un recul de <strong>−9,2 %</strong> à cinémas identiques : la situation est plus dégradée que ne le montre la comparaison brute.</p>
   </section>
 
-  <!-- 4. Bilan -->
-  <section>
-    <div class="sec-head"><span class="num">04</span><h2>Le bilan : solide, mais peu de trésorerie</h2></div>
+  <section aria-labelledby="bilan">
+    <div class="sec-head"><span class="num">05 · Le bilan</span><h2 id="bilan">Solide, mais peu de trésorerie</h2></div>
     <div class="scroll">
       <table>
         <thead><tr><th>Au 31 décembre, en millions d'euros</th><th class="n">2024</th><th class="n">2025</th></tr></thead>
@@ -110,28 +132,28 @@
         </tbody>
       </table>
     </div>
-    <p class="caption">Source : bilan actif et passif, p. 7 et 8 du PDF ; état des dettes, p. 29<sup class="s"><a href="sources.html#s39">39</a></sup>.</p>
-    <div class="grid-3">
-      <div class="card"><h3>Des fonds propres élevés</h3><p>504,5 M€ de capitaux propres, en hausse malgré la perte, grâce aux apports du groupe (capital et primes en hausse). La société tient debout.</p></div>
-      <div class="card"><h3>Peu de trésorerie</h3><p>6,7 M€ en banque pour 399 M€ de chiffre d'affaires : moins d'une semaine d'activité. Une opération qui coûte de l'argent au départ doit être financée par le groupe.</p></div>
-      <div class="card"><h3>Le stock tourne vite</h3><p>3,5 M€ de confiserie en stock pour 23 M€ achetés dans l'année : le stock se renouvelle environ 6,5 fois par an. Un pack qui vend plus ne demande pas de gros stock supplémentaire.</p></div>
+    <p class="caption">Source : bilan actif <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=7">p. 7</a>, bilan passif <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=8">p. 8</a>, état des dettes <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=29">p. 29</a>.</p>
+    <p>Les capitaux propres augmentent malgré la perte, grâce aux apports du groupe (capital et primes en hausse). En revanche, 6,7 M€ de trésorerie pour 399 M€ de chiffre d'affaires, c'est environ six jours d'activité : une offre qui coûte de l'argent au départ dépendrait du financement du groupe.</p>
+  </section>
+
+  <section aria-labelledby="lecture">
+    <div class="sec-head"><span class="num">06 · Ce que nous en retenons</span><h2 id="lecture">Ce que Pathé peut se permettre</h2></div>
+    <div class="callout">
+      <span class="label">Notre lecture</span>
+      <p><strong>Baisser le prix des places n'est pas une option</strong> : la billetterie recule, les coûts fixes montent, le chiffre d'affaires baisse de 9,2 % à périmètre comparable, le résultat d'exploitation est à −20,5 M€, et une place à 13,50 € ne laisse qu'environ 5,70 € à Pathé une fois la TVA, la taxe CNC et le distributeur payés (<a href="couts.html#place">calcul en partie 4</a>).</p>
+      <p><strong>Faire dépenser plus chaque spectateur en est une</strong> : la confiserie est le seul gros poste en croissance et elle garde 73 % de marge. Un pack n'a de sens que si la remise accordée reste inférieure à la marge gagnée sur les clients qui ne prenaient que la place. C'est ce que chiffrent les parties 4 et 5.</p>
     </div>
   </section>
 
-  <!-- 5. Conclusion -->
-  <section>
-    <div class="sec-head"><span class="num">05</span><h2>Ce que Pathé peut se permettre</h2></div>
-    <div class="callout">
-      <span class="label">Notre lecture</span>
-      <p><strong>Pathé ne peut pas baisser le prix de ses places</strong> : la billetterie recule, les coûts fixes montent et le résultat d'exploitation est à −20,5 M€.</p>
-      <p><strong>Il peut en revanche chercher à faire dépenser plus chaque spectateur.</strong> La confiserie est son seul gros poste en croissance (+5,9 %) et elle dégage environ 73 % de marge commerciale. Un pack place + confiserie est tenable si la remise accordée reste inférieure à la marge gagnée sur les clients qui n'auraient pris que la place.</p>
-    </div>
-  </section>
+  <nav class="next" aria-label="Pages voisines">
+    <a href="index.html"><small>← Accueil</small>La question posée</a>
+    <a href="marche.html" style="text-align:right"><small>Partie 2 →</small>Le marché</a>
+  </nav>
 </main>
 
 <footer>
-  <span>Dossier « Prix et budgets marketing », M1 Marketing, IAE Clermont Auvergne, 2026-2027</span>
-  <span>Page mise à jour le 8 octobre 2026</span>
+  <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
+  <span>Chiffres revérifiés dans le PDF le 20 octobre 2026</span>
 </footer>
 
 <script>
@@ -140,23 +162,23 @@
   const el = (p, t, a = {}, x) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (x != null) e.textContent = x; p.appendChild(e); return e; };
   const fr = v => v.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const parts = [
-    { n: "Billetterie", c: "var(--c-pathe)", v: [271.3, 252.4] },
-    { n: "Confiserie", c: "var(--c-cgr)", v: [81.6, 86.4] },
-    { n: "Publicité", c: "var(--c-kine)", v: [14.6, 15.1] },
-    { n: "Ventes diverses", c: "var(--c-indep)", v: [40.7, 45.4] }
+    { n: "Billetterie", c: "var(--c-pathe)", v: [271.336, 252.448] },
+    { n: "Confiserie", c: "var(--c-cgr)", v: [81.643, 86.444] },
+    { n: "Publicité", c: "var(--c-kine)", v: [14.607, 15.089] },
+    { n: "Ventes diverses", c: "var(--c-mega)", v: [40.666, 45.356] }
   ];
   const svg = document.getElementById("caChart");
-  const L = 70, R = 880, MAX = 410, x = v => L + v / MAX * (R - L);
-  [["2024", 0, 40], ["2025", 1, 140]].forEach(([yr, i, y]) => {
-    el(svg, "text", { x: L - 10, y: y + 30, "text-anchor": "end", class: "lbl" }, yr);
+  const L = 70, R = 860, MAX = 420, x = v => L + v / MAX * (R - L);
+  [["2024", 0, 30], ["2025", 1, 120]].forEach(([yr, i, y]) => {
+    el(svg, "text", { x: L - 10, y: y + 32, "text-anchor": "end", class: "lbl" }, yr);
     let acc = 0;
     parts.forEach(p => {
       const w = x(acc + p.v[i]) - x(acc);
-      el(svg, "rect", { x: x(acc), y, width: w, height: 50, fill: p.c });
-      if (w > 60) el(svg, "text", { x: x(acc) + w / 2, y: y + 30, "text-anchor": "middle", fill: "#fff", "font-weight": "600" }, fr(p.v[i]));
+      el(svg, "rect", { x: x(acc), y, width: w, height: 54, fill: p.c });
+      if (w > 60) el(svg, "text", { x: x(acc) + w / 2, y: y + 32, "text-anchor": "middle", fill: "#0F1013", "font-weight": "700", style: "fill:#0F1013" }, fr(p.v[i]));
       acc += p.v[i];
     });
-    el(svg, "text", { x: x(acc) + 8, y: y + 30 }, fr(acc) + " M€");
+    el(svg, "text", { x: x(acc) + 8, y: y + 32 }, fr(acc) + " M€");
   });
   document.getElementById("caLegend").innerHTML = parts.map(p => `<span><span class="dot" style="background:${p.c}"></span>${p.n}</span>`).join("");
 })();

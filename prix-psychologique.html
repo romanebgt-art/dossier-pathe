@@ -3,147 +3,273 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Prix psychologique · Dossier Pathé</title>
+<title>3 · La mesure du prix · Dossier Pathé</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <link rel="stylesheet" href="style.css">
 <style>
-.ab{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.ab .tag{font:700 .8rem var(--mono);color:var(--accent-ink)}
-.ab .ref{font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:6px 10px}
-ol.steps{margin:0;padding-left:22px;display:grid;gap:8px}
-code{font:500 .88rem var(--mono);background:var(--soft);padding:1px 5px;border-radius:4px}
-.obj{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.obj .card .kpi{font-size:1.4rem}
+.bar-row{display:grid;grid-template-columns:minmax(0,38%) minmax(60px,1fr) auto;gap:12px;align-items:center;font-size:.92rem}
+.bar-row .track{display:block;height:12px;background:var(--raise);border-radius:999px;overflow:hidden}
+.bar-row .fill{display:block;height:100%;background:var(--accent);border-radius:999px}
+@media (max-width:520px){.bar-row{grid-template-columns:1fr 64px}.bar-row .track{grid-column:1/-1;grid-row:2}}
+.bar-row .val{font:600 .86rem var(--mono);text-align:right;white-space:nowrap}
+.bars{display:grid;gap:10px}
+.empty{color:var(--muted);font-style:italic}
+#ggChart text{font-size:15px}#ggChart .lbl{font-size:16px}
 </style>
 </head>
 <body>
-<header class="top">
+<header class="top"><div class="top-in">
   <a class="brand" href="index.html">Pathé <span>·</span> pack ciné</a>
-  <nav class="nav" aria-label="Pages du dossier">
-    <a href="index.html">Accueil</a>
-    <a href="marche.html">Le marché</a>
-    <a href="entreprise.html">L'entreprise</a>
-    <a href="prix-psychologique.html" aria-current="page">Prix psychologique</a>
-    <a href="recommandation.html">Recommandation</a>
-    <a href="sources.html">Sources et méthode</a>
+  <nav class="nav" aria-label="Parties du dossier">
+    <a href="entreprise.html"><b>1</b>L'entreprise</a>
+    <a href="marche.html"><b>2</b>Le marché</a>
+    <a href="prix-psychologique.html" aria-current="page"><b>3</b>La mesure du prix</a>
+    <a href="couts.html"><b>4</b>Coûts et marge</a>
+    <a href="recommandation.html"><b>5</b>La décision</a>
+    <a href="sources.html">Sources</a>
   </nav>
-</header>
+</div></header>
+
 <main>
   <div class="hero">
-    <p class="eyebrow">Page 3 · Prix psychologique · version revue après le TD 2 du 12 octobre · collecte du 12 au 21 octobre</p>
-    <h1>Pourquoi acheter un pack plutôt qu'une place seule, et à quel prix ?</h1>
-    <p class="lede">Notre questionnaire vend le même pack de deux façons différentes, tirées au sort, et cherche d'où vient la différence d'acceptation. Toutes les personnes répondent aux mêmes questions.</p>
-    <p><a class="pill up" href="questionnaire.html" style="text-decoration:none">Ouvrir le questionnaire</a></p>
+    <p class="eyebrow">Partie 3 · La mesure de prix psychologique, auprès de vraies personnes</p>
+    <h1>Quel prix les clients acceptent-ils pour le pack ?</h1>
+    <p class="lede">Un questionnaire en ligne, mené du 12 au 21 octobre 2026, avec un test A/B : la moitié des répondants voit le prix des produits achetés séparément (22 €), l'autre non. Tous les résultats de cette page sont recalculés à partir de l'export brut des réponses : aucun chiffre n'est saisi à la main.</p>
+    <p><a href="questionnaire.html">Voir le questionnaire tel que les répondants l'ont vu</a></p>
   </div>
 
-  <section>
-    <div class="sec-head"><span class="num">01</span><h2>Ce que nous voulons savoir</h2></div>
-    <div class="obj">
-      <div class="card"><span class="kpi">O1</span><h3>À quel prix vendre le pack ?</h3><p>Le prix qui fait acheter le plus de monde, et celui qui rapporte le plus de marge (Van Westendorp, Gabor-Granger).</p></div>
-      <div class="card"><span class="kpi">O2</span><h3>Quelle présentation le fait mieux accepter ?</h3><p>Le même pack présenté de deux façons : d'où vient la variation du prix accepté (test A/B).</p></div>
-      <div class="card"><span class="kpi">O3</span><h3>Pourquoi un pack plutôt qu'une place seule ?</h3><p>La valeur perçue du pack mène-t-elle à l'intention de l'acheter, et pour quelle raison (économie, praticité, file d'attente) ?</p></div>
-      <div class="card"><span class="kpi">O4</span><h3>Qui le pack peut-il convaincre ?</h3><p>Les clients qui ne prennent que la place (ceux qui font gagner de l'argent) et ce qui les freine aujourd'hui.</p></div>
-      <div class="card"><span class="kpi">O5</span><h3>À quoi le pack est-il comparé ?</h3><p>Les prix de référence du client : sa dépense en confiserie, ses abonnements de streaming, l'image de Pathé face à CGR.</p></div>
+  <section aria-labelledby="methode">
+    <div class="sec-head"><span class="num">01 · Méthode</span><h2 id="methode">Ce que nous mesurons, et comment</h2></div>
+    <div class="two">
+      <div class="card"><h3>Gabor-Granger (question 6)</h3><p>Le pack est présenté en image. On demande « Achèteriez-vous ce pack à ce prix ? » à 16,90 €, puis 17,90 €, puis 18,90 €, toujours dans cet ordre croissant et pour tout le monde. Dès qu'une personne répond non, les prix suivants ne lui sont pas montrés et comptent comme des refus. On obtient la part d'acheteurs à chaque prix, et le prix maximum accepté par chacun.</p></div>
+      <div class="card"><h3>Test A/B (une seule différence)</h3><p>À l'ouverture, le hasard attribue la version A ou B. En version B seulement, l'image du pack porte la mention « Achetés séparément : 22,00 € » (13,50 € de place + 8,50 € de menu estimé). La version vue est enregistrée (colonne <code>vu_prix_22</code> : 1 = a vu 22 €, 0 = non).</p></div>
+      <div class="card"><h3>Valeur perçue (question 8)</h3><p>Trois phrases de l'échelle de valeur perçue de <a href="https://doi.org/10.2307/3172866">Dodds, Monroe et Grewal (1991)</a>, notées sur une échelle de Likert en 5 points : bonne affaire, prix acceptable, rapport qualité-prix. Les phrases originales et nos traductions sont <a href="#dodds">plus bas</a>.</p></div>
+      <div class="card"><h3>Profil et habitudes</h3><p>Dernière séance, achats lors de cette séance (place seule ou avec confiserie), cinéma fréquenté, situation, dépense en confiserie et en streaming, canaux d'achat, perception des enseignes. Ils décrivent l'échantillon et séparent les clients « place seule » des clients qui achètent déjà la confiserie.</p></div>
+    </div>
+    <details>
+      <summary>Les 13 questions, dans l'ordre</summary>
+      <div class="inner">
+        <div class="scroll"><table>
+          <thead><tr><th>N°</th><th>Question</th><th>Réponse</th><th>À quoi elle sert</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Quand êtes-vous allé au cinéma pour la dernière fois ?</td><td>6 modalités, de moins d'une semaine à jamais</td><td>Décrire l'échantillon, repérer les non-spectateurs</td></tr>
+            <tr><td>2</td><td>Lors de cette dernière séance, qu'avez-vous acheté ?</td><td>Choix multiple : place, pop-corn, autres snacks, boissons, produits dérivés</td><td>Séparer les clients A (place seule) et B (déjà avec confiserie) : le calcul de rentabilité en dépend</td></tr>
+            <tr><td>3</td><td>Avec qui allez-vous au cinéma ?</td><td>Choix multiple</td><td>Profil</td></tr>
+            <tr><td>4</td><td>Dans quel cinéma allez-vous le plus souvent ?</td><td>Choix unique</td><td>Part de clients Pathé dans l'échantillon</td></tr>
+            <tr><td>5</td><td>Quelle est votre situation ?</td><td>Choix unique</td><td>Profil, comparaison des groupes A et B</td></tr>
+            <tr><td>—</td><td>Présentation de l'offre (version A ou B)</td><td>—</td><td>La seule différence entre les deux groupes</td></tr>
+            <tr><td>6</td><td>Achèteriez-vous ce pack à ce prix ? (16,90, 17,90, 18,90 €)</td><td>Oui / non, prix par prix</td><td>Gabor-Granger : part d'acheteurs par prix</td></tr>
+            <tr><td>7</td><td>Est-ce que ces avantages vous donnent envie d'acheter le pack ?</td><td>Matrice : pas du tout, un peu, beaucoup</td><td>Pourquoi un pack : économie, praticité, file d'attente</td></tr>
+            <tr><td>8</td><td>Êtes-vous d'accord avec ces phrases ? (pack affiché avec son prix)</td><td>Likert 5 points</td><td>Valeur perçue, comparée entre A et B</td></tr>
+            <tr><td>9</td><td>Comment achetez-vous votre place ?</td><td>Matrice : jamais à toujours</td><td>Canal où vendre le pack</td></tr>
+            <tr><td>10</td><td>Quelle enseigne est la moins chère ? la plus agréable ?</td><td>Choix unique</td><td>Positionnement perçu de Pathé</td></tr>
+            <tr><td>11</td><td>Combien dépensez-vous en confiserie par séance ?</td><td>Montant en €</td><td>Prix de référence réel du client</td></tr>
+            <tr><td>12-13</td><td>Abonnements de streaming et montant mensuel</td><td>Choix multiple, montant en €</td><td>Le prix de référence d'un divertissement à domicile</td></tr>
+          </tbody>
+        </table></div>
+        <p class="caption">Changement en cours de collecte : le prix du pack affiché à la question 8 est passé de 18,90 € à 16,90 € le 15 octobre 2026. La colonne <code>prix_pack_affiche</code> permet de séparer les deux groupes ; les résultats de la question 8 sont donnés pour chacun.</p>
+      </div>
+    </details>
+    <div class="callout info">
+      <span class="label">Règles de nettoyage, appliquées automatiquement</span>
+      <p>Une ligne par répondant. Sont signalés, sans être effacés en silence : les réponses de moins de 60 secondes, les dépenses en confiserie supérieures à 50 € par séance, les réponses de test. La question 6 ne peut pas produire d'incohérence (accepter un prix élevé et refuser un plus bas), puisque les prix s'arrêtent au premier refus.</p>
     </div>
   </section>
 
-  <section>
-    <div class="sec-head"><span class="num">02</span><h2>Le test A/B : une seule différence</h2></div>
-    <p>À l'ouverture du questionnaire, le hasard attribue à chaque répondant la version A ou la version B. L'offre est présentée en image, et tout le reste est identique.</p>
-    <div class="ab">
-      <div class="card"><span class="tag">Version A</span><h3>Le pack seul</h3><p>1 place + 1 popcorn moyen + 1 boisson de 50 cl.</p></div>
-      <div class="card"><span class="tag">Version B</span><h3>Le pack + son prix de référence</h3><p>La même image, plus un badge :</p><p class="ref">« Achetés séparément : 22,00 € »</p></div>
+  <section aria-labelledby="qui" id="resultats">
+    <div class="sec-head"><span class="num">02 · Les répondants</span><h2 id="qui">Qui a répondu</h2></div>
+    <div id="etat" class="todo-box">
+      <strong>Réponses en cours d'import</strong>
+      <p>Cette partie se remplit à partir du fichier <code>data/reponses.csv</code> (export de l'onglet « reponses » de la feuille Google Sheets, menu Fichier › Télécharger › CSV). Tant que le fichier n'est pas déposé, aucun résultat n'est affiché : nous n'inventons pas de chiffres.</p>
     </div>
-    <div class="callout">
-      <span class="label">Hypothèses</span>
-      <p><strong>H1</strong> : la version B fait accepter un prix plus élevé (Van Westendorp, Gabor-Granger). <strong>H2</strong> : la version B augmente la valeur perçue. <strong>H3</strong> : plus la valeur perçue est élevée, plus l'intention d'achat est forte.</p>
+    <div id="bloc-qui" hidden>
+      <div class="kpis" id="kpi-qui"></div>
+      <div class="two" style="margin-top:20px">
+        <div class="card"><h3>Situation</h3><div class="bars" id="b-situation"></div></div>
+        <div class="card"><h3>Cinéma le plus fréquenté</h3><div class="bars" id="b-cinema"></div></div>
+        <div class="card"><h3>Dernière séance</h3><div class="bars" id="b-seance"></div></div>
+        <div class="card"><h3>Achats lors de la dernière séance</h3><div class="bars" id="b-type"></div></div>
+      </div>
+      <p class="caption" id="cap-qui"></p>
     </div>
-    <div class="todo-box"><strong>Le prix de référence de 22 €</strong><p>Place plein tarif à Aubière (13,50 €) + menu popcorn et boisson estimé à 8,50 €. Le prix du menu n'est pas publié en ligne : notre estimation et ses sources sont détaillées sur la page <a href="marche.html#plafond">Le marché</a>. À remplacer par le prix relevé en caisse (une ligne à changer : <code>PRIX_SEPARES</code>).</p></div>
   </section>
 
-  <section>
-    <div class="sec-head"><span class="num">03</span><h2>Les questions, et à quoi elles servent</h2></div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>Thème</th><th>Question</th><th>Échelle</th><th>Pourquoi</th></tr></thead>
-        <tbody>
-          <tr><td>Accueil</td><td>Objet, durée, anonymat, accord</td><td>Choix unique</td><td>Obligation d'information (CNIL)</td></tr>
-          <tr><td rowspan="3">Habitudes (bloc de fin)</td><td>Quand êtes-vous allé au cinéma pour la dernière fois ?</td><td>Ordinale (9 modalités, de moins d'une semaine à jamais)</td><td>Remplace le filtre : tout le monde répond, et on mesure la récence de fréquentation (O4)</td></tr>
-          <tr><td>Lors de cette dernière séance, qu'avez-vous acheté ?</td><td>Nominale</td><td>Sépare les clients qui ne prennent que la place de ceux qui prennent déjà la confiserie : le calcul de rentabilité en dépend (O4)</td></tr>
-          <tr><td>En général, combien dépensez-vous en confiserie par séance ?</td><td>Quantitative (€)</td><td>Le prix de référence réel du client pour la partie confiserie du pack, et la dépense moyenne à utiliser dans le calcul de marge (O5)</td></tr>
-          <tr><td rowspan="2">Matrices</td><td>4 phrases sur la confiserie : trop chère, j'apporte mes snacks, pas envie de manger, la queue me décourage</td><td>Matrice, Likert 5 points (d'accord / pas d'accord)</td><td>Ce qui freine l'achat de confiserie : le pack ne lève que le frein du prix et, en partie, celui de la queue (O4)</td></tr>
-          <tr><td>Comment achetez-vous votre place : application ou site, caisse, carte ou comité d'entreprise</td><td>Matrice : jamais, parfois, souvent</td><td>Le canal où vendre le pack (prix, canaux, marché : attendus du dossier)</td></tr>
-          <tr><td>Offre</td><td>Le pack en image, version A ou B</td><td>—</td><td>La seule différence entre les deux groupes (O2)</td></tr>
-          <tr><td rowspan="2">Prix</td><td>Van Westendorp : bon marché, cher, trop cher, trop bon marché</td><td>Quantitative (€ libres)</td><td>La zone de prix acceptable (O1)</td></tr>
-          <tr><td>Gabor-Granger : achèteriez-vous ce pack à 19,90 €, 18,90 €, 17,90 €, 16,90 €, 15,90 € ?</td><td>Dichotomique (oui / non)</td><td>La part d'acheteurs à chaque prix : le prix qui fait acheter le plus de monde et celui qui maximise la marge (O1)</td></tr>
-          <tr><td>Contrôle</td><td>Le prix des produits achetés séparément était-il indiqué ?</td><td>Nominale</td><td>Vérifier que la différence entre A et B a été vue</td></tr>
-          <tr><td rowspan="4">Perception</td><td>Valeur perçue : 3 phrases (bonne affaire, prix acceptable, rapport qualité-prix)</td><td>Likert 5 points</td><td>Échelle de Dodds, Monroe et Grewal (1991) (O3)</td></tr>
-          <tr><td>Intention d'achat : 4 phrases (envisager l'achat, probabilité, prêt à acheter, prochaine séance)</td><td>Likert 7 points</td><td>Même source : second concept du modèle (O3)</td></tr>
-          <tr><td>Qu'est-ce qui donnerait le plus envie de prendre le pack plutôt que la place seule ?</td><td>Nominale</td><td>La raison d'acheter un pack plutôt qu'une place : économie, praticité, file d'attente (O3)</td></tr>
-          <tr><td>Format préféré : solo, duo, famille</td><td>Nominale</td><td>Les déclinaisons à proposer dans la recommandation</td></tr>
-          <tr><td>Concurrence</td><td>Entre Pathé et CGR, lequel est le moins cher ? Lequel offre la meilleure expérience ?</td><td>Nominale</td><td>Remplace les notes de 1 à 10, jugées trop larges : une comparaison simple entre les deux cinémas de Clermont, pour situer Pathé sur la carte perceptuelle (O5)</td></tr>
-          <tr><td rowspan="2">Dépenses</td><td>À quelles plateformes êtes-vous abonné ?</td><td>Nominale, choix multiple</td><td rowspan="2">Le streaming est le prix de référence d'un divertissement à domicile. Nous comparerons le prix accepté pour le pack chez les abonnés et chez les non-abonnés, et selon le montant payé (O5)</td></tr>
-          <tr><td>Combien votre foyer paie-t-il par mois pour ces abonnements ?</td><td>Quantitative (€)</td></tr>
-          <tr><td>Profil (bloc de fin)</td><td>Situation (étudiant, actif, retraité), avec qui, cinéma habituel</td><td>Nominales</td><td>Décrire l'échantillon et vérifier que les groupes A et B se ressemblent</td></tr>
-        </tbody>
-      </table>
+  <section aria-labelledby="gg">
+    <div class="sec-head"><span class="num">03 · Le prix accepté</span><h2 id="gg">Part d'acheteurs à chaque prix, avec et sans le prix de référence</h2></div>
+    <div id="bloc-gg" hidden>
+      <div class="chart"><h3>Part de « oui » à la question 6</h3><svg id="ggChart" viewBox="0 0 900 340" role="img" aria-label="Part de répondants qui achèteraient le pack à 16,90, 17,90 et 18,90 euros, versions A et B"></svg><div class="legend" id="ggLegend"></div></div>
+      <div class="scroll" style="margin-top:16px"><table id="ggTable"></table></div>
+      <p class="caption" id="cap-gg"></p>
     </div>
-    <p class="caption">Changements après les remarques du professeur : suppression du filtre et des deux parcours (une seule série de questions pour tous), récence de fréquentation à la place du filtre, question « prendriez-vous plus souvent du popcorn ? » remplacée par l'échelle d'intention d'achat, échelle de valeur perçue issue de la littérature, freins et canaux mesurés en matrice, notes de 1 à 10 remplacées par une comparaison Pathé / CGR, question streaming rendue mesurable, question sur l'âge retirée (la situation suffit à décrire l'échantillon). Ordre final, par blocs de même type : offre, prix (Van Westendorp puis Gabor-Granger), contrôle, les 8 phrases de Likert ensemble, choix sur le pack, Pathé ou CGR, les deux matrices, les montants, puis les habitudes et le profil à la fin. Tout le monde répond aux mêmes questions.</p>
+    <p class="empty" id="vide-gg">En attente des réponses.</p>
   </section>
 
-  <section>
-    <div class="sec-head"><span class="num">04</span><h2>Question 8 : une échelle de Likert reprise de la littérature</h2></div>
-    <p>La valeur perçue ne s'observe pas directement : on la mesure avec plusieurs phrases. Nous ne les avons pas inventées : ce sont <strong>3 des 5 items de valeur perçue de Dodds, Monroe et Grewal (1991)</strong>, une échelle très citée (alpha de Cronbach = 0,93 dans l'article) qui relie le prix d'un produit à la valeur que le client lui accorde.</p>
-    <p>Nos choix : <strong>3 items</strong> pour garder un questionnaire court, et une <strong>échelle de Likert en 5 points</strong> nommés (Pas du tout d'accord, Plutôt pas d'accord, Neutre, Plutôt d'accord, Tout à fait d'accord), plus simple à lire que les 7 points de l'article. Deux items étaient des paires de mots opposés (« very acceptable / very unacceptable ») : ils sont reformulés en phrases, pour garder un seul format.</p>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>Item original (annexe, p. 318)</th><th>Format d'origine</th><th>Notre traduction, adaptée au pack</th></tr></thead>
-        <tbody>
-          <tr><td>The product is considered to be a good buy</td><td>D'accord / pas d'accord</td><td>Ce pack est une bonne affaire.</td></tr>
-          <tr><td>The price shown for the product is: very acceptable … very unacceptable</td><td>Paire de mots opposés</td><td>Le prix de ce pack est acceptable.</td></tr>
-          <tr><td>This product is a: very good value for the money … very poor value for the money</td><td>Paire de mots opposés</td><td>Ce pack offre un bon rapport qualité-prix.</td></tr>
-        </tbody>
-      </table>
+  <section aria-labelledby="ab">
+    <div class="sec-head"><span class="num">04 · Le test A/B</span><h2 id="ab">Le prix de référence de 22 € change-t-il quelque chose ?</h2></div>
+    <div id="bloc-ab" hidden>
+      <div class="scroll"><table id="abTable"></table></div>
+      <p class="caption" id="cap-ab"></p>
+      <div class="callout" id="lecture-ab"></div>
     </div>
-    <p class="caption">Source : Dodds W. B., Monroe K. B. et Grewal D. (1991), « Effects of Price, Brand, and Store Information on Buyers' Product Evaluations », <em>Journal of Marketing Research</em>, 28(3), p. 307-319, doi:10.2307/3172866. Article consulté sur JSTOR (accès Université Clermont Auvergne) le 15 octobre 2026 : items en annexe p. 318 ; échelles en 7 points et alpha p. 312.</p>
-    <p>Pour l'analyse : on fait la moyenne des 3 réponses de chaque personne (score de valeur perçue de 1 à 5), on vérifie l'alpha de Cronbach sur nos données, puis on compare ce score entre la version A et la version B du test.</p>  </section>
+    <p class="empty" id="vide-ab">En attente des réponses.</p>
+  </section>
 
-  <section>
-    <div class="sec-head"><span class="num">05</span><h2>Gabor-Granger : le prix qui fait acheter le plus, ou celui qui rapporte le plus ?</h2></div>
-    <p>Pour chaque prix, on calcule la part de répondants qui répondent « oui ». Trois lectures en découlent :</p>
-    <ul class="check">
-      <li><strong>Le volume</strong> : le prix le plus bas fait acheter le plus de monde, mais c'est rarement le meilleur pour Pathé.</li>
-      <li><strong>Le chiffre d'affaires attendu</strong> : part d'acheteurs × prix. Il passe par un maximum.</li>
-      <li><strong>La marge attendue</strong> : part d'acheteurs × (prix − coût du pack). C'est le critère que nous retiendrons, avec le coût calculé au TD 2.</li>
+  <section aria-labelledby="pourquoi" id="perception">
+    <div class="sec-head"><span class="num">05 · Les raisons et les perceptions</span><h2 id="pourquoi">Pourquoi un pack, et comment Pathé est perçu</h2></div>
+    <div id="bloc-raisons" hidden>
+      <div class="scroll"><table id="rxTable"></table></div>
+      <div class="two" style="margin-top:20px">
+        <div class="card"><h3>L'enseigne la moins chère, selon les répondants</h3><div class="bars" id="b-cmpprix"></div></div>
+        <div class="card"><h3>L'enseigne la plus agréable</h3><div class="bars" id="b-cmpqual"></div></div>
+      </div>
+      <div class="kpis" id="kpi-dep" style="margin-top:20px"></div>
+    </div>
+    <p class="empty" id="vide-raisons">En attente des réponses.</p>
+  </section>
+
+  <section aria-labelledby="dodds">
+    <div class="sec-head"><span class="num">06 · Annexe de méthode</span><h2 id="dodds">Question 8 : une échelle reprise de la littérature</h2></div>
+    <p>Les trois phrases sont <strong>3 des 5 items de valeur perçue de Dodds, Monroe et Grewal (1991)</strong>, une échelle dont la fiabilité est de 0,93 (alpha de Cronbach) dans l'article <a class="src" href="https://www.jstor.org/stable/3172866">JSTOR, consulté le 15/10/2026</a>. Nous en gardons 3 pour un questionnaire court, en Likert 5 points nommés plutôt que 7 points pour la lisibilité. Deux items étaient des paires de mots opposés : ils sont reformulés en phrases.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Item original (annexe, p. 318)</th><th>Format d'origine</th><th>Notre traduction</th></tr></thead>
+      <tbody>
+        <tr><td>The product is considered to be a good buy</td><td>D'accord / pas d'accord</td><td>Ce pack est une bonne affaire.</td></tr>
+        <tr><td>The price shown for the product is: very acceptable … very unacceptable</td><td>Paire de mots opposés</td><td>Le prix de ce pack est acceptable.</td></tr>
+        <tr><td>This product is a: very good value for the money … very poor value for the money</td><td>Paire de mots opposés</td><td>Ce pack offre un bon rapport qualité-prix.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="caption">Dodds W. B., Monroe K. B. et Grewal D. (1991), « Effects of Price, Brand, and Store Information on Buyers' Product Evaluations », <em>Journal of Marketing Research</em>, 28(3), p. 307-319. Captures de l'annexe : <a href="docs/dodds-1991-p318-annexe-items.png">p. 318</a> et <a href="docs/dodds-1991-p312-echelle-7-points-alpha.png">p. 312</a>.</p>
+  </section>
+
+  <section aria-labelledby="limites">
+    <div class="sec-head"><span class="num">07 · Limites</span><h2 id="limites">Ce que ces réponses ne prouvent pas</h2></div>
+    <ul>
+      <li><strong>Dire qu'on paierait n'est pas payer</strong> : les réponses déclarées sont souvent plus généreuses que les achats réels.</li>
+      <li><strong>Échantillon de convenance</strong> : entourage et réseaux du groupe, surtout des étudiants si le profil le montre ; les résultats ne valent pas pour toute la clientèle de Pathé.</li>
+      <li><strong>Pas de question de contrôle</strong> : nous ne vérifions pas que les répondants en version B ont bien remarqué la mention « 22 € ».</li>
+      <li><strong>Le prix de référence de 22 € est une estimation</strong> (menu à 8,50 €) tant que le prix du comptoir Pathé n'est pas relevé.</li>
+      <li><strong>Trois prix seulement</strong>, de 16,90 à 18,90 € : on ne sait pas ce qui se passe en dehors de cette plage.</li>
     </ul>
-    <p>Les prix testés vont de 15,90 € (proche de notre plancher : place 13,50 € + coût des produits) à 19,90 € (au-dessus de notre plafond de 19,50 €), toujours présentés du plus cher au moins cher.</p>
   </section>
 
-  <section>
-    <div class="sec-head"><span class="num">06</span><h2>Mise en ligne et enregistrement</h2></div>
-    <ol class="steps">
-      <li>Créer une feuille Google Sheets vide, puis <em>Extensions › Apps Script</em> et coller le fichier <code>outils/google-apps-script.gs</code>.</li>
-      <li><em>Déployer › Nouveau déploiement › Application Web</em>, exécuter en tant que « Moi », accès « Tout le monde ». Copier l'adresse qui finit par <code>/exec</code>.</li>
-      <li>Coller cette adresse dans <code>CONFIG.ENDPOINT</code> en haut de <code>questionnaire.html</code>. Tant qu'elle est vide, le questionnaire affiche « Mode test » et n'envoie rien.</li>
-      <li>Répondre une fois pour vérifier qu'une ligne apparaît dans la feuille, puis faire tester par 3 ou 4 personnes extérieures au groupe, et vider la feuille avant le lancement.</li>
-    </ol>
-  </section>
-
-  <section>
-    <div class="sec-head"><span class="num">07</span><h2>Collecte</h2></div>
-    <ul class="check">
-      <li>Du 12 au 21 octobre ; analyse en Analyse de données le 21 octobre</li>
-      <li>Viser des personnes qui vont au cinéma : groupes locaux en ligne, entourage élargi, sortie des cinémas de Clermont</li>
-      <li>Noter comment les répondants ont été trouvés, pour pouvoir décrire l'échantillon</li>
-      <li>Suivre l'équilibre entre A et B, sans jamais choisir qui reçoit quelle version</li>
-    </ul>
-  </section>
+  <nav class="next" aria-label="Pages voisines">
+    <a href="marche.html"><small>← Partie 2</small>Le marché</a>
+    <a href="couts.html" style="text-align:right"><small>Partie 4 →</small>Coûts et marge</a>
+  </nav>
 </main>
+
 <footer>
-  <span>Dossier « Prix et budgets marketing », M1 Marketing, IAE Clermont Auvergne, 2026-2027</span>
-  <span>Page mise à jour le 15 octobre 2026</span>
+  <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
+  <span>Résultats recalculés à chaque ouverture depuis data/reponses.csv</span>
 </footer>
 
+<script src="modele.js"></script>
+<script>
+(async function(){
+  const $ = id => document.getElementById(id);
+  let rows;
+  try { rows = await DONNEES.charger(); } catch (e) { rows = null; }
+  if (!rows || !rows.length) return;
+
+  const N = DONNEES.num;
+  const isTest = r => /test/i.test(r.situation_autre || "") || /test/i.test(r.plateformes_autre || "");
+  const all = rows.filter(r => !isTest(r));
+  const rapides = all.filter(r => (N(r.duree_sec) ?? 999) < 60).length;
+  const D = all; // toutes les réponses non-test sont gardées ; les réponses rapides sont signalées
+  const pct = (a, b) => b ? a / b : 0;
+  const P = (v) => FMT.p(v, 0);
+
+  $("etat").hidden = true;
+  ["bloc-qui", "bloc-gg", "bloc-ab", "bloc-raisons"].forEach(i => $(i).hidden = false);
+  ["vide-gg", "vide-ab", "vide-raisons"].forEach(i => $(i).hidden = true);
+
+  /* --- profil --- */
+  const A = D.filter(r => r.version === "A"), B = D.filter(r => r.version === "B");
+  const typeA = D.filter(r => r.type_client === "A_sans_confiserie"), typeB = D.filter(r => r.type_client === "B_avec_confiserie");
+  const dates = D.map(r => r.horodatage).filter(Boolean).sort();
+  $("kpi-qui").innerHTML = [
+    [D.length, "réponses exploitables"],
+    [A.length + " / " + B.length, "en version A / version B"],
+    [P(pct(typeA.length, typeA.length + typeB.length)), `n'achetaient que la place à leur dernière séance (clients A, ${typeA.length} personnes)`],
+    [P(pct(D.filter(r => r.cinema === "pathe").length, D.length)), "vont surtout chez Pathé"]
+  ].map(([k, t]) => `<div class="kpi-box"><span class="kpi">${k}</span><p>${t}</p></div>`).join("");
+  const LBL = {
+    situation: { etudiant: "Étudiant", actif: "Actif", sans_emploi: "Sans emploi", retraite: "Retraité", autre: "Autre" },
+    cinema: { pathe: "Pathé", cgr: "CGR", ugc: "UGC", kinepolis: "Kinepolis", megarama: "Mégarama", independant: "Indépendant", autre: "Autre", aucun: "Aucun" },
+    derniere_seance: { "1s": "Moins d'une semaine", "1m": "1 semaine à 1 mois", "6m": "1 à 6 mois", "12m": "6 mois à 1 an", plus: "Plus d'un an", jamais: "Jamais ou ne sait plus" }
+  };
+  const bars = (id, field, labels, base = D) => {
+    const keys = Object.keys(labels);
+    $(id).innerHTML = keys.map(k => { const n = base.filter(r => r[field] === k).length; return { k, n }; }).filter(o => o.n > 0)
+      .map(o => `<div class="bar-row"><span>${labels[o.k]}</span><span class="track"><span class="fill" style="width:${pct(o.n, base.length) * 100}%"></span></span><span class="val">${o.n} · ${P(pct(o.n, base.length))}</span></div>`).join("") || '<p class="empty">Aucune réponse.</p>';
+  };
+  bars("b-situation", "situation", LBL.situation);
+  bars("b-cinema", "cinema", LBL.cinema);
+  bars("b-seance", "derniere_seance", LBL.derniere_seance);
+  bars("b-type", "type_client", { A_sans_confiserie: "Place seule (client A)", B_avec_confiserie: "Place + confiserie (client B)", "": "Ne sait plus" });
+  $("cap-qui").textContent = `Réponses du ${dates[0] ? new Date(dates[0]).toLocaleDateString("fr-FR") : "?"} au ${dates.length ? new Date(dates[dates.length - 1]).toLocaleDateString("fr-FR") : "?"}. ${rapides} réponse(s) en moins de 60 secondes, signalée(s) mais conservée(s). Échantillon de convenance : à ne pas généraliser à toute la clientèle de Pathé.`;
+
+  /* --- Gabor-Granger --- */
+  const prix = MODELE.prixTestes;
+  const col = p => "gg_" + p.toFixed(2).replace(".", "_");
+  const acc = (base, p) => pct(base.filter(r => N(r[col(p)]) === 1).length, base.length);
+  const svg = $("ggChart"), NS = "http://www.w3.org/2000/svg";
+  const el = (t, a, x) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (x != null) e.textContent = x; svg.appendChild(e); return e; };
+  const X0 = 80, X1 = 860, Y0 = 20, Y1 = 290, x = i => X0 + (i + .5) * (X1 - X0) / prix.length, y = v => Y1 - v * (Y1 - Y0);
+  for (let v = 0; v <= 1.001; v += .25) { el("line", { class: "grid", x1: X0, x2: X1, y1: y(v), y2: y(v) }); el("text", { x: X0 - 10, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + " %"); }
+  const series = [["Ensemble", D, "var(--ink)"], ["Version A (sans 22 €)", A, "var(--c-a)"], ["Version B (avec 22 €)", B, "var(--c-b)"]];
+  prix.forEach((p, i) => el("text", { x: x(i), y: Y1 + 26, "text-anchor": "middle", class: "lbl" }, FMT.e(p)));
+  series.forEach(([n, base, c], si) => {
+    if (!base.length) return;
+    const pts = prix.map((p, i) => [x(i) + (si - 1) * 8, y(acc(base, p))]);
+    el("polyline", { points: pts.map(q => q.join(",")).join(" "), fill: "none", stroke: c, "stroke-width": si ? 2.5 : 3.5, "stroke-dasharray": si ? "" : "6 4" });
+    pts.forEach((q, i) => { el("circle", { cx: q[0], cy: q[1], r: 5, fill: c }); if (si) el("text", { x: q[0] + (si === 1 ? -10 : 10), y: q[1] - 8, "text-anchor": si === 1 ? "end" : "start", style: `fill:${c}` }, P(acc(base, prix[i]))); });
+  });
+  $("ggLegend").innerHTML = series.map(([n, b, c], i) => `<span><span class="dot" style="background:${c}"></span>${n} (n = ${b.length})</span>`).join("");
+  const maxAcc = base => { const v = base.map(r => N(r.gg_prix_max_accepte)).filter(v => v != null && v > 0); return { n: v.length, refus: base.length - v.length, moy: v.length ? v.reduce((a, b) => a + b, 0) / v.length : null }; };
+  const row = (lab, base) => `<tr><td>${lab}</td><td class="n">${base.length}</td>${prix.map(p => `<td class="n">${P(acc(base, p))}</td>`).join("")}<td class="n">${maxAcc(base).refus}</td></tr>`;
+  $("ggTable").innerHTML = `<thead><tr><th>Groupe</th><th class="n">n</th>${prix.map(p => `<th class="n">Oui à ${FMT.e(p)}</th>`).join("")}<th class="n">Refusent dès 16,90 €</th></tr></thead><tbody>
+    ${row("Ensemble", D)}${row("Version A", A)}${row("Version B", B)}${row("Clients A (place seule)", typeA)}${row("Clients B (déjà confiserie)", typeB)}</tbody>`;
+  $("cap-gg").textContent = "Part de répondants qui répondent « oui » à chaque prix, calculée sur tous les répondants du groupe (un prix non montré après un refus compte comme un refus). Avec moins de 30 personnes par groupe, un écart de quelques points peut être dû au hasard.";
+
+  /* --- A/B --- */
+  const z2 = (a, na, b, nb) => { if (!na || !nb) return null; const p = (a + b) / (na + nb), se = Math.sqrt(p * (1 - p) * (1 / na + 1 / nb)); if (!se) return null; const z = (a / na - b / nb) / se; return 2 * (1 - Phi(Math.abs(z))); };
+  function Phi(z){ const t = 1 / (1 + .2316419 * z), d = .3989423 * Math.exp(-z * z / 2); return 1 - d * t * (.3193815 + t * (-.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); }
+  const vp = r => { const v = ["vp_bonne_affaire", "vp_prix_acceptable", "vp_qualite_prix"].map(k => N(r[k])); return v.every(x => x != null) ? v.reduce((a, b) => a + b, 0) / 3 : null; };
+  const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  const ttest = (a, b) => { if (a.length < 2 || b.length < 2) return null; const ma = mean(a), mb = mean(b), va = a.reduce((s, x) => s + (x - ma) ** 2, 0) / (a.length - 1), vb = b.reduce((s, x) => s + (x - mb) ** 2, 0) / (b.length - 1); const se = Math.sqrt(va / a.length + vb / b.length); if (!se) return null; return 2 * (1 - Phi(Math.abs((ma - mb) / se))); };
+  const fp = p => p == null ? "—" : (p < .001 ? "< 0,001" : p.toLocaleString("fr-FR", { maximumFractionDigits: 3 }));
+  let html = `<thead><tr><th>Indicateur</th><th class="n">Version A</th><th class="n">Version B</th><th class="n">Écart B − A</th><th class="n">p (test)</th></tr></thead><tbody>`;
+  prix.forEach(p => { const a = A.filter(r => N(r[col(p)]) === 1).length, b = B.filter(r => N(r[col(p)]) === 1).length; html += `<tr><td>Achèterait à ${FMT.e(p)}</td><td class="n">${P(pct(a, A.length))}</td><td class="n">${P(pct(b, B.length))}</td><td class="n">${FMT.n((pct(b, B.length) - pct(a, A.length)) * 100, 0)} pts</td><td class="n">${fp(z2(b, B.length, a, A.length))}</td></tr>`; });
+  [["18,9", 18.9], ["16,9", 16.9]].forEach(([lab, v]) => {
+    const fa = A.filter(r => N(r.prix_pack_affiche) === v).map(vp).filter(x => x != null), fb = B.filter(r => N(r.prix_pack_affiche) === v).map(vp).filter(x => x != null);
+    if (fa.length + fb.length) html += `<tr><td>Valeur perçue moyenne (1 à 5), pack affiché à ${lab}0 €</td><td class="n">${fa.length ? FMT.n(mean(fa), 2) : "—"} <span class="muted">(n=${fa.length})</span></td><td class="n">${fb.length ? FMT.n(mean(fb), 2) : "—"} <span class="muted">(n=${fb.length})</span></td><td class="n">${fa.length && fb.length ? FMT.n(mean(fb) - mean(fa), 2) : "—"}</td><td class="n">${fp(ttest(fb, fa))}</td></tr>`;
+  });
+  const shareEtu = base => pct(base.filter(r => r.situation === "etudiant").length, base.length), sharePathe = base => pct(base.filter(r => r.cinema === "pathe").length, base.length), shareA = base => pct(base.filter(r => r.type_client === "A_sans_confiserie").length, base.filter(r => r.type_client).length);
+  html += `<tr><td class="muted">Contrôle du tirage : part d'étudiants</td><td class="n">${P(shareEtu(A))}</td><td class="n">${P(shareEtu(B))}</td><td class="n" colspan="2"></td></tr>`;
+  html += `<tr><td class="muted">Contrôle du tirage : part de clients Pathé</td><td class="n">${P(sharePathe(A))}</td><td class="n">${P(sharePathe(B))}</td><td class="n" colspan="2"></td></tr>`;
+  html += `<tr><td class="muted">Contrôle du tirage : part de clients « place seule »</td><td class="n">${P(shareA(A))}</td><td class="n">${P(shareA(B))}</td><td class="n" colspan="2"></td></tr></tbody>`;
+  $("abTable").innerHTML = html;
+  $("cap-ab").textContent = "p : probabilité d'observer un écart au moins aussi grand si la mention « 22 € » n'avait aucun effet (test de comparaison de deux proportions pour les achats, test t de Welch pour la valeur perçue, approximation normale). Au-dessus de 0,05, l'écart peut être dû au hasard. Les lignes de contrôle vérifient que les deux groupes se ressemblent : s'ils diffèrent nettement, le tirage n'a pas fonctionné.";
+  const d1 = acc(B, prix[2]) - acc(A, prix[2]);
+  $("lecture-ab").innerHTML = `<span class="label">Lecture</span><p>À ${FMT.e(prix[2])}, ${P(acc(B, prix[2]))} des répondants de la version B achèteraient le pack, contre ${P(acc(A, prix[2]))} en version A (écart de ${FMT.n(d1 * 100, 0)} points, sur ${A.length} et ${B.length} personnes). ${A.length < 30 || B.length < 30 ? "Les groupes comptent moins de 30 personnes : cet écart reste fragile et ne suffit pas, seul, à conclure." : ""}</p>`;
+
+  /* --- raisons et perceptions --- */
+  const RX = [["rx_economie", "L'économie réalisée"], ["rx_pratique", "Tout acheter en une fois, en ligne"], ["rx_queue", "Ne pas faire la queue au comptoir"]];
+  const MOD = [["pas", "Pas du tout"], ["peu", "Un peu"], ["beaucoup", "Beaucoup"]];
+  $("rxTable").innerHTML = `<thead><tr><th>Question 7 : cet avantage donne envie d'acheter le pack…</th>${MOD.map(m => `<th class="n">${m[1]}</th>`).join("")}<th class="n">n</th></tr></thead><tbody>${RX.map(([k, l]) => { const b = D.filter(r => r[k]); return `<tr><td>${l}</td>${MOD.map(([m]) => `<td class="n">${P(pct(b.filter(r => r[k] === m).length, b.length))}</td>`).join("")}<td class="n">${b.length}</td></tr>`; }).join("")}</tbody>`;
+  const ENS = { pathe: "Pathé", cgr: "CGR", ugc: "UGC", kinepolis: "Kinepolis", megarama: "Mégarama", independant: "Indépendant", nsp: "Ne sait pas" };
+  bars("b-cmpprix", "cmp_prix", ENS); bars("b-cmpqual", "cmp_qualite", ENS);
+  const dep = D.map(r => N(r.depense)).filter(v => v != null), depOk = dep.filter(v => v <= 50).sort((a, b) => a - b);
+  const med = a => a.length ? (a.length % 2 ? a[(a.length - 1) / 2] : (a[a.length / 2 - 1] + a[a.length / 2]) / 2) : null;
+  const strm = D.map(r => N(r.depense_streaming)).filter(v => v != null).sort((a, b) => a - b);
+  $("kpi-dep").innerHTML = [
+    [depOk.length ? FMT.e(med(depOk)) : "—", `dépense médiane en confiserie par séance (question 11, n = ${depOk.length}${dep.length - depOk.length ? `, ${dep.length - depOk.length} valeur(s) > 50 € signalée(s)` : ""})`],
+    [depOk.length ? P(pct(depOk.filter(v => v === 0).length, depOk.length)) : "—", "déclarent ne rien dépenser en confiserie"],
+    [strm.length ? FMT.e(med(strm)) : "—", `dépense médiane mensuelle en streaming (n = ${strm.length})`]
+  ].map(([k, t]) => `<div class="kpi-box"><span class="kpi">${k}</span><p>${t}</p></div>`).join("");
+})();
+</script>
 </body>
 </html>
