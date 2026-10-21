@@ -75,12 +75,25 @@ const STAT = {
       for (let r = 0; r < k; r++) if (r !== i) { const f = A[r][i] / A[i][i]; for (let c = i; c <= k; c++) A[r][c] -= f * A[i][c]; } }
     return A.map((r, i) => r[k] / r[i]);
   },
+  // Mann-Whitney (variable ordinale) : U, z avec correction des ex-aequo, p bilatéral, r = |z| / √N
+  mannWhitney(a, b) {
+    const all = [...a.map(v => [v, 0]), ...b.map(v => [v, 1])].sort((x, y) => x[0] - y[0]), N = all.length, rk = new Array(N);
+    let tie = 0;
+    for (let i = 0; i < N;) { let j = i; while (j + 1 < N && all[j + 1][0] === all[i][0]) j++; const r = (i + j) / 2 + 1, t = j - i + 1; for (let k = i; k <= j; k++) rk[k] = r; tie += t ** 3 - t; i = j + 1; }
+    const na = a.length, nb = b.length, Ra = all.reduce((s, x, i) => s + (x[1] === 0 ? rk[i] : 0), 0), U = Ra - na * (na + 1) / 2;
+    const sd = Math.sqrt(na * nb / 12 * ((N + 1) - tie / (N * (N - 1)))), z = (U - na * nb / 2) / sd;
+    return { U, z, p: 2 * (1 - STAT.phi(Math.abs(z))), r: Math.abs(z) / Math.sqrt(N), na, nb };
+  },
+  sd: a => Math.sqrt(STAT.var(a)),
   rng(seed) { let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; },
   pct(a, q) { const s = [...a].sort((x, y) => x - y), i = (s.length - 1) * q, lo = Math.floor(i); return s[lo] + (s[Math.ceil(i)] - s[lo]) * (i - lo); },
   // médiation simple (PROCESS modèle 4) : a = X → M, b = M → Y à X constant, IC 95 % percentile par bootstrap
   mediation(X, M, Y, n = 5000, graine = 2026) {
     const co = (X, M, Y) => { const a = STAT.ols([X], M)[1], cb = STAT.ols([X, M], Y); return { a, b: cb[2], direct: cb[1] }; };
-    const r = co(X, M, Y), tot = STAT.ols([X], Y)[1], rnd = STAT.rng(graine), ab = [], bs = [], as = [], N = X.length;
+    const r = co(X, M, Y), tot = STAT.ols([X], Y)[1], sX = STAT.sd(X), sM = STAT.sd(M), sY = STAT.sd(Y);
+    // bêtas standardisés (de combien d'écarts-types bouge la cible quand la source bouge d'un écart-type)
+    r.beta = { a: r.a * sX / sM, b: r.b * sM / sY, direct: r.direct * sX / sY, total: tot * sX / sY };
+    const rnd = STAT.rng(graine), ab = [], bs = [], as = [], N = X.length;
     for (let t = 0; t < n; t++) { const ix = Array.from({ length: N }, () => Math.floor(rnd() * N)); const c = co(ix.map(i => X[i]), ix.map(i => M[i]), ix.map(i => Y[i])); ab.push(c.a * c.b); as.push(c.a); bs.push(c.b); }
     return { ...r, ab: r.a * r.b, total: tot, bas: STAT.pct(ab, 0.025), haut: STAT.pct(ab, 0.975),
       icA: [STAT.pct(as, 0.025), STAT.pct(as, 0.975)], icB: [STAT.pct(bs, 0.025), STAT.pct(bs, 0.975)], n: N, tirages: n };
@@ -124,6 +137,16 @@ const CM3 = {
     out.n169 = d.filter(a169).length;
     out.welchVP = STAT.welch(A.filter(a169).map(CM3.vp).filter(x => x != null), B.filter(a169).map(CM3.vp).filter(x => x != null));
     out.welchNb = STAT.welch(A.map(CM3.nbAcc), B.map(CM3.nbAcc));
+    // prix maximum accepté (ordinal : 0 = refuse dès 16,90 €, puis 16,90, 17,90, 18,90) : répartition par version + Mann-Whitney
+    const pmax = r => { const o = Object.keys(CM3.GG).map(Number).sort((x, y) => x - y).filter(p => DONNEES.num(r[CM3.GG[p]]) === 1); return o.length ? o[o.length - 1] : 0; };
+    out.pmax = { niveaux: [0, 16.9, 17.9, 18.9], A: [0, 16.9, 17.9, 18.9].map(v => A.filter(r => pmax(r) === v).length), B: [0, 16.9, 17.9, 18.9].map(v => B.filter(r => pmax(r) === v).length),
+      mw: STAT.mannWhitney(A.map(pmax), B.map(pmax)), moyAcc: ["A", "B"].map(v => { const x = CM3.par(d, v).map(pmax).filter(p => p > 0); return x.length ? STAT.mean(x) : null; }) };
+    out.welchNb.p1 = out.welchNb.p / 2;   // unilatéral (hypothèse orientée B > A, posée avant la collecte)
+    out.ab.forEach(a => { a.p1 = a.partB > a.partA ? STAT.phi(-Math.sqrt(a.chi2)) : 1 - STAT.phi(-Math.sqrt(a.chi2)); });
+    // items de Likert pris un par un, comme des variables ordinales (pack affiché à 16,90 €)
+    out.items = CM3.VP.map(c => { const a = A.filter(a169).map(r => DONNEES.num(r[c])).filter(v => v != null), b = B.filter(a169).map(r => DONNEES.num(r[c])).filter(v => v != null);
+      return { col: c, distA: [1, 2, 3, 4, 5].map(k => a.filter(v => v === k).length), distB: [1, 2, 3, 4, 5].map(k => b.filter(v => v === k).length), medA: STAT.median(a), medB: STAT.median(b), moyA: STAT.mean(a), moyB: STAT.mean(b), mw: STAT.mannWhitney(a, b), w: STAT.welch(a, b) }; });
+    out.mwVP = STAT.mannWhitney(A.filter(a169).map(CM3.vp).filter(x => x != null), B.filter(a169).map(CM3.vp).filter(x => x != null));
     out.puiss = { moyen: STAT.puissance(A.length, B.length, 0.5), petit: STAT.puissance(A.length, B.length, 0.2) };
     // Gabor-Granger façon 04_prix.py : marge par répondant = (prix − coût variable) × part qui achète
     // + la marge réellement gagnée par répondant une fois retirée la confiserie que l'acheteur payait déjà (page « La décision »)
