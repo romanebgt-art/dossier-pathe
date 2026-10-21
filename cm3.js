@@ -160,7 +160,10 @@ const CM3 = {
     // 3 items, 1 facteur : modèle juste identifié (0 ddl), poids standardisés tirés des corrélations
     const l = [Math.sqrt(r12 * r13 / r23), Math.sqrt(r12 * r23 / r13), Math.sqrt(r13 * r23 / r12)], sl = l.reduce((s, x) => s + x, 0);
     out.echelle = { n: S.length, alpha: STAT.alpha(cols), r: [r12, r13, r23], poids: l, cr: sl ** 2 / (sl ** 2 + l.reduce((s, x) => s + 1 - x * x, 0)), ave: STAT.mean(l.map(x => x * x)),
-      moyennes: cols.map(STAT.mean) };
+      moyennes: cols.map(STAT.mean), ecarts: cols.map(STAT.sd),
+      // alpha si l'item est retiré, et corrélation de l'item avec la somme des deux autres (corrélation item-total corrigée)
+      sansItem: cols.map((c, i) => { const autres = cols.filter((_, j) => j !== i), tot = autres[0].map((_, k) => autres.reduce((s, a) => s + a[k], 0));
+        return { alpha: STAT.alpha(autres), rIT: STAT.corr(c, tot) }; }) };
     // médiation : version (B = 1) → valeur perçue → achète à 16,90 €
     const M = d.filter(r => CM3.vp(r) != null && a169(r));
     out.med = STAT.mediation(M.map(r => r.version === "B" ? 1 : 0), M.map(CM3.vp), M.map(r => DONNEES.num(r.gg_16_90) === 1 ? 1 : 0));
