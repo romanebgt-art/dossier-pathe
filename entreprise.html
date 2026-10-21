@@ -30,7 +30,7 @@
 
   <section aria-labelledby="qui">
     <div class="sec-head"><span class="num">01 · Qui est-elle</span><h2 id="qui">La société qui exploite les salles Pathé en France</h2></div>
-    <p>Pathé Cinémas France (SIREN 444 567 127) est la filiale qui exploite les cinémas Pathé en France, dont celui d'Aubière près de Clermont-Ferrand. Elle appartient au groupe Pathé Cinémas, dont les comptes consolidés sont distincts. Son chiffre d'affaires passe de 3,2 M€ en 2021 à 155,1 M€ en 2022, puis 414,3 M€ en 2023 <a class="src" href="https://annuaire-entreprises.data.gouv.fr/donnees-financieres/444567127">Annuaire des entreprises, consulté le 20/10/2026</a> : elle n'exploite l'essentiel des salles que depuis 2022, et ses chiffres antérieurs ne sont pas comparables. En 2025, elle emploie en moyenne 1 373 personnes <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=34">p. 34</a>.</p>
+    <p>Pathé Cinémas France (SIREN 444 567 127) est la filiale qui exploite les cinémas Pathé en France, dont celui d'Aubière près de Clermont-Ferrand. Elle appartient au groupe Pathé Cinémas, dont les comptes consolidés sont distincts : la holding Pathé Cinémas SAS (Paris) en détient 49,85 % et lui attribue 392,0 M€ de chiffre d'affaires et −21,7 M€ de résultat en 2025 <a class="src" href="docs/pathe-cinemas-sas-comptes-2025.pdf#page=33">comptes 2025 de Pathé Cinémas SAS, p. 33</a>. Le résultat est identique aux comptes de Pathé Cinémas France ; pour le chiffre d'affaires, nous retenons les 399,3 M€ des comptes de la société elle-même (écart de 7,3 M€ non expliqué). La holding n'exploite pas de salles : ses propres comptes (13,5 M€ de chiffre d'affaires, surtout des loyers) ne servent pas à notre calcul. Son chiffre d'affaires passe de 3,2 M€ en 2021 à 155,1 M€ en 2022, puis 414,3 M€ en 2023 <a class="src" href="https://annuaire-entreprises.data.gouv.fr/donnees-financieres/444567127">Annuaire des entreprises, consulté le 20/10/2026</a> : elle n'exploite l'essentiel des salles que depuis 2022, et ses chiffres antérieurs ne sont pas comparables. En 2025, elle emploie en moyenne 1 373 personnes <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=34">p. 34</a>.</p>
   </section>
 
   <section aria-labelledby="argent">
@@ -71,6 +71,35 @@
     </div>
     <p>Sur 10 € de confiserie vendus hors TVA, Pathé paie environ 2,66 € de produits. C'est une moyenne sur toute la confiserie (bonbons, boissons en bouteille, pop-corn) : le pop-corn et la boisson du pack coûtent moins cher, et nous les chiffrons ingrédient par ingrédient en <a href="couts.html#confiserie">partie 4</a>. Ce taux sert en revanche à mesurer la marge que Pathé réalise déjà sur la confiserie achetée aujourd'hui par ses clients.</p>
     <p>Sur la billetterie, le cinéma reverse une part de chaque place au distributeur du film. Le compte de résultat contient 127,8 M€ d'« achats de matières premières et autres approvisionnements » <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a>, soit 50,6 % de la billetterie. C'est très probablement la location des films, ce que les comptes ne disent pas explicitement ; le niveau est cohérent avec la part légale reversée aux distributeurs, comprise entre 25 et 50 % de la recette <a class="src" href="https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537">réponse du ministère de la Culture, 11/10/2022</a>.</p>
+  </section>
+
+  <section aria-labelledby="rapporte">
+    <div class="sec-head"><span class="num">03 bis · Ce que rapporte chaque activité</span><h2 id="rapporte">La place fait le chiffre d'affaires, la confiserie fait la marge</h2></div>
+    <p>Méthode : pour chaque activité, on part de son chiffre d'affaires (note 4.1 <a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=30">p. 30</a>) et on retire le coût qui lui est directement lié dans le compte de résultat (<a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a>) : la location des films pour la billetterie, le coût d'achat des marchandises pour la confiserie. Ce qui reste est la <strong>marge brute</strong>, avant loyers, salaires et énergie, que les comptes ne répartissent pas par activité. Les comptes donnent la confiserie dans son ensemble : le pop-corn seul n'y est pas isolé.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>2025, en millions d'euros (hors TVA)</th><th class="n">Chiffre d'affaires</th><th class="n">Part du CA</th><th class="n">Coût direct</th><th class="n">Marge brute</th><th class="n">Marge pour 1 € vendu</th><th class="n">Part de la marge brute</th></tr></thead>
+        <tbody>
+          <tr><td>Billetterie (places)</td><td class="n">252,4</td><td class="n">63,2 %</td><td class="n">127,8 <span class="tag est">Estimé</span></td><td class="n">124,7</td><td class="n">0,49 €</td><td class="n">50,2 %</td></tr>
+          <tr class="hl"><td><strong>Confiserie (pop-corn, boissons, bonbons)</strong></td><td class="n">86,4</td><td class="n">21,6 %</td><td class="n">23,0 <span class="tag obs">Observé</span></td><td class="n"><strong>63,4</strong></td><td class="n"><strong>0,73 €</strong></td><td class="n"><strong>25,5 %</strong></td></tr>
+          <tr><td>Publicité à l'écran</td><td class="n">15,1</td><td class="n">3,8 %</td><td class="n">non isolé</td><td class="n">15,1</td><td class="n">—</td><td class="n">6,1 %</td></tr>
+          <tr><td>Ventes diverses (non détaillées dans les comptes)</td><td class="n">45,4</td><td class="n">11,4 %</td><td class="n">non isolé</td><td class="n">45,4</td><td class="n">—</td><td class="n">18,3 %</td></tr>          <tr><td><strong>Total</strong></td><td class="n">399,3</td><td class="n">100 %</td><td class="n">150,8</td><td class="n">248,5</td><td class="n">0,62 €</td><td class="n">100 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">Coût direct de la billetterie : les 127,8 M€ d'« achats de matières premières et autres approvisionnements », très probablement la location des films (voir plus haut) <span class="tag est">Estimé</span>. Coût direct de la confiserie : achats de marchandises 22 902 374 € + variation de stock 111 145 €. Pour la publicité et les ventes diverses, les comptes n'isolent aucun coût direct : leur marge brute est donc surestimée <span class="tag hyp">Hypothèse</span>. Calculs : nous ; parts arrondies au dixième, leur somme peut faire 100,1 %.</p>
+    <div class="calc" style="margin-top:16px">
+      <div class="head">Par spectateur, en 2025 <span class="tag est">Estimé</span> (35,9 millions d'entrées estimées, <a href="couts.html#complet">calcul</a>)</div>
+      <div class="row"><span class="t">Place : recette hors TVA</span><span class="v">7,03 €</span><span class="o">252,4 M€ ÷ 35,9 M</span></div>
+      <div class="row"><span class="t">Place : ce qui reste après le distributeur</span><span class="v">3,47 €</span><span class="o">124,7 M€ ÷ 35,9 M</span></div>
+      <div class="row"><span class="t">Confiserie : dépense moyenne hors TVA</span><span class="v">2,41 €</span><span class="o">86,4 M€ ÷ 35,9 M, tous spectateurs confondus</span></div>
+      <div class="row"><span class="t">Confiserie : marge</span><span class="v">1,77 €</span><span class="o">63,4 M€ ÷ 35,9 M</span></div>
+      <div class="row total"><span class="t">Résultat d'exploitation</span><span class="v">−0,57 €</span><span class="o">−20,5 M€ ÷ 35,9 M : Pathé perd en moyenne 57 centimes par spectateur</span></div>
+    </div>
+    <div class="callout">
+      <span class="label">Ce que ça veut dire pour le pack</span>
+      <p>La place fait <strong>63 % du chiffre d'affaires</strong> mais Pathé en reverse environ la moitié au distributeur. La confiserie ne fait que 22 % du chiffre d'affaires mais apporte <strong>un quart de la marge brute</strong> : chaque euro de confiserie laisse 0,73 € à Pathé, contre 0,49 € pour un euro de place. Pour effacer la perte d'exploitation de 2025 avec la seule confiserie, il faudrait <strong>28,0 M€ de ventes en plus</strong> (20,5 M€ ÷ 73,4 %), soit <strong>+32 %</strong>, ou environ <strong>0,78 € de plus par spectateur</strong>. Le pack n'a donc d'intérêt que s'il fait acheter de la confiserie à ceux qui n'en prennent pas : une remise accordée à ceux qui en achètent déjà réduit la marge la plus rentable du cinéma.</p>
+    </div>
   </section>
 
   <section aria-labelledby="perte">
