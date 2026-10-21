@@ -1,11 +1,10 @@
 <!doctype html>
-<html lang="fr">
-<head>
+<html lang="fr"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Pathé, pack ciné · Dossier de prix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -43,10 +42,7 @@
 
   <section aria-labelledby="reco">
     <div class="sec-head"><span class="num">Notre réponse</span><h2 id="reco">Le prix recommandé</h2></div>
-    <div class="callout info" id="reco-box">
-      <span class="label">En attente des réponses définitives</span>
-      <p>La collecte du questionnaire se termine le 21 octobre 2026. Le prix recommandé sera celui qui rapporte le plus à Pathé parmi les prix testés (16,90, 17,90 et 18,90 €), une fois les réponses importées. Le calcul et ses limites sont sur la page <a href="recommandation.html">La décision</a>.</p>
-    </div>
+    <div class="callout" id="reco-box"><span class="label">Résultat (119 répondants)</span><p>Aucun des prix testés ne rapporte de marge : le pack ferait perdre plus sur les clients qui achetaient déjà la confiserie qu'il ne rapporte sur les autres. Détail sur la page <a href="recommandation.html">La décision</a>.</p></div>
     <p class="muted">Ce que nous savons déjà sans les réponses, si le menu vendu seul coûte 8,50 € (estimation à confirmer en caisse) : à 16,90 €, il faut environ <span id="r1">2,7</span> clients « place seule » convertis pour compenser un client qui achetait déjà place + menu ; à 18,90 €, environ <span id="r3">0,8</span> pour 1. Le détail est sur la page <a href="couts.html#ratio">Coûts et marge</a>.</p>
   </section>
 
@@ -81,22 +77,9 @@
 <footer>
   <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
   <span>Page mise à jour le 20 octobre 2026</span>
-</footer>
+<span>Résultats calculés le 21/10/2026 sur les 119 réponses ; les réponses individuelles restent hors ligne (consigne du cours, séance CM3)</span></footer>
 <script src="modele.js"></script>
-<script>
-(async function(){
-  document.getElementById("kPlancher").textContent = FMT.e(ECO.plancher());
-  document.getElementById("r1").textContent = FMT.n(ECO.ratio(16.9), 1);
-  document.getElementById("r3").textContent = FMT.n(ECO.ratio(18.9), 1);
-  let rows; try { rows = await DONNEES.charger(); } catch (e) { rows = null; }
-  if (!rows || !rows.length) return;
-  const G = DECISION.groupes(rows); if (!(G.A.length + G.B.length)) return;
-  const b = DECISION.meilleur(G), box = document.getElementById("reco-box");
-  box.className = "callout";
-  box.innerHTML = b.m > 0
-    ? `<span class="label">Prix qui rapporte le plus parmi les prix testés (${G.D.length} répondants)</span><p class="question">${FMT.e(b.p)}</p><p>+${FMT.e(b.m)} de marge supplémentaire pour 100 spectateurs, entre le prix plancher (${FMT.e(ECO.plancher())}) et le plafond des concurrents (19,50 €). Le calcul, les scénarios et les limites sont sur la page <a href="recommandation.html">La décision</a>.</p>`
-    : `<span class="label">Résultat (${G.D.length} répondants)</span><p>Aucun des prix testés ne rapporte de marge : le pack ferait perdre plus sur les clients qui achetaient déjà la confiserie qu'il ne rapporte sur les autres. Détail sur la page <a href="recommandation.html">La décision</a>.</p>`;
-})();
-</script>
-</body>
-</html>
+
+
+
+</body></html>

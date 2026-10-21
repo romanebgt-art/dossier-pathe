@@ -1,11 +1,10 @@
 <!doctype html>
-<html lang="fr">
-<head>
+<html lang="fr"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>5 · La décision · Dossier Pathé</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -39,29 +38,26 @@
       <li>Un acheteur du pack remplace toutes ses dépenses habituelles de confiserie par le pack <span class="tag hyp">Hypothèse</span> : s'il achetait encore des bonbons en plus, la perte serait plus faible.</li>
       <li>Résultat moyen sur tous les répondants, ramené à 100 spectateurs. Les spectateurs qui ne viennent pas aujourd'hui et viendraient grâce au pack ne sont pas comptés <span class="tag hyp">Hypothèse prudente</span>.</li>
     </ul>
-    <div id="attente" class="todo-box">
-      <strong>En attente des réponses définitives</strong>
-      <p>Le tableau ci-dessous se calcule automatiquement à partir de <code>data/reponses.csv</code>. Sans ce fichier, nous ne pouvons ni recommander un prix, ni chiffrer les scénarios : nous ne les inventons pas.</p>
-    </div>
-    <div id="bloc" hidden>
-      <div class="scroll"><table id="tabDecision"></table></div>
-      <p class="caption" id="capDecision"></p>
-      <div class="callout" id="reco"></div>
-      <div class="calc" id="equilibre"></div>
+    
+    <div id="bloc">
+      <div class="scroll"><table id="tabDecision"><thead><tr><th>Prix du pack</th><th class="n">Achèteraient</th><th class="n">Dont Pathé gagne de l'argent</th><th class="n">Dépense actuelle médiane des acheteurs</th><th class="n">Variation moyenne par acheteur</th><th class="n">Marge pour 100 spectateurs</th></tr></thead><tbody><tr><td><strong>16,90 €</strong></td><td class="n">55 · 47 %</td><td class="n">9 sur 55</td><td class="n">8,00 €</td><td class="n neg">−3,82 €</td><td class="n neg"><strong>−178,05 €</strong></td></tr><tr><td><strong>17,90 €</strong></td><td class="n">31 · 26 %</td><td class="n">5 sur 31</td><td class="n">8,00 €</td><td class="n neg">−3,68 €</td><td class="n neg"><strong>−96,64 €</strong></td></tr><tr><td><strong>18,90 €</strong></td><td class="n">11 · 9 %</td><td class="n">1 sur 11</td><td class="n">10,00 €</td><td class="n neg">−4,21 €</td><td class="n neg"><strong>−39,28 €</strong></td></tr></tbody></table></div>
+      <p class="caption" id="capDecision">118 répondants retenus (1 exclu(s) : dépense déclarée absente ou supérieure à 50 € par séance). Variation par acheteur = (prix − 13,50) ÷ 1,10 − 1,36 € − dépense actuelle ÷ 1,10 × 73,4 %. Marge pour 100 spectateurs = somme des variations des acheteurs ÷ nombre de répondants × 100.</p>
+      <div class="callout" id="reco"><span class="label">Aucun prix testé ne rapporte de marge</span><p>Les répondants qui achèteraient le pack sont surtout ceux qui achètent déjà de la confiserie : à 16,90 €, ils dépensent aujourd'hui 8,00 € en médiane par séance. Le pack leur offrirait une remise sur ce qu'ils paient déjà, sans faire venir assez de nouveaux acheteurs de confiserie. <strong>Un pack permanent vendu entre 16,90 et 18,90 € ferait perdre de la marge à Pathé</strong> (de 39,28 € à 178,05 € pour 100 spectateurs).</p></div>
+      <div class="calc" id="equilibre"><div class="head">Le prix à partir duquel le pack ne fait plus perdre d'argent</div><div class="row"><span class="t">Formule, pour un acheteur</span><span class="v"></span><span class="o">13,50 + (coût du menu + dépense actuelle ÷ 1,10 × 73,4 %) × 1,10</span></div><div class="row"><span class="t">Acheteur qui ne prend jamais de confiserie</span><span class="v">15,00 €</span><span class="o">C'est le prix plancher de la partie 4</span></div><div class="row total"><span class="t">Acheteur médian à 16,90 € (55 personnes)</span><span class="v">20,87 €</span><span class="o">Proche du prix des produits achetés séparément (22 € estimés) : le pack ne peut pas être une grosse remise</span></div></div>
     </div>
   </section>
 
   <section aria-labelledby="stress">
     <div class="sec-head"><span class="num">02 · Le stress test</span><h2 id="stress">Trois scénarios, du prévu au pire</h2><p>Les limites identifiées : un prix accepté mesuré sur peu de répondants, un coût estimé (prix du menu non relevé), une conversion déclarée qui sera plus faible dans la réalité.</p></div>
-    <div id="blocStress" hidden>
-      <div class="scroll"><table id="tabStress"></table></div>
+    <div id="blocStress">
+      <div class="scroll"><table id="tabStress"><thead><tr><th>Scénario</th><th class="n">16,90 €</th><th class="n">17,90 €</th><th class="n">18,90 €</th></tr></thead><tbody><tr><td>Prévu</td><td class="n neg">−178,05 €</td><td class="n neg">−96,64 €</td><td class="n neg">−39,28 €</td></tr><tr><td>Plus dur</td><td class="n neg">−153,77 €</td><td class="n neg">−80,01 €</td><td class="n neg">−34,36 €</td></tr><tr><td>Du pire</td><td class="n neg">−175,53 €</td><td class="n neg">−89,18 €</td><td class="n neg">−40,44 €</td></tr></tbody></table></div>
       <p class="caption">Marge pour 100 spectateurs, en euros. Scénario plus dur : coût des produits +15 % et, parmi les clients « place seule », seuls 70 % de ceux qui ont dit oui achètent vraiment (les clients B, qui gagnent à prendre le pack, le prennent comme déclaré). Scénario du pire : en plus, la part de clients B est 10 points plus élevée que dans l'échantillon. Ces écarts sont des hypothèses de notre groupe. Remarque : une hausse des coûts réduit aussi la marge que Pathé perd sur la confiserie déjà vendue, ce qui peut rendre un scénario « plus dur » légèrement moins négatif.</p>
     </div>
     <div class="calc">
       <div class="head">Points de rupture, connus sans les réponses</div>
-      <div class="row"><span class="t">Prix plancher du pack</span><span class="v" id="pPlancher"></span><span class="o">En dessous, chaque client converti fait perdre de l'argent (<a href="couts.html#plancher">calcul</a>)</span></div>
-      <div class="row"><span class="t">Clients A pour 1 client B, à 16,90 €</span><span class="v" id="pR1"></span><span class="o">Si l'on convertit moins de clients « place seule » que cela par client B, le pack fait perdre de l'argent</span></div>
-      <div class="row"><span class="t">Clients A pour 1 client B, à 18,90 €</span><span class="v" id="pR3"></span><span class="o">Même lecture, au prix testé le plus haut</span></div>
+      <div class="row"><span class="t">Prix plancher du pack</span><span class="v" id="pPlancher">15,00 €</span><span class="o">En dessous, chaque client converti fait perdre de l'argent (<a href="couts.html#plancher">calcul</a>)</span></div>
+      <div class="row"><span class="t">Clients A pour 1 client B, à 16,90 €</span><span class="v" id="pR1">2,7 pour 1</span><span class="o">Si l'on convertit moins de clients « place seule » que cela par client B, le pack fait perdre de l'argent</span></div>
+      <div class="row"><span class="t">Clients A pour 1 client B, à 18,90 €</span><span class="v" id="pR3">0,8 pour 1</span><span class="o">Même lecture, au prix testé le plus haut</span></div>
       <div class="row"><span class="t">Plafond des concurrents</span><span class="v">19,50 €</span><span class="o">Au-dessus, le pack devient plus cher que la même sortie chez CGR <span class="tag est">Estimé</span></span></div>
     </div>
     <p>L'hypothèse qui lâche en premier est <strong>le prix du menu vendu seul</strong> : c'est elle qui fixe la perte sur chaque client B et le prix de référence de 22 € montré aux répondants. C'est donc la première à remplacer par un relevé en caisse.</p>
@@ -80,7 +76,7 @@
     <div class="sec-head"><span class="num">04 · Ce qu'il manque</span><h2 id="manque">Données à fournir avant la soutenance</h2></div>
     <ul class="check">
       <li>Prix du comptoir au Pathé Aubière et au CGR Val Arena (pop-corn moyen, boisson 50 cl, menu), avec photo datée <span class="tag miss">À fournir</span></li>
-      <li>L'export final des réponses (onglet « reponses », 21 octobre 2026) déposé dans <code>data/reponses.csv</code> <span class="tag miss">À fournir</span></li>
+      <li>L'export final des réponses : fait le 21 octobre 2026 (119 réponses), conservé hors ligne comme le demande le cours <span class="tag obs">Observé</span></li>
       <li>Les coûts fixes de lancement (affichage en salle, mise à jour de l'application, formation des équipes) : non chiffrés, ils servent au seuil de rentabilité en volume = coûts fixes ÷ marge par pack <span class="tag miss">À fournir</span></li>
       <li>La fréquentation du Pathé d'Aubière, pour passer de « pour 100 spectateurs » à un montant annuel <span class="tag miss">À fournir</span></li>
       <li>La manière dont les répondants ont été trouvés, pour décrire l'échantillon <span class="tag miss">À fournir</span></li>
@@ -96,52 +92,10 @@
 <footer>
   <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
   <span>Page mise à jour le 20 octobre 2026</span>
-</footer>
+<span>Résultats calculés le 21/10/2026 sur les 119 réponses ; les réponses individuelles restent hors ligne (consigne du cours, séance CM3)</span></footer>
 
 <script src="modele.js"></script>
-<script>
-(async function(){
-  const $ = id => document.getElementById(id);
-  $("pPlancher").textContent = FMT.e(ECO.plancher());
-  $("r1b").textContent = FMT.n(ECO.ratio(16.9), 1);
-  $("vCout").textContent = FMT.e(ECO.coutMenu());
-  $("pR1").textContent = FMT.n(ECO.ratio(16.9), 1) + " pour 1";
-  $("pR3").textContent = FMT.n(ECO.ratio(18.9), 1) + " pour 1";
 
-  let rows; try { rows = await DONNEES.charger(); } catch (e) { rows = null; }
-  if (!rows || !rows.length) return;
-  const G = DECISION.groupes(rows), R = DECISION.retenus(G);
-  if (!R.length) return;
-  const N = DONNEES.num, P = MODELE.prixTestes, M = MODELE;
-  const col = p => "gg_" + p.toFixed(2).replace(".", "_");
-  const med = a => { a = a.slice().sort((x, y) => x - y); return a.length ? (a.length % 2 ? a[(a.length - 1) / 2] : (a[a.length / 2 - 1] + a[a.length / 2]) / 2) : null; };
-  $("attente").hidden = true; $("bloc").hidden = false; $("blocStress").hidden = false;
 
-  const res = P.map(p => {
-    const ach = R.filter(r => N(r[col(p)]) === 1);
-    const deltas = ach.map(r => DECISION.delta(r, p, M));
-    return { p, n: ach.length, part: ach.length / R.length, dep: med(ach.map(r => N(r.depense))), moy: deltas.length ? deltas.reduce((a, b) => a + b, 0) / deltas.length : 0, pos: deltas.filter(d => d >= 0).length, m: DECISION.marge(G, p) };
-  });
-  $("tabDecision").innerHTML = `<thead><tr><th>Prix du pack</th><th class="n">Achèteraient</th><th class="n">Dont Pathé gagne de l'argent</th><th class="n">Dépense actuelle médiane des acheteurs</th><th class="n">Variation moyenne par acheteur</th><th class="n">Marge pour 100 spectateurs</th></tr></thead><tbody>` +
-    res.map(o => `<tr><td><strong>${FMT.e(o.p)}</strong></td><td class="n">${o.n} · ${FMT.p(o.part, 0)}</td><td class="n">${o.pos} sur ${o.n}</td><td class="n">${o.dep == null ? "—" : FMT.e(o.dep)}</td><td class="n ${o.moy >= 0 ? "pos" : "neg"}">${o.moy >= 0 ? "+" : ""}${FMT.e(o.moy)}</td><td class="n ${o.m >= 0 ? "pos" : "neg"}"><strong>${o.m >= 0 ? "+" : ""}${FMT.e(o.m)}</strong></td></tr>`).join("") + `</tbody>`;
-  const exclus = G.D.length - R.length;
-  $("capDecision").textContent = `${R.length} répondants retenus${exclus ? ` (${exclus} exclu(s) : dépense déclarée absente ou supérieure à 50 € par séance)` : ""}. Variation par acheteur = (prix − 13,50) ÷ 1,10 − ${FMT.e(ECO.coutMenu())} − dépense actuelle ÷ 1,10 × ${FMT.p(1 - M.tauxAchat.v, 1)}. Marge pour 100 spectateurs = somme des variations des acheteurs ÷ nombre de répondants × 100.`;
 
-  const best = res.reduce((a, b) => b.m > a.m ? b : a);
-  // prix d'équilibre de chaque acheteur à 16,90 € : prix à partir duquel il ne fait plus perdre d'argent
-  const eq = R.filter(r => N(r[col(P[0])]) === 1).map(r => M.prixPlace.v + (ECO.coutMenu() + ECO.ht(N(r.depense), M.tvaConf.v) * (1 - M.tauxAchat.v)) * (1 + M.tvaConf.v));
-  const eqMed = med(eq);
-  $("reco").innerHTML = best.m > 0
-    ? `<span class="label">Prix qui rapporte le plus dans notre échantillon</span><p><strong>${FMT.e(best.p)}</strong> : +${FMT.e(best.m)} de marge supplémentaire pour 100 spectateurs. À valider par le groupe au regard des limites ci-dessous.</p>`
-    : `<span class="label">Aucun prix testé ne rapporte de marge</span><p>Les répondants qui achèteraient le pack sont surtout ceux qui achètent déjà de la confiserie : à 16,90 €, ils dépensent aujourd'hui ${FMT.e(res[0].dep)} en médiane par séance. Le pack leur offrirait une remise sur ce qu'ils paient déjà, sans faire venir assez de nouveaux acheteurs de confiserie. <strong>Un pack permanent vendu entre 16,90 et 18,90 € ferait perdre de la marge à Pathé</strong> (de ${FMT.e(Math.abs(res[res.length - 1].m))} à ${FMT.e(Math.abs(res[0].m))} pour 100 spectateurs).</p>`;
-  $("equilibre").innerHTML = `<div class="head">Le prix à partir duquel le pack ne fait plus perdre d'argent</div>` +
-    `<div class="row"><span class="t">Formule, pour un acheteur</span><span class="v"></span><span class="o">13,50 + (coût du menu + dépense actuelle ÷ 1,10 × 73,4 %) × 1,10</span></div>` +
-    `<div class="row"><span class="t">Acheteur qui ne prend jamais de confiserie</span><span class="v">${FMT.e(ECO.plancher())}</span><span class="o">C'est le prix plancher de la partie 4</span></div>` +
-    `<div class="row total"><span class="t">Acheteur médian à 16,90 € (${eq.length} personnes)</span><span class="v">${FMT.e(eqMed)}</span><span class="o">Proche du prix des produits achetés séparément (22 € estimés) : le pack ne peut pas être une grosse remise</span></div>`;
-
-  const sc = [["Prévu", {}], ["Plus dur", { cout: 1.15, reel: 0.7 }], ["Du pire", { cout: 1.15, reel: 0.7, dB: 0.10 }]];
-  $("tabStress").innerHTML = `<thead><tr><th>Scénario</th>${P.map(p => `<th class="n">${FMT.e(p)}</th>`).join("")}</tr></thead><tbody>` +
-    sc.map(([n, o]) => `<tr><td>${n}</td>${P.map(p => { const v = DECISION.marge(G, p, o); return `<td class="n ${v >= 0 ? "pos" : "neg"}">${v >= 0 ? "+" : ""}${FMT.e(v)}</td>`; }).join("")}</tr>`).join("") + `</tbody>`;})();
-</script>
-</body>
-</html>
+</body></html>

@@ -96,6 +96,7 @@
 </footer>
 
 <script src="modele.js"></script>
+<script src="agregats.js"></script>
 <script>
 (function(){
   const $ = id => document.getElementById(id);
@@ -184,14 +185,17 @@
     mark(19.5, "plafond des concurrents 19,50 €", "var(--ink)", 2);
     $("td2Legend").innerHTML = segPlace.concat(segConf.slice(1)).map(([n, , c]) => `<span><span class="dot" style="background:${c}"></span>${n}</span>`).join("");
     // prix accepté (données réelles)
-    DONNEES.charger().then(rows => {
-      if (!rows || !rows.length) return;
+    // sur le site en ligne, les réponses brutes sont absentes (consigne du cours) : on lit alors le résultat agrégé (agregats.js)
+    const calc = rows => {
       const v = rows.map(r => DONNEES.num(r.gg_prix_max_accepte)).filter(x => x != null && x > 0).sort((a, b) => a - b);
-      if (!v.length) return;
-      const med = v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2;
-      mark(med, "prix maximum accepté médian " + FMT.e(med), "var(--accent)", 1);
-      $("td2Cap").textContent = `Prix maximum accepté médian parmi les ${v.length} répondants qui acceptent au moins 16,90 € (question 6) ; ${rows.length - v.length} répondant(s) refusent dès 16,90 €.`;
-    }).catch(() => {});
+      if (!v.length) return null;
+      return { med: v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2, n: v.length, refus: rows.length - v.length };
+    };
+    DONNEES.charger().then(rows => rows && rows.length ? calc(rows) : window.AGREGATS?.prixMax).catch(() => window.AGREGATS?.prixMax).then(a => {
+      if (!a) return;
+      mark(a.med, "prix maximum accepté médian " + FMT.e(a.med), "var(--accent)", 1);
+      $("td2Cap").textContent = `Prix maximum accepté médian parmi les ${a.n} répondants qui acceptent au moins 16,90 € (question 6) ; ${a.refus} répondant(s) refusent dès 16,90 €.`;
+    });
   }
 
   const inputs = { inMenu: ["prixMenu", 1], inPop: ["coutPopcorn", 1], inSirop: ["siropBIB", 1], inTva: ["tvaConf", 100], inPlace: ["prixPlace", 1] };
