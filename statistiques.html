@@ -59,17 +59,18 @@ td small{color:var(--muted)}
     <p class="eyebrow">Statistiques · on avance test par test</p>
     <h1>Pourquoi si peu de gens veulent du pack à 18,90 € ?</h1>
     <p class="lede">On part d'un constat tiré de la question 6, puis on le vérifie avec les tests vus en cours. Chaque test suit la même logique : une hypothèse H0, une hypothèse H1, deux variables, un test, une p-value, une décision. Tous les chiffres sont recalculés à partir de nos <span id="nRep">119</span> réponses.</p>
-    <p><a href="essentiel.html"><strong>Version courte →</strong> les 6 schémas, avec une phrase chacun</a></p>
+    <p><a href="essentiel.html"><strong>Version courte →</strong> les 7 schémas, avec une phrase chacun</a></p>
   </div>
 
   <section aria-labelledby="plan-t">
-    <div class="sec-head"><span class="num">Le plan</span><h2 id="plan-t">Les 5 tests, dans l'ordre</h2></div>
+    <div class="sec-head"><span class="num">Le plan</span><h2 id="plan-t">Les 5 tests, puis le test A/B</h2></div>
     <ol class="roadmap">
       <li><a href="#chi-prix"><span class="n">Test 1</span><strong>Chi-2</strong><span>Quali × Quali : deux catégories sont-elles liées ?</span></a></li>
       <li><a href="#t2"><span class="n">Test 2</span><strong>Student</strong><span>Quali × Quanti : deux moyennes sont-elles différentes ?</span></a></li>
       <li><a href="#t3"><span class="n">Test 3</span><strong>Corrélation</strong><span>Quanti × Quanti : deux nombres bougent-ils ensemble ?</span></a></li>
       <li><a href="#t4"><span class="n">Test 4</span><strong>Régression</strong><span>Prédire Y à partir de X : Y = aX + b</span></a></li>
       <li><a href="#t5"><span class="n">Test 5</span><strong>Proportion (Z)</strong><span>Un pourcentage s'écarte-t-il d'un objectif ?</span></a></li>
+      <li><a href="#tab"><span class="n">Test A/B</span><strong>Chi-2 A / B</strong><span>Afficher « 22 € séparément » fait-il vendre plus ?</span></a></li>
     </ol>
   </section>
 
@@ -273,9 +274,30 @@ td small{color:var(--muted)}
     <div class="callout" id="lectT5"></div>
   </section>
 
+  <!-- ===================== TEST A/B ===================== -->
+  <section aria-labelledby="tab">
+    <div class="sec-head"><span class="num">11 · Le test A/B</span><h2 id="tab">Afficher « achetés séparément : 22 € » fait-il vendre plus de packs ?</h2>
+      <p>Au début du questionnaire, le hasard envoyait chaque répondant vers la version A ou la version B. Une seule différence : en version B, l'image du pack affichait « Achetés séparément : 22,00 € » (place 13,50 € + menu 8,50 €). C'est un <strong>prix de référence</strong> : il fait paraître le pack moins cher par comparaison.</p></div>
+    <div class="callout" id="resumeAB"></div>
+    <h3>Le schéma du test, en 5 étapes</h3>
+    <ol class="flow" id="flowAB"></ol>
+    <div class="qbox">
+      <div class="card"><span class="pill">Variable a · qualitative</span><h3>La version vue</h3><p>Version A : sans prix de référence<br>Version B : avec « achetés séparément : 22 € »</p></div>
+      <div class="card"><span class="pill">Variable b · qualitative</span><h3>Question 6</h3><p>« Achèteriez-vous ce pack à ce prix ? » à <strong>16,90 €</strong> → oui / non. Tout le monde a vu ce prix.</p></div>
+    </div>
+    <div class="chart">
+      <h3>Part qui achèterait le pack, version A contre version B</h3>
+      <svg id="svgAB" class="sch" viewBox="0 0 640 330" role="img" aria-label="Part d'acheteurs en version A et en version B à chacun des trois prix, comparée au niveau commun attendu si la mention 22 euros n'avait aucun effet"></svg>
+      <div class="legend"><span><span class="dot" style="background:var(--c-a)"></span>Version A (sans 22 €)</span><span><span class="dot" style="background:var(--c-b)"></span>Version B (avec 22 €)</span><span><span class="dot" style="background:var(--ink)"></span>- - - Niveau commun attendu si H0 était vraie</span></div>
+    </div>
+    <div class="scroll"><table id="tabAB"></table></div>
+    <div class="calc" id="calcAB"></div>
+    <div class="callout" id="lectAB"></div>
+  </section>
+
   <!-- ===================== SYNTHÈSE ===================== -->
   <section aria-labelledby="syn-t">
-    <div class="sec-head"><span class="num">11 · La chaîne complète</span><h2 id="syn-t">Les 5 tests en un coup d'œil</h2></div>
+    <div class="sec-head"><span class="num">12 · La chaîne complète</span><h2 id="syn-t">Les 5 tests en un coup d'œil</h2></div>
     <div class="scroll"><table id="tabSyn"></table></div>
     <div class="callout" id="chaine"></div>
   </section>
@@ -319,6 +341,7 @@ td small{color:var(--muted)}
     const CL = [[0, 0, "0 €"], [0.01, 5, "1 à 5 €"], [5.01, 10, "6 à 10 €"], [10.01, 50, "plus de 10 €"]];
     S.corr = { n: pr.length, r: STAT.corr(pr.map(x => x[0]), pr.map(x => x[1])),
       cl: CL.map(([lo, hi, l]) => { const s = pr.filter(x => x[0] >= lo && x[0] <= hi); return { l, n: s.length, vp: STAT.mean(s.map(x => x[1])) }; }) };
+    S.version = { A: grp(r => r.version === "A"), B: grp(r => r.version === "B") };
   } else S = AGREGATS.stats;
   $("nRep").textContent = S.n;
 
@@ -622,6 +645,49 @@ td small{color:var(--muted)}
   $("inPrixT5").addEventListener("change", upd5); $("inObjT5").addEventListener("input", upd5);
   const z5 = upd5();
 
+  // ===== Test A/B : version (A / B) × question 6 =====
+  const VA = S.version.A, VB = S.version.B;
+  // sans correction de Yates, comme le script du cours (03_test_ab.py) et la partie 3 : mêmes chiffres partout
+  const ab = PRIX.map((x, i) => { const t = [[VA[0] - VA[i + 1], VA[i + 1]], [VB[0] - VB[i + 1], VB[i + 1]]], c = STAT.chi2(t);
+    return { x, t, pa: VA[i + 1] / VA[0], pb: VB[i + 1] / VB[0], pt: (VA[i + 1] + VB[i + 1]) / (VA[0] + VB[0]), ...c }; });
+  const ab0 = ab[0], sigAB = ab0.p < 0.05;
+  // taille d'échantillon qui aurait permis de détecter l'écart observé à 16,90 € (puissance 80 %, seuil 5 %)
+  const nAB = Math.ceil((1.96 + 0.8416) ** 2 * (ab0.pa * (1 - ab0.pa) + ab0.pb * (1 - ab0.pb)) / (ab0.pb - ab0.pa) ** 2);
+  const ecarts = ab.map(a => n((a.pb - a.pa) * 100, 0)).join(", +");
+  $("resumeAB").innerHTML = `<span class="label">Résumé</span>
+    <p>Un prix de référence peut changer la perception d'un prix : à côté de « 22 € », 16,90 € paraît une bonne affaire. Notre test A/B vérifie si cet effet existe chez nos répondants (${VA[0]} en version A, ${VB[0]} en version B).</p>
+    <p>À 16,90 €, <strong>${p(ab0.pb)}</strong> achèteraient le pack en version B, contre <strong>${p(ab0.pa)}</strong> en version A. La version B fait mieux aux trois prix (+${ecarts} points).</p>
+    <p><strong>Le Chi-2 vérifie si cet écart est réel ou dû au hasard du tirage.</strong></p>`;
+  $("flowAB").innerHTML = flow(["Les deux variables", "a : la version vue (A sans 22 € / B avec 22 €), qualitative<br>b : réponse à la question 6 à 16,90 € (oui / non), qualitative"],
+    ["la mention « 22 € » ne change pas l'envie d'acheter", "elle la change"],
+    `Si H0 était vraie, A et B diraient oui dans la même proportion, ${p(ab0.pt)}. On observe ${p(ab0.pa)} en A et ${p(ab0.pb)} en B.`,
+    ["Le Chi-2", `χ² = ${n(ab0.chi2, 2)}`], `${ab0.ddl} degré de liberté<br>p-value = ${fp(ab0.p)}`, sigAB, sigAB ? null : "Pas de conclusion",
+    sigAB ? "p < 0,05 : la mention « 22 € » augmente vraiment les ventes." : "p ≥ 0,05 : B fait mieux, mais l'écart peut encore venir du hasard.");
+  {
+    const el = svgOf("svgAB"), T = 20, B = 270, X0 = 70, MAX = 0.6, y = v => B - v / MAX * (B - T);
+    for (let v = 0; v <= MAX + 1e-9; v += 0.1) { el("line", { class: "grid", x1: X0 - 10, x2: 630, y1: y(v), y2: y(v) }); el("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + " %"); }
+    ab.forEach((a, i) => { const cx = 170 + i * 175;
+      [[a.pa, "var(--c-a)", cx - 68], [a.pb, "var(--c-b)", cx + 8]].forEach(([v, c, bx]) => {
+        el("rect", { x: bx, y: y(v), width: 60, height: B - y(v), fill: c, rx: 4 });
+        const yl = Math.abs(y(v) - 8 - y(a.pt)) < 14 ? Math.min(y(v), y(a.pt)) - 10 : y(v) - 8;
+        el("text", { x: bx + 30, y: yl, "text-anchor": "middle", class: "lbl" }, p(v)); });
+      el("line", { x1: cx - 78, x2: cx + 78, y1: y(a.pt), y2: y(a.pt), stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "6 4" });
+      el("text", { x: cx, y: B + 22, "text-anchor": "middle", class: "lbl" }, e(a.x));
+      el("text", { x: cx, y: B + 40, "text-anchor": "middle" }, `A / B · p = ${fp(a.p)}`); });
+  }
+  $("tabAB").innerHTML = `<thead><tr><th>Prix</th><th class="n">Version A</th><th class="n">Version B</th><th class="n">Écart B − A</th><th class="n">Chi-2</th><th class="n">p-value</th><th>Lecture</th></tr></thead><tbody>` +
+    ab.map(a => `<tr><td><strong>${e(a.x)}</strong></td><td class="n">${p(a.pa)} <small>(${a.t[0][1]}/${VA[0]})</small></td><td class="n">${p(a.pb)} <small>(${a.t[1][1]}/${VB[0]})</small></td><td class="n">+${n((a.pb - a.pa) * 100, 0)} pts</td><td class="n">${n(a.chi2, 2)}</td><td class="n">${fp(a.p)}</td><td>${a.petit ? '<span class="tag miss">Fragile</span> case théorique < 5' : a.p < 0.05 ? '<span class="tag obs">Significatif</span>' : "Non significatif"}</td></tr>`).join("") + `</tbody>`;
+  $("calcAB").innerHTML = `<div class="head">Test du Chi-2 à 16,90 € (tableau 2 × 2)</div>` +
+    row("Chi-2 calculé", n(ab0.chi2, 2), "Calculé comme dans le script du cours sur le test A/B (et en partie 3)") +
+    row("Degrés de liberté", ab0.ddl, "(2 versions − 1) × (2 réponses − 1)") +
+    row("p-value", fp(ab0.p), "Probabilité d'un tel écart par hasard si la mention « 22 € » n'avait aucun effet") +
+    row("V de Cramer", n(ab0.v, 2), "Force du lien : en dessous de 0,2, lien faible") +
+    row("Personnes nécessaires", `≈ ${nAB} par version`, `Pour prouver un écart de ${n((ab0.pb - ab0.pa) * 100, 0)} points avec 80 % de chances (nous en avions ${VA[0]} et ${VB[0]})`, "sub") +
+    row("Décision", sigAB ? "p < 0,05" : "p ≥ 0,05", sigAB ? "On rejette H0" : "On ne peut pas rejeter H0", "total");
+  $("lectAB").innerHTML = `<span class="label">Ce qu'on en dit</span><p class="verdict ${sigAB ? "ok" : "no"}">${sigAB ? "On rejette H0, on retient H1." : "On ne peut pas rejeter H0."}</p>
+    <p>La version B fait mieux à chaque prix (+${ecarts} points), ce qui va dans le sens de la théorie du prix de référence. Mais avec p = ${fp(ab0.p)}, l'écart peut encore venir du hasard du tirage : <strong>on ne peut pas affirmer que la mention « 22 € » fait vendre plus</strong>. Attention, cela ne prouve pas non plus qu'elle est inutile : nos groupes sont trop petits. Il aurait fallu environ ${nAB} personnes par version pour trancher. Autre limite : nous n'avons pas vérifié que les répondants de la version B avaient bien remarqué la mention.</p>
+    <p><strong>À dire :</strong> « Nous avons fait un test A/B : la moitié des répondants voyait le prix des produits achetés séparément, 22 €, l'autre non. On a croisé la version vue et la réponse à 16,90 €, deux variables qualitatives, avec un Chi-2. La version B fait mieux, ${p(ab0.pb)} contre ${p(ab0.pa)}, mais p = ${fp(ab0.p)} : on ne peut pas rejeter H0. L'effet va dans le bon sens, mais il faudrait environ ${nAB} personnes par version pour le prouver. »</p>`;
+
   // ===== Synthèse =====
   const dec = s => s ? '<span class="tag obs">H0 rejetée</span>' : '<span class="tag miss">Pas de conclusion</span>';
   $("tabSyn").innerHTML = `<thead><tr><th>Test</th><th>Questions croisées</th><th>Résultat</th><th class="n">p-value</th><th>Décision</th></tr></thead><tbody>` +
@@ -630,12 +696,13 @@ td small{color:var(--muted)}
     `<tr><td><strong>2 · Student</strong></td><td>Q5 situation × Q11 dépense</td><td>Étudiants ${e(E.m)}, actifs ${e(A.m)}</td><td class="n">${fp(p2)}</td><td>${dec(sig2)}</td></tr>` +
     `<tr><td><strong>3 · Corrélation</strong></td><td>Q11 dépense × Q8 valeur perçue</td><td>r = ${n(C.r, 2)} (lien ${force(C.r)})</td><td class="n">${fp(p3)}</td><td>${dec(sig3)}</td></tr>` +
     `<tr><td><strong>4 · Régression</strong></td><td>Q6 part d'acheteurs × prix</td><td>${n(a4 * 100, 1)} points par euro, R² = ${p(r2, 1)}</td><td class="n">${fp(p4)}</td><td>${dec(sig4)} <small>3 points : fragile</small></td></tr>` +
-    `<tr><td><strong>5 · Proportion</strong></td><td>Q6 à ${e(PRIX[z5.i])} × objectif ${p(z5.obj)}</td><td>${p(z5.ph)} d'acheteurs</td><td class="n">${fp(z5.p5)}</td><td>${dec(z5.sig5)}</td></tr></tbody>`;
+    `<tr><td><strong>5 · Proportion</strong></td><td>Q6 à ${e(PRIX[z5.i])} × objectif ${p(z5.obj)}</td><td>${p(z5.ph)} d'acheteurs</td><td class="n">${fp(z5.p5)}</td><td>${dec(z5.sig5)}</td></tr>` +
+    `<tr><td><strong>A/B · Chi-2</strong></td><td>Version A / B × Q6 à 16,90 €</td><td>${p(ab0.pa)} en A, ${p(ab0.pb)} en B</td><td class="n">${fp(ab0.p)}</td><td>${dec(sigAB)}</td></tr></tbody>`;
   $("chaine").innerHTML = `<span class="label">La chaîne logique, comme l'exemple du cours</span>
     <p><strong>1. Le constat.</strong> À 18,90 €, seuls ${p(part[2])} des répondants achèteraient le pack, loin de notre objectif (test 5). La demande est très élastique : chaque euro de plus fait perdre environ ${n(-a4 * 100, 0)} points d'acheteurs (test 4).</p>
     <p><strong>2. Qui refuse ?</strong> Ceux qui n'achètent pas de confiserie : ${p(pc[1])} d'acheteurs contre ${p(pc[0])} (test 1). Le statut étudiant seul ne suffit pas à l'expliquer (section 05).</p>
     <p><strong>3. Pourquoi ?</strong> Les étudiants, ${p(nEtu / S.n)} de notre échantillon, dépensent nettement moins en confiserie (test 2). Et moins on dépense en confiserie, moins le pack paraît une bonne affaire (test 3).</p>
-    <p><strong>4. La décision.</strong> Le problème n'est pas le contenu du pack, mais sa cible et son prix : il ne fait économiser que ceux qui prennent déjà pop-corn et boisson. Pistes : le proposer au moment où le client achète déjà sa confiserie, ou créer une version plus petite et moins chère pour les petits budgets. La rentabilité de chaque piste se vérifie avec les coûts (<a href="couts.html">partie 4</a>).</p>`;
+    <p><strong>4. La décision.</strong> Le problème n'est pas le contenu du pack, mais sa cible et son prix : il ne fait économiser que ceux qui prennent déjà pop-corn et boisson. Pistes : le proposer au moment où le client achète déjà sa confiserie, ou créer une version plus petite et moins chère pour les petits budgets. Afficher le prix des produits achetés séparément (22 €) va dans le bon sens (+${n((ab0.pb - ab0.pa) * 100, 0)} points à 16,90 €), mais notre test A/B ne suffit pas à le prouver (test A/B). La rentabilité de chaque piste se vérifie avec les coûts (<a href="couts.html">partie 4</a>).</p>`;
 })();
 </script>
 </body>

@@ -46,8 +46,8 @@
 
 <main>
   <div class="hero">
-    <p class="eyebrow">L'essentiel · nos 6 schémas</p>
-    <h1>Le pack Pathé à 18,90 €, en six schémas</h1>
+    <p class="eyebrow">L'essentiel · nos 7 schémas</p>
+    <h1>Le pack Pathé à 18,90 €, en sept schémas</h1>
     <p class="lede">Un schéma par test statistique, et une phrase pour le lire. Résultats tirés des <span id="nRep">119</span> réponses à notre questionnaire.</p>
     <p class="howto"><svg width="46" height="12" aria-hidden="true"><line x1="0" x2="46" y1="6" y2="6" stroke="currentColor" stroke-width="2" stroke-dasharray="7 5"/></svg><span>La ligne pointillée montre ce qu'on verrait <strong>si le hasard seul jouait (H0)</strong>. Plus les résultats s'en éloignent, plus la preuve est forte.</span></p>
   </div>
@@ -76,6 +76,11 @@
     <section class="card-s" aria-labelledby="h6t"><div class="top-row"><div><span class="num">6 · Test Z · l'objectif</span><h2 id="h6t">À 18,90 €, atteint-on un client sur quatre ?</h2></div><span class="verdict-pill" id="v6"></span></div>
       <svg id="g6" viewBox="0 0 640 330" role="img" aria-label="Part d'acheteurs à 18,90 euros comparée à l'objectif de 25 %"></svg>
       <p class="phrase" id="p6"></p><p class="vars">Question 6 à 18,90 € × objectif de 25 % fixé par le groupe</p></section>
+
+    <section class="card-s" aria-labelledby="h7t"><div class="top-row"><div><span class="num">7 · Test A/B · le prix de référence</span><h2 id="h7t">Afficher « achetés séparément : 22 € » fait-il vendre plus ?</h2></div><span class="verdict-pill" id="v7"></span></div>
+      <svg id="g7" viewBox="0 0 640 330" role="img" aria-label="Part d'acheteurs en version A et en version B à chacun des trois prix"></svg>
+      <p class="howto" style="font-size:.88rem"><span style="color:var(--c-a);font-weight:700">■ Version A : sans 22 €</span><span style="color:var(--c-b);font-weight:700">■ Version B : avec 22 €</span></p>
+      <p class="phrase" id="p7"></p><p class="vars">Version vue (A / B, tirée au hasard) × question 6 à 16,90 €</p></section>
 
     <div class="conclusion"><span class="label">En une phrase</span><p id="concl"></p></div>
   </div>
@@ -114,7 +119,8 @@
       situation: { etudiant: grp(r => r.situation === "etudiant"), actif: grp(r => r.situation === "actif") },
       student: { etudiant: desc(rows.filter(r => r.situation === "etudiant" && ok(r)).map(dep)), actif: desc(rows.filter(r => r.situation === "actif" && ok(r)).map(dep)) },
       corr: { n: pr.length, r: STAT.corr(pr.map(x => x[0]), pr.map(x => x[1])),
-        cl: CL.map(([lo, hi, l]) => { const s = pr.filter(x => x[0] >= lo && x[0] <= hi); return { l, n: s.length, vp: STAT.mean(s.map(x => x[1])) }; }) } };
+        cl: CL.map(([lo, hi, l]) => { const s = pr.filter(x => x[0] >= lo && x[0] <= hi); return { l, n: s.length, vp: STAT.mean(s.map(x => x[1])) }; }) },
+      version: { A: grp(r => r.version === "A"), B: grp(r => r.version === "B") } };
   } else S = AGREGATS.stats;
   $("nRep").textContent = S.n;
 
@@ -212,7 +218,26 @@
   $("p6").textContent = `À 18,90 €, seulement ${p(ph)} des répondants achèteraient le pack : même avec la marge d'erreur (${p(lo)} à ${p(hi)}), on reste loin d'un client sur quatre (Z = ${n(z, 2)}, ${pv(p6)}).`;
   verdict("v6", p6 < 0.05);
 
-  $("concl").textContent = `À 18,90 €, le pack est trop cher pour notre cible, surtout pour ceux qui n'achètent pas de confiserie : Pathé devrait le proposer d'abord aux clients qui prennent déjà pop-corn et boisson, ou créer une version plus petite et moins chère pour les petits budgets.`;
+  // 7 · test A/B : version × question 6
+  const VA = S.version.A, VB = S.version.B;
+  const ab = PRIX.map((x, i) => ({ x, pa: VA[i + 1] / VA[0], pb: VB[i + 1] / VB[0], pt: (VA[i + 1] + VB[i + 1]) / (VA[0] + VB[0]),
+    ...STAT.chi2([[VA[0] - VA[i + 1], VA[i + 1]], [VB[0] - VB[i + 1], VB[i + 1]]]) }));
+  const ab0 = ab[0], nAB = Math.ceil((1.96 + 0.8416) ** 2 * (ab0.pa * (1 - ab0.pa) + ab0.pb * (1 - ab0.pb)) / (ab0.pb - ab0.pa) ** 2);
+  { const el = svgOf("g7"), y = axis(el, 0.6, 0.1, v => Math.round(v * 100) + " %");
+    ab.forEach((a, i) => { const cx = 170 + i * 175;
+      [[a.pa, "var(--c-a)", cx - 68], [a.pb, "var(--c-b)", cx + 8]].forEach(([v, c, bx]) => {
+        el("rect", { x: bx, y: y(v), width: 60, height: y(0) - y(v), fill: c, rx: 4 });
+        const yl = Math.abs(y(v) - 8 - y(a.pt)) < 14 ? Math.min(y(v), y(a.pt)) - 10 : y(v) - 8;
+        el("text", { x: bx + 30, y: yl, "text-anchor": "middle", class: "lbl" }, p(v)); });
+      el("line", { x1: cx - 78, x2: cx + 78, y1: y(a.pt), y2: y(a.pt), stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "6 4" });
+      el("text", { x: cx, y: 292, "text-anchor": "middle", class: "lbl" }, e(a.x));
+      el("text", { x: cx, y: 310, "text-anchor": "middle" }, `+${n((a.pb - a.pa) * 100, 0)} points pour B`); }); }
+  $("p7").textContent = ab0.p < 0.05
+    ? `Avec le prix de référence de 22 €, le pack se vend nettement mieux : ${p(ab0.pb)} contre ${p(ab0.pa)} à 16,90 € (χ² = ${n(ab0.chi2, 2)}, ${pv(ab0.p)}).`
+    : `La version avec « 22 € » fait mieux à chaque prix (${p(ab0.pb)} contre ${p(ab0.pa)} à 16,90 €), mais l'écart peut encore venir du hasard : il faudrait environ ${nAB} personnes par version pour le prouver (χ² = ${n(ab0.chi2, 2)}, ${pv(ab0.p)}).`;
+  verdict("v7", ab0.p < 0.05);
+
+  $("concl").textContent = `À 18,90 €, le pack est trop cher pour notre cible, surtout pour ceux qui n'achètent pas de confiserie : Pathé devrait le proposer d'abord aux clients qui prennent déjà pop-corn et boisson, ou créer une version plus petite et moins chère pour les petits budgets. Afficher le prix des produits achetés séparément semble aider, mais reste à confirmer.`;
 })();
 </script>
 </body>
