@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>L'essentiel · Dossier Pathé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+.links{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+.links a{font:600 .84rem var(--display);color:var(--muted);text-decoration:none;padding:7px 11px;border-radius:8px;white-space:nowrap}
+.links a:hover{color:var(--ink);background:var(--soft)}
+.howto{display:flex;gap:12px;align-items:center;font-size:.98rem;color:var(--muted)}
+.howto svg{flex:none}
+.cards{display:grid;gap:28px}
+.card-s{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 18px;display:grid;gap:12px}
+.card-s .top-row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;justify-content:space-between}
+.card-s .num{font:700 .74rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.card-s h2{font-size:1.45rem;margin:2px 0 0}
+.verdict-pill{font:700 .78rem var(--display);letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:6px 12px;white-space:nowrap}
+.verdict-pill.ok{color:var(--good);background:var(--good-soft)}
+.verdict-pill.no{color:var(--muted);background:var(--soft)}
+.verdict-pill.mid{color:var(--accent-ink);background:var(--accent-soft)}
+.card-s svg{display:block;width:100%;height:auto}
+.card-s svg text{font-family:var(--mono);font-size:13px;fill:var(--muted)}
+.card-s svg .lbl{font-family:var(--display);font-size:14px;font-weight:600;fill:var(--ink)}
+.card-s svg .in{fill:#0F1013;font-weight:700}
+.card-s svg .h0{fill:var(--ink);font-weight:600}
+.card-s svg .grid{stroke:var(--line)}
+.phrase{font:600 1.18rem/1.5 var(--body);max-width:none;margin:0}
+.vars{font:500 .82rem var(--mono);color:var(--muted);margin:0}
+.conclusion{background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:22px 24px;display:grid;gap:10px}
+.conclusion .label{font:700 .72rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.conclusion p{font:600 1.22rem/1.5 var(--body);max-width:none;margin:0}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html">Pathé <span>·</span> pack ciné</a>
+  <nav class="links" aria-label="Autres pages">
+    <a href="statistiques.html">Détail des calculs</a>
+    <a href="index.html">Dossier complet</a>
+  </nav>
+</div></header>
+
+<main>
+  <div class="hero">
+    <p class="eyebrow">L'essentiel · nos 6 schémas</p>
+    <h1>Le pack Pathé à 18,90 €, en six schémas</h1>
+    <p class="lede">Un schéma par test statistique, et une phrase pour le lire. Résultats tirés des <span id="nRep">119</span> réponses à notre questionnaire.</p>
+    <p class="howto"><svg width="46" height="12" aria-hidden="true"><line x1="0" x2="46" y1="6" y2="6" stroke="currentColor" stroke-width="2" stroke-dasharray="7 5"/></svg><span>La ligne pointillée montre ce qu'on verrait <strong>si le hasard seul jouait (H0)</strong>. Plus les résultats s'en éloignent, plus la preuve est forte.</span></p>
+  </div>
+
+  <div class="cards">
+    <section class="card-s" aria-labelledby="h1t"><div class="top-row"><div><span class="num">1 · Chi-2 · le constat</span><h2 id="h1t">Le prix fait-il fuir les acheteurs ?</h2></div><span class="verdict-pill" id="v1"></span></div>
+      <svg id="g1" viewBox="0 0 640 330" role="img" aria-label="Part de oui au pack à 16,90, 17,90 et 18,90 euros"></svg>
+      <p class="phrase" id="p1"></p><p class="vars">Question 6 (achèteriez-vous le pack ? oui / non) × prix proposé</p></section>
+
+    <section class="card-s" aria-labelledby="h2t"><div class="top-row"><div><span class="num">2 · Chi-2 · qui refuse ?</span><h2 id="h2t">Le pack plaît-il surtout aux acheteurs de confiserie ?</h2></div><span class="verdict-pill" id="v2"></span></div>
+      <svg id="g2" viewBox="0 0 640 330" role="img" aria-label="Part de oui au pack à 16,90 euros selon l'achat de confiserie"></svg>
+      <p class="phrase" id="p2"></p><p class="vars">Question 2 (a acheté de la confiserie ?) × question 6 à 16,90 €</p></section>
+
+    <section class="card-s" aria-labelledby="h3t"><div class="top-row"><div><span class="num">3 · Student · le budget</span><h2 id="h3t">Les étudiants dépensent-ils moins en confiserie ?</h2></div><span class="verdict-pill" id="v3"></span></div>
+      <svg id="g3" viewBox="0 0 640 330" role="img" aria-label="Dépense moyenne en confiserie des étudiants et des actifs"></svg>
+      <p class="phrase" id="p3"></p><p class="vars">Question 5 (étudiant / actif) × question 11 (dépense en confiserie par séance)</p></section>
+
+    <section class="card-s" aria-labelledby="h4t"><div class="top-row"><div><span class="num">4 · Corrélation · la valeur perçue</span><h2 id="h4t">Plus on mange au cinéma, plus le pack vaut le coup ?</h2></div><span class="verdict-pill" id="v4"></span></div>
+      <svg id="g4" viewBox="0 0 640 330" role="img" aria-label="Note moyenne du pack selon la tranche de dépense en confiserie"></svg>
+      <p class="phrase" id="p4"></p><p class="vars">Question 11 (dépense en €) × question 8 (note du pack, de 1 à 5)</p></section>
+
+    <section class="card-s" aria-labelledby="h5t"><div class="top-row"><div><span class="num">5 · Régression · prévoir</span><h2 id="h5t">Combien d'acheteurs perd-on par euro ?</h2></div><span class="verdict-pill" id="v5"></span></div>
+      <svg id="g5" viewBox="0 0 640 330" role="img" aria-label="Droite de demande : part d'acheteurs selon le prix"></svg>
+      <p class="phrase" id="p5"></p><p class="vars">Part d'acheteurs (question 6) = a × prix + b</p></section>
+
+    <section class="card-s" aria-labelledby="h6t"><div class="top-row"><div><span class="num">6 · Test Z · l'objectif</span><h2 id="h6t">À 18,90 €, atteint-on un client sur quatre ?</h2></div><span class="verdict-pill" id="v6"></span></div>
+      <svg id="g6" viewBox="0 0 640 330" role="img" aria-label="Part d'acheteurs à 18,90 euros comparée à l'objectif de 25 %"></svg>
+      <p class="phrase" id="p6"></p><p class="vars">Question 6 à 18,90 € × objectif de 25 % fixé par le groupe</p></section>
+
+    <div class="conclusion"><span class="label">En une phrase</span><p id="concl"></p></div>
+  </div>
+
+  <nav class="next" aria-label="Pages voisines">
+    <a href="statistiques.html"><small>Pour aller plus loin</small>Le détail des calculs</a>
+    <a href="index.html" style="text-align:right"><small>Retour</small>Le dossier complet</a>
+  </nav>
+</main>
+
+<footer>
+  <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
+  <span>Page créée le 4 novembre 2026</span>
+</footer>
+
+<script src="modele.js"></script>
+<script src="agregats.js"></script>
+<script src="cm3.js"></script>
+<script>
+(async function(){
+  const $ = id => document.getElementById(id);
+  const PRIX = [16.90, 17.90, 18.90], COLS = ["gg_16_90", "gg_17_90", "gg_18_90"], OBJ = 0.25;
+  const e = FMT.e, p = (v, d = 0) => FMT.p(v, d), n = FMT.n, pv = x => x < 0.001 ? "p < 0,001" : "p = " + n(x, 3);
+
+  // données : réponses brutes si présentes (ordinateur du groupe), sinon résultats agrégés (site en ligne)
+  let rows = null; try { rows = await DONNEES.charger(); } catch (err) { rows = null; }
+  let S;
+  if (rows && rows.length) {
+    const grp = f => { const g = rows.filter(f); return [g.length, ...COLS.map(c => g.filter(r => DONNEES.num(r[c]) === 1).length)]; };
+    const dep = r => DONNEES.num(r.depense), ok = r => dep(r) != null && dep(r) <= 50;
+    const desc = a => ({ n: a.length, m: STAT.mean(a), v: STAT.var(a) });
+    const pr = rows.filter(ok).map(r => [dep(r), CM3.vp(r)]).filter(x => x[1] != null);
+    const CL = [[0, 0, "0 €"], [0.01, 5, "1 à 5 €"], [5.01, 10, "6 à 10 €"], [10.01, 50, "plus de 10 €"]];
+    S = { n: rows.length, oui: COLS.map(c => rows.filter(r => DONNEES.num(r[c]) === 1).length),
+      confiserie: { oui: grp(r => r.type_client === "B_avec_confiserie"), non: grp(r => r.type_client === "A_sans_confiserie") },
+      situation: { etudiant: grp(r => r.situation === "etudiant"), actif: grp(r => r.situation === "actif") },
+      student: { etudiant: desc(rows.filter(r => r.situation === "etudiant" && ok(r)).map(dep)), actif: desc(rows.filter(r => r.situation === "actif" && ok(r)).map(dep)) },
+      corr: { n: pr.length, r: STAT.corr(pr.map(x => x[0]), pr.map(x => x[1])),
+        cl: CL.map(([lo, hi, l]) => { const s = pr.filter(x => x[0] >= lo && x[0] <= hi); return { l, n: s.length, vp: STAT.mean(s.map(x => x[1])) }; }) } };
+  } else S = AGREGATS.stats;
+  $("nRep").textContent = S.n;
+
+  // outils de dessin
+  const svgOf = id => { const svg = $(id), NS = "http://www.w3.org/2000/svg"; svg.innerHTML = "";
+    return (t, a, x) => { const nd = document.createElementNS(NS, t); for (const k in a) nd.setAttribute(k, a[k]); if (x != null) nd.textContent = x; svg.appendChild(nd); return nd; }; };
+  const h0 = (el, x1, x2, yv, tx, txt, anchor = "middle") => {
+    el("line", { x1, x2, y1: yv, y2: yv, stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "7 5" });
+    [].concat(txt).forEach((t, k, arr) => el("text", { x: tx, y: yv - 9 - (arr.length - 1 - k) * 17, "text-anchor": anchor, class: "h0" }, t)); };
+  const axis = (el, max, step, fmt, T = 20, B = 270, X0 = 70) => { const y = v => B - v / max * (B - T);
+    for (let v = 0; v <= max + 1e-9; v += step) { el("line", { class: "grid", x1: X0 - 10, x2: 630, y1: y(v), y2: y(v) }); el("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, fmt(v)); } return y; };
+  const verdict = (id, ok, txt) => { $(id).className = "verdict-pill " + (ok === "mid" ? "mid" : ok ? "ok" : "no"); $(id).textContent = txt || (ok ? "H0 rejetée" : "Pas de conclusion"); };
+  // barres oui / non empilées à 100 %
+  const stack = (el, items, xs, W) => { const y = axis(el, 1, .25, v => Math.round(v * 100) + " %");
+    items.forEach((it, i) => { const bx = xs[i], o = it.o;
+      el("rect", { x: bx, y: y(1), width: W, height: y(o) - y(1), fill: "var(--line)", rx: 4 });
+      el("rect", { x: bx, y: y(o), width: W, height: y(0) - y(o), fill: "var(--accent)", rx: 4 });
+      el("text", { x: bx + W / 2, y: o > .1 ? y(o) + 22 : y(o) - 8, "text-anchor": "middle", class: o > .1 ? "in" : "" }, p(o));
+      el("text", { x: bx + W / 2, y: y(1) + 22, "text-anchor": "middle" }, "non " + p(1 - o));
+      el("text", { x: bx + W / 2, y: 292, "text-anchor": "middle", class: "lbl" }, it.l);
+      el("text", { x: bx + W / 2, y: 310, "text-anchor": "middle" }, it.sub); }); return y; };
+
+  // 1 · Chi-2 prix × question 6
+  const part = S.oui.map(o => o / S.n), att1 = S.oui.reduce((s, x) => s + x, 0) / (S.n * 3);
+  const c1 = STAT.chi2(PRIX.map((x, i) => [S.n - S.oui[i], S.oui[i]]));
+  { const el = svgOf("g1"); const y = stack(el, PRIX.map((x, i) => ({ l: e(x), sub: `${S.oui[i]} oui sur ${S.n}`, o: part[i] })), [90, 265, 440], 140);
+    h0(el, 70, 630, y(att1), 625, `si H0 : ${p(att1)} partout`, "end"); }
+  $("p1").textContent = `Plus le prix monte, moins on achète : ${p(part[0])} de oui à 16,90 €, ${p(part[2])} à 18,90 €, loin des ${p(att1)} attendus si le prix ne comptait pas (χ² = ${n(c1.chi2, 1)}, ${pv(c1.p)}).`;
+  verdict("v1", c1.p < 0.05);
+
+  // 2 · Chi-2 confiserie × question 6 à 16,90 €
+  const C1 = S.confiserie.oui, C2 = S.confiserie.non, pc = [C1[1] / C1[0], C2[1] / C2[0]], att2 = (C1[1] + C2[1]) / (C1[0] + C2[0]);
+  const c2 = STAT.chi2([[C1[0] - C1[1], C1[1]], [C2[0] - C2[1], C2[1]]], true);
+  { const el = svgOf("g2"); const y = stack(el, [{ l: "A acheté de la confiserie", sub: `${C1[1]} oui sur ${C1[0]}`, o: pc[0] }, { l: "Place seule", sub: `${C2[1]} oui sur ${C2[0]}`, o: pc[1] }], [110, 430], 140);
+    h0(el, 70, 630, y(att2), 340, ["si H0 :", `${p(att2)} pour tous`]); }
+  $("p2").textContent = `Le pack séduit ceux qui achètent déjà pop-corn ou boisson (${p(pc[0])}) bien plus que ceux qui prennent la place seule (${p(pc[1])}) : pour eux, ce n'est pas une économie (χ² = ${n(c2.chi2, 1)}, ${pv(c2.p)}).`;
+  verdict("v2", c2.p < 0.05);
+
+  // 3 · Student situation × dépense
+  const E = S.student.etudiant, A = S.student.actif, nEtu = S.situation.etudiant[0];
+  const t3 = (E.m - A.m) / Math.sqrt(E.v / E.n + A.v / A.n), df3 = (E.v / E.n + A.v / A.n) ** 2 / ((E.v / E.n) ** 2 / (E.n - 1) + (A.v / A.n) ** 2 / (A.n - 1)), p3 = STAT.tp2(t3, df3);
+  const mG = (E.n * E.m + A.n * A.m) / (E.n + A.n);
+  { const el = svgOf("g3"), MAX = Math.ceil(Math.max(E.m, A.m) * 1.25 / 2) * 2, y = axis(el, MAX, 2, v => v + " €");
+    [["Étudiants", E, "var(--c-indep)", 110], ["Actifs", A, "var(--accent)", 430]].forEach(([l, g, c, bx]) => {
+      el("rect", { x: bx, y: y(g.m), width: 140, height: y(0) - y(g.m), fill: c, rx: 4 });
+      el("text", { x: bx + 70, y: y(g.m) + 24, "text-anchor": "middle", class: "in" }, e(g.m));
+      el("text", { x: bx + 70, y: 292, "text-anchor": "middle", class: "lbl" }, l);
+      el("text", { x: bx + 70, y: 310, "text-anchor": "middle" }, `${g.n} répondants`); });
+    h0(el, 70, 630, y(mG), 340, ["si H0 :", `${e(mG)} pour tous`]); }
+  $("p3").textContent = `Les étudiants, ${p(nEtu / S.n)} de nos répondants, dépensent ${e(E.m)} en confiserie par séance, contre ${e(A.m)} pour les actifs : notre échantillon a un petit budget, donc il est très sensible au prix (t = ${n(t3, 2)}, ${pv(p3)}).`;
+  verdict("v3", p3 < 0.05);
+
+  // 4 · corrélation dépense × valeur perçue
+  const C = S.corr, t4 = C.r * Math.sqrt(C.n - 2) / Math.sqrt(1 - C.r ** 2), p4 = STAT.tp2(t4, C.n - 2);
+  const mV = C.cl.reduce((s, c) => s + c.n * c.vp, 0) / C.cl.reduce((s, c) => s + c.n, 0), a0 = C.cl[0], aN = C.cl[C.cl.length - 1];
+  { const el = svgOf("g4"), y = axis(el, 5, 1, v => v);
+    C.cl.forEach((c, i) => { const bx = 95 + i * 135;
+      el("rect", { x: bx, y: y(c.vp), width: 100, height: y(0) - y(c.vp), fill: "var(--accent)", "fill-opacity": .45 + .55 * i / (C.cl.length - 1), rx: 4 });
+      el("text", { x: bx + 50, y: y(c.vp) + 22, "text-anchor": "middle", class: "in" }, n(c.vp, 1));
+      el("text", { x: bx + 50, y: 292, "text-anchor": "middle", class: "lbl" }, c.l);
+      el("text", { x: bx + 50, y: 310, "text-anchor": "middle" }, `${c.n} répondants`); });
+    h0(el, 70, 630, y(mV), 75, `si H0 : ${n(mV, 2)} partout`, "start"); }
+  $("p4").textContent = `Plus on dépense en confiserie, plus on trouve que le pack est une bonne affaire : ${n(a0.vp, 1)} sur 5 pour ceux qui ne dépensent rien, ${n(aN.vp, 1)} sur 5 au-delà de 10 € (r = ${n(C.r, 2)}, ${pv(p4)}).`;
+  verdict("v4", p4 < 0.05);
+
+  // 5 · régression part d'acheteurs = a × prix + b
+  const Y = part, mx = STAT.mean(PRIX), my = STAT.mean(Y), sxx = PRIX.reduce((s, x) => s + (x - mx) ** 2, 0);
+  const a5 = PRIX.reduce((s, x, i) => s + (x - mx) * (Y[i] - my), 0) / sxx, b5 = my - a5 * mx, pred = x => a5 * x + b5, zero5 = -b5 / a5;
+  const sse = Y.reduce((s, y, i) => s + (y - pred(PRIX[i])) ** 2, 0), r2 = 1 - sse / Y.reduce((s, y) => s + (y - my) ** 2, 0);
+  const p5 = STAT.tp2(a5 / Math.sqrt(sse / (PRIX.length - 2) / sxx), PRIX.length - 2);
+  { const el = svgOf("g5"), XR = 620, P0 = 16.5, P1 = 19.5, x = v => 70 + (v - P0) / (P1 - P0) * (XR - 70), y = axis(el, 0.6, 0.1, v => Math.round(v * 100) + " %");
+    [17, 18, 19].forEach(v => el("text", { x: x(v), y: 292, "text-anchor": "middle" }, v + " €"));
+    h0(el, 70, XR, y(my), XR, `si H0 : ${p(my)} partout`, "end");
+    el("line", { x1: x(P0), x2: x(zero5), y1: y(pred(P0)), y2: y(0), stroke: "var(--c-indep)", "stroke-width": 3 });
+    el("text", { x: Math.min(x(zero5), XR - 60), y: 312, "text-anchor": "middle", style: "fill:var(--c-indep);font-weight:600" }, `0 % vers ${e(zero5)}`);
+    PRIX.forEach((v, i) => { el("circle", { cx: x(v), cy: y(Y[i]), r: 8, fill: "var(--accent)", stroke: "var(--bg)", "stroke-width": 2 });
+      el("text", { x: x(v) + 14, y: y(Y[i]) - 8, class: "lbl" }, `${e(v)} : ${p(Y[i])}`); });
+    el("text", { x: x(P0) + 6, y: y(pred(P0)) - 14, style: "fill:var(--c-indep);font-weight:600" }, `${n(a5 * 100, 1)} points par euro`); }
+  $("p5").textContent = `Chaque euro de plus fait perdre environ ${n(-a5 * 100, 0)} points d'acheteurs ; à ce rythme, plus personne n'achèterait vers ${e(zero5)} (R² = ${p(r2, 1)}, ${pv(p5)}, à prendre avec prudence : 3 prix seulement).`;
+  verdict("v5", "mid", p5 < 0.05 ? "H0 rejetée · fragile" : "Pas de conclusion");
+
+  // 6 · test Z : part d'acheteurs à 18,90 € contre l'objectif
+  const k = S.oui[2], ph = k / S.n, se = Math.sqrt(OBJ * (1 - OBJ) / S.n), z = (ph - OBJ) / se, p6 = 2 * (1 - STAT.phi(Math.abs(z)));
+  const seI = Math.sqrt(ph * (1 - ph) / S.n), lo = Math.max(0, ph - 1.96 * seI), hi = ph + 1.96 * seI, lo0 = OBJ - 1.96 * se, hi0 = OBJ + 1.96 * se;
+  { const el = svgOf("g6"), y = axis(el, 0.4, 0.1, v => Math.round(v * 100) + " %");
+    el("rect", { x: 70, y: y(hi0), width: 560, height: y(lo0) - y(hi0), fill: "var(--info)", "fill-opacity": .18 });
+    el("text", { x: 625, y: y(hi0) + 16, "text-anchor": "end", style: "fill:var(--info);font-weight:600" }, `zone du hasard si H0 : ${p(lo0)} à ${p(hi0)}`);
+    el("rect", { x: 150, y: y(ph), width: 140, height: y(0) - y(ph), fill: "var(--accent)", rx: 4 });
+    el("line", { x1: 220, x2: 220, y1: y(hi), y2: y(lo), stroke: "var(--ink)", "stroke-width": 2 });
+    [lo, hi].forEach(v => el("line", { x1: 206, x2: 234, y1: y(v), y2: y(v), stroke: "var(--ink)", "stroke-width": 2 }));
+    el("text", { x: 302, y: y(ph) + 5, class: "lbl" }, `${p(ph)} (marge : ${p(lo)} à ${p(hi)})`);
+    el("text", { x: 220, y: 292, "text-anchor": "middle", class: "lbl" }, "Observé à 18,90 €");
+    el("text", { x: 220, y: 310, "text-anchor": "middle" }, `${k} oui sur ${S.n}`);
+    h0(el, 70, 630, y(OBJ), 625, `objectif : ${p(OBJ)}`, "end"); }
+  $("p6").textContent = `À 18,90 €, seulement ${p(ph)} des répondants achèteraient le pack : même avec la marge d'erreur (${p(lo)} à ${p(hi)}), on reste loin d'un client sur quatre (Z = ${n(z, 2)}, ${pv(p6)}).`;
+  verdict("v6", p6 < 0.05);
+
+  $("concl").textContent = `À 18,90 €, le pack est trop cher pour notre cible, surtout pour ceux qui n'achètent pas de confiserie : Pathé devrait le proposer d'abord aux clients qui prennent déjà pop-corn et boisson, ou créer une version plus petite et moins chère pour les petits budgets.`;
+})();
+</script>
+</body>
+</html>
