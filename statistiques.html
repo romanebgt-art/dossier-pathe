@@ -148,7 +148,10 @@ td small{color:var(--muted)}
 
     <h3>Étape 1 · Le tableau croisé (ce qu'on observe)</h3>
     <div class="scroll"><table id="tabObs"></table></div>
-    <p class="caption" style="margin:4px 0 0"><a href="#svgChiPrix"><strong>→ Le Chi-2 de ce test est sur le graphique commun des Chi-2</strong></a> (test 1, en haut de la page), à côté des autres tests du Chi-2.</p>
+    <div class="chart">
+      <h3></h3>
+      <svg id="svgChi" class="sch" viewBox="0 0 640 330" role="img" aria-label="Loi du Chi-2 et Chi-2 calculé pour le lien entre confiserie et achat du pack"></svg>
+    </div>
 
     <h3>Étape 2 · Ce qu'on aurait si H0 était vraie (effectifs théoriques)</h3>
     <p>Si la confiserie n'avait aucun effet, chaque groupe accepterait le pack dans la même proportion que l'ensemble des répondants. Calcul : total de la ligne × total de la colonne ÷ total général.</p>
@@ -163,6 +166,10 @@ td small{color:var(--muted)}
     <div class="sec-head"><span class="num">05 · Pour comparer</span><h2 id="contre-t">Et la situation (question 5) ? Un test qui ne conclut pas</h2>
       <p>Même méthode, mais on croise la question 5 (étudiant / actif) avec la question 6 à 16,90 €. Les retraités et sans emploi (trop peu nombreux) sont mis de côté.</p></div>
     <div class="scroll"><table id="tabSit"></table></div>
+    <div class="chart">
+      <h3></h3>
+      <svg id="svgSit" class="sch" viewBox="0 0 640 330" role="img" aria-label="Loi du Chi-2 et Chi-2 calculé pour le lien entre statut étudiant ou actif et achat du pack"></svg>
+    </div>
     <div class="callout info" id="lectSit"></div>
   </section>
 
@@ -287,7 +294,10 @@ td small{color:var(--muted)}
       <div class="card"><span class="pill">Variable a · qualitative</span><h3>La version vue</h3><p>Version A : sans prix de référence<br>Version B : avec « achetés séparément : 22 € »</p></div>
       <div class="card"><span class="pill">Variable b · qualitative</span><h3>Question 6</h3><p>« Achèteriez-vous ce pack à ce prix ? » à <strong>16,90 €</strong> → oui / non. Tout le monde a vu ce prix.</p></div>
     </div>
-    <p class="caption" style="margin:4px 0 0"><a href="#svgChiPrix"><strong>→ Le Chi-2 de ce test est sur le graphique commun des Chi-2</strong></a> (test 1, en haut de la page), à côté des autres tests du Chi-2.</p>
+    <div class="chart">
+      <h3></h3>
+      <svg id="svgAB" class="sch" viewBox="0 0 640 330" role="img" aria-label="Loi du Chi-2 et Chi-2 calculé pour le test A/B"></svg>
+    </div>
     <div class="scroll"><table id="tabAB"></table></div>
     <div class="calc" id="calcAB"></div>
     <div class="callout" id="lectAB"></div>
@@ -795,13 +805,15 @@ td small{color:var(--muted)}
     <p><strong>À dire :</strong> « Nous avons fait un test A/B : la moitié des répondants voyait le prix des produits achetés séparément, 22 €, l'autre non. On a croisé la version vue et la réponse à 16,90 €, deux variables qualitatives, avec un Chi-2. La version B fait mieux, ${p(ab0.pb)} contre ${p(ab0.pa)}, mais p = ${fp(ab0.p)} : on ne peut pas rejeter H0. L'effet va dans le bon sens, mais il faudrait environ ${nAB} personnes par version pour le prouver. »</p>`;
 
   // ===== Graphiques des tests, dessinés à partir des résultats ci-dessus =====
-  drawChiAll("svgChiPrix", [
-    { nom: "Prix × oui/non", k: CP.ddl, v: CP.chi2, p: CP.p, extra: ` ; Q de Cochran = ${n(CP.Q, 1)}`,
-      note: `Pour le prix, ce sont les mêmes personnes aux trois prix (Gabor-Granger) : le résultat de référence est le Q de Cochran (${n(CP.Q, 1)}, ${pvTxt(CP.pQ)}), qui suit la même loi à 2 ddl et mène à la même conclusion.` },
-    { nom: "Confiserie × oui", k: r.ddl, v: r.chi2, p: r.p, note: "Les tableaux 2 × 2 de la confiserie et de la situation utilisent la correction de Yates, comme dans leurs sections." },
-    { nom: "Étudiant / actif × oui", k: rs.ddl, v: rs.chi2, p: rs.p },
-    { nom: "Test A/B × oui", k: ab0.ddl, v: ab0.chi2, p: ab0.p }
-  ]);
+  drawChi("svgChiPrix", { k: CP.ddl, p: CP.p, title: `Lien 1 · Le prix et l'envie d'acheter (Chi-2 à ${CP.ddl} degrés de liberté)`, h0: "si la réponse ne dépendait pas du prix",
+    obs: [{ v: CP.chi2, lab: `χ² calculé = ${n(CP.chi2, 1)}`, sub: pvTxt(CP.p) }, { v: CP.Q, lab: `Q de Cochran = ${n(CP.Q, 1)}`, sub: pvTxt(CP.pQ), c: "var(--info)" }],
+    extra: `On compare 3 prix × oui/non : un tableau de 3 lignes, d'où 2 degrés de liberté et un seuil de ${n(chi2Crit(CP.ddl), 2)}. Avec la méthode Gabor-Granger, on ne voit 17,90 € que si l'on a dit oui à 16,90 € : ce sont les mêmes personnes aux trois prix, alors que le Chi-2 classique suppose des groupes différents. Notre résultat de référence est donc le <strong>Q de Cochran</strong> (en bleu, ${n(CP.Q, 1)}, ${pvTxt(CP.pQ)}), le test adapté à ce cas, qui suit la même loi.` });
+  drawChi("svgChi", { k: r.ddl, p: r.p, title: `Lien 2 · La confiserie et l'envie d'acheter (Chi-2 à ${r.ddl} degré de liberté)`, h0: "si acheter le pack ne dépendait pas de la confiserie",
+    obs: [{ v: r.chi2, lab: `χ² calculé = ${n(r.chi2, 2)}`, sub: pvTxt(r.p) }], extra: "On compare 2 groupes (pop-corn ou pas) × oui/non : un tableau de 2 lignes, d'où 1 degré de liberté. Chi-2 calculé avec la correction de Yates, utilisée pour les tableaux 2 × 2." });
+  drawChi("svgSit", { k: rs.ddl, p: rs.p, title: `Lien 3 · Le statut (étudiant ou actif) et l'envie d'acheter (Chi-2 à ${rs.ddl} degré de liberté)`, h0: "si acheter le pack ne dépendait pas du statut",
+    obs: [{ v: rs.chi2, lab: `χ² calculé = ${n(rs.chi2, 2)}`, sub: pvTxt(rs.p) }], extra: "On compare 2 groupes (étudiants, actifs) × oui/non : 1 degré de liberté, correction de Yates comme dans le tableau ci-dessus." });
+  drawChi("svgAB", { k: ab0.ddl, p: ab0.p, title: `Lien 4 · L'affichage « 22 € séparément » et l'envie d'acheter (Chi-2 à ${ab0.ddl} degré de liberté)`, h0: "si la mention « 22 € » ne changeait rien",
+    obs: [{ v: ab0.chi2, lab: `χ² calculé = ${n(ab0.chi2, 2)}`, sub: pvTxt(ab0.p) }], extra: "On compare 2 versions (A et B) × oui/non : 1 degré de liberté. L'écart entre A et B est trop petit pour nos effectifs : il faudrait plus de répondants pour conclure." });
   drawStudent();
   drawCorr();
   // ===== Synthèse =====
