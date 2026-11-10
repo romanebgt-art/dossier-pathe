@@ -10,7 +10,9 @@ window.AGREGATS = { date: "21/10/2026", reponses: 119, prixMax: { med: 17.9, n: 
     // test A/B : version A (sans prix de référence) / version B (avec « achetés séparément : 22 € »)
     version: { A: [65, 27, 14, 3], B: [54, 29, 18, 8] },
     // test 2 : dépense en confiserie par séance (question 11), réponses au-dessus de 50 € écartées
-    student: { etudiant: { n: 72, m: 4.619444, v: 19.7568, zero: 28 }, actif: { n: 39, m: 7.769231, v: 47.287449, zero: 8 }, ecartees: 1, mwp: 0.020925 },
+    // + résumé en 5 nombres pour la boîte à moustaches (quartiles, moustaches à 1,5 × l'écart interquartile, valeurs atypiques)
+    student: { etudiant: { n: 72, m: 4.619444, v: 19.7568, zero: 28, min: 0, q1: 0, med: 5, q3: 8, max: 15, wlo: 0, whi: 15, out: [] },
+      actif: { n: 39, m: 7.769231, v: 47.287449, zero: 8, min: 0, q1: 4.5, med: 6, q3: 10, max: 30, wlo: 0, whi: 18, out: [20, 25, 30] }, ecartees: 1, mwp: 0.020925 },
     // test 3 : dépense (question 11) × valeur perçue (question 8, moyenne des 3 phrases), pack affiché à 16,90 € à la question 8
     corr: { n: 114, r: 0.440886, mx: 5.4614, my: 3.193, sx: 5.645, sy: 1.0131,
       // nombre de répondants par couple (dépense en €, note × 3) : un tableau de fréquences, pas des réponses individuelles

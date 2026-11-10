@@ -8,36 +8,21 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <link rel="stylesheet" href="style.css">
 <style>
-.bars{display:grid;gap:10px}
-.bar-row{display:grid;grid-template-columns:minmax(90px,170px) 1fr;gap:12px;align-items:center}
-.bar-row .l{font:600 .9rem var(--display)}
-.bar-row .l small{display:block;font:400 .78rem var(--body);color:var(--muted)}
-.track{background:var(--soft);border-radius:6px;height:30px;position:relative;overflow:hidden}
-.fill{height:100%;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font:600 .82rem var(--mono);color:#0F1013;min-width:44px;box-sizing:border-box}
-.fill.alt{background:var(--c-indep)}
-.roadmap{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;list-style:none;padding:0;margin:0}
-.roadmap a{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:14px 16px;display:grid;gap:4px;height:100%;box-sizing:border-box;color:var(--ink);text-decoration:none;transition:border-color .15s}
-.roadmap a:hover{border-color:var(--accent);background:var(--accent-soft)}
-.sim select{font:600 1rem var(--mono);background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
-.roadmap .n{font:700 .7rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
-.roadmap strong{font-family:var(--display)}
-.roadmap span{font-size:.85rem;color:var(--muted)}
-.hyp{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.hyp .card h3{font-size:1.02rem}
-.qbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
-.verdict{font:800 1.3rem var(--display)}
-.verdict.ok{color:var(--good)} .verdict.no{color:var(--muted)}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.tgrid .card p{font-size:.95rem}
+.step{font:700 .7rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0}
+.interp{font-size:1.04rem;max-width:none}
+.concl{border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px;font:600 1.02rem var(--display);border-left:3px solid}
+.concl.ok{background:var(--good-soft);border-color:var(--good);color:var(--ink)}
+.concl.no{background:var(--soft);border-color:var(--muted);color:var(--ink)}
+.concl.desc{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.concl b{color:var(--good)} .concl.no b{color:var(--muted)} .concl.desc b{color:var(--accent)}
+.methode{background:var(--bad-soft);border-left:3px solid var(--bad);border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px}
+.methode strong{color:var(--bad)}
+.chart svg text{font-size:13px}
+.chart svg .in{fill:#0F1013;font-weight:700}
+.chart svg .h0{fill:var(--ink);font-weight:600}
 td small{color:var(--muted)}
-.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;list-style:none;padding:0;margin:0;counter-reset:f}
-.flow li{position:relative;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:14px 16px;display:grid;gap:6px;align-content:start}
-.flow li::before{counter-increment:f;content:counter(f);width:26px;height:26px;border-radius:50%;background:var(--accent);color:#0F1013;font:700 .85rem var(--display);display:grid;place-items:center}
-.flow li strong{font-family:var(--display)}
-.flow li span{font-size:.88rem;color:var(--muted)}
-.flow li b.big{font:800 1.25rem var(--mono);color:var(--ink)}
-.flow li.end{border-color:var(--good);background:var(--good-soft)}
-.chart svg.sch text{font-size:13px}
-.chart svg.sch .in{fill:#0F1013;font-weight:700}
-.chart svg.sch .h0{fill:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -57,9 +42,9 @@ td small{color:var(--muted)}
 <main>
   <div class="hero">
     <p class="eyebrow">Partie 5 · Qui a répondu, et ce que nos réponses permettent de conclure</p>
-    <h1>Pourquoi si peu de gens veulent du pack à 18,90 € ?</h1>
-    <p class="lede">On part d'un constat tiré de la question 6, puis on le vérifie avec les tests vus en cours. Chaque test suit la même logique : une hypothèse H0, une hypothèse H1, deux variables, un test, une p-value, une décision. Tous les chiffres sont recalculés à partir des <span id="nRep">119</span> réponses à <a class="src" href="questionnaire.html">notre questionnaire en ligne, collectées du 12 au 21 octobre 2026</a>.</p>
-    <p><a href="essentiel.html"><strong>Version courte →</strong> les 7 schémas, avec une phrase chacun</a></p>
+    <h1>Ce que nos réponses permettent de conclure</h1>
+    <p class="lede">Huit tests statistiques, présentés tous de la même façon. Les chiffres sont recalculés à partir des <span id="nRep">119</span> réponses à <a class="src" href="questionnaire.html">notre questionnaire en ligne, collectées du 12 au 21 octobre 2026</a>.</p>
+    <p><a href="essentiel.html"><strong>Version courte →</strong> nos résultats en schémas, une phrase chacun</a></p>
   </div>
 
   <section aria-labelledby="qui5">
@@ -68,244 +53,22 @@ td small{color:var(--muted)}
     <p class="caption" id="capQui"></p>
   </section>
 
-  <section aria-labelledby="plan-t">
-    <div class="sec-head"><span class="num">Le plan</span><h2 id="plan-t">Les 5 tests, puis le test A/B</h2></div>
-    <ol class="roadmap">
-      <li><a href="#chi-prix"><span class="n">Test 1</span><strong>Chi-2</strong><span>Quali × Quali : deux catégories sont-elles liées ?</span></a></li>
-      <li><a href="#t2"><span class="n">Test 2</span><strong>Student</strong><span>Quali × Quanti : deux moyennes sont-elles différentes ?</span></a></li>
-      <li><a href="#t3"><span class="n">Test 3</span><strong>Corrélation</strong><span>Quanti × Quanti : deux nombres bougent-ils ensemble ?</span></a></li>
-      <li><a href="#t4"><span class="n">Test 4</span><strong>Régression</strong><span>Prédire Y à partir de X : Y = aX + b</span></a></li>
-      <li><a href="#t5"><span class="n">Test 5</span><strong>Proportion (Z)</strong><span>Un pourcentage s'écarte-t-il d'un objectif ?</span></a></li>
-      <li><a href="#tab"><span class="n">Test A/B</span><strong>Chi-2 A / B</strong><span>Afficher « 22 € séparément » fait-il vendre plus ?</span></a></li>
-    </ol>
+  <section aria-labelledby="lire">
+    <div class="sec-head"><span class="num">Comment lire un test</span><h2 id="lire">Une seule règle pour les huit tests</h2></div>
+    <div class="callout info"><p><strong>H0</strong> dit « il n'y a pas d'effet ». La <strong>p-value</strong> est la probabilité d'obtenir un écart aussi grand que le nôtre par simple hasard si H0 était vraie. <strong>Si p &lt; 0,05, on rejette H0</strong> : l'écart n'est pas dû au hasard. Sinon, on ne peut pas conclure, ce qui ne prouve pas l'absence d'effet.</p></div>
   </section>
 
-  <section aria-labelledby="gg-t">
-    <div class="sec-head"><span class="num">01 · Le constat</span><h2 id="gg-t">La question 6 : la méthode Gabor-Granger</h2>
-      <p>On montre le pack et on demande « Achèteriez-vous ce pack à ce prix ? ». On commence à 16,90 €. Si la personne dit oui, on propose 17,90 €, puis 18,90 €. Dès qu'elle dit non, on s'arrête. On obtient ainsi, pour chaque prix, la part de gens prêts à acheter : c'est une <strong>courbe de demande</strong>.</p></div>
-    <div class="chart">
-      <h3>Part des répondants qui achèteraient le pack, selon le prix</h3>
-      <div class="bars" id="barsGG" style="margin-top:14px"></div>
-      <p class="caption" style="margin-top:10px">18,90 € est le prix étudié (pack Pathé). Les personnes qui disent non à 16,90 € ne voient pas les prix suivants : elles comptent comme « non » partout. Chaque barre se lit donc « prêts à payer au moins ce prix ». Limites de la méthode : les prix sont montrés du moins cher au plus cher, et cet ordre peut influencer les réponses ; on ne sait rien en dessous de 16,90 € ni au-dessus de 18,90 €.</p>
-    </div>
-    <div class="scroll"><table id="tabGG"></table></div>
-    <div class="callout" id="lectGG"></div>
-  </section>
+  <section aria-labelledby="t1-q" id="t1"><div class="sec-head"><span class="num">Test 1 · Q de Cochran et McNemar</span><h2 id="t1-q">Le prix fait-il baisser l'envie d'acheter ?</h2></div><div class="stack" id="t1-b"></div></section>
+  <section aria-labelledby="t2-q" id="t2"><div class="sec-head"><span class="num">Test 2 · Chi-2 d'indépendance</span><h2 id="t2-q">Ceux qui achètent de la confiserie veulent-ils plus le pack ?</h2></div><div class="stack" id="t2-b"></div></section>
+  <section aria-labelledby="t3-q" id="t3"><div class="sec-head"><span class="num">Test 3 · Chi-2 d'indépendance</span><h2 id="t3-q">Les étudiants veulent-ils moins le pack que les actifs ?</h2></div><div class="stack" id="t3-b"></div></section>
+  <section aria-labelledby="t4-q" id="t4"><div class="sec-head"><span class="num">Test 4 · Test t de Welch</span><h2 id="t4-q">Les étudiants dépensent-ils moins en confiserie que les actifs ?</h2></div><div class="stack" id="t4-b"></div></section>
+  <section aria-labelledby="t5-q" id="t5"><div class="sec-head"><span class="num">Test 5 · Corrélation de Pearson</span><h2 id="t5-q">Plus on dépense en confiserie, plus le pack paraît-il une bonne affaire ?</h2></div><div class="stack" id="t5-b"></div></section>
+  <section aria-labelledby="t6-q" id="t6"><div class="sec-head"><span class="num">Test 6 · Régression linéaire (descriptive)</span><h2 id="t6-q">De combien la part d'acheteurs baisse-t-elle par euro, entre 16,90 et 18,90 € ?</h2></div><div class="stack" id="t6-b"></div></section>
+  <section aria-labelledby="t7-q" id="t7"><div class="sec-head"><span class="num">Test 7 · Test Z de proportion</span><h2 id="t7-q">À 18,90 €, atteint-on l'objectif d'un client sur quatre ?</h2></div><div class="stack" id="t7-b"></div></section>
+  <section aria-labelledby="t8-q" id="t8"><span id="tab"></span><div class="sec-head"><span class="num">Test 8 · Chi-2 d'indépendance (test A/B)</span><h2 id="t8-q">Afficher « achetés séparément : 22 € » fait-il vendre plus ?</h2></div><div class="stack" id="t8-b"></div></section>
 
-  <section aria-labelledby="elas-t">
-    <div class="sec-head"><span class="num">02 · Pourquoi c'est intéressant</span><h2 id="elas-t">Une demande très élastique</h2>
-      <p>L'élasticité-prix mesure de combien la demande bouge quand le prix bouge. Si elle est supérieure à 1 (en valeur absolue), la demande est <strong>élastique</strong> : les clients sont très sensibles au prix, et une petite hausse fait fuir beaucoup de monde.</p></div>
-    <div class="formula">élasticité = variation de la demande (%) ÷ variation du prix (%)</div>
-    <div class="calc" id="calcElas"></div>
-    <div class="callout info" id="lectElas"></div>
-  </section>
-
-  <section aria-labelledby="chi-prix">
-    <div class="sec-head"><span class="num">Test 1 · Méthode du Chi-2</span><h2 id="chi-prix">Chi-2 : une demande très sensible au prix</h2></div>
-    <div class="callout" id="resumeChiPrix"></div>
-
-    <h3>Le schéma du test, en 5 étapes</h3>
-    <ol class="flow" id="flowChi"></ol>
-
-    <div class="chart">
-      <h3>Réponses à la question 6 selon le prix proposé</h3>
-      <svg id="svgChiPrix" class="sch" viewBox="0 0 640 330" role="img" aria-label="Part de oui et de non à chaque prix, comparée à la part attendue si le prix n'avait aucun effet"></svg>
-      <div class="legend"><span><span class="dot" style="background:var(--accent)"></span>Oui, j'achèterais</span><span><span class="dot" style="background:var(--line)"></span>Non</span><span><span class="dot" style="background:var(--ink)"></span>- - - Part de oui attendue si H0 était vraie</span></div>
-    </div>
-
-    <div class="scroll"><table id="tabChiPrix"></table></div>
-    <div class="calc" id="calcChiPrix"></div>
-    <p class="caption" id="capChiPrix"></p>
-    <div class="callout" id="lectChiPrix"></div>
-  </section>
-
-  <section aria-labelledby="why-t">
-    <div class="sec-head"><span class="num">03 · Pourquoi les gens réagissent comme ça ?</span><h2 id="why-t">Nos pistes d'explication</h2>
-      <p>La courbe dit <em>combien</em> de gens refusent, pas <em>pourquoi</em>. Voici les explications possibles. Chaque piste deviendra une hypothèse à tester.</p></div>
-    <div class="hyp">
-      <div class="card"><span class="tag obs">Testée ci-dessous · Chi-2</span><h3>« Je ne prends jamais de pop-corn »</h3><p>Pour quelqu'un qui n'achète pas de confiserie, le pack n'est pas une économie : c'est une dépense en plus. Il compare 18,90 € à la place seule (13,50 €), et le pack lui paraît cher.</p></div>
-      <div class="card"><span class="tag hyp">Hypothèse</span><h3>Le prix de référence</h3><p>On juge un prix en le comparant à un prix qu'on connaît déjà (la place, le menu au comptoir). C'est ce que teste notre version B, qui affiche « acheté séparément : 22 € ».</p></div>
-      <div class="card"><span class="tag obs">Testée · test 2</span><h3>Le budget</h3><p>61 % de nos répondants sont étudiants, avec un budget sortie plus serré. Dépensent-ils vraiment moins en confiserie que les actifs ? C'est le test de Student.</p></div>
-      <div class="card"><span class="tag hyp">Hypothèse</span><h3>Le seuil psychologique</h3><p>18,90 € se lit « presque 19 € », proche de 20 €. Au-delà d'un seuil, la dépense paraît beaucoup plus lourde, même pour 1 € de différence.</p></div>
-      <div class="card"><span class="tag hyp">Hypothèse</span><h3>Les solutions de remplacement</h3><p>On peut manger avant la séance, apporter son goûter, ou rester chez soi devant une plateforme de streaming.</p></div>
-    </div>
-  </section>
-
-  <section aria-labelledby="chi-t">
-    <div class="sec-head"><span class="num">04 · Test 1, suite : qui refuse ? (Chi-2)</span><h2 id="chi-t">Ceux qui achètent de la confiserie acceptent-ils plus le pack ?</h2></div>
-    <div class="callout" id="resumeChi"></div>
-    <h3>Le schéma du test, en 5 étapes</h3>
-    <ol class="flow" id="flowChi2"></ol>
-    <div class="qbox">
-      <div class="card"><span class="pill">Variable a · qualitative</span><h3>Question 2</h3><p>« Lors de cette dernière séance, qu'avez-vous acheté ? »<br>→ deux groupes : <strong>a acheté de la confiserie</strong> (pop-corn, snacks ou boisson) / <strong>place seule</strong>.</p></div>
-      <div class="card"><span class="pill">Variable b · qualitative</span><h3>Question 6</h3><p>« Achèteriez-vous ce pack à ce prix ? » à <strong>16,90 €</strong><br>→ <strong>oui</strong> / <strong>non</strong>. On prend 16,90 € car tout le monde a vu ce prix.</p></div>
-    </div>
-    <p><strong>Quali × Quali, donc test du Chi-2.</strong> Il compare ce qu'on observe avec ce qu'on observerait si les deux questions n'avaient aucun lien.</p>
-    <div class="two">
-      <div class="callout info"><span class="label">H0 · hypothèse nulle</span><p>Accepter le pack ne dépend pas du fait d'acheter de la confiserie.</p></div>
-      <div class="callout"><span class="label">H1 · ce qu'on veut montrer</span><p>Accepter le pack dépend du fait d'acheter de la confiserie.</p></div>
-    </div>
-
-    <h3>Étape 1 · Le tableau croisé (ce qu'on observe)</h3>
-    <div class="scroll"><table id="tabObs"></table></div>
-    <div class="chart">
-      <h3></h3>
-      <svg id="svgChi" class="sch" viewBox="0 0 640 330" role="img" aria-label="Loi du Chi-2 et Chi-2 calculé pour le lien entre confiserie et achat du pack"></svg>
-    </div>
-
-    <h3>Étape 2 · Ce qu'on aurait si H0 était vraie (effectifs théoriques)</h3>
-    <p>Si la confiserie n'avait aucun effet, chaque groupe accepterait le pack dans la même proportion que l'ensemble des répondants. Calcul : total de la ligne × total de la colonne ÷ total général.</p>
-    <div class="scroll"><table id="tabTheo"></table></div>
-
-    <h3>Étape 3 · Le résultat</h3>
-    <div class="calc" id="calcChi"></div>
-    <div class="callout" id="lectChi"></div>
-  </section>
-
-  <section aria-labelledby="contre-t">
-    <div class="sec-head"><span class="num">05 · Pour comparer</span><h2 id="contre-t">Et la situation (question 5) ? Un test qui ne conclut pas</h2>
-      <p>Même méthode, mais on croise la question 5 (étudiant / actif) avec la question 6 à 16,90 €. Les retraités et sans emploi (trop peu nombreux) sont mis de côté.</p></div>
-    <div class="scroll"><table id="tabSit"></table></div>
-    <div class="chart">
-      <h3></h3>
-      <svg id="svgSit" class="sch" viewBox="0 0 640 330" role="img" aria-label="Loi du Chi-2 et Chi-2 calculé pour le lien entre statut étudiant ou actif et achat du pack"></svg>
-    </div>
-    <div class="callout info" id="lectSit"></div>
-  </section>
-
-  <section aria-labelledby="prix-t">
-    <div class="sec-head"><span class="num">06 · Pour aller plus loin</span><h2 id="prix-t">Le même Chi-2 aux trois prix</h2>
-      <p>Attention : le Chi-2 n'est fiable que si chaque case du tableau théorique contient au moins 5 personnes. À 18,90 €, il y a très peu de « oui », donc le test devient fragile.</p></div>
-    <div class="scroll"><table id="tabPrix"></table></div>
-  </section>
-
-  <section aria-labelledby="oral-t">
-    <div class="sec-head"><span class="num">À retenir pour l'oral · test 1</span><h2 id="oral-t">La phrase type du Chi-2</h2></div>
-    <div class="callout" id="oral"></div>
-  </section>
-
-  <!-- ===================== TEST 2 · STUDENT ===================== -->
-  <section aria-labelledby="t2">
-    <div class="sec-head"><span class="num">07 · Test 2 : Student</span><h2 id="t2">Les étudiants dépensent-ils moins en confiserie que les actifs ?</h2></div>
-    <div class="callout" id="resumeT2"></div>
-    <h3>Le schéma du test, en 5 étapes</h3>
-    <ol class="flow" id="flowT2"></ol>
-    <div class="qbox">
-      <div class="card"><span class="pill">Variable a · qualitative</span><h3>Question 5</h3><p>« Quelle est votre situation ? »<br>→ deux groupes : <strong>étudiant</strong> / <strong>actif</strong>.</p></div>
-      <div class="card"><span class="pill">Variable b · quantitative</span><h3>Question 11</h3><p>« Combien dépensez-vous en pop-corn, snacks et boissons par séance de cinéma ? »<br>→ un montant en <strong>euros</strong>.</p></div>
-    </div>
-    <p><strong>Quali × Quanti, donc test de Student.</strong> Il compare la moyenne d'un nombre entre deux groupes.</p>
-    <div class="two">
-      <div class="callout info"><span class="label">H0 · hypothèse nulle</span><p>Étudiants et actifs dépensent en moyenne la même somme en confiserie.</p></div>
-      <div class="callout"><span class="label">H1 · ce qu'on veut montrer</span><p>Leur dépense moyenne est différente.</p></div>
-    </div>
-    <div class="chart">
-      <h3>Dépense moyenne en confiserie par séance</h3>
-      <svg id="svgT2" class="sch" viewBox="0 0 640 330" role="img" aria-label="Dépense moyenne en confiserie des étudiants et des actifs, comparée à la moyenne commune attendue si les deux groupes dépensaient autant"></svg>
-      <div class="legend"><span><span class="dot" style="background:var(--c-indep)"></span>Étudiants</span><span><span class="dot" style="background:var(--accent)"></span>Actifs</span><span><span class="dot" style="background:var(--ink)"></span>- - - Moyenne attendue si H0 était vraie</span></div>
-    </div>
-    <div class="calc" id="calcT2"></div>
-    <p class="caption" id="capT2"></p>
-    <div class="callout" id="lectT2"></div>
-  </section>
-
-  <!-- ===================== TEST 3 · CORRÉLATION ===================== -->
-  <section aria-labelledby="t3">
-    <div class="sec-head"><span class="num">08 · Test 3 : la corrélation</span><h2 id="t3">Plus on dépense en confiserie, plus on trouve que le pack vaut le coup ?</h2></div>
-    <div class="callout" id="resumeT3"></div>
-    <h3>Le schéma du test, en 5 étapes</h3>
-    <ol class="flow" id="flowT3"></ol>
-    <div class="qbox">
-      <div class="card"><span class="pill">Variable a · quantitative</span><h3>Question 11</h3><p>Dépense en confiserie par séance, en <strong>euros</strong>.</p></div>
-      <div class="card"><span class="pill">Variable b · quantitative</span><h3>Question 8</h3><p>« Êtes-vous d'accord avec ces phrases ? » (bonne affaire, prix acceptable, bon rapport qualité-prix)<br>→ <strong>score de valeur perçue</strong> : moyenne des 3 notes, de 1 à 5. On garde les répondants qui ont vu le pack à 16,90 € : le prix affiché à cette question a changé le 15 octobre.</p></div>
-    </div>
-    <p><strong>Quanti × Quanti, donc coefficient de corrélation r.</strong> Il va de −1 à +1. Proche de 0 : pas de lien. Positif : les deux montent ensemble. Négatif : quand l'un monte, l'autre baisse.</p>
-    <div class="two">
-      <div class="callout info"><span class="label">H0 · hypothèse nulle</span><p>Aucun lien entre la dépense et la valeur perçue du pack (r = 0).</p></div>
-      <div class="callout"><span class="label">H1 · ce qu'on veut montrer</span><p>Il existe un lien (r ≠ 0).</p></div>
-    </div>
-    <div class="chart">
-      <h3>Score moyen de valeur perçue (sur 5), selon la dépense en confiserie</h3>
-      <svg id="svgT3" class="sch" viewBox="0 0 640 330" role="img" aria-label="Note moyenne de valeur perçue du pack selon la tranche de dépense en confiserie, comparée à la note commune attendue s'il n'y avait aucun lien"></svg>
-      <div class="legend"><span><span class="dot" style="background:var(--accent)"></span>Note moyenne de la tranche (sur 5)</span><span><span class="dot" style="background:var(--ink)"></span>- - - Note attendue partout si H0 était vraie</span></div>
-      <p class="caption" style="margin-top:10px">Les répondants sont regroupés par tranche de dépense pour rendre le lien visible. Le coefficient r est calculé sur les réponses individuelles.</p>
-    </div>
-    <div class="calc" id="calcT3"></div>
-    <div class="callout" id="lectT3"></div>
-  </section>
-
-  <!-- ===================== TEST 4 · RÉGRESSION ===================== -->
-  <section aria-labelledby="t4">
-    <div class="sec-head"><span class="num">09 · Test 4 : la régression linéaire</span><h2 id="t4">Prévoir la demande pour n'importe quel prix</h2>
-      <p>La corrélation dit si deux variables sont liées. La régression va plus loin : elle donne une <strong>équation</strong> pour prévoir l'une à partir de l'autre. Ici, on prévoit la part d'acheteurs (Y) à partir du prix (X), avec les résultats de la question 6.</p></div>
-    <div class="callout" id="resumeT4"></div>
-    <h3>Le schéma du test, en 5 étapes</h3>
-    <ol class="flow" id="flowT4"></ol>
-    <div class="qbox">
-      <div class="card"><span class="pill">Y · à expliquer</span><h3>Part d'acheteurs (question 6)</h3><p>Le pourcentage de répondants qui achèteraient le pack.</p></div>
-      <div class="card"><span class="pill">X · explicative</span><h3>Le prix du pack</h3><p>16,90 €, 17,90 € et 18,90 €.</p></div>
-    </div>
-    <div class="chart">
-      <h3>La droite de demande : part d'acheteurs selon le prix</h3>
-      <svg id="svgT4" class="sch" viewBox="0 0 640 330" role="img" aria-label="Les trois résultats de la question 6, la droite de régression qui passe au plus près, et la droite plate attendue si le prix n'avait aucun effet"></svg>
-      <div class="legend"><span><span class="dot" style="background:var(--accent)"></span>Résultat observé</span><span><span class="dot" style="background:var(--c-indep)"></span>Droite de régression</span><span><span class="dot" style="background:var(--ink)"></span>- - - Droite attendue si H0 était vraie (pente nulle)</span></div>
-    </div>
-    <div class="formula" id="eqT4"></div>
-    <div class="calc" id="calcT4"></div>
-    <div class="sim">
-      <label>Tester un prix (€)<span>Entre 16,90 € et 18,90 € pour rester fiable</span><input type="number" step="0.10" min="15" max="20" value="17.50" id="inPrixT4"></label>
-    </div>
-    <div class="callout info" id="predT4"></div>
-    <div class="callout" id="lectT4"></div>
-  </section>
-
-  <!-- ===================== TEST 5 · PROPORTION ===================== -->
-  <section aria-labelledby="t5">
-    <div class="sec-head"><span class="num">10 · Test 5 : le test de proportion (Z)</span><h2 id="t5">La part d'acheteurs atteint-elle notre objectif ?</h2>
-      <p>On compare un pourcentage obtenu dans l'enquête à une valeur de référence. Il n'existe pas de chiffre publié pour ce pack : <strong>l'objectif est fixé par notre groupe</strong> <span class="tag hyp">Hypothèse</span>. Par défaut, un client sur quatre (25 %). Vous pouvez le changer.</p></div>
-    <div class="callout" id="resumeT5"></div>
-    <h3>Le schéma du test, en 5 étapes</h3>
-    <ol class="flow" id="flowT5"></ol>
-    <div class="sim">
-      <label>Prix du pack<span>Question 6</span><select id="inPrixT5"><option value="0">16,90 €</option><option value="1">17,90 €</option><option value="2" selected>18,90 €</option></select></label>
-      <label>Objectif visé (%)<span>Fixé par le groupe</span><input type="number" step="1" min="1" max="99" value="25" id="inObjT5"></label>
-    </div>
-    <div class="two">
-      <div class="callout info"><span class="label">H0 · hypothèse nulle</span><p id="h0T5"></p></div>
-      <div class="callout"><span class="label">H1 · ce qu'on veut montrer</span><p id="h1T5"></p></div>
-    </div>
-    <div class="chart">
-      <h3>Part d'acheteurs observée, comparée à l'objectif</h3>
-      <svg id="svgT5" class="sch" viewBox="0 0 640 330" role="img" aria-label="Part d'acheteurs observée avec sa marge d'erreur, comparée à l'objectif et à la zone que le hasard pourrait produire si l'objectif était la vraie valeur"></svg>
-      <div class="legend"><span><span class="dot" style="background:var(--accent)"></span>Part observée (trait : marge d'erreur à 95 %)</span><span><span class="dot" style="background:var(--ink)"></span>- - - Objectif (H0)</span><span><span class="dot" style="background:var(--info)"></span>Zone du hasard si H0 était vraie</span></div>
-    </div>
-    <div class="calc" id="calcT5"></div>
-    <div class="callout" id="lectT5"></div>
-  </section>
-
-  <!-- ===================== TEST A/B ===================== -->
-  <section aria-labelledby="tab">
-    <div class="sec-head"><span class="num">11 · Le test A/B</span><h2 id="tab">Afficher « achetés séparément : 22 € » fait-il vendre plus de packs ?</h2>
-      <p>Au début du questionnaire, le hasard envoyait chaque répondant vers la version A ou la version B. Une seule différence : en version B, l'image du pack affichait « Achetés séparément : 22,00 € » (place 13,50 € + menu 8,50 €). C'est un <strong>prix de référence</strong> : il fait paraître le pack moins cher par comparaison.</p></div>
-    <div class="callout" id="resumeAB"></div>
-    <h3>Le schéma du test, en 5 étapes</h3>
-    <ol class="flow" id="flowAB"></ol>
-    <div class="qbox">
-      <div class="card"><span class="pill">Variable a · qualitative</span><h3>La version vue</h3><p>Version A : sans prix de référence<br>Version B : avec « achetés séparément : 22 € »</p></div>
-      <div class="card"><span class="pill">Variable b · qualitative</span><h3>Question 6</h3><p>« Achèteriez-vous ce pack à ce prix ? » à <strong>16,90 €</strong> → oui / non. Tout le monde a vu ce prix.</p></div>
-    </div>
-    <div class="chart">
-      <h3></h3>
-      <svg id="svgAB" class="sch" viewBox="0 0 640 330" role="img" aria-label="Loi du Chi-2 et Chi-2 calculé pour le test A/B"></svg>
-    </div>
-    <div class="scroll"><table id="tabAB"></table></div>
-    <div class="calc" id="calcAB"></div>
-    <div class="callout" id="lectAB"></div>
-  </section>
-
-  <!-- ===================== SYNTHÈSE ===================== -->
   <section aria-labelledby="syn-t">
-    <div class="sec-head"><span class="num">12 · La chaîne complète</span><h2 id="syn-t">Les 5 tests en un coup d'œil</h2></div>
+    <div class="sec-head"><span class="num">En résumé</span><h2 id="syn-t">Les huit tests en un coup d'œil</h2></div>
     <div class="scroll"><table id="tabSyn"></table></div>
     <div class="callout" id="chaine"></div>
   </section>
@@ -318,7 +81,7 @@ td small{color:var(--muted)}
 
 <footer>
   <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
-  <span>Page créée le 4 novembre 2026</span>
+  <span>Page mise à jour le 10 novembre 2026</span>
 </footer>
 
 <script src="modele.js"></script>
@@ -327,510 +90,242 @@ td small{color:var(--muted)}
 <script>
 (async function(){
   const $ = id => document.getElementById(id);
-  const PRIX = [16.90, 17.90, 18.90], COLS = ["gg_16_90", "gg_17_90", "gg_18_90"];
-  const e = FMT.e, p = (v, d = 0) => FMT.p(v, d), n = FMT.n;
-  const fp = v => v < 0.001 ? "< 0,001" : n(v, 3);
+  const PRIX = [16.90, 17.90, 18.90], COLS = ["gg_16_90", "gg_17_90", "gg_18_90"], OBJ = 0.25;
+  const e = FMT.e, p = (v, d = 0) => FMT.p(v, d), n = FMT.n, fp = v => v < 0.001 ? "< 0,001" : n(v, 3), pv = v => v < 0.001 ? "p < 0,001" : "p = " + n(v, 3);
+  const NS = "http://www.w3.org/2000/svg";
 
-  // 1. Les données : réponses brutes si présentes (ordinateur du groupe), sinon résultats agrégés (site en ligne)
+  /* ===== 1. Les données =====
+     Sur l'ordinateur du groupe : les réponses brutes (data/reponses.csv). En ligne : les résultats agrégés (agregats.js),
+     car les réponses individuelles restent hors de GitHub. Les deux donnent exactement les mêmes chiffres. */
   let rows = null; try { rows = await DONNEES.charger(); } catch (err) { rows = null; }
   let S;
   if (rows && rows.length) {
-    const grp = f => { const g = rows.filter(f); return [g.length, ...COLS.map(c => g.filter(r => DONNEES.num(r[c]) === 1).length)]; };
-    S = { n: rows.length, oui: COLS.map(c => rows.filter(r => DONNEES.num(r[c]) === 1).length),
+    const N = DONNEES.num, grp = f => { const g = rows.filter(f); return [g.length, ...COLS.map(c => g.filter(r => N(r[c]) === 1).length)]; };
+    const dep = r => N(r.depense), ok = r => dep(r) != null && dep(r) <= 50;
+    const box = a => { const q1 = STAT.pct(a, .25), med = STAT.pct(a, .5), q3 = STAT.pct(a, .75), iqr = q3 - q1, wlo = a.find(x => x >= q1 - 1.5 * iqr), whi = [...a].reverse().find(x => x <= q3 + 1.5 * iqr);
+      return { n: a.length, m: STAT.mean(a), v: STAT.var(a), zero: a.filter(x => x === 0).length, min: a[0], q1, med, q3, max: a[a.length - 1], wlo, whi, out: a.filter(x => x < wlo || x > whi) }; };
+    const vals = s => rows.filter(r => r.situation === s && ok(r)).map(dep).sort((a, b) => a - b);
+    // note de valeur perçue : seulement les répondants qui ont vu le pack à 16,90 € à la question 8 (le prix affiché a changé le 15/10)
+    const pr = rows.filter(r => ok(r) && N(r.prix_pack_affiche) === 16.9).map(r => [dep(r), CM3.vp(r)]).filter(x => x[1] != null);
+    const xs = pr.map(x => x[0]), ys = pr.map(x => x[1]), m = new Map(); pr.forEach(([d, v]) => { const k = d + "|" + Math.round(v * 3); m.set(k, (m.get(k) || 0) + 1); });
+    S = { n: rows.length, oui: COLS.map(c => rows.filter(r => N(r[c]) === 1).length),
       confiserie: { oui: grp(r => r.type_client === "B_avec_confiserie"), non: grp(r => r.type_client === "A_sans_confiserie") },
-      situation: { etudiant: grp(r => r.situation === "etudiant"), actif: grp(r => r.situation === "actif") } };
-    // test 2 : dépense par séance ; au-dessus de 50 € = valeur aberrante écartée (même règle que la partie 6)
-    const dep = r => DONNEES.num(r.depense), ok = r => dep(r) != null && dep(r) <= 50;
-    const desc = a => ({ n: a.length, m: STAT.mean(a), v: STAT.var(a), zero: a.filter(x => x === 0).length, x: a });
-    const de = rows.filter(r => r.situation === "etudiant" && ok(r)).map(dep), da = rows.filter(r => r.situation === "actif" && ok(r)).map(dep);
-    S.student = { etudiant: desc(de), actif: desc(da), ecartees: rows.filter(r => dep(r) != null && dep(r) > 50).length, mwp: STAT.mannWhitney(de, da).p };
-    // test 3 : dépense × valeur perçue
-    // valeur perçue : seulement les répondants qui ont vu le pack à 16,90 € à la question 8 (le prix affiché a changé le 15/10), comme en partie 4
-    const pr = rows.filter(r => ok(r) && DONNEES.num(r.prix_pack_affiche) === 16.9).map(r => [dep(r), CM3.vp(r)]).filter(x => x[1] != null);
-    const CL = [[0, 0, "0 €"], [0.01, 5, "1 à 5 €"], [5.01, 10, "6 à 10 €"], [10.01, 50, "plus de 10 €"]];
-    S.corr = { n: pr.length, r: STAT.corr(pr.map(x => x[0]), pr.map(x => x[1])),
-      cl: CL.map(([lo, hi, l]) => { const s = pr.filter(x => x[0] >= lo && x[0] <= hi); return { l, n: s.length, vp: STAT.mean(s.map(x => x[1])) }; }) };
-    // nuage de points de la corrélation : répondants regroupés par réponses identiques (dépense, note x 3), moyennes et écarts-types
-    { const xs = pr.map(x => x[0]), ys = pr.map(x => x[1]), m = new Map(); pr.forEach(([d, v]) => { const k = d + "|" + Math.round(v * 3); m.set(k, (m.get(k) || 0) + 1); });
-      Object.assign(S.corr, { mx: STAT.mean(xs), my: STAT.mean(ys), sx: STAT.sd(xs), sy: STAT.sd(ys), cells: [...m].map(([k, c]) => { const [d, v3] = k.split("|"); return [+d, +v3, c]; }) }); }
-    S.version = { A: grp(r => r.version === "A"), B: grp(r => r.version === "B") };
-  } else S = AGREGATS.stats;
+      situation: { etudiant: grp(r => r.situation === "etudiant"), actif: grp(r => r.situation === "actif") },
+      version: { A: grp(r => r.version === "A"), B: grp(r => r.version === "B") },
+      student: { etudiant: box(vals("etudiant")), actif: box(vals("actif")), ecartees: rows.filter(r => dep(r) != null && dep(r) > 50).length, mwp: STAT.mannWhitney(vals("etudiant"), vals("actif")).p },
+      corr: { n: pr.length, r: STAT.corr(xs, ys), mx: STAT.mean(xs), my: STAT.mean(ys), sx: STAT.sd(xs), sy: STAT.sd(ys), cells: [...m].map(([k, c]) => { const [d, v3] = k.split("|"); return [+d, +v3, c]; }) },
+      // contrôle de la méthode Gabor-Granger : personne ne dit oui à un prix plus haut après un non
+      incoherents: rows.filter(r => { const o = COLS.map(c => N(r[c]) === 1 ? 1 : 0); return o[1] > o[0] || o[2] > o[1]; }).length };
+  } else S = Object.assign({ incoherents: 0 }, AGREGATS.stats);
   $("nRep").textContent = S.n;
-  // qui a répondu
-  { const nE = S.situation.etudiant[0], nA = S.situation.actif[0], kpi = (v, u, t) => `<div class="kpi-box"><span class="kpi">${v}<small>${u}</small></span><p>${t}</p></div>`;
-    $("kpiQui").innerHTML = kpi(S.n, "", "répondants au questionnaire") + kpi(FMT.n(nE / S.n * 100, 0), "%", `d'étudiants (${nE} personnes)`) + kpi(FMT.n(nA / S.n * 100, 0), "%", `d'actifs (${nA} personnes)`) +
-      kpi(`${S.version.A[0]} / ${S.version.B[0]}`, "", "en version A / B du test A/B, tirées au sort");
-    $("capQui").innerHTML = `Source : <a class="src" href="questionnaire.html">notre questionnaire en ligne, réponses du 12 au 21 octobre 2026</a>. C'est un <strong>échantillon de convenance</strong> (entourage et réseaux du groupe), surtout étudiant : nos conclusions décrivent une clientèle jeune au budget serré, pas toute la clientèle de Pathé. Le détail des profils et les limites sont en <a href="prix-psychologique.html#resultats">partie 4</a>.`; }
 
-  const bar = (label, sub, v, alt) => `<div class="bar-row"><span class="l">${label}${sub ? `<small>${sub}</small>` : ""}</span><div class="track"><div class="fill${alt ? " alt" : ""}" style="width:${Math.max(v * 100, 0)}%">${p(v)}</div></div></div>`;
-
-  // 01 · courbe de demande
-  const part = S.oui.map(o => o / S.n), rev = part.map((t, i) => t * PRIX[i]);
-  $("barsGG").innerHTML = PRIX.map((x, i) => bar(e(x), `${S.oui[i]} personnes sur ${S.n}`, part[i], i < 2)).join("");
-  $("tabGG").innerHTML = `<thead><tr><th>Prix du pack</th><th class="n">Disent oui</th><th class="n">Part des répondants</th><th class="n">Revenu moyen par personne interrogée</th></tr></thead><tbody>` +
-    PRIX.map((x, i) => `<tr${i === 2 ? ' class="hl"' : ""}><td><strong>${e(x)}</strong>${i === 2 ? " <small>prix étudié</small>" : ""}</td><td class="n">${S.oui[i]}</td><td class="n">${p(part[i])}</td><td class="n">${e(rev[i])} <small>(${e(x)} × ${p(part[i])})</small></td></tr>`).join("") + `</tbody>`;
-  const refus = S.n - S.oui[0];
-  $("lectGG").innerHTML = `<span class="label">Ce qu'on en dit</span><p>À <strong>18,90 €</strong>, seulement <strong>${S.oui[2]} personnes sur ${S.n} (${p(part[2])})</strong> achèteraient le pack. À 16,90 €, elles sont ${S.oui[0]} (${p(part[0])}). Et ${refus} personnes (${p(refus / S.n)}) refusent même à 16,90 €. Le revenu par personne interrogée est ${n(rev[0] / rev[2], 1)} fois plus élevé à 16,90 € qu'à 18,90 € : vendre moins cher à beaucoup plus de monde rapporte plus. (Revenu n'est pas bénéfice : les coûts sont en <a href="couts.html">partie 3</a>.)</p>`;
-
-  // 02 · élasticité
-  const el = [0, 1].map(i => { const dq = (S.oui[i + 1] - S.oui[i]) / S.oui[i], dp = (PRIX[i + 1] - PRIX[i]) / PRIX[i]; return { dq, dp, v: dq / dp }; });
+  /* ===== 2. Outils ===== */
   const row = (t, v, o, cls = "") => `<div class="row ${cls}"><span class="t">${t}</span><span class="v">${v}</span><span class="o">${o}</span></div>`;
-  // outils communs aux schémas : vider un SVG et y dessiner ; les 5 cases du schéma ; une ligne « si H0 »
-  const svgOf = id => { const svg = $(id), NS = "http://www.w3.org/2000/svg"; svg.innerHTML = "";
-    return (t, a, x) => { const nd = document.createElementNS(NS, t); for (const k in a) nd.setAttribute(k, a[k]); if (x != null) nd.textContent = x; svg.appendChild(nd); return nd; }; };
-  const flow = (vars, hyp, obs, big, sub, ok, dec, decTxt) =>
-    `<li><strong>${vars[0]}</strong><span>${vars[1]}</span></li><li><strong>Les hypothèses</strong><span>H0 : ${hyp[0]}<br>H1 : ${hyp[1]}</span></li>` +
-    `<li><strong>Observé contre attendu</strong><span>${obs}</span></li><li><strong>${big[0]}</strong><b class="big">${big[1]}</b><span>${sub}</span></li>` +
-    `<li class="end"><strong>La décision</strong><b class="big">${dec || (ok ? "H0 rejetée" : "H0 gardée")}</b><span>${decTxt}</span></li>`;
-  const h0Line = (el, x1, x2, yv, tx, ty, txt, anchor = "middle") => {
-    el("line", { x1, x2, y1: yv, y2: yv, stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "7 5" });
-    [].concat(txt).forEach((t, k, arr) => el("text", { x: tx, y: ty - (arr.length - 1 - k) * 17, "text-anchor": anchor, class: "h0" }, t)); };
-
-  /* ===== Graphiques des tests =====
-     Chaque test est dessiné avec SA loi de probabilité (Chi-2, Student, normale) ou avec son modèle (nuage de points, droite).
-     Tout vient des résultats calculés sur cette page : statistique, degrés de liberté, seuils. Rien n'est saisi à la main.
-     Seuil retenu partout : α = 5 %. */
-  const NS_SVG = "http://www.w3.org/2000/svg";
-  function pdfChi2(x, k) { return x <= 0 ? 0 : Math.exp((k / 2 - 1) * Math.log(x) - x / 2 - (k / 2) * Math.LN2 - STAT.lgamma(k / 2)); }
-  function pdfT(x, v) { return Math.exp(STAT.lgamma((v + 1) / 2) - STAT.lgamma(v / 2) - 0.5 * Math.log(v * Math.PI) - (v + 1) / 2 * Math.log(1 + x * x / v)); }
-  function pdfN(x) { return Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI); }
-  // valeurs critiques par dichotomie sur les fonctions de répartition de cm3.js
-  function chi2Crit(k, a = 0.05) { let lo = 0, hi = 500; for (let i = 0; i < 200; i++) { const m = (lo + hi) / 2; STAT.chi2p(m, k) > a ? lo = m : hi = m; } return (lo + hi) / 2; }
-  function zCrit(a = 0.05) { let lo = 0, hi = 10; for (let i = 0; i < 200; i++) { const m = (lo + hi) / 2; 2 * (1 - STAT.phi(m)) > a ? lo = m : hi = m; } return (lo + hi) / 2; }
+  // chaque test suit la même organisation : question (titre), variables, hypothèses, graphique, résultats, interprétation, conclusion
+  function test(id, o) {
+    $(id + "-b").innerHTML =
+      (o.methode ? `<div class="methode">${o.methode}</div>` : "") +
+      `<div class="tgrid"><div class="card"><p class="step">Les variables</p><p>${o.vars}</p></div><div class="card"><p class="step">Les hypothèses</p><p><strong>H0</strong> : ${o.h0}<br><strong>H1</strong> : ${o.h1}</p></div></div>` +
+      `<div class="chart"><p class="step">Le graphique</p><h3>${o.titre}</h3><svg id="${id}-g" viewBox="0 0 640 ${o.h || 320}" role="img" aria-label="${o.titre}"></svg><div class="legend">${o.legende.map(([c, t]) => `<span><span class="dot" style="background:${c}"></span>${t}</span>`).join("")}</div></div>` +
+      `<div class="calc"><div class="head">Les résultats</div>${o.res.map(r => row(...r)).join("")}</div>` +
+      `<p class="interp"><strong>En clair :</strong> ${o.interp}</p>` +
+      `<div class="concl ${o.ok === null ? "desc" : o.ok ? "ok" : "no"}">Conclusion : <b>${o.ok === null ? "modèle descriptif, pas de décision sur H0" : o.ok ? "on rejette H0" : "on ne rejette pas H0"}</b>. ${o.concl}</div>`;
+    const svg = $(id + "-g");
+    return (t, a, x) => { const nd = document.createElementNS(NS, t); for (const k in a) nd.setAttribute(k, a[k]); if (x != null) nd.textContent = x; svg.appendChild(nd); return nd; };
+  }
   function niceTicks(a, b, cnt = 6) { const raw = (b - a) / cnt, mag = 10 ** Math.floor(Math.log10(raw)), st = [1, 2, 2.5, 5, 10].map(s => s * mag).find(s => s >= raw); const out = []; for (let v = Math.ceil(a / st - 1e-9) * st; v <= b + 1e-9; v += st) out.push(+v.toFixed(10)); return out; }
-  function pvTxt(x) { return x < 0.001 ? "p < 0,001" : "p = " + n(x, 3); }
-  // prépare un graphique : titre, légende et phrase de lecture sous le dessin
-  function chartFrame(id, title, legend, caption, h = 330) {
-    const svg = $(id); svg.innerHTML = ""; svg.setAttribute("viewBox", `0 0 640 ${h}`); svg.classList.add("sch");
-    const ch = svg.closest(".chart");
-    if (ch) {
-      const h3 = ch.querySelector("h3"); if (h3) h3.textContent = title;
-      ch.querySelectorAll("p.caption:not(.lecture)").forEach(x => x.remove());
-      let lg = ch.querySelector(".legend"); if (!lg) { lg = document.createElement("div"); lg.className = "legend"; svg.after(lg); }
-      lg.innerHTML = legend.map(([c, t]) => `<span><span class="dot" style="background:${c}"></span>${t}</span>`).join("");
-      let cp = ch.querySelector("p.lecture"); if (!cp) { cp = document.createElement("p"); cp.className = "caption lecture"; cp.style.marginTop = "10px"; lg.after(cp); }
-      cp.innerHTML = caption;
-    }
-    return (t, a, x) => { const nd = document.createElementNS(NS_SVG, t); for (const k in a) nd.setAttribute(k, a[k]); if (x != null) nd.textContent = x; svg.appendChild(nd); return nd; };
+  // barres empilées à 100 % : part de oui (orange) et de non (gris) par groupe, avec la part commune attendue si H0 (pointillés)
+  function barres100(el, items, att, attTxt) {
+    const T = 22, B = 250, H = B - T, y = v => B - v * H, L = 70, R = 630, w = Math.min(150, (R - L) / items.length - 40), gap = ((R - L) - w * items.length) / (items.length + 1);
+    [0, .25, .5, .75, 1].forEach(v => { el("line", { class: "grid", x1: L - 8, x2: R, y1: y(v), y2: y(v) }); el("text", { x: L - 14, y: y(v) + 4, "text-anchor": "end" }, (v * 100) + " %"); });
+    items.forEach((it, i) => { const bx = L + gap + i * (w + gap), o = it.o;
+      el("rect", { x: bx, y: y(1), width: w, height: y(o) - y(1), fill: "var(--line)", rx: 4 });
+      el("rect", { x: bx, y: y(o), width: w, height: y(0) - y(o), fill: "var(--accent)", rx: 4 });
+      el("text", { x: bx + w / 2, y: o > .1 ? y(o) + 22 : y(o) - 8, "text-anchor": "middle", class: o > .1 ? "in" : "" }, "oui " + p(o));
+      el("text", { x: bx + w / 2, y: y(1) + 20, "text-anchor": "middle" }, "non " + p(1 - o));
+      el("text", { x: bx + w / 2, y: B + 20, "text-anchor": "middle", class: "lbl" }, it.l);
+      el("text", { x: bx + w / 2, y: B + 38, "text-anchor": "middle" }, it.sub); });
+    if (att != null) { el("line", { x1: L, x2: R, y1: y(att), y2: y(att), stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "7 5" });
+      el("text", { x: R, y: y(att) - 7, "text-anchor": "end", class: "h0", style: "paint-order:stroke;stroke:var(--surface);stroke-width:5px" }, attTxt); }
   }
-  // courbe d'une loi, zone de non-rejet (vert), zones de rejet de H0 (rouge), aire de la p-value (orange), seuils et statistique calculée
-  function distChart(el, o) {
-    const L = 60, R = 620, T = 26, B = o.B || 240, x = v => L + (v - o.xmin) / (o.xmax - o.xmin) * (R - L), N = 500, pts = [];
-    for (let i = 0; i <= N; i++) { const v = o.xmin + (o.xmax - o.xmin) * i / N; pts.push([v, Math.min(o.pdf(v), o.cap ?? Infinity)]); }
-    const ymax = Math.max(...pts.map(q => q[1])) * 1.15, y = d => B - d / ymax * (B - T);
-    const area = (a, b, fill, op) => { const s = pts.filter(q => q[0] >= a && q[0] <= b); if (s.length < 2) return;
-      el("path", { d: `M${x(s[0][0])},${B} ` + s.map(q => `L${x(q[0])},${y(q[1])}`).join(" ") + ` L${x(s[s.length - 1][0])},${B} Z`, fill, "fill-opacity": op }); };
-    area(o.xmin, o.xmax, "var(--good)", .14);
-    o.rej.forEach(([a, b]) => area(Math.max(a, o.xmin), Math.min(b, o.xmax), "var(--bad)", .38));
-    (o.pzone || []).forEach(([a, b]) => area(Math.max(a, o.xmin), Math.min(b, o.xmax), "var(--accent)", .65));
-    el("line", { x1: L, x2: R, y1: B, y2: B, stroke: "var(--muted)" });
-    // bande rouge sur l'axe : la zone de rejet reste visible même là où la courbe est presque à zéro
-    o.rej.forEach(([a, b]) => { const a2 = Math.max(a, o.xmin), b2 = Math.min(b, o.xmax); if (b2 > a2) el("line", { x1: x(a2), x2: x(b2), y1: B, y2: B, stroke: "var(--bad)", "stroke-width": 5, "stroke-opacity": .8 }); });
-    niceTicks(o.xmin, o.xmax).forEach(v => { el("line", { x1: x(v), x2: x(v), y1: B, y2: B + 5, stroke: "var(--muted)" }); el("text", { x: x(v), y: B + 19, "text-anchor": "middle" }, o.fmt(v)); });
-    el("text", { x: R, y: B + 36, "text-anchor": "end" }, o.xlab);
-    el("path", { d: "M" + pts.map(q => `${x(q[0])},${y(q[1])}`).join(" L"), fill: "none", stroke: "var(--ink)", "stroke-width": 2.5 });
-    o.crit.forEach(c => { if (c < o.xmin || c > o.xmax) return; const left = c < 0;
-      el("line", { x1: x(c), x2: x(c), y1: T, y2: B, stroke: "var(--bad)", "stroke-width": 1.8, "stroke-dasharray": "6 4" });
-      el("text", { x: x(c) + (left ? -6 : 6), y: T + 10, "text-anchor": left ? "end" : "start", style: "fill:var(--bad);font-weight:600" }, `${o.critLab} ${o.fmt2(c)}`); });
-    (o.zoneLabels || []).forEach(z => el("text", { x: x(z.x), y: B - 8, "text-anchor": "middle", style: `fill:${z.c};font-weight:700;font-size:12px` }, z.t));
-    o.obs.forEach((s, i) => { const off = s.v > o.xmax || s.v < o.xmin, xv = x(Math.max(o.xmin, Math.min(o.xmax, s.v))), ty = T + 40 + i * 38, c = s.c || "var(--accent)", right = xv < (L + R) / 2;
-      el("line", { x1: xv, x2: xv, y1: ty - 14, y2: B, stroke: c, "stroke-width": 3 });
-      el("circle", { cx: xv, cy: B, r: 6, fill: c });
-      el("text", { x: xv + (right ? 8 : -8), y: ty, "text-anchor": right ? "start" : "end", class: "lbl", style: `fill:${c}` }, (off ? (s.v > o.xmax ? "→ " : "← ") : "") + s.lab + (off ? " (hors échelle)" : ""));
-      if (s.sub) el("text", { x: xv + (right ? 8 : -8), y: ty + 16, "text-anchor": right ? "start" : "end" }, s.sub); });
-    return { x, y, B };
-  }
-  // Chi-2 : loi du Chi-2 au bon nombre de degrés de liberté, test unilatéral à droite
-  function drawChi(id, o) {
-    const k = o.k, c = chi2Crit(k), nat = Math.max(c * 2.6, k + 6 * Math.sqrt(2 * k)), big = Math.max(...o.obs.map(s => s.v));
-    const xmax = big <= c * 4 ? Math.max(nat, big * 1.12) : nat, sig = o.p < 0.05;
-    const caption = `Si H0 était vraie (${o.h0}), le Chi-2 suivrait cette courbe : il ne dépasserait la valeur critique de <strong>${n(c, 2)}</strong> que 5 fois sur 100. `
-      + `Le nôtre vaut <strong>${n(o.obs[0].v, 2)}</strong> (${k} degré${k > 1 ? "s" : ""} de liberté, ${pvTxt(o.p)}) : ${sig ? `il tombe dans la zone rouge${o.obs[0].v > xmax ? ", bien au-delà du bord droit du graphique" : ""}, donc <strong>on rejette H0</strong>.` : "il tombe dans la zone verte, donc <strong>on ne peut pas rejeter H0</strong>."}`
-      + (o.extra ? " " + o.extra : "");
-    const el = chartFrame(id, o.title, [["var(--ink)", `Loi du Chi-2 à ${k} degré${k > 1 ? "s" : ""} de liberté : les valeurs possibles si H0 est vraie`], ["var(--bad)", "Zone de rejet de H0 (5 % des cas)"], ["var(--accent)", "Notre Chi-2 calculé (et l'aire de sa p-value)"]], caption);
-    distChart(el, { pdf: v => pdfChi2(v, k), cap: k === 1 ? pdfChi2(0.15, 1) : undefined, xmin: k === 1 ? 0.03 : 0, xmax, rej: [[c, Infinity]], pzone: [[o.obs[0].v, Infinity]], crit: [c], critLab: "valeur critique", fmt: v => n(v, Number.isInteger(v) ? 0 : 1), fmt2: v => n(v, 2), xlab: "valeur du Chi-2",
-      obs: o.obs, zoneLabels: [{ x: [0.3, 0.55, 0.8].map(f => c * f).sort((u, w) => Math.abs(w - o.obs[0].v) - Math.abs(u - o.obs[0].v))[0], t: "non-rejet", c: "var(--good)" }, { x: c + (xmax - c) * 0.55, t: "rejet de H0", c: "var(--bad)" }] });
-  }
-  // Tous les Chi-2 sur un seul graphique : une courbe par nombre de degrés de liberté (1 pour les tableaux 2 × 2, 2 pour le tableau des 3 prix),
-  // chaque test placé face à SA courbe et à SON seuil
-  function drawChiAll(id, tests) {
-    const L = 60, R = 620, T = 22, B = 250, ks = [...new Set(tests.map(t => t.k))].sort(), crit = Object.fromEntries(ks.map(k => [k, chi2Crit(k)]));
-    const XM = Math.ceil(Math.max(Math.max(...Object.values(crit)) * 2.6, ...tests.map(t => t.v).filter(v => v <= Math.max(...Object.values(crit)) * 4)) / 2) * 2;
-    const col = { 1: "var(--info)", 2: "var(--ink)" }, cap = 0.6, x = v => L + v / XM * (R - L), y = d => B - Math.min(d, cap) / (cap * 1.08) * (B - T);
-    const nRej = tests.filter(t => t.p < 0.05).length;
-    const caption = `Chaque Chi-2 se compare à la courbe de son nombre de degrés de liberté : <strong>1 ddl</strong> pour les tableaux 2 × 2 (seuil <strong>${n(crit[1], 2)}</strong>), <strong>2 ddl</strong> pour le tableau des 3 prix (seuil <strong>${n(crit[2] ?? NaN, 2)}</strong>). Si les deux questions n'avaient aucun lien (H0), le Chi-2 ne dépasserait son seuil que 5 fois sur 100. `
-      + tests.map(t => `${t.nom} : χ² = ${n(t.v, 2)} → ${t.p < 0.05 ? "au-delà du seuil, <strong>on rejette H0</strong>" : "sous le seuil, <strong>on ne peut pas conclure</strong>"} (${pvTxt(t.p)})`).join(" ; ") + `. `
-      + (tests.some(t => t.note) ? tests.filter(t => t.note).map(t => t.note).join(" ") : "");
-    const el = chartFrame(id, `Nos ${tests.length} tests du Chi-2 sur un seul graphique (${nRej} rejettent H0)`, ks.map(k => [col[k], `Loi du Chi-2 à ${k} degré${k > 1 ? "s" : ""} de liberté (seuil ${n(crit[k], 2)})`]).concat([["var(--bad)", "Zones de rejet de H0 (5 %)"], ["var(--accent)", "Test qui rejette H0"], ["var(--good)", "Test qui ne permet pas de conclure"]]), caption, 360);
-    // courbes, zones de rejet et seuils
-    ks.forEach(k => { const pts = []; for (let i = 0; i <= 600; i++) { const v = Math.max(0.03, XM * i / 600); pts.push([v, pdfChi2(v, k)]); }
-      const rej = pts.filter(q => q[0] >= crit[k]); el("path", { d: `M${x(rej[0][0])},${B} ` + rej.map(q => `L${x(q[0])},${y(q[1])}`).join(" ") + ` L${x(rej[rej.length - 1][0])},${B} Z`, fill: "var(--bad)", "fill-opacity": .3 });
-      const vis = pts.filter(q => q[1] <= cap * 1.05); el("path", { d: "M" + vis.map(q => `${x(q[0])},${y(q[1])}`).join(" L"), fill: "none", stroke: col[k], "stroke-width": 2.5 });
-      el("line", { x1: x(crit[k]), x2: x(crit[k]), y1: T, y2: B, stroke: col[k], "stroke-width": 1.6, "stroke-dasharray": "6 4" });
-      el("text", { x: x(crit[k]) + 5, y: T + 10 + (k - 1) * 16, style: `fill:${col[k]};font-weight:600` }, `seuil ${k} ddl : ${n(crit[k], 2)}`); });
-    el("line", { x1: L, x2: R, y1: B, y2: B, stroke: "var(--muted)" });
-    ks.forEach(k => el("line", { x1: x(crit[k]), x2: x(XM), y1: B + (k - 1) * 4, y2: B + (k - 1) * 4, stroke: "var(--bad)", "stroke-width": 3, "stroke-opacity": .8 }));
-    niceTicks(0, XM, 8).forEach(v => { el("line", { x1: x(v), x2: x(v), y1: B, y2: B + 5, stroke: "var(--muted)" }); el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, n(v, 0)); });
-    el("text", { x: R, y: B + 38, "text-anchor": "end" }, "valeur du Chi-2");
-    // les tests, du plus petit au plus grand Chi-2, étiquettes en escalier
-    [...tests].sort((a, b) => a.v - b.v).forEach((t, i) => { const off = t.v > XM, xv = x(Math.min(t.v, XM)), c = t.p < 0.05 ? "var(--accent)" : "var(--good)", ty = T + 64 + i * 40, right = xv < (L + R) * 0.6;
-      el("line", { x1: xv, x2: xv, y1: ty - 13, y2: B, stroke: c, "stroke-width": 3 });
-      el("circle", { cx: xv, cy: B, r: 6, fill: c });
-      el("text", { x: xv + (right ? 8 : -8), y: ty, "text-anchor": right ? "start" : "end", class: "lbl", style: `paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round;fill:${c}` }, `${off ? "→ " : ""}${t.nom} : χ² = ${n(t.v, 2)}${t.extra || ""}${off ? " (hors échelle)" : ""}`);
-      el("text", { x: xv + (right ? 8 : -8), y: ty + 15, "text-anchor": right ? "start" : "end", style: "paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round;" }, `${t.k} ddl · ${pvTxt(t.p)} · ${t.p < 0.05 ? "H0 rejetée" : "pas de conclusion"}`); });
-  }
-  // Student (Welch) : loi de Student, test bilatéral, et les deux groupes avec leur intervalle de confiance à 95 %
-  function drawStudent() {
-    const v = df2, tc = STAT.tcrit(v), lim = Math.max(4, Math.abs(t2) * 1.25), se = Math.sqrt(E.v / E.n + A.v / A.n), sig = p2 < 0.05;
-    const gs = [["Étudiants", E, "var(--c-indep)"], ["Actifs", A, "var(--accent)"]].map(([l, g, c]) => { const h = STAT.tcrit(g.n - 1) * Math.sqrt(g.v / g.n); return { l, g, c, lo: g.m - h, hi: g.m + h }; });
-    const chev = gs[0].hi > gs[1].lo && gs[1].hi > gs[0].lo;
-    const caption = `t mesure l'écart entre les deux moyennes (${e(E.m)} − ${e(A.m)} = ${e(E.m - A.m)}) en nombre d'erreurs types (${n(se, 2)} €). Si étudiants et actifs dépensaient autant (H0), t suivrait cette courbe et ne sortirait des seuils <strong>±${n(tc, 2)}</strong> que 5 fois sur 100 (2,5 % de chaque côté, car H1 dit seulement « différent »). `
-      + `Notre t vaut <strong>${n(t2, 2)}</strong> (${pvTxt(p2)}) : ${sig ? "il tombe dans une zone rouge, donc <strong>on rejette H0</strong>." : "il reste dans la zone verte, donc <strong>on ne peut pas rejeter H0</strong>."} `
-      + `Version de Welch : les ${n(v, 1)} degrés de liberté tiennent compte de la dispersion différente des deux groupes. En bas, chaque groupe avec sa moyenne et son intervalle de confiance à 95 %${chev ? " ; les deux intervalles se chevauchent un peu, ce qui n'empêche pas l'écart d'être significatif : le test porte sur la différence entre les moyennes, pas sur chaque intervalle séparément" : ""}.`;
-    const el = chartFrame("svgT2", `Loi de Student à ${n(v, 1)} degrés de liberté, et les deux groupes comparés`, [["var(--ink)", "Loi de Student : les valeurs de t possibles si H0 est vraie"], ["var(--bad)", "Zones de rejet de H0 (2 × 2,5 %)"], ["var(--accent)", "Notre t calculé (et l'aire de sa p-value)"]], caption, 430);
-    distChart(el, { pdf: x => pdfT(x, v), xmin: -lim, xmax: lim, B: 230, rej: [[-Infinity, -tc], [tc, Infinity]], pzone: [[-Infinity, -Math.abs(t2)], [Math.abs(t2), Infinity]], crit: [-tc, tc], critLab: "seuil", fmt: x => n(x, 0), fmt2: x => n(x, 2), xlab: "valeur de t",
-      obs: [{ v: t2, lab: `t calculé = ${n(t2, 2)}`, sub: pvTxt(p2) }], zoneLabels: [{ x: 0, t: "non-rejet (95 %)", c: "var(--good)" }] });
-    const top = 300, maxV = Math.ceil(Math.max(...gs.map(q => q.hi)) + 1), xx = v => 150 + v / maxV * 450;
-    el("text", { x: 60, y: top - 16, class: "lbl" }, "Les deux groupes : dépense moyenne par séance et intervalle de confiance à 95 %");
-    niceTicks(0, maxV, 5).forEach(t => { el("line", { class: "grid", x1: xx(t), x2: xx(t), y1: top, y2: top + 92 }); el("text", { x: xx(t), y: top + 108, "text-anchor": "middle" }, n(t, 0) + " €"); });
-    gs.forEach((q, i) => { const yy = top + 30 + i * 44;
-      el("text", { x: 140, y: yy + 5, "text-anchor": "end", class: "lbl" }, `${q.l} (n = ${q.g.n})`);
-      el("line", { x1: xx(q.lo), x2: xx(q.hi), y1: yy, y2: yy, stroke: q.c, "stroke-width": 5, "stroke-linecap": "round" });
-      el("circle", { cx: xx(q.g.m), cy: yy, r: 7, fill: q.c, stroke: "var(--surface)", "stroke-width": 2 });
-      el("text", { x: xx(q.g.m), y: yy - 12, "text-anchor": "middle" }, `${e(q.g.m)}  [${n(q.lo, 2)} ; ${n(q.hi, 2)}]`); });
-  }
-  // Corrélation : nuage de points (répondants regroupés quand ils ont donné les mêmes réponses), droite, r ; puis la loi de Student qui teste r = 0
-  function drawCorr() {
-    const C = S.corr, sig = p3 < 0.05, cells = C.cells || [], b = C.r * C.sy / C.sx, a = C.my - b * C.mx, maxX = Math.max(10, ...cells.map(q => q[0]));
-    const XM = niceTicks(0, maxX * 1.05, 6).pop() || maxX, L = 70, R = 620, T = 20, B = 270, x = v => L + v / XM * (R - L), y = v => B - (v - 1) / 4 * (B - T);
-    const caption = `Chaque bulle est un groupe de répondants qui ont donné les mêmes réponses (plus elle est grosse, plus ils sont nombreux, ${C.n} répondants au total). La droite est la tendance du nuage : elle monte, donc les deux nombres varient dans le même sens. `
-      + `r = <strong>${n(C.r, 2)}</strong> résume la force du lien (0 = aucun lien, 1 = alignement parfait) et r² = ${p(C.r ** 2)} : ${p(C.r ** 2)} des écarts de note sont liés à la dépense. Les points restent très dispersés autour de la droite : le lien est réel mais moyen.`;
-    const el = chartFrame("svgT3", "Le nuage de points : dépense en confiserie et note donnée au pack", [["var(--accent)", "Répondants (taille = nombre de personnes)"], ["var(--c-indep)", `Droite de tendance (r = ${n(C.r, 2)})`], ["var(--ink)", "Note moyenne de tous les répondants"]], caption, 320);
+  const chi2Tab = (g1, g2, i, yates) => { const t = [[g1[0] - g1[i + 1], g1[i + 1]], [g2[0] - g2[i + 1], g2[i + 1]]]; return { t, ...STAT.chi2(t, yates), pa: g1[i + 1] / g1[0], pb: g2[i + 1] / g2[0], pt: (g1[i + 1] + g2[i + 1]) / (g1[0] + g2[0]) }; };
+  const chi2Res = (c, yates) => [["Chi-2", n(c.chi2, 2), yates ? "Avec la correction de Yates (tableau 2 × 2)" : "Sans correction, comme en partie 4"], ["Degrés de liberté", c.ddl, "(2 lignes − 1) × (2 colonnes − 1)"], ["p-value", fp(c.p), "Seuil de rejet : χ² > 3,84 pour 1 degré de liberté"], ["V de Cramer", n(c.v, 2), "Force du lien : 0,1 faible, 0,3 moyen, 0,5 fort"]].concat(c.petit ? [["Attention", "effectif < 5", "Une case attendue compte moins de 5 personnes : résultat fragile"]] : []);
+
+  /* ===== 3. Qui a répondu ===== */
+  { const nE = S.situation.etudiant[0], nA = S.situation.actif[0], kpi = (v, u, t) => `<div class="kpi-box"><span class="kpi">${v}<small>${u}</small></span><p>${t}</p></div>`;
+    $("kpiQui").innerHTML = kpi(S.n, "", "répondants au questionnaire") + kpi(n(nE / S.n * 100, 0), "%", `d'étudiants (${nE} personnes)`) + kpi(n(nA / S.n * 100, 0), "%", `d'actifs (${nA} personnes)`) + kpi(`${S.version.A[0]} / ${S.version.B[0]}`, "", "en version A / B du test A/B, tirées au sort");
+    $("capQui").innerHTML = `Source : <a class="src" href="questionnaire.html">notre questionnaire en ligne, réponses du 12 au 21 octobre 2026</a>. <strong>Échantillon de convenance</strong> (entourage et réseaux du groupe), surtout étudiant : nos conclusions décrivent une clientèle jeune au budget serré, pas toute la clientèle de Pathé. Détail des profils en <a href="prix-psychologique.html#resultats">partie 4</a>.`; }
+
+  /* ===== Test 1 · le prix (Gabor-Granger) : Q de Cochran + McNemar ===== */
+  const part = S.oui.map(o => o / S.n), sumOui = S.oui.reduce((a, b) => a + b, 0);
+  // profils Gabor-Granger : 0, 1, 2 ou 3 oui (la méthode est progressive, donc le nombre de oui suffit à connaître les réponses)
+  const prof = [S.n - S.oui[0], S.oui[0] - S.oui[1], S.oui[1] - S.oui[2], S.oui[2]];
+  const sR = prof.reduce((s, c, j) => s + c * j, 0), sR2 = prof.reduce((s, c, j) => s + c * j * j, 0);
+  const Q = 2 * (3 * S.oui.reduce((s, c) => s + c * c, 0) - sumOui ** 2) / (3 * sR - sR2), pQ = STAT.chi2p(Q, 2);
+  const mc = [0, 1].map(i => { const b = S.oui[i] - S.oui[i + 1]; return { b, p: Math.min(1, 2 * 0.5 ** b) }; });   // McNemar exact : b abandons, 0 retour possible
+  { const el = test("t1", {
+      methode: `<strong>Pourquoi pas un Chi-2 classique ?</strong> Avec la méthode Gabor-Granger, chaque répondant voit 16,90 €, puis 17,90 € seulement s'il a dit oui, puis 18,90 €. Ce sont donc les mêmes personnes aux trois prix, avec des réponses liées : le Chi-2 classique, qui suppose des groupes indépendants, ne convient pas. Nous utilisons le <strong>Q de Cochran</strong> (comparer plusieurs proportions mesurées sur les mêmes personnes) et le <strong>test de McNemar</strong> entre deux prix successifs.${S.incoherents ? "" : " Contrôle : aucun répondant ne dit oui à un prix plus haut après un non."}`,
+      vars: `<strong>Le prix proposé</strong> (16,90 €, 17,90 €, 18,90 €) et <strong>la réponse à la question 6</strong> (« Achèteriez-vous ce pack à ce prix ? », oui / non), pour les ${S.n} répondants.`,
+      h0: "la part de oui est la même aux trois prix.", h1: "la part de oui change avec le prix.",
+      titre: "Part de oui et de non à chaque prix (question 6)", legende: [["var(--accent)", "Oui, j'achèterais"], ["var(--line)", "Non"], ["var(--ink)", "- - - Part de oui moyenne sur les trois prix"]],
+      res: [["Part de oui", `${p(part[0])} · ${p(part[1])} · ${p(part[2])}`, `${S.oui[0]}, ${S.oui[1]} puis ${S.oui[2]} personnes sur ${S.n}`],
+        ["Q de Cochran", n(Q, 1), "2 degrés de liberté (3 prix − 1)"], ["p-value", fp(pQ), "Seuil de rejet : Q > 5,99"],
+        ["McNemar 16,90 → 17,90 €", `${mc[0].b} abandons`, `0 personne ne passe de non à oui ; ${pv(mc[0].p)} (test exact)`],
+        ["McNemar 17,90 → 18,90 €", `${mc[1].b} abandons`, `0 personne ne passe de non à oui ; ${pv(mc[1].p)} (test exact)`]],
+      interp: `${p(part[0])} des répondants achèteraient le pack à 16,90 €, mais seulement ${p(part[2])} à 18,90 €. Chaque hausse d'un euro fait perdre des acheteurs (${mc[0].b} puis ${mc[1].b} personnes), et cette baisse est bien trop forte pour venir du hasard.`,
+      ok: pQ < 0.05, concl: "La demande pour le pack est très sensible au prix." });
+    barres100(el, PRIX.map((x, i) => ({ l: e(x), sub: `${S.oui[i]} oui sur ${S.n}`, o: part[i] })), sumOui / (3 * S.n), `moyenne : ${p(sumOui / (3 * S.n))}`); }
+
+  /* ===== Test 2 · confiserie × achat à 16,90 € ===== */
+  const C1 = S.confiserie.oui, C2 = S.confiserie.non, t2c = chi2Tab(C1, C2, 0, true);
+  { const el = test("t2", {
+      vars: `<strong>Achat de confiserie</strong> à la dernière séance (question 2 : pop-corn, snacks ou boisson / place seule) et <strong>réponse au pack à 16,90 €</strong> (question 6, oui / non). 16,90 € est le seul prix vu par tout le monde.`,
+      h0: "accepter le pack ne dépend pas de la confiserie.", h1: "accepter le pack dépend de la confiserie.",
+      titre: "Part de oui au pack à 16,90 €, selon l'achat de confiserie", legende: [["var(--accent)", "Oui, j'achèterais"], ["var(--line)", "Non"], ["var(--ink)", "- - - Part de oui attendue si H0 était vraie"]],
+      res: [["Part de oui", `${p(t2c.pa)} / ${p(t2c.pb)}`, `confiserie : ${C1[1]} sur ${C1[0]} ; place seule : ${C2[1]} sur ${C2[0]}`]].concat(chi2Res(t2c, true)),
+      interp: `Ceux qui prennent déjà pop-corn ou boisson disent oui au pack deux fois plus souvent (${p(t2c.pa)} contre ${p(t2c.pb)}). Pour eux, le pack est une économie ; pour les autres, c'est une dépense en plus.`,
+      ok: t2c.p < 0.05, concl: "Le pack intéresse surtout ceux qui achètent déjà de la confiserie." });
+    barres100(el, [{ l: "Confiserie", sub: `${C1[1]} oui sur ${C1[0]}`, o: t2c.pa }, { l: "Place seule", sub: `${C2[1]} oui sur ${C2[0]}`, o: t2c.pb }], t2c.pt, `si H0 : ${p(t2c.pt)}`); }
+
+  /* ===== Test 3 · statut × achat à 16,90 € ===== */
+  const s1 = S.situation.etudiant, s2 = S.situation.actif, t3c = chi2Tab(s1, s2, 0, true);
+  { const el = test("t3", {
+      vars: `<strong>Situation</strong> (question 5 : étudiant / actif ; les ${S.n - s1[0] - s2[0]} retraités et sans emploi, trop peu nombreux, sont mis de côté) et <strong>réponse au pack à 16,90 €</strong> (question 6).`,
+      h0: "accepter le pack ne dépend pas du statut.", h1: "accepter le pack dépend du statut.",
+      titre: "Part de oui au pack à 16,90 €, selon le statut", legende: [["var(--accent)", "Oui, j'achèterais"], ["var(--line)", "Non"], ["var(--ink)", "- - - Part de oui attendue si H0 était vraie"]],
+      res: [["Part de oui", `${p(t3c.pa)} / ${p(t3c.pb)}`, `étudiants : ${s1[1]} sur ${s1[0]} ; actifs : ${s2[1]} sur ${s2[0]}`]].concat(chi2Res(t3c, true)),
+      interp: `Les actifs disent un peu plus souvent oui (${p(t3c.pb)} contre ${p(t3c.pa)}), mais l'écart est trop petit pour nos effectifs : il peut venir du hasard. Le statut seul n'explique pas le refus ; la confiserie (test 2) l'explique beaucoup mieux.`,
+      ok: t3c.p < 0.05, concl: "On ne peut pas affirmer que le statut change l'envie d'acheter le pack." });
+    barres100(el, [{ l: "Étudiants", sub: `${s1[1]} oui sur ${s1[0]}`, o: t3c.pa }, { l: "Actifs", sub: `${s2[1]} oui sur ${s2[0]}`, o: t3c.pb }], t3c.pt, `si H0 : ${p(t3c.pt)}`); }
+
+  /* ===== Test 4 · dépense : étudiants / actifs (Welch) ===== */
+  const E = S.student.etudiant, A = S.student.actif;
+  const se4 = Math.sqrt(E.v / E.n + A.v / A.n), t4 = (E.m - A.m) / se4, df4 = (E.v / E.n + A.v / A.n) ** 2 / ((E.v / E.n) ** 2 / (E.n - 1) + (A.v / A.n) ** 2 / (A.n - 1)), p4 = STAT.tp2(t4, df4), d4 = (E.m - A.m) / Math.sqrt((E.v + A.v) / 2);
+  { const el = test("t4", {
+      methode: `<strong>Pourquoi Welch plutôt que Student classique ?</strong> Les dépenses des actifs sont ${n(A.v / E.v, 1)} fois plus dispersées (variance) que celles des étudiants, et les groupes n'ont pas la même taille (${E.n} et ${A.n}). Le test t classique suppose des dispersions égales ; la version de Welch ne le suppose pas, c'est donc elle que nous retenons.`,
+      vars: `<strong>Situation</strong> (question 5 : étudiant / actif) et <strong>dépense en confiserie par séance</strong> (question 11, en euros). ${S.student.ecartees} réponse au-dessus de 50 € est écartée comme valeur aberrante.`,
+      h0: "étudiants et actifs dépensent en moyenne la même somme.", h1: "leurs dépenses moyennes sont différentes.",
+      titre: "Dépense en confiserie par séance : boîtes à moustaches et moyennes", h: 260,
+      legende: [["var(--c-indep)", "Étudiants"], ["var(--accent)", "Actifs"], ["var(--ink)", "◆ Moyenne ; trait dans la boîte : médiane ; boîte : 50 % central des réponses"]],
+      res: [["Moyennes", `${e(E.m)} / ${e(A.m)}`, `étudiants (${E.n}) / actifs (${A.n}) ; médianes : ${e(E.med)} / ${e(A.med)}`], ["t de Welch", n(t4, 2), `${n(df4, 1)} degrés de liberté`],
+        ["p-value", fp(p4), "Test bilatéral, seuils ±2,00"], ["d de Cohen", n(Math.abs(d4), 2), "Taille de l'écart : 0,2 petit, 0,5 moyen, 0,8 grand"],
+        ["Vérification", pv(S.student.mwp), "Test de Mann-Whitney, qui ne suppose pas une répartition « en cloche » (beaucoup de 0 €) : même conclusion"]],
+      interp: `Les étudiants dépensent en moyenne ${e(E.m)} par séance, les actifs ${e(A.m)}. La boîte des étudiants commence à 0 € : ${p(E.zero / E.n)} d'entre eux n'achètent rien. L'écart (${e(A.m - E.m)}) est trop grand pour venir du hasard.`,
+      ok: p4 < 0.05, concl: `Les étudiants, ${n(S.situation.etudiant[0] / S.n * 100, 0)} % de nos répondants, dépensent moins en confiserie : notre échantillon a un petit budget.` });
+    const L = 150, R = 610, mx = Math.ceil(Math.max(A.max, E.max) / 5) * 5, x = v => L + v / mx * (R - L);
+    niceTicks(0, mx, 6).forEach(v => { el("line", { class: "grid", x1: x(v), x2: x(v), y1: 20, y2: 200 }); el("text", { x: x(v), y: 220, "text-anchor": "middle" }, v + " €"); });
+    el("text", { x: R, y: 242, "text-anchor": "end" }, "dépense en confiserie par séance");
+    [["Étudiants", E, "var(--c-indep)", 65], ["Actifs", A, "var(--accent)", 150]].forEach(([l, g, c, cy]) => {
+      el("text", { x: 20, y: cy + 5, class: "lbl" }, `${l} (n = ${g.n})`);
+      el("line", { x1: x(g.wlo), x2: x(g.q1), y1: cy, y2: cy, stroke: c, "stroke-width": 2 }); el("line", { x1: x(g.q3), x2: x(g.whi), y1: cy, y2: cy, stroke: c, "stroke-width": 2 });
+      [g.wlo, g.whi].forEach(v => el("line", { x1: x(v), x2: x(v), y1: cy - 10, y2: cy + 10, stroke: c, "stroke-width": 2 }));
+      el("rect", { x: x(g.q1), y: cy - 22, width: Math.max(2, x(g.q3) - x(g.q1)), height: 44, fill: c, "fill-opacity": .35, stroke: c, "stroke-width": 2, rx: 3 });
+      el("line", { x1: x(g.med), x2: x(g.med), y1: cy - 22, y2: cy + 22, stroke: "var(--ink)", "stroke-width": 3 });
+      (g.out || []).forEach(v => el("circle", { cx: x(v), cy, r: 5, fill: "none", stroke: c, "stroke-width": 2 }));
+      el("path", { d: `M${x(g.m)},${cy - 9} L${x(g.m) + 9},${cy} L${x(g.m)},${cy + 9} L${x(g.m) - 9},${cy} Z`, fill: "var(--ink)", stroke: "var(--surface)", "stroke-width": 1.5 });
+      el("text", { x: x(g.m), y: cy - 30, "text-anchor": "middle", class: "lbl" }, `moyenne ${e(g.m)}`); }); }
+
+  /* ===== Test 5 · corrélation dépense × valeur perçue ===== */
+  const C = S.corr, t5 = C.r * Math.sqrt(C.n - 2) / Math.sqrt(1 - C.r ** 2), p5 = STAT.tp2(t5, C.n - 2), b5 = C.r * C.sy / C.sx, a5 = C.my - b5 * C.mx;
+  { const el = test("t5", {
+      vars: `<strong>Dépense en confiserie par séance</strong> (question 11, en euros) et <strong>note de valeur perçue du pack</strong> (question 8 : moyenne de 3 notes de 1 à 5 : bonne affaire, prix acceptable, rapport qualité-prix). On garde les ${C.n} répondants qui ont vu le pack à 16,90 € à cette question (le prix affiché a changé le 15 octobre).`,
+      h0: "aucun lien linéaire entre dépense et note (r = 0).", h1: "il existe un lien (r ≠ 0).",
+      titre: "Chaque point est un répondant : dépense en confiserie et note donnée au pack", h: 320,
+      legende: [["var(--accent)", `Un répondant (${C.n} au total)`], ["var(--c-indep)", "Droite de tendance (moindres carrés)"]],
+      res: [["r de Pearson", n(C.r, 2), "De −1 à +1 ; repères : 0,1 faible, 0,3 moyen, 0,5 fort"], ["r²", p(C.r ** 2), "Part des écarts de note liée à la dépense"],
+        ["t", n(t5, 2), `${C.n - 2} degrés de liberté (n − 2)`], ["p-value", fp(p5), "Seuils ±1,98"], ["Droite", `note = ${n(a5, 2)} + ${n(b5, 3)} × dépense`, "Chaque euro de plus va avec environ +" + n(b5, 2) + " point de note"]],
+      interp: `Le nuage monte : plus un répondant dépense en confiserie, plus il trouve que le pack vaut le coup. Le lien est moyen (r = ${n(C.r, 2)}) : les points restent dispersés, la dépense n'explique qu'environ ${p(C.r ** 2)} des écarts de note. Une corrélation ne prouve pas une cause.`,
+      ok: p5 < 0.05, concl: "Il existe un lien réel entre dépense en confiserie et valeur perçue du pack." });
+    const cells = C.cells || [], XM = Math.max(10, Math.ceil(Math.max(...cells.map(q => q[0])) / 5) * 5), L = 70, R = 620, T = 18, B = 268, x = v => L + v / XM * (R - L), y = v => B - (v - 1) / 4 * (B - T);
     for (let v = 1; v <= 5; v++) { el("line", { class: "grid", x1: L, x2: R, y1: y(v), y2: y(v) }); el("text", { x: L - 12, y: y(v) + 4, "text-anchor": "end" }, v); }
     niceTicks(0, XM, 6).forEach(v => el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, v + " €"));
-    el("text", { x: R, y: B + 40, "text-anchor": "end" }, "dépense en confiserie par séance (question 11)");
-    el("text", { x: L - 50, y: T + 4, class: "lbl" }, "note /5");
-    el("line", { x1: L, x2: R, y1: y(C.my), y2: y(C.my), stroke: "var(--ink)", "stroke-width": 1.5, "stroke-dasharray": "6 4" });
-    cells.forEach(([d, v3, c]) => el("circle", { cx: x(d), cy: y(v3 / 3), r: 3 + 3 * Math.sqrt(c), fill: "var(--accent)", "fill-opacity": .55, stroke: "var(--accent)" }));
-    const xEnd = b > 0 ? Math.min(XM, (5 - a) / b) : XM; el("line", { x1: x(0), x2: x(xEnd), y1: y(a), y2: y(a + b * xEnd), stroke: "var(--c-indep)", "stroke-width": 3 });
-    el("text", { x: R - 4, y: y(1.35), "text-anchor": "end", class: "lbl" }, `r = ${n(C.r, 2)}   ·   r² = ${p(C.r ** 2)}   ·   n = ${C.n}`);
-    // deuxième graphique : la significativité de r
-    let svg2 = $("svgT3b");
-    if (!svg2) { const box = document.createElement("div"); box.className = "chart"; box.style.marginTop = "16px"; box.innerHTML = `<h3></h3><svg id="svgT3b" class="sch" role="img" aria-label="Loi de Student qui sert à tester si le coefficient de corrélation est nul"></svg>`; $("svgT3").closest(".chart").after(box); }
-    const v = C.n - 2, tc = STAT.tcrit(v), lim = Math.max(4, Math.abs(t3) * 1.2);
-    const cap2 = `Pour savoir si r = ${n(C.r, 2)} peut venir du hasard, on le transforme en t = r × √(n − 2) ÷ √(1 − r²) = <strong>${n(t3, 2)}</strong>, qui suit la loi de Student à ${v} degrés de liberté si H0 (r = 0) est vraie. `
-      + `Seuils à 5 % : ±${n(tc, 2)}. ${sig ? `Notre t est loin dans la zone rouge (${pvTxt(p3)}) : <strong>on rejette H0</strong>, le lien n'est pas dû au hasard.` : `Notre t reste dans la zone verte (${pvTxt(p3)}) : <strong>on ne peut pas rejeter H0</strong>.`}`;
-    const el2 = chartFrame("svgT3b", `Le test de r : loi de Student à ${v} degrés de liberté`, [["var(--ink)", "Loi de Student : les valeurs de t possibles si r = 0"], ["var(--bad)", "Zones de rejet de H0"], ["var(--accent)", "Notre t calculé"]], cap2, 290);
-    distChart(el2, { pdf: q => pdfT(q, v), xmin: -lim, xmax: lim, rej: [[-Infinity, -tc], [tc, Infinity]], pzone: [[-Infinity, -Math.abs(t3)], [Math.abs(t3), Infinity]], crit: [-tc, tc], critLab: "seuil", fmt: q => n(q, 0), fmt2: q => n(q, 2), xlab: "valeur de t",
-      obs: [{ v: t3, lab: `t = ${n(t3, 2)}`, sub: pvTxt(p3) }], zoneLabels: [{ x: 0, t: "non-rejet (95 %)", c: "var(--good)" }] });
-  }
-  // Régression : les observations, la droite des moindres carrés, les résidus, la pente et la prévision du champ « tester un prix »
-  function drawReg(xp) {
-    const P0 = 16.5, P1 = 19.5, L = 70, R = 620, T = 20, B = 260, x = v => L + (v - P0) / (P1 - P0) * (R - L), y = v => B - v / 0.6 * (B - T);
-    const res = PRIX.map((v, i) => Y[i] - pred(v)), maxRes = Math.max(...res.map(Math.abs));
-    const caption = `Les trois points sont nos observations (part de oui à la question 6). La droite bleue est celle qui passe au plus près des points (moindres carrés) : <strong>part d'acheteurs = ${n(a4 * 100, 1)} × prix + ${n(b4 * 100, 1)}</strong>. `
-      + `Les petits traits entre chaque point et la droite sont les résidus (au plus ${n(maxRes * 100, 1)} point) : la droite explique ${p(r2, 1)} des variations (R²). Le triangle lit la pente : 1 € de plus, ${n(a4 * 100, 1)} points d'acheteurs. `
-      + `Si le prix n'avait aucun effet (H0 : pente nulle), la droite serait plate (pointillés). Pas de loi de Student ici, et c'est voulu : avec Gabor-Granger, les trois points viennent des mêmes personnes, interrogées une seule fois chacune à plusieurs prix ; ils ne sont pas indépendants, donc ce modèle décrit et prévoit, il ne teste pas. Le test de l'effet du prix est le test 1.`;
-    const el = chartFrame("svgT4", "Le modèle de régression : observations, droite et résidus", [["var(--accent)", "Observations (question 6)"], ["var(--c-indep)", "Droite de régression"], ["var(--ink)", "Si H0 : pente nulle"], ["var(--bad)", "Résidus"]], caption);
+    el("text", { x: R, y: B + 40, "text-anchor": "end" }, "dépense en confiserie par séance (question 11)"); el("text", { x: 14, y: T + 4, class: "lbl" }, "note /5");
+    // un point par répondant ; ceux qui ont exactement les mêmes réponses sont légèrement décalés pour rester visibles (sans changer leurs valeurs)
+    cells.forEach(([d, v3, c]) => { for (let k = 0; k < c; k++) { const ang = k * 2.4, rad = k ? 3.2 * Math.sqrt(k) : 0;
+      el("circle", { cx: x(d) + rad * Math.cos(ang), cy: y(v3 / 3) + rad * Math.sin(ang), r: 3.4, fill: "var(--accent)", "fill-opacity": .7 }); } });
+    const xEnd = b5 > 0 ? Math.min(XM, (5 - a5) / b5) : XM; el("line", { x1: x(0), x2: x(xEnd), y1: y(a5), y2: y(a5 + b5 * xEnd), stroke: "var(--c-indep)", "stroke-width": 3 });
+    el("text", { x: R - 4, y: y(1.3), "text-anchor": "end", class: "lbl", style: "paint-order:stroke;stroke:var(--surface);stroke-width:5px" }, `r = ${n(C.r, 2)} · r² = ${p(C.r ** 2)} · n = ${C.n}`); }
+
+  /* ===== Test 6 · régression (descriptive) ===== */
+  const Y = part, mP = STAT.mean(PRIX), mY = STAT.mean(Y), sxx = PRIX.reduce((s, x) => s + (x - mP) ** 2, 0);
+  const a6 = PRIX.reduce((s, x, i) => s + (x - mP) * (Y[i] - mY), 0) / sxx, b6 = mY - a6 * mP, pred = x => a6 * x + b6, r2 = 1 - Y.reduce((s, y, i) => s + (y - pred(PRIX[i])) ** 2, 0) / Y.reduce((s, y) => s + (y - mY) ** 2, 0);
+  const el6 = [0, 1].map(i => ((S.oui[i + 1] - S.oui[i]) / S.oui[i]) / ((PRIX[i + 1] - PRIX[i]) / PRIX[i]));
+  { const el = test("t6", {
+      methode: `<strong>Un modèle pour décrire, pas pour prévoir.</strong> La droite ne repose que sur 3 prix, mesurés sur les mêmes personnes (Gabor-Granger) : les points ne sont pas indépendants et 3 points s'alignent presque toujours bien. Le R² très élevé est donc peu informatif, et nous ne calculons pas de p-value. La droite ne vaut qu'entre 16,90 et 18,90 € ; la prolonger au-delà serait une extrapolation sans fondement. La preuve de l'effet du prix est le test 1.`,
+      vars: `<strong>Y : part d'acheteurs</strong> à chaque prix (question 6) et <strong>X : prix du pack</strong> (16,90, 17,90 et 18,90 €).`,
+      h0: "le prix n'a pas d'effet (pente nulle).", h1: "la part d'acheteurs varie avec le prix.",
+      titre: "Les 3 observations et la droite de régression (entre 16,90 et 18,90 € seulement)",
+      legende: [["var(--accent)", "Observation (question 6)"], ["var(--c-indep)", "Droite de régression"], ["var(--bad)", "Écart entre l'observation et la droite (résidu)"]],
+      res: [["Pente", `${n(a6 * 100, 1)} points par euro`, "Baisse moyenne de la part d'acheteurs pour 1 € de plus, entre 16,90 et 18,90 €"], ["R²", p(r2, 1), "Très élevé, mais avec 3 points seulement : peu informatif"],
+        ["Élasticité-prix", `${n(el6[0], 1)} puis ${n(el6[1], 1)}`, "Variation de la demande (%) ÷ variation du prix (%) ; au-delà de −1, la demande est élastique"], ["p-value", "non calculée", "3 points non indépendants : une p-value classique serait trompeuse"]],
+      interp: `Entre 16,90 et 18,90 €, la part d'acheteurs baisse d'environ ${n(-a6 * 100, 0)} points par euro. L'élasticité dépasse largement −1 : la demande est très sensible au prix. Ce chiffre résume nos trois mesures ; ce n'est pas une prévision pour d'autres prix.`,
+      ok: null, concl: "La droite résume la baisse observée ; la preuve statistique de l'effet du prix vient du test 1." });
+    const P0 = 16.6, P1 = 19.2, L = 70, R = 620, T = 20, B = 260, x = v => L + (v - P0) / (P1 - P0) * (R - L), y = v => B - v / 0.6 * (B - T);
     for (let v = 0; v <= 0.6 + 1e-9; v += 0.1) { el("line", { class: "grid", x1: L, x2: R, y1: y(v), y2: y(v) }); el("text", { x: L - 12, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + " %"); }
-    [17, 18, 19].forEach(v => el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, v + " €"));
+    PRIX.forEach(v => el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, e(v)));
     el("text", { x: R, y: B + 40, "text-anchor": "end" }, "prix du pack");
-    el("line", { x1: L, x2: R, y1: y(mY), y2: y(mY), stroke: "var(--ink)", "stroke-width": 1.5, "stroke-dasharray": "6 4" });
-    el("text", { x: R - 4, y: y(mY) - 7, "text-anchor": "end", class: "h0" }, `si H0 : ${p(mY)} partout`);
-    const xe = Math.min(P1, zero5End());
-    function zero5End() { return Math.max(P0, zero4); }
-    el("line", { x1: x(P0), x2: x(xe), y1: y(pred(P0)), y2: y(Math.max(0, pred(xe))), stroke: "var(--c-indep)", "stroke-width": 3 });
-    // triangle de pente entre 17 € et 18 €
-    const t0 = 17, t1 = 18; el("path", { d: `M${x(t0)},${y(pred(t0))} L${x(t1)},${y(pred(t0))} L${x(t1)},${y(pred(t1))}`, fill: "none", stroke: "var(--muted)", "stroke-width": 1.5 });
-    el("text", { x: (x(t0) + x(t1)) / 2, y: y(pred(t0)) - 6, "text-anchor": "middle" }, "+1 €");
-    el("text", { x: x(t1) + 6, y: (y(pred(t0)) + y(pred(t1))) / 2 + 4 }, `${n(a4 * 100, 1)} pts`);
+    el("line", { x1: x(PRIX[0]), x2: x(PRIX[2]), y1: y(pred(PRIX[0])), y2: y(pred(PRIX[2])), stroke: "var(--c-indep)", "stroke-width": 3 });
     PRIX.forEach((v, i) => { el("line", { x1: x(v), x2: x(v), y1: y(Y[i]), y2: y(pred(v)), stroke: "var(--bad)", "stroke-width": 3 });
       el("circle", { cx: x(v), cy: y(Y[i]), r: 8, fill: "var(--accent)", stroke: "var(--bg)", "stroke-width": 2 });
-      el("text", { x: x(v) - 12, y: y(Y[i]) + 4, "text-anchor": "end", class: "lbl" }, `${p(Y[i], 1)}`); });
-    el("text", { x: L + 6, y: T + 12, class: "lbl" }, `y = ${n(a4 * 100, 1)} × prix + ${n(b4 * 100, 1)}   ·   R² = ${p(r2, 1)}`);
-    if (Number.isFinite(xp) && xp >= P0 && xp <= P1) { const yp = Math.max(0, pred(xp));
-      el("circle", { cx: x(xp), cy: y(yp), r: 7, fill: "none", stroke: "var(--ink)", "stroke-width": 2.5 });
-      el("text", { x: x(xp) - 10, y: y(yp) + 22, "text-anchor": "end" }, `prévision à ${e(xp)} : ${p(yp)}`); }
-  }
-  // Test Z de proportion : loi normale centrée réduite, seuils ±1,96, et la graduation correspondante en part d'acheteurs
-  function drawZ(o) {
-    const zc = zCrit(), lim = Math.max(4, Math.abs(o.z) * 1.15 + 0.3), sig = o.p5 < 0.05;
-    const caption = `Si la vraie part d'acheteurs était égale à l'objectif de ${p(o.obj)} (H0), l'écart entre notre échantillon et l'objectif, compté en erreurs types (${p(o.se, 1)}), suivrait cette loi normale. Il ne dépasserait <strong>±${n(zc, 2)}</strong> que 5 fois sur 100. `
-      + `À ${e(o.prix)}, nous observons ${p(o.ph, 1)} d'acheteurs, soit <strong>Z = ${n(o.z, 2)}</strong> (${pvTxt(o.p5)}) : ${sig ? "Z tombe dans une zone rouge, donc <strong>on rejette H0</strong>." : "Z reste dans la zone verte, donc <strong>on ne peut pas rejeter H0</strong>."} `
-      + `La graduation du bas traduit chaque valeur de Z en part d'acheteurs : Z = 0 correspond à l'objectif, et les seuils à ${p(Math.max(0, o.obj - zc * o.se), 1)} et ${p(Math.min(1, o.obj + zc * o.se), 1)}.`;
-    const el = chartFrame("svgT5", "Loi normale centrée réduite : où tombe notre écart à l'objectif ?", [["var(--ink)", "Loi normale : les valeurs de Z possibles si H0 est vraie"], ["var(--bad)", "Zones de rejet de H0 (2 × 2,5 %)"], ["var(--accent)", "Notre Z calculé"]], caption, 340);
-    const g = distChart(el, { pdf: pdfN, xmin: -lim, xmax: lim, B: 210, rej: [[-Infinity, -zc], [zc, Infinity]], pzone: [[-Infinity, -Math.abs(o.z)], [Math.abs(o.z), Infinity]], crit: [-zc, zc], critLab: "seuil", fmt: v => n(v, 0), fmt2: v => n(v, 2), xlab: "valeur de Z",
-      obs: [{ v: o.z, lab: `Z = ${n(o.z, 2)}`, sub: pvTxt(o.p5) }], zoneLabels: [{ x: 0, t: "non-rejet (95 %)", c: "var(--good)" }] });
-    // deuxième graduation : la part d'acheteurs qui correspond à chaque Z
-    const ya = 275; el("line", { x1: g.x(-lim), x2: g.x(lim), y1: ya, y2: ya, stroke: "var(--muted)" });
-    niceTicks(-lim, lim).forEach(v => { const q = o.obj + v * o.se; if (q < 0 || q > 1) return; el("line", { x1: g.x(v), x2: g.x(v), y1: ya, y2: ya + 5, stroke: "var(--muted)" }); el("text", { x: g.x(v), y: ya + 19, "text-anchor": "middle" }, p(q, 0)); });
-    el("text", { x: 620, y: ya + 36, "text-anchor": "end" }, "part d'acheteurs correspondante");
-    el("text", { x: g.x(0), y: ya - 8, "text-anchor": "middle", class: "lbl" }, `objectif ${p(o.obj)}`);
-    el("text", { x: g.x(Math.max(-lim, Math.min(lim, o.z))), y: ya - 8, "text-anchor": "middle", class: "lbl", style: "fill:var(--accent)" }, `observé ${p(o.ph, 1)}`);
-  }
-  $("calcElas").innerHTML = `<div class="head">Calcul à partir de la question 6</div>` +
-    el.map((x, i) => row(`De ${e(PRIX[i])} à ${e(PRIX[i + 1])}`, n(x.v, 1), `prix +${p(x.dp, 1)} ; demande ${p(x.dq, 1).replace("-", "−")} (${S.oui[i]} → ${S.oui[i + 1]} personnes)`, i ? "total" : "")).join("");
-  const nEtu = S.situation.etudiant[0];
-  $("lectElas").innerHTML = `<span class="label">Ce qu'on en dit</span><p>Quand le prix monte d'environ 6 %, la demande baisse de ${p(-el[0].dq)} puis de ${p(-el[1].dq)}. L'élasticité vaut environ <strong>${n(el[0].v, 1)}</strong> puis <strong>${n(el[1].v, 1)}</strong> : bien au-delà de −1. La demande pour ce pack est donc <strong>très élastique</strong>. Pour Pathé, chaque euro de plus coûte beaucoup d'acheteurs.</p><p>Cette sensibilité tient aussi à notre échantillon : <strong>${p(nEtu / S.n)} des répondants sont étudiants</strong> (${nEtu} sur ${S.n}), avec un budget serré (voir le test 2). Chez l'ensemble des clients de Pathé, la demande serait sans doute un peu moins élastique. Autres limites : ce sont des intentions déclarées, pas des achats réels, et nous n'avons pas testé de prix sous 16,90 €.</p>`;
+      el("text", { x: x(v) + 14, y: y(Y[i]) + 4, class: "lbl" }, p(Y[i], 1)); });
+    el("text", { x: L + 6, y: T + 12, class: "lbl" }, `part d'acheteurs = ${n(a6 * 100, 1)} × prix + ${n(b6 * 100, 1)} (en points)   ·   R² = ${p(r2, 1)}`); }
 
-  // Test 1 · Chi-2 prix proposé × réponse à la question 6
-  let CP;
-  {
-    const tp = PRIX.map((x, i) => [S.n - S.oui[i], S.oui[i]]), rc = STAT.chi2(tp), sigc = rc.p < 0.05; CP = rc;
-    const RT = tp.map(r => r[0] + r[1]), CT = [0, 1].map(j => tp.reduce((s, r) => s + r[j], 0)), NT = RT.reduce((s, x) => s + x, 0);
-    const th = tp.map((r, i) => r.map((_, j) => RT[i] * CT[j] / NT));
-    const totOui = S.oui.reduce((s, x) => s + x, 0), attendu = totOui / (S.n * PRIX.length);
-    // contrôle : Q de Cochran (mêmes personnes interrogées aux 3 prix) ; Gabor-Granger progressif : nb de oui par personne
-    const exact = [S.n - S.oui[0], S.oui[0] - S.oui[1], S.oui[1] - S.oui[2], S.oui[2]]; // 0, 1, 2 ou 3 oui
-    const k = PRIX.length, sR = exact.reduce((s, c, j) => s + c * j, 0), sR2 = exact.reduce((s, c, j) => s + c * j * j, 0);
-    const Q = (k - 1) * (k * S.oui.reduce((s, c) => s + c * c, 0) - totOui ** 2) / (k * sR - sR2), pQ = STAT.chi2p(Q, k - 1); CP.Q = Q; CP.pQ = pQ;
-    $("resumeChiPrix").innerHTML = `<span class="label">Résumé</span>
-      <p>Nous avons interrogé ${S.n} personnes avec la méthode Gabor-Granger : le pack leur était proposé à 16,90 €, puis 17,90 €, puis 18,90 €. Plus le prix monte, plus les acheteurs disparaissent : <strong>${p(part[0])}</strong> à 16,90 €, <strong>${p(part[1])}</strong> à 17,90 €, seulement <strong>${p(part[2])}</strong> à 18,90 €, le prix étudié.</p>
-      <p>Quand le prix augmente d'environ 6 %, la demande baisse de ${p(-el[0].dq)}, puis de ${p(-el[1].dq)} : la demande est <strong>très élastique</strong>. Ce résultat s'explique en partie par notre échantillon : <strong>${p(nEtu / S.n)} des répondants sont étudiants</strong> (${nEtu} sur ${S.n}), qui dépensent en moyenne ${e(S.student.etudiant.m)} en confiserie par séance, contre ${e(S.student.actif.m)} pour les actifs. Prudence donc : chez l'ensemble des clients de Pathé, la demande serait probablement un peu moins élastique.</p>
-      <p><strong>Le Chi-2 vérifie si cette baisse est réelle ou due au hasard.</strong></p>`;
-    $("flowChi").innerHTML =
-      `<li><strong>Les deux variables</strong><span>a : le prix proposé (16,90 / 17,90 / 18,90 €), qualitative<br>b : la réponse à la question 6 (oui / non), qualitative</span></li>` +
-      `<li><strong>Les hypothèses</strong><span>H0 : la réponse ne dépend pas du prix<br>H1 : la réponse dépend du prix</span></li>` +
-      `<li><strong>Observé contre attendu</strong><span>Si H0 était vraie, on aurait ${p(attendu)} de oui à chaque prix. On observe ${p(part[0])}, ${p(part[1])} et ${p(part[2])}.</span></li>` +
-      `<li><strong>Le Chi-2</strong><b class="big">χ² = ${n(rc.chi2, 1)}</b><span>${rc.ddl} degrés de liberté<br>p-value ${rc.p < 0.001 ? "< 0,001" : "= " + fp(rc.p)}</span></li>` +
-      `<li class="end"><strong>La décision</strong><b class="big">${sigc ? "H0 rejetée" : "H0 gardée"}</b><span>${sigc ? "p < 0,05 : la réponse dépend bien du prix. La demande est sensible au prix." : "p ≥ 0,05 : on ne peut pas conclure."}</span></li>`;
-    $("tabChiPrix").innerHTML = `<thead><tr><th>Prix proposé</th><th class="n">Oui observés</th><th class="n">Oui attendus si H0</th><th class="n">Non observés</th><th class="n">Non attendus si H0</th></tr></thead><tbody>` +
-      PRIX.map((x, i) => `<tr><td><strong>${e(x)}</strong></td><td class="n">${tp[i][1]}</td><td class="n">${n(th[i][1], 1)}</td><td class="n">${tp[i][0]}</td><td class="n">${n(th[i][0], 1)}</td></tr>`).join("") + `</tbody>`;
-    $("calcChiPrix").innerHTML = `<div class="head">Test du Chi-2 (tableau 3 prix × 2 réponses)</div>` +
-      row("Chi-2 calculé", n(rc.chi2, 2), "Somme, sur les 6 cases, de (observé − attendu)² ÷ attendu") +
-      row("Degrés de liberté", rc.ddl, "(3 prix − 1) × (2 réponses − 1)") +
-      row("p-value", fp(rc.p), "Probabilité d'un tel écart par hasard si le prix n'avait aucun effet") +
-      row("V de Cramer", n(rc.v, 2), "Force du lien, de 0 à 1 ; autour de 0,3 = lien moyen") +
-      row("Décision", sigc ? "p < 0,05" : "p ≥ 0,05", sigc ? "On rejette H0 : la réponse dépend du prix" : "On ne rejette pas H0", "total");
-    $("capChiPrix").innerHTML = `Précision de méthode : ce sont les mêmes ${S.n} personnes qui répondent aux trois prix, alors que le Chi-2 suppose des groupes différents. Le test adapté à ce cas, le Q de Cochran, donne Q = ${n(Q, 1)} et ${pQ < 0.001 ? "p < 0,001" : "p = " + fp(pQ)} : la conclusion est la même.`;
-    $("lectChiPrix").innerHTML = `<span class="label">Ce qu'on en dit</span><p class="verdict ${sigc ? "ok" : "no"}">${sigc ? "On rejette H0 : la demande dépend du prix." : "On ne peut pas rejeter H0."}</p><p>Si le prix ne jouait aucun rôle, environ ${p(attendu)} des gens diraient oui à chaque prix (ligne pointillée). Or on passe de ${p(part[0])} à ${p(part[2])}. Avec χ² = ${n(rc.chi2, 1)} et p ${rc.p < 0.001 ? "< 0,001" : "= " + fp(rc.p)}, cet écart ne peut pas venir du hasard : <strong>la demande est statistiquement très sensible au prix</strong>.</p><p><strong>À dire :</strong> « On a croisé le prix proposé et la réponse à la question 6, deux variables qualitatives, avec un Chi-2. On obtient χ² = ${n(rc.chi2, 1)} et p ${rc.p < 0.001 ? "inférieur à 0,001" : "= " + fp(rc.p)} : on rejette H0. L'envie d'acheter le pack dépend du prix : de ${p(part[0])} à 16,90 €, elle tombe à ${p(part[2])} à 18,90 €. »</p>`;
-  }
+  /* ===== Test 7 · proportion à 18,90 € contre l'objectif de 25 % (test Z) ===== */
+  const k7 = S.oui[2], ph = k7 / S.n, se7 = Math.sqrt(OBJ * (1 - OBJ) / S.n), z7 = (ph - OBJ) / se7, p7 = 2 * (1 - STAT.phi(Math.abs(z7))), seI = Math.sqrt(ph * (1 - ph) / S.n), lo7 = Math.max(0, ph - 1.96 * seI), hi7 = ph + 1.96 * seI;
+  { const el = test("t7", {
+      vars: `<strong>Réponse au pack à 18,90 €</strong> (question 6, oui / non), résumée en une proportion, et <strong>l'objectif de 25 %</strong> (un client sur quatre), fixé par notre groupe <span class="tag hyp">Hypothèse</span> faute de chiffre publié.`,
+      h0: "la vraie part d'acheteurs à 18,90 € est égale à 25 %.", h1: "elle est différente de 25 %.",
+      titre: "Loi normale centrée réduite : où tombe notre écart à l'objectif ?", h: 330,
+      legende: [["var(--ink)", "Loi normale : valeurs de Z possibles si H0 est vraie"], ["var(--bad)", "Zones de rejet de H0 (2 × 2,5 %)"], ["var(--accent)", "Notre Z calculé"]],
+      res: [["Part observée", p(ph, 1), `${k7} oui sur ${S.n} ; intervalle de confiance à 95 % : ${p(lo7, 1)} à ${p(hi7, 1)}`], ["Objectif", p(OBJ), "Fixé par le groupe"],
+        ["Z", n(z7, 2), "(part observée − objectif) ÷ erreur type (" + p(se7, 1) + ")"], ["p-value", fp(p7), "Test bilatéral, seuils ±1,96"]],
+      interp: `À 18,90 €, seulement ${p(ph, 1)} des répondants achèteraient le pack, contre un objectif de 25 %. Même avec la marge d'erreur (${p(lo7)} à ${p(hi7)}), on reste loin de l'objectif.`,
+      ok: p7 < 0.05, concl: "À 18,90 €, la part d'acheteurs est significativement inférieure à l'objectif de 25 %." });
+    const zc = 1.959964, lim = Math.max(4, Math.abs(z7) * 1.15 + 0.3), L = 60, R = 620, T = 24, B = 200, x = v => L + (v + lim) / (2 * lim) * (R - L), pdf = v => Math.exp(-v * v / 2) / Math.sqrt(2 * Math.PI), y = d => B - d / (pdf(0) * 1.15) * (B - T);
+    const pts = []; for (let i = 0; i <= 400; i++) { const v = -lim + 2 * lim * i / 400; pts.push([v, pdf(v)]); }
+    const area = (a, b, fill, op) => { const s = pts.filter(q => q[0] >= a && q[0] <= b); if (s.length > 1) el("path", { d: `M${x(s[0][0])},${B} ` + s.map(q => `L${x(q[0])},${y(q[1])}`).join(" ") + ` L${x(s[s.length - 1][0])},${B} Z`, fill, "fill-opacity": op }); };
+    area(-lim, lim, "var(--good)", .14); area(-lim, -zc, "var(--bad)", .4); area(zc, lim, "var(--bad)", .4);
+    el("path", { d: "M" + pts.map(q => `${x(q[0])},${y(q[1])}`).join(" L"), fill: "none", stroke: "var(--ink)", "stroke-width": 2.5 });
+    el("line", { x1: L, x2: R, y1: B, y2: B, stroke: "var(--muted)" });
+    niceTicks(-lim, lim).forEach(v => el("text", { x: x(v), y: B + 18, "text-anchor": "middle" }, n(v, 0)));
+    el("text", { x: R, y: B + 34, "text-anchor": "end" }, "valeur de Z");
+    [-zc, zc].forEach(c => { el("line", { x1: x(c), x2: x(c), y1: T, y2: B, stroke: "var(--bad)", "stroke-width": 1.6, "stroke-dasharray": "6 4" }); el("text", { x: x(c) + (c < 0 ? -6 : 6), y: T + 8, "text-anchor": c < 0 ? "end" : "start", style: "fill:var(--bad);font-weight:600" }, `seuil ${n(c, 2)}`); });
+    el("text", { x: x(0), y: B - 8, "text-anchor": "middle", style: "fill:var(--good);font-weight:700;font-size:12px" }, "non-rejet (95 %)");
+    const xz = x(Math.max(-lim, Math.min(lim, z7))); el("line", { x1: xz, x2: xz, y1: T + 26, y2: B, stroke: "var(--accent)", "stroke-width": 3 }); el("circle", { cx: xz, cy: B, r: 6, fill: "var(--accent)" });
+    el("text", { x: xz + 8, y: T + 40, class: "lbl", style: "fill:var(--accent)" }, `Z = ${n(z7, 2)}`); el("text", { x: xz + 8, y: T + 56 }, pv(p7));
+    // la même échelle traduite en part d'acheteurs : 0 = objectif, Z = proportion observée
+    const ya = 262; el("line", { x1: L, x2: R, y1: ya, y2: ya, stroke: "var(--muted)" });
+    niceTicks(-lim, lim).forEach(v => { const q = OBJ + v * se7; if (q < 0 || q > 1) return; el("line", { x1: x(v), x2: x(v), y1: ya, y2: ya + 5, stroke: "var(--muted)" }); el("text", { x: x(v), y: ya + 19, "text-anchor": "middle" }, p(q, 0)); });
+    el("text", { x: R, y: ya + 36, "text-anchor": "end" }, "part d'acheteurs correspondante");
+    el("text", { x: x(0), y: ya - 8, "text-anchor": "middle", class: "lbl" }, `objectif ${p(OBJ)}`);
+    el("text", { x: xz, y: ya - 8, "text-anchor": "middle", class: "lbl", style: "fill:var(--accent)" }, `observé ${p(ph, 1)}`); }
 
-  // 04 · Chi-2 confiserie × Q6
-  const tab = (g1, g2, i) => [[g1[0] - g1[i + 1], g1[i + 1]], [g2[0] - g2[i + 1], g2[i + 1]]];
-  const theo = t => { const R = t.map(r => r[0] + r[1]), C = [t[0][0] + t[1][0], t[0][1] + t[1][1]], N = R[0] + R[1]; return t.map((r, i) => r.map((_, j) => R[i] * C[j] / N)); };
-  const table = (t, lignes, fmt) => { const R = t.map(r => r[0] + r[1]), C = [t[0][0] + t[1][0], t[0][1] + t[1][1]], N = R[0] + R[1];
-    return `<thead><tr><th></th><th class="n">Non au pack</th><th class="n">Oui au pack</th><th class="n">Total</th></tr></thead><tbody>` +
-      t.map((r, i) => `<tr><td><strong>${lignes[i]}</strong></td><td class="n">${fmt(r[0])}</td><td class="n">${fmt(r[1])}</td><td class="n">${R[i]}</td></tr>`).join("") +
-      `<tr class="hl"><td><strong>Total</strong></td><td class="n">${C[0]}</td><td class="n">${C[1]}</td><td class="n">${N}</td></tr></tbody>`; };
-  const L = ["A acheté de la confiserie", "Place seule"], C1 = S.confiserie.oui, C2 = S.confiserie.non;
-  const t0 = tab(C1, C2, 0), th = theo(t0), r = STAT.chi2(t0, true), sig = r.p < 0.05;
-  const pc = [C1[1] / C1[0], C2[1] / C2[0]];
-  $("tabObs").innerHTML = table(t0, L, x => x);
-  $("tabTheo").innerHTML = table(th, L, x => n(x, 1));
-  {
-    const tot = (C1[1] + C2[1]) / (C1[0] + C2[0]);
-    $("resumeChi").innerHTML = `<span class="label">Résumé</span>
-      <p>Le premier Chi-2 montre que la demande baisse quand le prix monte. Mais tout le monde ne réagit pas de la même façon. Le pack contient un pop-corn et une boisson : pour quelqu'un qui en achète déjà, c'est une économie ; pour quelqu'un qui prend seulement sa place, c'est une dépense en plus.</p>
-      <p>À 16,90 €, <strong>${p(pc[0])}</strong> des acheteurs de confiserie prendraient le pack, contre <strong>${p(pc[1])}</strong> de ceux qui prennent la place seule (question 2 croisée avec la question 6).</p>
-      <p><strong>Le Chi-2 vérifie si cette différence est réelle ou due au hasard.</strong></p>`;
-    $("flowChi2").innerHTML = flow(["Les deux variables", "a : achat de confiserie à la dernière séance (question 2 : oui / non), qualitative<br>b : réponse à la question 6 à 16,90 € (oui / non), qualitative"],
-      ["accepter le pack ne dépend pas de la confiserie", "accepter le pack en dépend"],
-      `Si H0 était vraie, les deux groupes diraient oui dans la même proportion, ${p(tot)}. On observe ${p(pc[0])} et ${p(pc[1])}.`,
-      ["Le Chi-2", `χ² = ${n(r.chi2, 1)}`], `${r.ddl} degré de liberté<br>p-value ${r.p < 0.001 ? "< 0,001" : "= " + fp(r.p)}`, sig, null,
-      sig ? "p < 0,05 : la confiserie change vraiment l'envie d'acheter le pack." : "p ≥ 0,05 : on ne peut pas conclure.");
-  }
-  $("calcChi").innerHTML = `<div class="head">Test du Chi-2 d'indépendance (tableau 2 × 2)</div>` +
-    row("Chi-2 calculé", n(r.chi2, 2), "Somme des (observé − théorique)² ÷ théorique sur les 4 cases, avec la petite correction de Yates utilisée pour les tableaux 2 × 2") +
-    row("Degrés de liberté", r.ddl, "(2 lignes − 1) × (2 colonnes − 1)") +
-    row("p-value", fp(r.p), "Probabilité d'observer un tel écart par hasard si H0 était vraie") +
-    row("V de Cramer", n(r.v, 2), "Force du lien, de 0 (aucun) à 1 (total) ; autour de 0,3 = lien moyen") +
-    row("Décision", sig ? "p < 0,05" : "p ≥ 0,05", sig ? "On rejette H0 : le lien est statistiquement significatif" : "On ne rejette pas H0", "total");
-  $("lectChi").innerHTML = `<span class="label">Ce qu'on en dit</span><p class="verdict ${sig ? "ok" : "no"}">${sig ? "On rejette H0, on retient H1." : "On ne peut pas rejeter H0."}</p><p>${p(pc[0])} des acheteurs de confiserie prendraient le pack à 16,90 €, contre ${p(pc[1])} de ceux qui prennent la place seule. Avec p ${r.p < 0.001 ? "< 0,001" : "= " + fp(r.p)}, cet écart n'est ${sig ? "pas dû au hasard" : "pas assez net pour exclure le hasard"}. <strong>Le pack intéresse surtout ceux qui achètent déjà de la confiserie.</strong> Pour les autres, ce n'est pas une économie, c'est une dépense en plus : c'est une des raisons du refus.</p>`;
+  /* ===== Test 8 · test A/B à 16,90 € ===== */
+  const VA = S.version.A, VB = S.version.B, t8 = chi2Tab(VA, VB, 0, false);
+  const nAB = Math.ceil((1.96 + 0.8416) ** 2 * (t8.pa * (1 - t8.pa) + t8.pb * (1 - t8.pb)) / (t8.pb - t8.pa) ** 2);
+  { const el = test("t8", {
+      vars: `<strong>Version vue</strong>, tirée au sort au début du questionnaire (A : sans prix de référence ; B : avec « achetés séparément : 22 € ») et <strong>réponse au pack à 16,90 €</strong> (question 6).`,
+      h0: "la mention « 22 € » ne change pas l'envie d'acheter.", h1: "elle la change.",
+      titre: "Part de oui au pack à 16,90 €, version A contre version B", legende: [["var(--accent)", "Oui, j'achèterais"], ["var(--line)", "Non"], ["var(--ink)", "- - - Part de oui attendue si H0 était vraie"]],
+      res: [["Part de oui", `${p(t8.pa)} / ${p(t8.pb)}`, `A : ${VA[1]} sur ${VA[0]} ; B : ${VB[1]} sur ${VB[0]}`]].concat(chi2Res(t8, false)).concat([["Effectif nécessaire", `≈ ${nAB} par version`, `Pour détecter un écart de ${n((t8.pb - t8.pa) * 100, 0)} points avec 80 % de chances (nous en avions ${VA[0]} et ${VB[0]})`]]),
+      interp: `La version avec « 22 € » fait mieux (${p(t8.pb)} contre ${p(t8.pa)}), ce qui va dans le sens d'un effet du prix de référence. Mais l'écart peut encore venir du hasard : nos groupes sont trop petits pour trancher.`,
+      ok: t8.p < 0.05, concl: "On ne peut pas affirmer que l'affichage « 22 € » fait vendre plus ; ce n'est pas non plus la preuve qu'il est inutile." });
+    barres100(el, [{ l: "Version A (sans 22 €)", sub: `${VA[1]} oui sur ${VA[0]}`, o: t8.pa }, { l: "Version B (avec 22 €)", sub: `${VB[1]} oui sur ${VB[0]}`, o: t8.pb }], t8.pt, `si H0 : ${p(t8.pt)}`); }
 
-  // 05 · situation × Q6
-  const s1 = S.situation.etudiant, s2 = S.situation.actif, ts = tab(s1, s2, 0), rs = STAT.chi2(ts, true), ss = rs.p < 0.05;
-  $("tabSit").innerHTML = table(ts, ["Étudiant", "Actif"], x => x);
-  $("lectSit").innerHTML = `<span class="label">Ce qu'on en dit</span><p>${p(s1[1] / s1[0])} des étudiants et ${p(s2[1] / s2[0])} des actifs prendraient le pack à 16,90 €. Chi-2 = ${n(rs.chi2, 2)}, p = ${fp(rs.p)} : ${ss ? "on rejette H0." : "<strong>on ne rejette pas H0</strong>. L'écart existe dans notre échantillon, mais il est trop petit pour affirmer qu'il existe chez tous les spectateurs. Ce n'est pas la même chose que « il n'y a pas de différence » : on ne peut simplement pas conclure."} La confiserie explique donc mieux le refus que le statut étudiant.</p>`;
-
-  // 06 · les trois prix
-  const ligne = (lib, g1, g2) => PRIX.map((x, i) => { const t = tab(g1, g2, i), c = STAT.chi2(t, true);
-    return `<tr><td>${lib}</td><td class="n">${e(x)}</td><td class="n">${p(g1[i + 1] / g1[0])} / ${p(g2[i + 1] / g2[0])}</td><td class="n">${n(c.chi2, 2)}</td><td class="n">${fp(c.p)}</td><td>${c.petit ? '<span class="tag miss">Fragile</span> case théorique < 5' : c.p < 0.05 ? '<span class="tag obs">Significatif</span>' : "Non significatif"}</td></tr>`; }).join("");
-  $("tabPrix").innerHTML = `<thead><tr><th>Croisement</th><th class="n">Prix</th><th class="n">Oui : groupe 1 / groupe 2</th><th class="n">Chi-2</th><th class="n">p-value</th><th>Lecture</th></tr></thead><tbody>` +
-    ligne("Confiserie / place seule", C1, C2) + ligne("Étudiant / actif", s1, s2) + `</tbody>`;
-
-  $("oral").innerHTML = `<span class="label">À dire</span><p>« On voulait savoir si acheter de la confiserie influence l'envie d'acheter le pack (H1). On a croisé la question 2 et la question 6. Ce sont deux variables qualitatives, donc on a utilisé un Chi-2. On trouve p ${r.p < 0.001 ? "< 0,001" : "= " + fp(r.p)}, donc ${sig ? "on rejette H0 : les deux sont liées" : "on ne peut pas rejeter H0"}. ${p(pc[0])} des acheteurs de confiserie acceptent le pack à 16,90 €, contre ${p(pc[1])} des autres. Pour Pathé, cela veut dire que le pack doit d'abord viser les clients qui prennent déjà du pop-corn, ou être moins cher pour attirer les autres. »</p>`;
-
-  const oral = t => `<p><strong>À dire :</strong> « ${t} »</p>`;
-  const pv = x => x < 0.001 ? "p < 0,001" : "p = " + fp(x);
-
-  // ===== Test 2 · Student (version de Welch : n'exige pas que les deux groupes aient la même dispersion) =====
-  const E = S.student.etudiant, A = S.student.actif;
-  const se2 = Math.sqrt(E.v / E.n + A.v / A.n), t2 = (E.m - A.m) / se2;
-  const df2 = (E.v / E.n + A.v / A.n) ** 2 / ((E.v / E.n) ** 2 / (E.n - 1) + (A.v / A.n) ** 2 / (A.n - 1));
-  const p2 = STAT.tp2(t2, df2), d2 = (E.m - A.m) / Math.sqrt((E.v + A.v) / 2), sig2 = p2 < 0.05;
-  const mx2 = Math.max(E.m, A.m) * 1.25;
-  const barE = (label, sub, v, max, alt, txt) => `<div class="bar-row"><span class="l">${label}<small>${sub}</small></span><div class="track"><div class="fill${alt ? " alt" : ""}" style="width:${v / max * 100}%">${txt}</div></div></div>`;
-  const mG = (E.n * E.m + A.n * A.m) / (E.n + A.n);
-  $("resumeT2").innerHTML = `<span class="label">Résumé</span>
-    <p>${p(nEtu / S.n)} de nos répondants sont étudiants (${nEtu} sur ${S.n}). On pense que leur budget est plus serré : c'est une des raisons possibles de la forte sensibilité au prix. Pour le vérifier, on compare ce que chaque groupe dépense en pop-corn, snacks et boissons par séance (question 11).</p>
-    <p>En moyenne, les étudiants dépensent <strong>${e(E.m)}</strong> et les actifs <strong>${e(A.m)}</strong>, soit ${n(A.m / E.m, 1)} fois plus. ${p(E.zero / E.n)} des étudiants ne dépensent rien, contre ${p(A.zero / A.n)} des actifs.</p>
-    <p><strong>Le test de Student vérifie si cette différence est réelle ou due au hasard.</strong></p>`;
-  $("flowT2").innerHTML =
-    `<li><strong>Les deux variables</strong><span>a : la situation (question 5 : étudiant / actif), qualitative<br>b : la dépense en confiserie (question 11, en €), quantitative</span></li>` +
-    `<li><strong>Les hypothèses</strong><span>H0 : les deux groupes dépensent autant en moyenne<br>H1 : leurs moyennes sont différentes</span></li>` +
-    `<li><strong>Observé contre attendu</strong><span>Si H0 était vraie, les deux groupes seraient proches de la moyenne commune, ${e(mG)}. On observe ${e(E.m)} et ${e(A.m)}.</span></li>` +
-    `<li><strong>Le t de Student</strong><b class="big">t = ${n(t2, 2)}</b><span>${n(df2, 0)} degrés de liberté<br>p-value = ${fp(p2)}</span></li>` +
-    `<li class="end"><strong>La décision</strong><b class="big">${sig2 ? "H0 rejetée" : "H0 gardée"}</b><span>${sig2 ? "p < 0,05 : les étudiants dépensent vraiment moins que les actifs." : "p ≥ 0,05 : on ne peut pas conclure."}</span></li>`;
-  $("calcT2").innerHTML = `<div class="head">Test de Student (version de Welch)</div>` +
-    row("Moyenne des étudiants", e(E.m), `${E.n} répondants, dont ${E.zero} qui ne dépensent rien (${p(E.zero / E.n)})`) +
-    row("Moyenne des actifs", e(A.m), `${A.n} répondants, dont ${A.zero} qui ne dépensent rien (${p(A.zero / A.n)})`) +
-    row("Écart", e(A.m - E.m), "Les actifs dépensent plus", "sub") +
-    row("t de Student", n(t2, 2), `Écart ÷ erreur type (${n(se2, 2)} €) ; ${n(df2, 0)} degrés de liberté`) +
-    row("p-value", fp(p2), "Probabilité d'un tel écart par hasard si H0 était vraie") +
-    row("d de Cohen", n(Math.abs(d2), 2), "Taille de l'écart : 0,2 = petit, 0,5 = moyen, 0,8 = grand") +
-    row("Décision", sig2 ? "p < 0,05" : "p ≥ 0,05", sig2 ? "On rejette H0 : les moyennes sont différentes" : "On ne rejette pas H0", "total");
-  $("capT2").innerHTML = `${S.student.ecartees} réponse(s) au-dessus de 50 € par séance écartée(s) comme valeur aberrante (même règle qu'en partie 6). Beaucoup de répondants dépensent 0 €, la distribution n'est donc pas « en cloche » : nous avons vérifié avec un test de Mann-Whitney, qui ne suppose pas cette forme (${pv(S.student.mwp)}), et la conclusion est la même.`;
-  $("lectT2").innerHTML = `<span class="label">Ce qu'on en dit</span><p class="verdict ${sig2 ? "ok" : "no"}">${sig2 ? "On rejette H0, on retient H1." : "On ne peut pas rejeter H0."}</p><p>Les étudiants dépensent en moyenne <strong>${e(E.m)}</strong> en confiserie par séance, contre <strong>${e(A.m)}</strong> pour les actifs, soit ${n(A.m / E.m, 1)} fois plus. Avec ${pv(p2)}, cet écart ${sig2 ? "n'est pas dû au hasard" : "pourrait être dû au hasard"}. Comme ${p(nEtu / S.n)} de nos répondants sont étudiants, une grande partie de notre échantillon a un petit budget confiserie : cela explique en partie la forte élasticité.</p>` +
-    oral(`On voulait savoir si les étudiants dépensent moins en confiserie que les actifs. On a croisé la question 5, qualitative, et la question 11, quantitative : c'est un test de Student. Les étudiants dépensent ${e(E.m)}, les actifs ${e(A.m)}. ${pv(p2)}, donc ${sig2 ? "on rejette H0 : la différence est significative" : "on ne peut pas rejeter H0"}. Notre échantillon étant surtout étudiant, il est plus sensible au prix.`);
-
-  // ===== Test 3 · corrélation =====
-  const C = S.corr, t3 = C.r * Math.sqrt(C.n - 2) / Math.sqrt(1 - C.r ** 2), p3 = STAT.tp2(t3, C.n - 2), sig3 = p3 < 0.05;
-  const force = r => { const a = Math.abs(r); return a < 0.1 ? "nul" : a < 0.3 ? "faible" : a < 0.5 ? "moyen" : "fort"; };
-  {
-    const mV = C.cl.reduce((s, c) => s + c.n * c.vp, 0) / C.cl.reduce((s, c) => s + c.n, 0), a0 = C.cl[0], aN = C.cl[C.cl.length - 1];
-    $("resumeT3").innerHTML = `<span class="label">Résumé</span>
-      <p>Le Chi-2 a montré que les acheteurs de confiserie acceptent plus le pack. On va plus loin avec deux nombres : ce que chacun dépense en confiserie par séance (question 11), et la note qu'il donne au pack (question 8 : bonne affaire, prix acceptable, rapport qualité-prix, de 1 à 5).</p>
-      <p>Ceux qui ne dépensent rien donnent au pack <strong>${n(a0.vp, 1)} sur 5</strong> ; ceux qui dépensent plus de 10 € lui donnent <strong>${n(aN.vp, 1)} sur 5</strong>.</p>
-      <p><strong>La corrélation mesure si les deux nombres montent ensemble, et le test vérifie si ce lien est réel ou dû au hasard.</strong></p>`;
-    $("flowT3").innerHTML = flow(["Les deux variables", "a : dépense en confiserie par séance (question 11, en €), quantitative<br>b : note de valeur perçue du pack (question 8, de 1 à 5), quantitative"],
-      ["aucun lien entre les deux (r = 0)", "il existe un lien (r ≠ 0)"],
-      `Si H0 était vraie, la note serait à peu près la même dans toutes les tranches, autour de ${n(mV, 2)} sur 5. On observe de ${n(a0.vp, 1)} à ${n(aN.vp, 1)}.`,
-      ["Le coefficient r", `r = ${n(C.r, 2)}`], `lien ${force(C.r)} et positif ; r² = ${p(C.r ** 2)}<br>p-value ${p3 < 0.001 ? "< 0,001" : "= " + fp(p3)}`, sig3, null,
-      sig3 ? "p < 0,05 : plus on dépense en confiserie, plus le pack paraît avantageux." : "p ≥ 0,05 : on ne peut pas conclure.");
-  }
-  $("calcT3").innerHTML = `<div class="head">Coefficient de corrélation de Pearson</div>` +
-    row("r", n(C.r, 2), `Lien ${force(C.r)} et ${C.r > 0 ? "positif" : "négatif"} (repères : 0,1 faible, 0,3 moyen, 0,5 fort)`) +
-    row("r²", p(C.r ** 2), "Part des différences de valeur perçue liée à la dépense") +
-    row("Nombre de répondants", C.n, "Réponses complètes aux questions 8 et 11, pack affiché à 16,90 € à la question 8 (comme en partie 4)") +
-    row("p-value", fp(p3), `Test de r = 0 : t = ${n(t3, 2)} avec ${C.n - 2} degrés de liberté`) +
-    row("Décision", sig3 ? "p < 0,05" : "p ≥ 0,05", sig3 ? "On rejette H0 : le lien est significatif" : "On ne rejette pas H0", "total");
-  const c0 = C.cl[0], cN = C.cl[C.cl.length - 1];
-  $("lectT3").innerHTML = `<span class="label">Ce qu'on en dit</span><p class="verdict ${sig3 ? "ok" : "no"}">${sig3 ? "On rejette H0, on retient H1." : "On ne peut pas rejeter H0."}</p><p>r = ${n(C.r, 2)} : le lien est <strong>${force(C.r)} et positif</strong>. Ceux qui ne dépensent rien en confiserie donnent au pack ${n(c0.vp, 1)} sur 5 en moyenne ; ceux qui dépensent plus de 10 € lui donnent ${n(cN.vp, 1)} sur 5. Plus on consomme de confiserie, plus le pack paraît une bonne affaire. Cela confirme le Chi-2 sous un autre angle. Attention : corrélation ne veut pas dire cause.</p>` +
-    oral(`On a mesuré le lien entre la dépense en confiserie et la valeur perçue du pack, deux variables quantitatives, avec un coefficient de corrélation. On trouve r = ${n(C.r, 2)}, ${pv(p3)} : le lien est ${force(C.r)}, positif et significatif. Plus on dépense en confiserie, plus le pack paraît avantageux.`);
-
-  // ===== Test 4 · régression linéaire de la demande =====
-  const Y = S.oui.map(o => o / S.n), mxP = STAT.mean(PRIX), mY = STAT.mean(Y);
-  const a4 = PRIX.reduce((s, x, i) => s + (x - mxP) * (Y[i] - mY), 0) / PRIX.reduce((s, x) => s + (x - mxP) ** 2, 0), b4 = mY - a4 * mxP;
-  const pred = x => a4 * x + b4, r2 = 1 - Y.reduce((s, y, i) => s + (y - pred(PRIX[i])) ** 2, 0) / Y.reduce((s, y) => s + (y - mY) ** 2, 0);
-  const zero4 = -b4 / a4;
-  // test de la pente (H0 : a = 0) : seulement 3 points, donc 1 degré de liberté : résultat fragile
-  const sse4 = Y.reduce((s, y, i) => s + (y - pred(PRIX[i])) ** 2, 0), sxx4 = PRIX.reduce((s, x) => s + (x - mxP) ** 2, 0);
-  const t4 = a4 / Math.sqrt(sse4 / (PRIX.length - 2) / sxx4), p4 = STAT.tp2(t4, PRIX.length - 2), sig4 = p4 < 0.05;
-  $("resumeT4").innerHTML = `<span class="label">Résumé</span>
-    <p>Le Chi-2 a prouvé que la demande dépend du prix. La régression va plus loin : elle trace la droite qui passe au plus près de nos trois résultats (${p(Y[0])}, ${p(Y[1])} et ${p(Y[2])}), et donne son équation.</p>
-    <p>Cette équation traduit l'élasticité en un chiffre simple : <strong>chaque euro de plus fait perdre environ ${n(-a4 * 100, 0)} points d'acheteurs</strong>. Elle permet aussi de prévoir la demande à un prix que nous n'avons pas testé, entre 16,90 € et 18,90 €.</p>
-    <p><strong>Attention : c'est un modèle pour décrire et prévoir, pas un test.</strong> Avec la méthode Gabor-Granger, les trois points viennent des mêmes personnes, interrogées l'une après l'autre : ils ne sont pas indépendants. L'effet du prix est prouvé par le test 1 (Chi-2 et Q de Cochran).</p>`;
-  $("flowT4").innerHTML = flow(["Les deux variables", "Y : part d'acheteurs (question 6, en %), quantitative<br>X : prix du pack (en €), quantitative"],
-    ["le prix n'a pas d'effet (pente a = 0)", "le prix a un effet (a ≠ 0)"],
-    `Si H0 était vraie, la droite serait plate, à ${p(mY)} pour tous les prix. On observe ${p(Y[0])}, ${p(Y[1])} puis ${p(Y[2])}.`,
-    ["La pente a", `a = ${n(a4 * 100, 1)}`], `points de % par euro ; R² = ${p(r2, 1)}<br>pas de p-value : 3 points non indépendants`, false, "Modèle descriptif",
-    `La droite décrit la demande et permet de prévoir. La preuve que le prix compte vient du test 1 (Q de Cochran, ${pvTxt(CP.pQ)}).`);
-  $("eqT4").textContent = `Part d'acheteurs = ${n(a4 * 100, 1)} × prix + ${n(b4 * 100, 1)}   (en points de %)`;
-  $("calcT4").innerHTML = `<div class="head">Droite de régression (moindres carrés)</div>` +
-    row("Pente a", n(a4 * 100, 1) + " points", "Chaque euro de plus fait perdre ce nombre de points de % d'acheteurs") +
-    row("Constante b", n(b4 * 100, 1) + " points", "Valeur de calcul, sans sens concret seule (prix à 0 €)") +
-    row("R²", p(r2, 1), "Part des variations expliquée par le prix : proche de 100 %, la droite colle aux points") +
-    row("p-value de la pente", "non utilisée", "Les 3 points viennent des mêmes répondants (Gabor-Granger progressif) : ils ne sont pas indépendants, une p-value classique serait trompeuse. L'effet du prix est testé au test 1") +
-    PRIX.map((x, i) => row(`À ${e(x)}`, p(Y[i], 1), `observé ; la droite prévoit ${p(pred(x), 1)}`, "sub")).join("") +
-    row("Prix où plus personne n'achète", e(zero4), "Là où la droite coupe 0 % (extrapolation)", "total");
-  const upd4 = () => { const x = parseFloat($("inPrixT4").value); if (!Number.isFinite(x)) return; const y = Math.max(0, Math.min(1, pred(x))), out = x < 16.9 || x > 18.9;
-    $("predT4").innerHTML = `<span class="label">Prévision</span><p>À <strong>${e(x)}</strong>, la droite prévoit environ <strong>${p(y)}</strong> d'acheteurs, soit ${Math.round(y * 100)} personnes sur 100 et un revenu de ${e(x * y)} par personne interrogée.${out ? " <strong>Attention : ce prix est hors de la zone testée (16,90 € à 18,90 €), la prévision est peu fiable.</strong>" : ""}</p>`; };
-  const upd4b = () => { upd4(); drawReg(parseFloat($("inPrixT4").value)); }; $("inPrixT4").addEventListener("input", upd4b); upd4b();
-  $("lectT4").innerHTML = `<span class="label">Ce qu'on en dit</span><p>L'équation résume la courbe de demande : <strong>chaque euro de plus fait perdre environ ${n(-a4 * 100, 0)} points d'acheteurs</strong>. À ce rythme, plus personne n'achèterait vers ${e(zero4)}. C'est la même idée que l'élasticité, mais sous forme d'équation qui permet de prévoir. Limites : la droite repose sur 3 prix, issus des mêmes répondants, donc c'est un modèle descriptif et non un test ; et on ne peut pas la prolonger loin des prix testés.</p>` +
-    oral(`On a modélisé la demande avec une régression linéaire : Y, la part d'acheteurs, en fonction de X, le prix. On obtient Y = ${n(a4 * 100, 1)} × prix + ${n(b4 * 100, 1)}, avec un R² de ${p(r2, 1)}. Chaque euro de plus fait perdre environ ${n(-a4 * 100, 0)} points d'acheteurs : la demande est très sensible au prix.`);
-
-  // ===== Test 5 · proportion (Z) =====
-  const upd5 = () => {
-    const i = +$("inPrixT5").value, obj = parseFloat($("inObjT5").value) / 100; if (!(obj > 0 && obj < 1)) return;
-    const k = S.oui[i], ph = k / S.n, se = Math.sqrt(obj * (1 - obj) / S.n), z = (ph - obj) / se, p5 = 2 * (1 - STAT.phi(Math.abs(z))), sig5 = p5 < 0.05;
-    const seIC = Math.sqrt(ph * (1 - ph) / S.n), lo = Math.max(0, ph - 1.96 * seIC), hi = Math.min(1, ph + 1.96 * seIC), cond = S.n * obj >= 5 && S.n * (1 - obj) >= 5;
-    $("h0T5").textContent = `La vraie part d'acheteurs à ${e(PRIX[i])} est égale à l'objectif de ${p(obj)}.`;
-    $("h1T5").textContent = `Elle est différente de ${p(obj)}.`;
-    $("calcT5").innerHTML = `<div class="head">Test de proportion à un échantillon</div>` +
-      row("Part observée", p(ph, 1), `${k} oui sur ${S.n} répondants`) +
-      row("Objectif", p(obj, 0), "Fixé par le groupe") +
-      row("Erreur type", p(se, 1), "√(objectif × (1 − objectif) ÷ n)") +
-      row("Z", n(z, 2), "(part observée − objectif) ÷ erreur type ; au-delà de ±1,96, l'écart est significatif") +
-      row("p-value", fp(p5), cond ? "Conditions remplies (n × objectif ≥ 5)" : "Attention : n × objectif < 5, test peu fiable") +
-      row("Intervalle de confiance à 95 %", `${p(lo, 1)} à ${p(hi, 1)}`, "Zone où se trouve probablement la vraie part chez tous les spectateurs comme nos répondants", "sub") +
-      row("Décision", sig5 ? "p < 0,05" : "p ≥ 0,05", sig5 ? `On rejette H0 : la part est significativement ${ph < obj ? "en dessous" : "au-dessus"} de l'objectif` : "On ne rejette pas H0", "total");
-    $("lectT5").innerHTML = `<span class="label">Ce qu'on en dit</span><p class="verdict ${sig5 ? "ok" : "no"}">${sig5 ? "On rejette H0, on retient H1." : "On ne peut pas rejeter H0."}</p><p>À ${e(PRIX[i])}, ${p(ph)} des répondants achèteraient le pack (entre ${p(lo)} et ${p(hi)} avec 95 % de confiance), pour un objectif de ${p(obj)}. ${sig5 ? (ph < obj ? "<strong>L'objectif n'est pas atteint</strong>, et l'écart n'est pas dû au hasard." : "<strong>L'objectif est dépassé</strong>, et l'écart n'est pas dû au hasard.") : "L'écart avec l'objectif pourrait être dû au hasard : on ne peut pas conclure."}</p>` +
-      oral(`On s'était fixé un objectif de ${p(obj)} d'acheteurs. À ${e(PRIX[i])}, on obtient ${p(ph)}. Le test de proportion donne Z = ${n(z, 2)} et ${pv(p5)} : ${sig5 ? (ph < obj ? "l'objectif n'est significativement pas atteint" : "l'objectif est significativement dépassé") : "on ne peut pas conclure"}.`);
-    const lo0 = Math.max(0, obj - 1.96 * se), hi0 = Math.min(1, obj + 1.96 * se);
-    $("resumeT5").innerHTML = `<span class="label">Résumé</span>
-      <p>Les tests précédents expliquent pourquoi le pack se vend mal. Le test de proportion pose la question business : la part d'acheteurs atteint-elle l'objectif qu'on se fixe ? Nous avons choisi <strong>${p(obj)}</strong> ; vous pouvez le changer ci-dessous.</p>
-      <p>À ${e(PRIX[i])}, <strong>${p(ph)}</strong> de nos répondants achèteraient le pack (${k} sur ${S.n}).</p>
-      <p><strong>Le test Z vérifie si l'écart avec l'objectif est réel ou dû au hasard de l'échantillon.</strong></p>`;
-    $("flowT5").innerHTML = flow(["La variable et la référence", `la réponse à la question 6 à ${e(PRIX[i])} (oui / non), qualitative, résumée en une proportion<br>référence : l'objectif de ${p(obj)}, fixé par le groupe`],
-      [`la vraie part d'acheteurs est égale à ${p(obj)}`, `elle est différente de ${p(obj)}`],
-      `Si H0 était vraie, le hasard d'un échantillon de ${S.n} personnes donnerait entre ${p(lo0)} et ${p(hi0)}. On observe ${p(ph)}.`,
-      ["Le Z", `Z = ${n(z, 2)}`], `seuil : ±1,96<br>p-value ${p5 < 0.001 ? "< 0,001" : "= " + fp(p5)}`, sig5, null,
-      sig5 ? `p < 0,05 : la part est vraiment ${ph < obj ? "en dessous" : "au-dessus"} de l'objectif.` : "p ≥ 0,05 : on ne peut pas conclure.");
-    drawZ({ z, ph, obj, se, lo, hi, k, prix: PRIX[i], p5 });
-    return { ph, obj, p5, sig5, i };
-  };
-  $("inPrixT5").addEventListener("change", upd5); $("inObjT5").addEventListener("input", upd5);
-  const z5 = upd5();
-
-  // ===== Test A/B : version (A / B) × question 6 =====
-  const VA = S.version.A, VB = S.version.B;
-  // sans correction de Yates, comme le script du cours (03_test_ab.py) et la partie 4 : mêmes chiffres partout
-  const ab = PRIX.map((x, i) => { const t = [[VA[0] - VA[i + 1], VA[i + 1]], [VB[0] - VB[i + 1], VB[i + 1]]], c = STAT.chi2(t);
-    return { x, t, pa: VA[i + 1] / VA[0], pb: VB[i + 1] / VB[0], pt: (VA[i + 1] + VB[i + 1]) / (VA[0] + VB[0]), ...c }; });
-  const ab0 = ab[0], sigAB = ab0.p < 0.05;
-  // taille d'échantillon qui aurait permis de détecter l'écart observé à 16,90 € (puissance 80 %, seuil 5 %)
-  const nAB = Math.ceil((1.96 + 0.8416) ** 2 * (ab0.pa * (1 - ab0.pa) + ab0.pb * (1 - ab0.pb)) / (ab0.pb - ab0.pa) ** 2);
-  const ecarts = ab.map(a => n((a.pb - a.pa) * 100, 0)).join(", +");
-  $("resumeAB").innerHTML = `<span class="label">Résumé</span>
-    <p>Un prix de référence peut changer la perception d'un prix : à côté de « 22 € », 16,90 € paraît une bonne affaire. Notre test A/B vérifie si cet effet existe chez nos répondants (${VA[0]} en version A, ${VB[0]} en version B).</p>
-    <p>À 16,90 €, <strong>${p(ab0.pb)}</strong> achèteraient le pack en version B, contre <strong>${p(ab0.pa)}</strong> en version A. La version B fait mieux aux trois prix (+${ecarts} points).</p>
-    <p><strong>Le Chi-2 vérifie si cet écart est réel ou dû au hasard du tirage.</strong></p>`;
-  $("flowAB").innerHTML = flow(["Les deux variables", "a : la version vue (A sans 22 € / B avec 22 €), qualitative<br>b : réponse à la question 6 à 16,90 € (oui / non), qualitative"],
-    ["la mention « 22 € » ne change pas l'envie d'acheter", "elle la change"],
-    `Si H0 était vraie, A et B diraient oui dans la même proportion, ${p(ab0.pt)}. On observe ${p(ab0.pa)} en A et ${p(ab0.pb)} en B.`,
-    ["Le Chi-2", `χ² = ${n(ab0.chi2, 2)}`], `${ab0.ddl} degré de liberté<br>p-value = ${fp(ab0.p)}`, sigAB, sigAB ? null : "Pas de conclusion",
-    sigAB ? "p < 0,05 : la mention « 22 € » augmente vraiment les ventes." : "p ≥ 0,05 : B fait mieux, mais l'écart peut encore venir du hasard.");
-  $("tabAB").innerHTML = `<thead><tr><th>Prix</th><th class="n">Version A</th><th class="n">Version B</th><th class="n">Écart B − A</th><th class="n">Chi-2</th><th class="n">p-value</th><th>Lecture</th></tr></thead><tbody>` +
-    ab.map(a => `<tr><td><strong>${e(a.x)}</strong></td><td class="n">${p(a.pa)} <small>(${a.t[0][1]}/${VA[0]})</small></td><td class="n">${p(a.pb)} <small>(${a.t[1][1]}/${VB[0]})</small></td><td class="n">+${n((a.pb - a.pa) * 100, 0)} pts</td><td class="n">${n(a.chi2, 2)}</td><td class="n">${fp(a.p)}</td><td>${a.petit ? '<span class="tag miss">Fragile</span> case théorique < 5' : a.p < 0.05 ? '<span class="tag obs">Significatif</span>' : "Non significatif"}</td></tr>`).join("") + `</tbody>`;
-  $("calcAB").innerHTML = `<div class="head">Test du Chi-2 à 16,90 € (tableau 2 × 2)</div>` +
-    row("Chi-2 calculé", n(ab0.chi2, 2), "Calculé comme dans le script du cours sur le test A/B (et en partie 4)") +
-    row("Degrés de liberté", ab0.ddl, "(2 versions − 1) × (2 réponses − 1)") +
-    row("p-value", fp(ab0.p), "Probabilité d'un tel écart par hasard si la mention « 22 € » n'avait aucun effet") +
-    row("V de Cramer", n(ab0.v, 2), "Force du lien : en dessous de 0,2, lien faible") +
-    row("Personnes nécessaires", `≈ ${nAB} par version`, `Pour prouver un écart de ${n((ab0.pb - ab0.pa) * 100, 0)} points avec 80 % de chances (nous en avions ${VA[0]} et ${VB[0]})`, "sub") +
-    row("Décision", sigAB ? "p < 0,05" : "p ≥ 0,05", sigAB ? "On rejette H0" : "On ne peut pas rejeter H0", "total");
-  $("lectAB").innerHTML = `<span class="label">Ce qu'on en dit</span><p class="verdict ${sigAB ? "ok" : "no"}">${sigAB ? "On rejette H0, on retient H1." : "On ne peut pas rejeter H0."}</p>
-    <p>La version B fait mieux à chaque prix (+${ecarts} points), ce qui va dans le sens de la théorie du prix de référence. Mais avec p = ${fp(ab0.p)}, l'écart peut encore venir du hasard du tirage : <strong>on ne peut pas affirmer que la mention « 22 € » fait vendre plus</strong>. Attention, cela ne prouve pas non plus qu'elle est inutile : nos groupes sont trop petits. Il aurait fallu environ ${nAB} personnes par version pour trancher. Autre limite : nous n'avons pas vérifié que les répondants de la version B avaient bien remarqué la mention.</p>
-    <p><strong>À dire :</strong> « Nous avons fait un test A/B : la moitié des répondants voyait le prix des produits achetés séparément, 22 €, l'autre non. On a croisé la version vue et la réponse à 16,90 €, deux variables qualitatives, avec un Chi-2. La version B fait mieux, ${p(ab0.pb)} contre ${p(ab0.pa)}, mais p = ${fp(ab0.p)} : on ne peut pas rejeter H0. L'effet va dans le bon sens, mais il faudrait environ ${nAB} personnes par version pour le prouver. »</p>`;
-
-  // ===== Graphiques des tests, dessinés à partir des résultats ci-dessus =====
-  drawChi("svgChiPrix", { k: CP.ddl, p: CP.p, title: `Lien 1 · Le prix et l'envie d'acheter (Chi-2 à ${CP.ddl} degrés de liberté)`, h0: "si la réponse ne dépendait pas du prix",
-    obs: [{ v: CP.chi2, lab: `χ² calculé = ${n(CP.chi2, 1)}`, sub: pvTxt(CP.p) }, { v: CP.Q, lab: `Q de Cochran = ${n(CP.Q, 1)}`, sub: pvTxt(CP.pQ), c: "var(--info)" }],
-    extra: `On compare 3 prix × oui/non : un tableau de 3 lignes, d'où 2 degrés de liberté et un seuil de ${n(chi2Crit(CP.ddl), 2)}. Avec la méthode Gabor-Granger, on ne voit 17,90 € que si l'on a dit oui à 16,90 € : ce sont les mêmes personnes aux trois prix, alors que le Chi-2 classique suppose des groupes différents. Notre résultat de référence est donc le <strong>Q de Cochran</strong> (en bleu, ${n(CP.Q, 1)}, ${pvTxt(CP.pQ)}), le test adapté à ce cas, qui suit la même loi.` });
-  drawChi("svgChi", { k: r.ddl, p: r.p, title: `Lien 2 · La confiserie et l'envie d'acheter (Chi-2 à ${r.ddl} degré de liberté)`, h0: "si acheter le pack ne dépendait pas de la confiserie",
-    obs: [{ v: r.chi2, lab: `χ² calculé = ${n(r.chi2, 2)}`, sub: pvTxt(r.p) }], extra: "On compare 2 groupes (pop-corn ou pas) × oui/non : un tableau de 2 lignes, d'où 1 degré de liberté. Chi-2 calculé avec la correction de Yates, utilisée pour les tableaux 2 × 2." });
-  drawChi("svgSit", { k: rs.ddl, p: rs.p, title: `Lien 3 · Le statut (étudiant ou actif) et l'envie d'acheter (Chi-2 à ${rs.ddl} degré de liberté)`, h0: "si acheter le pack ne dépendait pas du statut",
-    obs: [{ v: rs.chi2, lab: `χ² calculé = ${n(rs.chi2, 2)}`, sub: pvTxt(rs.p) }], extra: "On compare 2 groupes (étudiants, actifs) × oui/non : 1 degré de liberté, correction de Yates comme dans le tableau ci-dessus." });
-  drawChi("svgAB", { k: ab0.ddl, p: ab0.p, title: `Lien 4 · L'affichage « 22 € séparément » et l'envie d'acheter (Chi-2 à ${ab0.ddl} degré de liberté)`, h0: "si la mention « 22 € » ne changeait rien",
-    obs: [{ v: ab0.chi2, lab: `χ² calculé = ${n(ab0.chi2, 2)}`, sub: pvTxt(ab0.p) }], extra: "On compare 2 versions (A et B) × oui/non : 1 degré de liberté. L'écart entre A et B est trop petit pour nos effectifs : il faudrait plus de répondants pour conclure." });
-  drawStudent();
-  drawCorr();
-  // ===== Synthèse =====
-  const dec = s => s ? '<span class="tag obs">H0 rejetée</span>' : '<span class="tag miss">Pas de conclusion</span>';
-  $("tabSyn").innerHTML = `<thead><tr><th>Test</th><th>Questions croisées</th><th>Résultat</th><th class="n">p-value</th><th>Décision</th></tr></thead><tbody>` +
-    `<tr><td><strong>1 · Chi-2 / Q de Cochran</strong></td><td>Prix proposé × Q6 (oui / non)</td><td>${p(part[0])} → ${p(part[1])} → ${p(part[2])} de oui</td><td class="n">${fp(CP.pQ)}</td><td>${dec(CP.pQ < 0.05)}</td></tr>` +
-    `<tr><td><strong>1 bis · Chi-2</strong></td><td>Q2 confiserie × Q6 pack à 16,90 €</td><td>${p(pc[0])} contre ${p(pc[1])} d'acheteurs</td><td class="n">${fp(r.p)}</td><td>${dec(sig)}</td></tr>` +
-    `<tr><td><strong>2 · Student</strong></td><td>Q5 situation × Q11 dépense</td><td>Étudiants ${e(E.m)}, actifs ${e(A.m)}</td><td class="n">${fp(p2)}</td><td>${dec(sig2)}</td></tr>` +
-    `<tr><td><strong>3 · Corrélation</strong></td><td>Q11 dépense × Q8 valeur perçue</td><td>r = ${n(C.r, 2)} (lien ${force(C.r)})</td><td class="n">${fp(p3)}</td><td>${dec(sig3)}</td></tr>` +
-    `<tr><td><strong>4 · Régression</strong></td><td>Q6 part d'acheteurs × prix</td><td>${n(a4 * 100, 1)} points par euro, R² = ${p(r2, 1)}</td><td class="n">—</td><td><span class="tag est">Descriptif</span> <small>voir test 1</small></td></tr>` +
-    `<tr><td><strong>5 · Proportion</strong></td><td>Q6 à ${e(PRIX[z5.i])} × objectif ${p(z5.obj)}</td><td>${p(z5.ph)} d'acheteurs</td><td class="n">${fp(z5.p5)}</td><td>${dec(z5.sig5)}</td></tr>` +
-    `<tr><td><strong>A/B · Chi-2</strong></td><td>Version A / B × Q6 à 16,90 €</td><td>${p(ab0.pa)} en A, ${p(ab0.pb)} en B</td><td class="n">${fp(ab0.p)}</td><td>${dec(sigAB)}</td></tr></tbody>`;
-  $("chaine").innerHTML = `<span class="label">La chaîne logique, comme l'exemple du cours</span>
-    <p><strong>1. Le constat.</strong> À 18,90 €, seuls ${p(part[2])} des répondants achèteraient le pack, loin de notre objectif (test 5). La demande est très élastique : chaque euro de plus fait perdre environ ${n(-a4 * 100, 0)} points d'acheteurs (test 4).</p>
-    <p><strong>2. Qui refuse ?</strong> Ceux qui n'achètent pas de confiserie : ${p(pc[1])} d'acheteurs contre ${p(pc[0])} (test 1). Le statut étudiant seul ne suffit pas à l'expliquer (section 05).</p>
-    <p><strong>3. Pourquoi ?</strong> Les étudiants, ${p(nEtu / S.n)} de notre échantillon, dépensent nettement moins en confiserie (test 2). Et moins on dépense en confiserie, moins le pack paraît une bonne affaire (test 3).</p>
-    <p><strong>4. La décision.</strong> Le problème n'est pas le contenu du pack, mais sa cible et son prix : il ne fait économiser que ceux qui prennent déjà pop-corn et boisson. Pistes : le proposer au moment où le client achète déjà sa confiserie, ou créer une version plus petite et moins chère pour les petits budgets. Afficher le prix des produits achetés séparément (22 €) va dans le bon sens (+${n((ab0.pb - ab0.pa) * 100, 0)} points à 16,90 €), mais notre test A/B ne suffit pas à le prouver (test A/B). La rentabilité de chaque piste se vérifie avec les coûts (<a href="couts.html">partie 3</a>).</p>`;
+  /* ===== Synthèse ===== */
+  const dec = v => v === null ? '<span class="tag est">Descriptif</span>' : v ? '<span class="tag obs">H0 rejetée</span>' : '<span class="tag miss">Non rejetée</span>';
+  const L8 = [["1 · Q de Cochran", "Prix × achat (mêmes personnes)", `${p(part[0])} → ${p(part[1])} → ${p(part[2])} de oui`, fp(pQ), pQ < 0.05],
+    ["2 · Chi-2", "Confiserie × achat à 16,90 €", `${p(t2c.pa)} contre ${p(t2c.pb)}`, fp(t2c.p), t2c.p < 0.05],
+    ["3 · Chi-2", "Statut × achat à 16,90 €", `${p(t3c.pa)} contre ${p(t3c.pb)}`, fp(t3c.p), t3c.p < 0.05],
+    ["4 · Welch", "Statut × dépense en confiserie", `${e(E.m)} contre ${e(A.m)}`, fp(p4), p4 < 0.05],
+    ["5 · Pearson", "Dépense × valeur perçue", `r = ${n(C.r, 2)}`, fp(p5), p5 < 0.05],
+    ["6 · Régression", "Prix × part d'acheteurs", `${n(a6 * 100, 1)} points par euro`, "—", null],
+    ["7 · Z", "Achat à 18,90 € × objectif 25 %", `${p(ph, 1)} contre 25 %`, fp(p7), p7 < 0.05],
+    ["8 · Chi-2 (A/B)", "Version × achat à 16,90 €", `${p(t8.pa)} contre ${p(t8.pb)}`, fp(t8.p), t8.p < 0.05]];
+  $("tabSyn").innerHTML = `<thead><tr><th>Test</th><th>Ce qui est croisé</th><th>Résultat</th><th class="n">p-value</th><th>Conclusion</th></tr></thead><tbody>` +
+    L8.map(([a, b, c, d, f]) => `<tr><td><strong>${a}</strong></td><td>${b}</td><td>${c}</td><td class="n">${d}</td><td>${dec(f)}</td></tr>`).join("") + `</tbody>`;
+  $("chaine").innerHTML = `<span class="label">Ce que nous retenons</span>
+    <p>Le prix fait fortement baisser l'envie d'acheter (tests 1 et 6) : à 18,90 €, on est loin d'un client sur quatre (test 7). Le pack plaît surtout à ceux qui achètent déjà de la confiserie (tests 2 et 5), alors que nos répondants, surtout étudiants, dépensent peu en confiserie (test 4). Le statut seul (test 3) et l'affichage « 22 € » (test 8) ne permettent pas de conclure. La décision qui en découle est en <a href="recommandation.html">partie 6</a>.</p>`;
 })();
 </script>
 </body>
