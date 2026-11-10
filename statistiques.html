@@ -148,11 +148,7 @@ td small{color:var(--muted)}
 
     <h3>Étape 1 · Le tableau croisé (ce qu'on observe)</h3>
     <div class="scroll"><table id="tabObs"></table></div>
-    <div class="chart">
-      <h3>Part qui achèterait le pack à 16,90 €</h3>
-      <svg id="svgChi" class="sch" viewBox="0 0 640 330" role="img" aria-label="Part de oui et de non au pack à 16,90 euros selon l'achat de confiserie, comparée à la part attendue si la confiserie n'avait aucun effet"></svg>
-      <div class="legend"><span><span class="dot" style="background:var(--accent)"></span>Oui, j'achèterais</span><span><span class="dot" style="background:var(--line)"></span>Non</span><span><span class="dot" style="background:var(--ink)"></span>- - - Part de oui attendue si H0 était vraie</span></div>
-    </div>
+    <p class="caption" style="margin:4px 0 0"><a href="#svgChiPrix"><strong>→ Le Chi-2 de ce test est sur le graphique commun des Chi-2</strong></a> (test 1, en haut de la page), à côté des autres tests du Chi-2.</p>
 
     <h3>Étape 2 · Ce qu'on aurait si H0 était vraie (effectifs théoriques)</h3>
     <p>Si la confiserie n'avait aucun effet, chaque groupe accepterait le pack dans la même proportion que l'ensemble des répondants. Calcul : total de la ligne × total de la colonne ÷ total général.</p>
@@ -291,11 +287,7 @@ td small{color:var(--muted)}
       <div class="card"><span class="pill">Variable a · qualitative</span><h3>La version vue</h3><p>Version A : sans prix de référence<br>Version B : avec « achetés séparément : 22 € »</p></div>
       <div class="card"><span class="pill">Variable b · qualitative</span><h3>Question 6</h3><p>« Achèteriez-vous ce pack à ce prix ? » à <strong>16,90 €</strong> → oui / non. Tout le monde a vu ce prix.</p></div>
     </div>
-    <div class="chart">
-      <h3>Part qui achèterait le pack, version A contre version B</h3>
-      <svg id="svgAB" class="sch" viewBox="0 0 640 330" role="img" aria-label="Part d'acheteurs en version A et en version B à chacun des trois prix, comparée au niveau commun attendu si la mention 22 euros n'avait aucun effet"></svg>
-      <div class="legend"><span><span class="dot" style="background:var(--c-a)"></span>Version A (sans 22 €)</span><span><span class="dot" style="background:var(--c-b)"></span>Version B (avec 22 €)</span><span><span class="dot" style="background:var(--ink)"></span>- - - Niveau commun attendu si H0 était vraie</span></div>
-    </div>
+    <p class="caption" style="margin:4px 0 0"><a href="#svgChiPrix"><strong>→ Le Chi-2 de ce test est sur le graphique commun des Chi-2</strong></a> (test 1, en haut de la page), à côté des autres tests du Chi-2.</p>
     <div class="scroll"><table id="tabAB"></table></div>
     <div class="calc" id="calcAB"></div>
     <div class="callout" id="lectAB"></div>
@@ -448,6 +440,34 @@ td small{color:var(--muted)}
     const el = chartFrame(id, o.title, [["var(--ink)", `Loi du Chi-2 à ${k} degré${k > 1 ? "s" : ""} de liberté : les valeurs possibles si H0 est vraie`], ["var(--bad)", "Zone de rejet de H0 (5 % des cas)"], ["var(--accent)", "Notre Chi-2 calculé (et l'aire de sa p-value)"]], caption);
     distChart(el, { pdf: v => pdfChi2(v, k), cap: k === 1 ? pdfChi2(0.15, 1) : undefined, xmin: k === 1 ? 0.03 : 0, xmax, rej: [[c, Infinity]], pzone: [[o.obs[0].v, Infinity]], crit: [c], critLab: "valeur critique", fmt: v => n(v, Number.isInteger(v) ? 0 : 1), fmt2: v => n(v, 2), xlab: "valeur du Chi-2",
       obs: o.obs, zoneLabels: [{ x: [0.3, 0.55, 0.8].map(f => c * f).sort((u, w) => Math.abs(w - o.obs[0].v) - Math.abs(u - o.obs[0].v))[0], t: "non-rejet", c: "var(--good)" }, { x: c + (xmax - c) * 0.55, t: "rejet de H0", c: "var(--bad)" }] });
+  }
+  // Tous les Chi-2 sur un seul graphique : une courbe par nombre de degrés de liberté (1 pour les tableaux 2 × 2, 2 pour le tableau des 3 prix),
+  // chaque test placé face à SA courbe et à SON seuil
+  function drawChiAll(id, tests) {
+    const L = 60, R = 620, T = 22, B = 250, ks = [...new Set(tests.map(t => t.k))].sort(), crit = Object.fromEntries(ks.map(k => [k, chi2Crit(k)]));
+    const XM = Math.ceil(Math.max(Math.max(...Object.values(crit)) * 2.6, ...tests.map(t => t.v).filter(v => v <= Math.max(...Object.values(crit)) * 4)) / 2) * 2;
+    const col = { 1: "var(--info)", 2: "var(--ink)" }, cap = 0.6, x = v => L + v / XM * (R - L), y = d => B - Math.min(d, cap) / (cap * 1.08) * (B - T);
+    const nRej = tests.filter(t => t.p < 0.05).length;
+    const caption = `Chaque Chi-2 se compare à la courbe de son nombre de degrés de liberté : <strong>1 ddl</strong> pour les tableaux 2 × 2 (seuil <strong>${n(crit[1], 2)}</strong>), <strong>2 ddl</strong> pour le tableau des 3 prix (seuil <strong>${n(crit[2] ?? NaN, 2)}</strong>). Si les deux questions n'avaient aucun lien (H0), le Chi-2 ne dépasserait son seuil que 5 fois sur 100. `
+      + tests.map(t => `${t.nom} : χ² = ${n(t.v, 2)} → ${t.p < 0.05 ? "au-delà du seuil, <strong>on rejette H0</strong>" : "sous le seuil, <strong>on ne peut pas conclure</strong>"} (${pvTxt(t.p)})`).join(" ; ") + `. `
+      + (tests.some(t => t.note) ? tests.filter(t => t.note).map(t => t.note).join(" ") : "");
+    const el = chartFrame(id, `Nos ${tests.length} tests du Chi-2 sur un seul graphique (${nRej} rejettent H0)`, ks.map(k => [col[k], `Loi du Chi-2 à ${k} degré${k > 1 ? "s" : ""} de liberté (seuil ${n(crit[k], 2)})`]).concat([["var(--bad)", "Zones de rejet de H0 (5 %)"], ["var(--accent)", "Test qui rejette H0"], ["var(--good)", "Test qui ne permet pas de conclure"]]), caption, 360);
+    // courbes, zones de rejet et seuils
+    ks.forEach(k => { const pts = []; for (let i = 0; i <= 600; i++) { const v = Math.max(0.03, XM * i / 600); pts.push([v, pdfChi2(v, k)]); }
+      const rej = pts.filter(q => q[0] >= crit[k]); el("path", { d: `M${x(rej[0][0])},${B} ` + rej.map(q => `L${x(q[0])},${y(q[1])}`).join(" ") + ` L${x(rej[rej.length - 1][0])},${B} Z`, fill: "var(--bad)", "fill-opacity": .3 });
+      const vis = pts.filter(q => q[1] <= cap * 1.05); el("path", { d: "M" + vis.map(q => `${x(q[0])},${y(q[1])}`).join(" L"), fill: "none", stroke: col[k], "stroke-width": 2.5 });
+      el("line", { x1: x(crit[k]), x2: x(crit[k]), y1: T, y2: B, stroke: col[k], "stroke-width": 1.6, "stroke-dasharray": "6 4" });
+      el("text", { x: x(crit[k]) + 5, y: T + 10 + (k - 1) * 16, style: `fill:${col[k]};font-weight:600` }, `seuil ${k} ddl : ${n(crit[k], 2)}`); });
+    el("line", { x1: L, x2: R, y1: B, y2: B, stroke: "var(--muted)" });
+    ks.forEach(k => el("line", { x1: x(crit[k]), x2: x(XM), y1: B + (k - 1) * 4, y2: B + (k - 1) * 4, stroke: "var(--bad)", "stroke-width": 3, "stroke-opacity": .8 }));
+    niceTicks(0, XM, 8).forEach(v => { el("line", { x1: x(v), x2: x(v), y1: B, y2: B + 5, stroke: "var(--muted)" }); el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, n(v, 0)); });
+    el("text", { x: R, y: B + 38, "text-anchor": "end" }, "valeur du Chi-2");
+    // les tests, du plus petit au plus grand Chi-2, étiquettes en escalier
+    [...tests].sort((a, b) => a.v - b.v).forEach((t, i) => { const off = t.v > XM, xv = x(Math.min(t.v, XM)), c = t.p < 0.05 ? "var(--accent)" : "var(--good)", ty = T + 64 + i * 40, right = xv < (L + R) * 0.6;
+      el("line", { x1: xv, x2: xv, y1: ty - 13, y2: B, stroke: c, "stroke-width": 3 });
+      el("circle", { cx: xv, cy: B, r: 6, fill: c });
+      el("text", { x: xv + (right ? 8 : -8), y: ty, "text-anchor": right ? "start" : "end", class: "lbl", style: `paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round;fill:${c}` }, `${off ? "→ " : ""}${t.nom} : χ² = ${n(t.v, 2)}${t.extra || ""}${off ? " (hors échelle)" : ""}`);
+      el("text", { x: xv + (right ? 8 : -8), y: ty + 15, "text-anchor": right ? "start" : "end", style: "paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round;" }, `${t.k} ddl · ${pvTxt(t.p)} · ${t.p < 0.05 ? "H0 rejetée" : "pas de conclusion"}`); });
   }
   // Student (Welch) : loi de Student, test bilatéral, et les deux groupes avec leur intervalle de confiance à 95 %
   function drawStudent() {
@@ -775,16 +795,15 @@ td small{color:var(--muted)}
     <p><strong>À dire :</strong> « Nous avons fait un test A/B : la moitié des répondants voyait le prix des produits achetés séparément, 22 €, l'autre non. On a croisé la version vue et la réponse à 16,90 €, deux variables qualitatives, avec un Chi-2. La version B fait mieux, ${p(ab0.pb)} contre ${p(ab0.pa)}, mais p = ${fp(ab0.p)} : on ne peut pas rejeter H0. L'effet va dans le bon sens, mais il faudrait environ ${nAB} personnes par version pour le prouver. »</p>`;
 
   // ===== Graphiques des tests, dessinés à partir des résultats ci-dessus =====
-  drawChi("svgChiPrix", { k: CP.ddl, p: CP.p, title: `Loi du Chi-2 à ${CP.ddl} degrés de liberté : où tombe notre Chi-2 ?`, h0: "si la réponse ne dépendait pas du prix",
-    obs: [{ v: CP.chi2, lab: `χ² calculé = ${n(CP.chi2, 1)}`, sub: pvTxt(CP.p) }, { v: CP.Q, lab: `Q de Cochran = ${n(CP.Q, 1)}`, sub: pvTxt(CP.pQ), c: "var(--info)" }],
-    extra: `Attention à la méthode Gabor-Granger : on ne voit 17,90 € que si l'on a dit oui à 16,90 €, donc la part de oui ne peut que baisser ; le test mesure si cette baisse est trop forte pour venir du hasard. Ce sont les mêmes personnes aux trois prix, alors que le Chi-2 classique suppose des groupes différents : notre résultat de référence est donc le <strong>Q de Cochran</strong> (en bleu, Q = ${n(CP.Q, 1)}, ${pvTxt(CP.pQ)}), le test adapté à ce cas, qui suit la même loi à ${CP.ddl} degrés de liberté.` });
-  drawChi("svgChi", { k: r.ddl, p: r.p, title: `Loi du Chi-2 à ${r.ddl} degré de liberté : confiserie et achat du pack`, h0: "si accepter le pack ne dépendait pas de la confiserie",
-    obs: [{ v: r.chi2, lab: `χ² calculé = ${n(r.chi2, 2)}`, sub: pvTxt(r.p) }], extra: "Chi-2 calculé avec la correction de Yates, utilisée pour les tableaux 2 × 2." });
+  drawChiAll("svgChiPrix", [
+    { nom: "Prix × oui/non", k: CP.ddl, v: CP.chi2, p: CP.p, extra: ` ; Q de Cochran = ${n(CP.Q, 1)}`,
+      note: `Pour le prix, ce sont les mêmes personnes aux trois prix (Gabor-Granger) : le résultat de référence est le Q de Cochran (${n(CP.Q, 1)}, ${pvTxt(CP.pQ)}), qui suit la même loi à 2 ddl et mène à la même conclusion.` },
+    { nom: "Confiserie × oui", k: r.ddl, v: r.chi2, p: r.p, note: "Les tableaux 2 × 2 de la confiserie et de la situation utilisent la correction de Yates, comme dans leurs sections." },
+    { nom: "Étudiant / actif × oui", k: rs.ddl, v: rs.chi2, p: rs.p },
+    { nom: "Test A/B × oui", k: ab0.ddl, v: ab0.chi2, p: ab0.p }
+  ]);
   drawStudent();
   drawCorr();
-  drawChi("svgAB", { k: ab0.ddl, p: ab0.p, title: `Loi du Chi-2 à ${ab0.ddl} degré de liberté : le test A/B à 16,90 €`, h0: "si la mention « 22 € » ne changeait rien",
-    obs: [{ v: ab0.chi2, lab: `χ² calculé = ${n(ab0.chi2, 2)}`, sub: pvTxt(ab0.p) }], extra: "Il aurait fallu un Chi-2 d'au moins la valeur critique pour conclure : l'écart observé entre A et B est trop petit pour nos effectifs." });
-
   // ===== Synthèse =====
   const dec = s => s ? '<span class="tag obs">H0 rejetée</span>' : '<span class="tag miss">Pas de conclusion</span>';
   $("tabSyn").innerHTML = `<thead><tr><th>Test</th><th>Questions croisées</th><th>Résultat</th><th class="n">p-value</th><th>Décision</th></tr></thead><tbody>` +
