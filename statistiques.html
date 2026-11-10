@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Statistiques · Dossier Pathé</title>
+<title>5 · Qui a répondu · Dossier Pathé</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <link rel="stylesheet" href="style.css">
@@ -46,21 +46,27 @@ td small{color:var(--muted)}
   <nav class="nav" aria-label="Parties du dossier">
     <a href="entreprise.html"><b>1</b>L'entreprise</a>
     <a href="marche.html"><b>2</b>Le marché</a>
-    <a href="prix-psychologique.html"><b>3</b>La mesure du prix</a>
-    <a href="couts.html"><b>4</b>Coûts et marge</a>
-    <a href="recommandation.html"><b>5</b>La décision</a>
-    <a href="statistiques.html" aria-current="page"><b>S</b>Statistiques</a>
-    <a href="sources.html">Sources</a>
+    <a href="couts.html"><b>3</b>La proposition</a>
+    <a href="prix-psychologique.html"><b>4</b>Le client</a>
+    <a href="statistiques.html" aria-current="page"><b>5</b>Qui a répondu</a>
+    <a href="recommandation.html"><b>6</b>La décision</a>
+    <a href="sources.html">Méthode</a>
   </nav>
 </div></header>
 
 <main>
   <div class="hero">
-    <p class="eyebrow">Statistiques · on avance test par test</p>
+    <p class="eyebrow">Partie 5 · Qui a répondu, et ce que nos réponses permettent de conclure</p>
     <h1>Pourquoi si peu de gens veulent du pack à 18,90 € ?</h1>
-    <p class="lede">On part d'un constat tiré de la question 6, puis on le vérifie avec les tests vus en cours. Chaque test suit la même logique : une hypothèse H0, une hypothèse H1, deux variables, un test, une p-value, une décision. Tous les chiffres sont recalculés à partir de nos <span id="nRep">119</span> réponses.</p>
+    <p class="lede">On part d'un constat tiré de la question 6, puis on le vérifie avec les tests vus en cours. Chaque test suit la même logique : une hypothèse H0, une hypothèse H1, deux variables, un test, une p-value, une décision. Tous les chiffres sont recalculés à partir des <span id="nRep">119</span> réponses à <a class="src" href="questionnaire.html">notre questionnaire en ligne, collectées du 12 au 21 octobre 2026</a>.</p>
     <p><a href="essentiel.html"><strong>Version courte →</strong> les 7 schémas, avec une phrase chacun</a></p>
   </div>
+
+  <section aria-labelledby="qui5">
+    <div class="sec-head"><span class="num">Qui a répondu</span><h2 id="qui5">Nos répondants, et ce qu'ils représentent</h2></div>
+    <div class="kpis" id="kpiQui"></div>
+    <p class="caption" id="capQui"></p>
+  </section>
 
   <section aria-labelledby="plan-t">
     <div class="sec-head"><span class="num">Le plan</span><h2 id="plan-t">Les 5 tests, puis le test A/B</h2></div>
@@ -303,8 +309,8 @@ td small{color:var(--muted)}
   </section>
 
   <nav class="next" aria-label="Pages voisines">
-    <a href="recommandation.html"><small>← Partie 5</small>La décision</a>
-    <a href="sources.html" style="text-align:right"><small>Suite →</small>Sources</a>
+    <a href="prix-psychologique.html"><small>← Partie 4</small>Le client</a>
+    <a href="recommandation.html" style="text-align:right"><small>Partie 6 →</small>La décision</a>
   </nav>
 </main>
 
@@ -331,7 +337,7 @@ td small{color:var(--muted)}
     S = { n: rows.length, oui: COLS.map(c => rows.filter(r => DONNEES.num(r[c]) === 1).length),
       confiserie: { oui: grp(r => r.type_client === "B_avec_confiserie"), non: grp(r => r.type_client === "A_sans_confiserie") },
       situation: { etudiant: grp(r => r.situation === "etudiant"), actif: grp(r => r.situation === "actif") } };
-    // test 2 : dépense par séance ; au-dessus de 50 € = valeur aberrante écartée (même règle que la partie 5)
+    // test 2 : dépense par séance ; au-dessus de 50 € = valeur aberrante écartée (même règle que la partie 6)
     const dep = r => DONNEES.num(r.depense), ok = r => dep(r) != null && dep(r) <= 50;
     const desc = a => ({ n: a.length, m: STAT.mean(a), v: STAT.var(a), zero: a.filter(x => x === 0).length, x: a });
     const de = rows.filter(r => r.situation === "etudiant" && ok(r)).map(dep), da = rows.filter(r => r.situation === "actif" && ok(r)).map(dep);
@@ -344,6 +350,11 @@ td small{color:var(--muted)}
     S.version = { A: grp(r => r.version === "A"), B: grp(r => r.version === "B") };
   } else S = AGREGATS.stats;
   $("nRep").textContent = S.n;
+  // qui a répondu
+  { const nE = S.situation.etudiant[0], nA = S.situation.actif[0], kpi = (v, u, t) => `<div class="kpi-box"><span class="kpi">${v}<small>${u}</small></span><p>${t}</p></div>`;
+    $("kpiQui").innerHTML = kpi(S.n, "", "répondants au questionnaire") + kpi(FMT.n(nE / S.n * 100, 0), "%", `d'étudiants (${nE} personnes)`) + kpi(FMT.n(nA / S.n * 100, 0), "%", `d'actifs (${nA} personnes)`) +
+      kpi(`${S.version.A[0]} / ${S.version.B[0]}`, "", "en version A / B du test A/B, tirées au sort");
+    $("capQui").innerHTML = `Source : <a class="src" href="questionnaire.html">notre questionnaire en ligne, réponses du 12 au 21 octobre 2026</a>. C'est un <strong>échantillon de convenance</strong> (entourage et réseaux du groupe), surtout étudiant : nos conclusions décrivent une clientèle jeune au budget serré, pas toute la clientèle de Pathé. Le détail des profils et les limites sont en <a href="prix-psychologique.html#resultats">partie 4</a>.`; }
 
   const bar = (label, sub, v, alt) => `<div class="bar-row"><span class="l">${label}${sub ? `<small>${sub}</small>` : ""}</span><div class="track"><div class="fill${alt ? " alt" : ""}" style="width:${Math.max(v * 100, 0)}%">${p(v)}</div></div></div>`;
 
@@ -353,7 +364,7 @@ td small{color:var(--muted)}
   $("tabGG").innerHTML = `<thead><tr><th>Prix du pack</th><th class="n">Disent oui</th><th class="n">Part des répondants</th><th class="n">Revenu moyen par personne interrogée</th></tr></thead><tbody>` +
     PRIX.map((x, i) => `<tr${i === 2 ? ' class="hl"' : ""}><td><strong>${e(x)}</strong>${i === 2 ? " <small>prix étudié</small>" : ""}</td><td class="n">${S.oui[i]}</td><td class="n">${p(part[i])}</td><td class="n">${e(rev[i])} <small>(${e(x)} × ${p(part[i])})</small></td></tr>`).join("") + `</tbody>`;
   const refus = S.n - S.oui[0];
-  $("lectGG").innerHTML = `<span class="label">Ce qu'on en dit</span><p>À <strong>18,90 €</strong>, seulement <strong>${S.oui[2]} personnes sur ${S.n} (${p(part[2])})</strong> achèteraient le pack. À 16,90 €, elles sont ${S.oui[0]} (${p(part[0])}). Et ${refus} personnes (${p(refus / S.n)}) refusent même à 16,90 €. Le revenu par personne interrogée est ${n(rev[0] / rev[2], 1)} fois plus élevé à 16,90 € qu'à 18,90 € : vendre moins cher à beaucoup plus de monde rapporte plus. (Revenu n'est pas bénéfice : les coûts sont en <a href="couts.html">partie 4</a>.)</p>`;
+  $("lectGG").innerHTML = `<span class="label">Ce qu'on en dit</span><p>À <strong>18,90 €</strong>, seulement <strong>${S.oui[2]} personnes sur ${S.n} (${p(part[2])})</strong> achèteraient le pack. À 16,90 €, elles sont ${S.oui[0]} (${p(part[0])}). Et ${refus} personnes (${p(refus / S.n)}) refusent même à 16,90 €. Le revenu par personne interrogée est ${n(rev[0] / rev[2], 1)} fois plus élevé à 16,90 € qu'à 18,90 € : vendre moins cher à beaucoup plus de monde rapporte plus. (Revenu n'est pas bénéfice : les coûts sont en <a href="couts.html">partie 3</a>.)</p>`;
 
   // 02 · élasticité
   const el = [0, 1].map(i => { const dq = (S.oui[i + 1] - S.oui[i]) / S.oui[i], dp = (PRIX[i + 1] - PRIX[i]) / PRIX[i]; return { dq, dp, v: dq / dp }; });
@@ -522,7 +533,7 @@ td small{color:var(--muted)}
     row("p-value", fp(p2), "Probabilité d'un tel écart par hasard si H0 était vraie") +
     row("d de Cohen", n(Math.abs(d2), 2), "Taille de l'écart : 0,2 = petit, 0,5 = moyen, 0,8 = grand") +
     row("Décision", sig2 ? "p < 0,05" : "p ≥ 0,05", sig2 ? "On rejette H0 : les moyennes sont différentes" : "On ne rejette pas H0", "total");
-  $("capT2").innerHTML = `${S.student.ecartees} réponse(s) au-dessus de 50 € par séance écartée(s) comme valeur aberrante (même règle qu'en partie 5). Beaucoup de répondants dépensent 0 €, la distribution n'est donc pas « en cloche » : nous avons vérifié avec un test de Mann-Whitney, qui ne suppose pas cette forme (${pv(S.student.mwp)}), et la conclusion est la même.`;
+  $("capT2").innerHTML = `${S.student.ecartees} réponse(s) au-dessus de 50 € par séance écartée(s) comme valeur aberrante (même règle qu'en partie 6). Beaucoup de répondants dépensent 0 €, la distribution n'est donc pas « en cloche » : nous avons vérifié avec un test de Mann-Whitney, qui ne suppose pas cette forme (${pv(S.student.mwp)}), et la conclusion est la même.`;
   $("lectT2").innerHTML = `<span class="label">Ce qu'on en dit</span><p class="verdict ${sig2 ? "ok" : "no"}">${sig2 ? "On rejette H0, on retient H1." : "On ne peut pas rejeter H0."}</p><p>Les étudiants dépensent en moyenne <strong>${e(E.m)}</strong> en confiserie par séance, contre <strong>${e(A.m)}</strong> pour les actifs, soit ${n(A.m / E.m, 1)} fois plus. Avec ${pv(p2)}, cet écart ${sig2 ? "n'est pas dû au hasard" : "pourrait être dû au hasard"}. Comme ${p(nEtu / S.n)} de nos répondants sont étudiants, une grande partie de notre échantillon a un petit budget confiserie : cela explique en partie la forte élasticité.</p>` +
     oral(`On voulait savoir si les étudiants dépensent moins en confiserie que les actifs. On a croisé la question 5, qualitative, et la question 11, quantitative : c'est un test de Student. Les étudiants dépensent ${e(E.m)}, les actifs ${e(A.m)}. ${pv(p2)}, donc ${sig2 ? "on rejette H0 : la différence est significative" : "on ne peut pas rejeter H0"}. Notre échantillon étant surtout étudiant, il est plus sensible au prix.`);
 
@@ -647,7 +658,7 @@ td small{color:var(--muted)}
 
   // ===== Test A/B : version (A / B) × question 6 =====
   const VA = S.version.A, VB = S.version.B;
-  // sans correction de Yates, comme le script du cours (03_test_ab.py) et la partie 3 : mêmes chiffres partout
+  // sans correction de Yates, comme le script du cours (03_test_ab.py) et la partie 4 : mêmes chiffres partout
   const ab = PRIX.map((x, i) => { const t = [[VA[0] - VA[i + 1], VA[i + 1]], [VB[0] - VB[i + 1], VB[i + 1]]], c = STAT.chi2(t);
     return { x, t, pa: VA[i + 1] / VA[0], pb: VB[i + 1] / VB[0], pt: (VA[i + 1] + VB[i + 1]) / (VA[0] + VB[0]), ...c }; });
   const ab0 = ab[0], sigAB = ab0.p < 0.05;
@@ -678,7 +689,7 @@ td small{color:var(--muted)}
   $("tabAB").innerHTML = `<thead><tr><th>Prix</th><th class="n">Version A</th><th class="n">Version B</th><th class="n">Écart B − A</th><th class="n">Chi-2</th><th class="n">p-value</th><th>Lecture</th></tr></thead><tbody>` +
     ab.map(a => `<tr><td><strong>${e(a.x)}</strong></td><td class="n">${p(a.pa)} <small>(${a.t[0][1]}/${VA[0]})</small></td><td class="n">${p(a.pb)} <small>(${a.t[1][1]}/${VB[0]})</small></td><td class="n">+${n((a.pb - a.pa) * 100, 0)} pts</td><td class="n">${n(a.chi2, 2)}</td><td class="n">${fp(a.p)}</td><td>${a.petit ? '<span class="tag miss">Fragile</span> case théorique < 5' : a.p < 0.05 ? '<span class="tag obs">Significatif</span>' : "Non significatif"}</td></tr>`).join("") + `</tbody>`;
   $("calcAB").innerHTML = `<div class="head">Test du Chi-2 à 16,90 € (tableau 2 × 2)</div>` +
-    row("Chi-2 calculé", n(ab0.chi2, 2), "Calculé comme dans le script du cours sur le test A/B (et en partie 3)") +
+    row("Chi-2 calculé", n(ab0.chi2, 2), "Calculé comme dans le script du cours sur le test A/B (et en partie 4)") +
     row("Degrés de liberté", ab0.ddl, "(2 versions − 1) × (2 réponses − 1)") +
     row("p-value", fp(ab0.p), "Probabilité d'un tel écart par hasard si la mention « 22 € » n'avait aucun effet") +
     row("V de Cramer", n(ab0.v, 2), "Force du lien : en dessous de 0,2, lien faible") +
@@ -702,7 +713,7 @@ td small{color:var(--muted)}
     <p><strong>1. Le constat.</strong> À 18,90 €, seuls ${p(part[2])} des répondants achèteraient le pack, loin de notre objectif (test 5). La demande est très élastique : chaque euro de plus fait perdre environ ${n(-a4 * 100, 0)} points d'acheteurs (test 4).</p>
     <p><strong>2. Qui refuse ?</strong> Ceux qui n'achètent pas de confiserie : ${p(pc[1])} d'acheteurs contre ${p(pc[0])} (test 1). Le statut étudiant seul ne suffit pas à l'expliquer (section 05).</p>
     <p><strong>3. Pourquoi ?</strong> Les étudiants, ${p(nEtu / S.n)} de notre échantillon, dépensent nettement moins en confiserie (test 2). Et moins on dépense en confiserie, moins le pack paraît une bonne affaire (test 3).</p>
-    <p><strong>4. La décision.</strong> Le problème n'est pas le contenu du pack, mais sa cible et son prix : il ne fait économiser que ceux qui prennent déjà pop-corn et boisson. Pistes : le proposer au moment où le client achète déjà sa confiserie, ou créer une version plus petite et moins chère pour les petits budgets. Afficher le prix des produits achetés séparément (22 €) va dans le bon sens (+${n((ab0.pb - ab0.pa) * 100, 0)} points à 16,90 €), mais notre test A/B ne suffit pas à le prouver (test A/B). La rentabilité de chaque piste se vérifie avec les coûts (<a href="couts.html">partie 4</a>).</p>`;
+    <p><strong>4. La décision.</strong> Le problème n'est pas le contenu du pack, mais sa cible et son prix : il ne fait économiser que ceux qui prennent déjà pop-corn et boisson. Pistes : le proposer au moment où le client achète déjà sa confiserie, ou créer une version plus petite et moins chère pour les petits budgets. Afficher le prix des produits achetés séparément (22 €) va dans le bon sens (+${n((ab0.pb - ab0.pa) * 100, 0)} points à 16,90 €), mais notre test A/B ne suffit pas à le prouver (test A/B). La rentabilité de chaque piste se vérifie avec les coûts (<a href="couts.html">partie 3</a>).</p>`;
 })();
 </script>
 </body>

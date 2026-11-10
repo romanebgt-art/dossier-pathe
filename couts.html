@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>4 · Coûts et marge · Dossier Pathé</title>
+<title>3 · La proposition · Dossier Pathé</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <link rel="stylesheet" href="style.css">
@@ -15,21 +15,34 @@
   <nav class="nav" aria-label="Parties du dossier">
     <a href="entreprise.html"><b>1</b>L'entreprise</a>
     <a href="marche.html"><b>2</b>Le marché</a>
-    <a href="prix-psychologique.html"><b>3</b>La mesure du prix</a>
-    <a href="couts.html" aria-current="page"><b>4</b>Coûts et marge</a>
-    <a href="recommandation.html"><b>5</b>La décision</a>
-    <a href="statistiques.html"><b>S</b>Statistiques</a>
-    <a href="sources.html">Sources</a>
+    <a href="couts.html" aria-current="page"><b>3</b>La proposition</a>
+    <a href="prix-psychologique.html"><b>4</b>Le client</a>
+    <a href="statistiques.html"><b>5</b>Qui a répondu</a>
+    <a href="recommandation.html"><b>6</b>La décision</a>
+    <a href="sources.html">Méthode</a>
   </nav>
 </div></header>
 
 <main>
   <div class="hero">
-    <p class="eyebrow">Partie 4 · La proposition : ce qu'elle coûte</p>
-    <h1>Ce que le pack coûte, et ce qu'il rapporte par client</h1>
+    <p class="eyebrow">Partie 3 · La proposition : quelle variation, pourquoi, et ce qu'elle coûte</p>
+    <h1>Notre proposition : un pack place + pop-corn + boisson</h1>
     <p class="lede">Le produit de base est la place ; la variation que nous proposons est d'y ajouter un pop-corn et une boisson, vendus ensemble à un prix unique. Nous chiffrons les deux, terme par terme, avec l'origine de chaque montant.</p>
     <div class="legend-tags"><span class="tag obs">Observé</span><span class="tag est">Estimé</span><span class="tag hyp">Hypothèse</span><span class="tag miss">À fournir</span></div>
   </div>
+
+  <section aria-labelledby="pourquoi-t" id="proposition">
+    <div class="sec-head"><span class="num">00 · La proposition</span><h2 id="pourquoi-t">Quelle variation, et pourquoi celle-là</h2></div>
+    <div class="two">
+      <div class="card"><h3>La variation du mix proposée</h3><p>Un <strong>pack permanent</strong> au Pathé d'Aubière : la place, un pop-corn et une boisson à un prix unique, au lieu de la place à 13,50 € puis du menu acheté séparément au comptoir. Nous testons trois prix : 16,90, 17,90 et 18,90 €.</p></div>
+      <div class="card"><h3>Pourquoi celle-là</h3><p>La confiserie est l'activité la plus rentable de Pathé : il lui reste 73,4 % de ce qu'il vend en marge commerciale (<a class="src" href="docs/pathe-cinemas-france-comptes-2025.pdf#page=9">comptes 2025, p. 9</a>), alors que la billetterie recule (<a href="entreprise.html">partie 1</a>). Faire acheter de la confiserie aux clients qui prennent seulement leur place est donc le meilleur levier.</p></div>
+    </div>
+    <div class="calc" style="margin-top:16px">
+      <div class="head">Ce que coûte la variation testée par notre test A/B</div>
+      <div class="row"><span class="t">Afficher « Achetés séparément : 22,00 € » à côté du pack (version B du questionnaire)</span><span class="v">≈ 0 €</span><span class="o"><span class="tag hyp">Hypothèse</span> une mention sur l'affiche et dans l'application, faite une seule fois : aucun coût à chaque vente. Les 22 € = place 13,50 € + menu 8,50 € (calculs ci-dessous)</span></div>
+      <div class="row total"><span class="t">Ce qui coûte vraiment : le contenu du pack</span><span class="v">voir 02</span><span class="o">Le pop-corn et la boisson, payés à chaque pack vendu</span></div>
+    </div>
+  </section>
 
   <section aria-labelledby="place" id="place">
     <div class="sec-head"><span class="num">01 · Le produit de base</span><h2>Ce qu'il reste à Pathé sur une place à 13,50 €</h2></div>
@@ -75,36 +88,15 @@
       <h3>Le graphique du TD 2 : coûts, prix plancher, prix testés et plafond</h3>
       <svg id="td2" viewBox="0 0 900 300" role="img" aria-label="Décomposition du prix d'une place seule et d'un pack à 18,90 euros, avec le prix plancher et le plafond des concurrents"></svg>
       <div class="legend" id="td2Legend"></div>
-      <p class="caption" id="td2Cap">Le prix accepté par nos répondants s'ajoute sur ce graphique dès que les réponses sont importées (partie 3).</p>
+      <p class="caption" id="td2Cap">Le prix accepté par nos répondants s'ajoute sur ce graphique dès que les réponses sont importées (partie 4).</p>
     </div>
   </section>
 
-  <section aria-labelledby="complet-t" id="complet">
-    <div class="sec-head"><span class="num">05 · Le prix de revient complet</span><h2 id="complet-t">Ce que coûte un spectateur à Pathé, tout compris</h2><p>Prix de revient = coûts variables + coûts fixes ÷ volume. Les coûts fixes (personnel, loyers, énergie, amortissements) viennent des comptes ; le volume (nombre d'entrées) n'est pas publié et doit être estimé.</p></div>
-    <div class="calc" id="calcVolume"></div>
-    <div class="scroll"><table id="tabComplet"></table></div>
-    <p class="caption" id="capComplet"></p>
-    <div class="callout">
-      <span class="label">Ce que cela change pour le pack</span>
-      <p>Le pack n'ajoute presque aucun coût fixe : il est vendu par le même personnel, aux mêmes caisses, avec les mêmes machines à pop-corn. Seuls la communication de lancement et le paramétrage de la billetterie seraient nouveaux <span class="tag miss">Non chiffrés</span>. Le seuil de rentabilité en volume vaut donc : coûts fixes de lancement ÷ marge par pack. Or, avec nos réponses, la marge moyenne par pack vendu est négative à tous les prix testés (<a href="recommandation.html">partie 5</a>) : <strong>aucun volume de ventes ne rend alors le pack rentable</strong>, quel que soit le budget de lancement.</p>
-    </div>
-  </section>
 
-  <section aria-labelledby="sim">
-    <div class="sec-head"><span class="num">05 · Tester les hypothèses</span><h2 id="sim">Changer une hypothèse, voir l'effet</h2><p>Les champs reprennent nos valeurs. Modifiez-les (par exemple avec le prix relevé en caisse) : les calculs de la page se mettent à jour. Rien n'est enregistré.</p></div>
-    <div class="sim">
-      <label>Prix du menu vendu seul (€ TTC)<span>Estimé : formule UGC</span><input type="number" step="0.10" min="0" id="inMenu"></label>
-      <label>Coût du pop-corn (€ HT)<span>Estimé : Le Tribunal du Net</span><input type="number" step="0.01" min="0" id="inPop"></label>
-      <label>Prix du sirop, 10 litres (€ HT)<span>Observé : grossiste</span><input type="number" step="1" min="0" id="inSirop"></label>
-      <label>TVA sur la confiserie (%)<span>Observé : consommation immédiate</span><input type="number" step="0.5" min="0" id="inTva"></label>
-      <label>Place plein tarif (€ TTC)<span>Observé : Pathé Aubière</span><input type="number" step="0.10" min="0" id="inPlace"></label>
-    </div>
-    <p><button type="button" class="ghost" id="reset">Revenir à nos valeurs</button></p>
-  </section>
 
   <nav class="next" aria-label="Pages voisines">
-    <a href="prix-psychologique.html"><small>← Partie 3</small>La mesure du prix</a>
-    <a href="recommandation.html" style="text-align:right"><small>Partie 5 →</small>La décision</a>
+    <a href="marche.html"><small>← Partie 2</small>Le marché</a>
+    <a href="prix-psychologique.html" style="text-align:right"><small>Partie 4 →</small>Le client</a>
   </nav>
 </main>
 
@@ -118,7 +110,7 @@
 <script>
 (function(){
   const $ = id => document.getElementById(id);
-  const base = JSON.parse(JSON.stringify(MODELE));
+  
   let M = JSON.parse(JSON.stringify(MODELE));
   const e = FMT.e, src = (o, t) => `<a class="src" href="${o.src}">${t || o.date}</a>`;
   const row = (t, v, o, cls = "") => `<div class="row ${cls}"><span class="t">${t}</span><span class="v">${v}</span><span class="o">${o}</span></div>`;
@@ -148,7 +140,7 @@
     $("tabClients").innerHTML = `<thead><tr><th>Prix du pack</th><th class="n">Dont confiserie (TTC)</th><th class="n">Client A : gain de marge</th><th class="n">Client B : perte de marge</th><th class="n">Client C</th><th class="n">Clients A pour 1 client B</th></tr></thead><tbody>` +
       rows.map(o => `<tr><td><strong>${e(o.p)}</strong></td><td class="n">${e(o.conf)}</td><td class="n ${o.g >= 0 ? "pos" : "neg"}">${o.g >= 0 ? "+" : ""}${e(o.g)}</td><td class="n neg">−${e(o.l)}</td><td class="n">0,00 €</td><td class="n"><strong>${isFinite(o.r) ? FMT.n(o.r, 1) : "jamais"}</strong></td></tr>`).join("") + `</tbody>`;
     const r0 = rows[0], r2 = rows[rows.length - 1];
-    $("lectureRatio").innerHTML = `<span class="label">Lecture</span><p>À <strong>${e(r0.p)}</strong>, chaque client qui achetait déjà place + menu et passe au pack fait perdre ${e(r0.l)} de marge, et chaque client « place seule » converti n'en rapporte que ${e(r0.g)} : il faut <strong>${FMT.n(r0.r, 1)} conversions pour compenser un seul client B</strong>. À <strong>${e(r2.p)}</strong>, le rapport tombe à ${FMT.n(r2.r, 1)} pour 1. Le bon prix dépend donc de la part de clients A et B, et de combien acceptent le pack : c'est ce que mesure le questionnaire (<a href="recommandation.html">partie 5</a>).</p>`;
+    $("lectureRatio").innerHTML = `<span class="label">Lecture</span><p>À <strong>${e(r0.p)}</strong>, chaque client qui achetait déjà place + menu et passe au pack fait perdre ${e(r0.l)} de marge, et chaque client « place seule » converti n'en rapporte que ${e(r0.g)} : il faut <strong>${FMT.n(r0.r, 1)} conversions pour compenser un seul client B</strong>. À <strong>${e(r2.p)}</strong>, le rapport tombe à ${FMT.n(r2.r, 1)} pour 1. Le bon prix dépend donc de la part de clients A et B, et de combien acceptent le pack : c'est ce que mesure le questionnaire (<a href="recommandation.html">partie 6</a>).</p>`;
 
     const pf = ECO.plancher(M);
     $("calcPlancher").innerHTML = `<div class="head">Prix plancher du pack</div>` +
@@ -157,7 +149,6 @@
       row("= Prix plancher", e(pf), "En dessous, même un client « place seule » converti fait perdre de l'argent", "total");
 
     drawTD2(pl, cout, pf);
-    renderComplet();
   }
 
   /* Prix de revient complet par spectateur : comptes 2025 (p. 9) ÷ entrées estimées */
@@ -216,11 +207,7 @@
     });
   }
 
-  const inputs = { inMenu: ["prixMenu", 1], inPop: ["coutPopcorn", 1], inSirop: ["siropBIB", 1], inTva: ["tvaConf", 100], inPlace: ["prixPlace", 1] };
-  const fill = () => Object.entries(inputs).forEach(([id, [k, f]]) => $(id).value = +(M[k].v * f).toFixed(2));
-  Object.entries(inputs).forEach(([id, [k, f]]) => $(id).addEventListener("input", ev => { const v = parseFloat(ev.target.value); if (Number.isFinite(v)) { M[k].v = v / f; render(); } }));
-  $("reset").addEventListener("click", () => { M = JSON.parse(JSON.stringify(base)); fill(); render(); });
-  fill(); render();
+  render();
 })();
 </script>
 </body>
