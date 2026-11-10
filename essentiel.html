@@ -112,7 +112,8 @@
     const grp = f => { const g = rows.filter(f); return [g.length, ...COLS.map(c => g.filter(r => DONNEES.num(r[c]) === 1).length)]; };
     const dep = r => DONNEES.num(r.depense), ok = r => dep(r) != null && dep(r) <= 50;
     const desc = a => ({ n: a.length, m: STAT.mean(a), v: STAT.var(a) });
-    const pr = rows.filter(ok).map(r => [dep(r), CM3.vp(r)]).filter(x => x[1] != null);
+    // pack affiché à 16,90 € à la question 8 seulement (comme en parties 4 et 5)
+    const pr = rows.filter(r => ok(r) && DONNEES.num(r.prix_pack_affiche) === 16.9).map(r => [dep(r), CM3.vp(r)]).filter(x => x[1] != null);
     const CL = [[0, 0, "0 €"], [0.01, 5, "1 à 5 €"], [5.01, 10, "6 à 10 €"], [10.01, 50, "plus de 10 €"]];
     S = { n: rows.length, oui: COLS.map(c => rows.filter(r => DONNEES.num(r[c]) === 1).length),
       confiserie: { oui: grp(r => r.type_client === "B_avec_confiserie"), non: grp(r => r.type_client === "A_sans_confiserie") },
@@ -148,7 +149,9 @@
   const c1 = STAT.chi2(PRIX.map((x, i) => [S.n - S.oui[i], S.oui[i]]));
   { const el = svgOf("g1"); const y = stack(el, PRIX.map((x, i) => ({ l: e(x), sub: `${S.oui[i]} oui sur ${S.n}`, o: part[i] })), [90, 265, 440], 140);
     h0(el, 70, 630, y(att1), 625, `si H0 : ${p(att1)} partout`, "end"); }
-  $("p1").textContent = `Plus le prix monte, moins on achète : ${p(part[0])} de oui à 16,90 €, ${p(part[2])} à 18,90 €, loin des ${p(att1)} attendus si le prix ne comptait pas (χ² = ${n(c1.chi2, 1)}, ${pv(c1.p)}).`;
+  const ex = [S.n - S.oui[0], S.oui[0] - S.oui[1], S.oui[1] - S.oui[2], S.oui[2]], sumC = S.oui.reduce((s, x) => s + x, 0), sR = ex.reduce((s, c, j) => s + c * j, 0), sR2 = ex.reduce((s, c, j) => s + c * j * j, 0);
+  const Q1 = 2 * (3 * S.oui.reduce((s, c) => s + c * c, 0) - sumC ** 2) / (3 * sR - sR2), pQ1 = STAT.chi2p(Q1, 2);
+  $("p1").textContent = `Plus le prix monte, moins on achète : ${p(part[0])} de oui à 16,90 €, ${p(part[2])} à 18,90 €, loin des ${p(att1)} attendus si le prix ne comptait pas (χ² = ${n(c1.chi2, 1)} ; Q de Cochran, le test adapté aux mêmes personnes interrogées à 3 prix = ${n(Q1, 1)}, ${pv(pQ1)}).`;
   verdict("v1", c1.p < 0.05);
 
   // 2 · Chi-2 confiserie × question 6 à 16,90 €
@@ -199,8 +202,8 @@
     PRIX.forEach((v, i) => { el("circle", { cx: x(v), cy: y(Y[i]), r: 8, fill: "var(--accent)", stroke: "var(--bg)", "stroke-width": 2 });
       el("text", { x: x(v) + 14, y: y(Y[i]) - 8, class: "lbl" }, `${e(v)} : ${p(Y[i])}`); });
     el("text", { x: x(P0) + 6, y: y(pred(P0)) - 14, style: "fill:var(--c-indep);font-weight:600" }, `${n(a5 * 100, 1)} points par euro`); }
-  $("p5").textContent = `Chaque euro de plus fait perdre environ ${n(-a5 * 100, 0)} points d'acheteurs ; à ce rythme, plus personne n'achèterait vers ${e(zero5)} (R² = ${p(r2, 1)}, ${pv(p5)}, à prendre avec prudence : 3 prix seulement).`;
-  verdict("v5", "mid", p5 < 0.05 ? "H0 rejetée · fragile" : "Pas de conclusion");
+  $("p5").textContent = `Chaque euro de plus fait perdre environ ${n(-a5 * 100, 0)} points d'acheteurs ; à ce rythme, plus personne n'achèterait vers ${e(zero5)} (R² = ${p(r2, 1)}). C'est un modèle pour prévoir : ses trois points viennent des mêmes répondants, l'effet du prix est testé au schéma 1.`;
+  verdict("v5", "mid", "Modèle descriptif");
 
   // 6 · test Z : part d'acheteurs à 18,90 € contre l'objectif
   const k = S.oui[2], ph = k / S.n, se = Math.sqrt(OBJ * (1 - OBJ) / S.n), z = (ph - OBJ) / se, p6 = 2 * (1 - STAT.phi(Math.abs(z)));
