@@ -347,6 +347,9 @@ td small{color:var(--muted)}
     const CL = [[0, 0, "0 €"], [0.01, 5, "1 à 5 €"], [5.01, 10, "6 à 10 €"], [10.01, 50, "plus de 10 €"]];
     S.corr = { n: pr.length, r: STAT.corr(pr.map(x => x[0]), pr.map(x => x[1])),
       cl: CL.map(([lo, hi, l]) => { const s = pr.filter(x => x[0] >= lo && x[0] <= hi); return { l, n: s.length, vp: STAT.mean(s.map(x => x[1])) }; }) };
+    // nuage de points de la corrélation : répondants regroupés par réponses identiques (dépense, note x 3), moyennes et écarts-types
+    { const xs = pr.map(x => x[0]), ys = pr.map(x => x[1]), m = new Map(); pr.forEach(([d, v]) => { const k = d + "|" + Math.round(v * 3); m.set(k, (m.get(k) || 0) + 1); });
+      Object.assign(S.corr, { mx: STAT.mean(xs), my: STAT.mean(ys), sx: STAT.sd(xs), sy: STAT.sd(ys), cells: [...m].map(([k, c]) => { const [d, v3] = k.split("|"); return [+d, +v3, c]; }) }); }
     S.version = { A: grp(r => r.version === "A"), B: grp(r => r.version === "B") };
   } else S = AGREGATS.stats;
   $("nRep").textContent = S.n;
@@ -379,6 +382,161 @@ td small{color:var(--muted)}
   const h0Line = (el, x1, x2, yv, tx, ty, txt, anchor = "middle") => {
     el("line", { x1, x2, y1: yv, y2: yv, stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "7 5" });
     [].concat(txt).forEach((t, k, arr) => el("text", { x: tx, y: ty - (arr.length - 1 - k) * 17, "text-anchor": anchor, class: "h0" }, t)); };
+
+  /* ===== Graphiques des tests =====
+     Chaque test est dessiné avec SA loi de probabilité (Chi-2, Student, normale) ou avec son modèle (nuage de points, droite).
+     Tout vient des résultats calculés sur cette page : statistique, degrés de liberté, seuils. Rien n'est saisi à la main.
+     Seuil retenu partout : α = 5 %. */
+  const NS_SVG = "http://www.w3.org/2000/svg";
+  function pdfChi2(x, k) { return x <= 0 ? 0 : Math.exp((k / 2 - 1) * Math.log(x) - x / 2 - (k / 2) * Math.LN2 - STAT.lgamma(k / 2)); }
+  function pdfT(x, v) { return Math.exp(STAT.lgamma((v + 1) / 2) - STAT.lgamma(v / 2) - 0.5 * Math.log(v * Math.PI) - (v + 1) / 2 * Math.log(1 + x * x / v)); }
+  function pdfN(x) { return Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI); }
+  // valeurs critiques par dichotomie sur les fonctions de répartition de cm3.js
+  function chi2Crit(k, a = 0.05) { let lo = 0, hi = 500; for (let i = 0; i < 200; i++) { const m = (lo + hi) / 2; STAT.chi2p(m, k) > a ? lo = m : hi = m; } return (lo + hi) / 2; }
+  function zCrit(a = 0.05) { let lo = 0, hi = 10; for (let i = 0; i < 200; i++) { const m = (lo + hi) / 2; 2 * (1 - STAT.phi(m)) > a ? lo = m : hi = m; } return (lo + hi) / 2; }
+  function niceTicks(a, b, cnt = 6) { const raw = (b - a) / cnt, mag = 10 ** Math.floor(Math.log10(raw)), st = [1, 2, 2.5, 5, 10].map(s => s * mag).find(s => s >= raw); const out = []; for (let v = Math.ceil(a / st - 1e-9) * st; v <= b + 1e-9; v += st) out.push(+v.toFixed(10)); return out; }
+  function pvTxt(x) { return x < 0.001 ? "p < 0,001" : "p = " + n(x, 3); }
+  // prépare un graphique : titre, légende et phrase de lecture sous le dessin
+  function chartFrame(id, title, legend, caption, h = 330) {
+    const svg = $(id); svg.innerHTML = ""; svg.setAttribute("viewBox", `0 0 640 ${h}`); svg.classList.add("sch");
+    const ch = svg.closest(".chart");
+    if (ch) {
+      const h3 = ch.querySelector("h3"); if (h3) h3.textContent = title;
+      ch.querySelectorAll("p.caption:not(.lecture)").forEach(x => x.remove());
+      let lg = ch.querySelector(".legend"); if (!lg) { lg = document.createElement("div"); lg.className = "legend"; svg.after(lg); }
+      lg.innerHTML = legend.map(([c, t]) => `<span><span class="dot" style="background:${c}"></span>${t}</span>`).join("");
+      let cp = ch.querySelector("p.lecture"); if (!cp) { cp = document.createElement("p"); cp.className = "caption lecture"; cp.style.marginTop = "10px"; lg.after(cp); }
+      cp.innerHTML = caption;
+    }
+    return (t, a, x) => { const nd = document.createElementNS(NS_SVG, t); for (const k in a) nd.setAttribute(k, a[k]); if (x != null) nd.textContent = x; svg.appendChild(nd); return nd; };
+  }
+  // courbe d'une loi, zone de non-rejet (vert), zones de rejet de H0 (rouge), aire de la p-value (orange), seuils et statistique calculée
+  function distChart(el, o) {
+    const L = 60, R = 620, T = 26, B = o.B || 240, x = v => L + (v - o.xmin) / (o.xmax - o.xmin) * (R - L), N = 500, pts = [];
+    for (let i = 0; i <= N; i++) { const v = o.xmin + (o.xmax - o.xmin) * i / N; pts.push([v, Math.min(o.pdf(v), o.cap ?? Infinity)]); }
+    const ymax = Math.max(...pts.map(q => q[1])) * 1.15, y = d => B - d / ymax * (B - T);
+    const area = (a, b, fill, op) => { const s = pts.filter(q => q[0] >= a && q[0] <= b); if (s.length < 2) return;
+      el("path", { d: `M${x(s[0][0])},${B} ` + s.map(q => `L${x(q[0])},${y(q[1])}`).join(" ") + ` L${x(s[s.length - 1][0])},${B} Z`, fill, "fill-opacity": op }); };
+    area(o.xmin, o.xmax, "var(--good)", .14);
+    o.rej.forEach(([a, b]) => area(Math.max(a, o.xmin), Math.min(b, o.xmax), "var(--bad)", .38));
+    (o.pzone || []).forEach(([a, b]) => area(Math.max(a, o.xmin), Math.min(b, o.xmax), "var(--accent)", .65));
+    el("line", { x1: L, x2: R, y1: B, y2: B, stroke: "var(--muted)" });
+    // bande rouge sur l'axe : la zone de rejet reste visible même là où la courbe est presque à zéro
+    o.rej.forEach(([a, b]) => { const a2 = Math.max(a, o.xmin), b2 = Math.min(b, o.xmax); if (b2 > a2) el("line", { x1: x(a2), x2: x(b2), y1: B, y2: B, stroke: "var(--bad)", "stroke-width": 5, "stroke-opacity": .8 }); });
+    niceTicks(o.xmin, o.xmax).forEach(v => { el("line", { x1: x(v), x2: x(v), y1: B, y2: B + 5, stroke: "var(--muted)" }); el("text", { x: x(v), y: B + 19, "text-anchor": "middle" }, o.fmt(v)); });
+    el("text", { x: R, y: B + 36, "text-anchor": "end" }, o.xlab);
+    el("path", { d: "M" + pts.map(q => `${x(q[0])},${y(q[1])}`).join(" L"), fill: "none", stroke: "var(--ink)", "stroke-width": 2.5 });
+    o.crit.forEach(c => { if (c < o.xmin || c > o.xmax) return; const left = c < 0;
+      el("line", { x1: x(c), x2: x(c), y1: T, y2: B, stroke: "var(--bad)", "stroke-width": 1.8, "stroke-dasharray": "6 4" });
+      el("text", { x: x(c) + (left ? -6 : 6), y: T + 10, "text-anchor": left ? "end" : "start", style: "fill:var(--bad);font-weight:600" }, `${o.critLab} ${o.fmt2(c)}`); });
+    (o.zoneLabels || []).forEach(z => el("text", { x: x(z.x), y: B - 8, "text-anchor": "middle", style: `fill:${z.c};font-weight:700;font-size:12px` }, z.t));
+    o.obs.forEach((s, i) => { const off = s.v > o.xmax || s.v < o.xmin, xv = x(Math.max(o.xmin, Math.min(o.xmax, s.v))), ty = T + 40 + i * 38, c = s.c || "var(--accent)", right = xv < (L + R) / 2;
+      el("line", { x1: xv, x2: xv, y1: ty - 14, y2: B, stroke: c, "stroke-width": 3 });
+      el("circle", { cx: xv, cy: B, r: 6, fill: c });
+      el("text", { x: xv + (right ? 8 : -8), y: ty, "text-anchor": right ? "start" : "end", class: "lbl", style: `fill:${c}` }, (off ? (s.v > o.xmax ? "→ " : "← ") : "") + s.lab + (off ? " (hors échelle)" : ""));
+      if (s.sub) el("text", { x: xv + (right ? 8 : -8), y: ty + 16, "text-anchor": right ? "start" : "end" }, s.sub); });
+    return { x, y, B };
+  }
+  // Chi-2 : loi du Chi-2 au bon nombre de degrés de liberté, test unilatéral à droite
+  function drawChi(id, o) {
+    const k = o.k, c = chi2Crit(k), nat = Math.max(c * 2.6, k + 6 * Math.sqrt(2 * k)), big = Math.max(...o.obs.map(s => s.v));
+    const xmax = big <= c * 4 ? Math.max(nat, big * 1.12) : nat, sig = o.p < 0.05;
+    const caption = `Si H0 était vraie (${o.h0}), le Chi-2 suivrait cette courbe : il ne dépasserait la valeur critique de <strong>${n(c, 2)}</strong> que 5 fois sur 100. `
+      + `Le nôtre vaut <strong>${n(o.obs[0].v, 2)}</strong> (${k} degré${k > 1 ? "s" : ""} de liberté, ${pvTxt(o.p)}) : ${sig ? `il tombe dans la zone rouge${o.obs[0].v > xmax ? ", bien au-delà du bord droit du graphique" : ""}, donc <strong>on rejette H0</strong>.` : "il tombe dans la zone verte, donc <strong>on ne peut pas rejeter H0</strong>."}`
+      + (o.extra ? " " + o.extra : "");
+    const el = chartFrame(id, o.title, [["var(--ink)", `Loi du Chi-2 à ${k} degré${k > 1 ? "s" : ""} de liberté : les valeurs possibles si H0 est vraie`], ["var(--bad)", "Zone de rejet de H0 (5 % des cas)"], ["var(--accent)", "Notre Chi-2 calculé (et l'aire de sa p-value)"]], caption);
+    distChart(el, { pdf: v => pdfChi2(v, k), cap: k === 1 ? pdfChi2(0.15, 1) : undefined, xmin: k === 1 ? 0.03 : 0, xmax, rej: [[c, Infinity]], pzone: [[o.obs[0].v, Infinity]], crit: [c], critLab: "valeur critique", fmt: v => n(v, Number.isInteger(v) ? 0 : 1), fmt2: v => n(v, 2), xlab: "valeur du Chi-2",
+      obs: o.obs, zoneLabels: [{ x: [0.3, 0.55, 0.8].map(f => c * f).sort((u, w) => Math.abs(w - o.obs[0].v) - Math.abs(u - o.obs[0].v))[0], t: "non-rejet", c: "var(--good)" }, { x: c + (xmax - c) * 0.55, t: "rejet de H0", c: "var(--bad)" }] });
+  }
+  // Student (Welch) : loi de Student, test bilatéral, et les deux groupes avec leur intervalle de confiance à 95 %
+  function drawStudent() {
+    const v = df2, tc = STAT.tcrit(v), lim = Math.max(4, Math.abs(t2) * 1.25), se = Math.sqrt(E.v / E.n + A.v / A.n), sig = p2 < 0.05;
+    const gs = [["Étudiants", E, "var(--c-indep)"], ["Actifs", A, "var(--accent)"]].map(([l, g, c]) => { const h = STAT.tcrit(g.n - 1) * Math.sqrt(g.v / g.n); return { l, g, c, lo: g.m - h, hi: g.m + h }; });
+    const chev = gs[0].hi > gs[1].lo && gs[1].hi > gs[0].lo;
+    const caption = `t mesure l'écart entre les deux moyennes (${e(E.m)} − ${e(A.m)} = ${e(E.m - A.m)}) en nombre d'erreurs types (${n(se, 2)} €). Si étudiants et actifs dépensaient autant (H0), t suivrait cette courbe et ne sortirait des seuils <strong>±${n(tc, 2)}</strong> que 5 fois sur 100 (2,5 % de chaque côté, car H1 dit seulement « différent »). `
+      + `Notre t vaut <strong>${n(t2, 2)}</strong> (${pvTxt(p2)}) : ${sig ? "il tombe dans une zone rouge, donc <strong>on rejette H0</strong>." : "il reste dans la zone verte, donc <strong>on ne peut pas rejeter H0</strong>."} `
+      + `Version de Welch : les ${n(v, 1)} degrés de liberté tiennent compte de la dispersion différente des deux groupes. En bas, chaque groupe avec sa moyenne et son intervalle de confiance à 95 %${chev ? " ; les deux intervalles se chevauchent un peu, ce qui n'empêche pas l'écart d'être significatif : le test porte sur la différence entre les moyennes, pas sur chaque intervalle séparément" : ""}.`;
+    const el = chartFrame("svgT2", `Loi de Student à ${n(v, 1)} degrés de liberté, et les deux groupes comparés`, [["var(--ink)", "Loi de Student : les valeurs de t possibles si H0 est vraie"], ["var(--bad)", "Zones de rejet de H0 (2 × 2,5 %)"], ["var(--accent)", "Notre t calculé (et l'aire de sa p-value)"]], caption, 430);
+    distChart(el, { pdf: x => pdfT(x, v), xmin: -lim, xmax: lim, B: 230, rej: [[-Infinity, -tc], [tc, Infinity]], pzone: [[-Infinity, -Math.abs(t2)], [Math.abs(t2), Infinity]], crit: [-tc, tc], critLab: "seuil", fmt: x => n(x, 0), fmt2: x => n(x, 2), xlab: "valeur de t",
+      obs: [{ v: t2, lab: `t calculé = ${n(t2, 2)}`, sub: pvTxt(p2) }], zoneLabels: [{ x: 0, t: "non-rejet (95 %)", c: "var(--good)" }] });
+    const top = 300, maxV = Math.ceil(Math.max(...gs.map(q => q.hi)) + 1), xx = v => 150 + v / maxV * 450;
+    el("text", { x: 60, y: top - 16, class: "lbl" }, "Les deux groupes : dépense moyenne par séance et intervalle de confiance à 95 %");
+    niceTicks(0, maxV, 5).forEach(t => { el("line", { class: "grid", x1: xx(t), x2: xx(t), y1: top, y2: top + 92 }); el("text", { x: xx(t), y: top + 108, "text-anchor": "middle" }, n(t, 0) + " €"); });
+    gs.forEach((q, i) => { const yy = top + 30 + i * 44;
+      el("text", { x: 140, y: yy + 5, "text-anchor": "end", class: "lbl" }, `${q.l} (n = ${q.g.n})`);
+      el("line", { x1: xx(q.lo), x2: xx(q.hi), y1: yy, y2: yy, stroke: q.c, "stroke-width": 5, "stroke-linecap": "round" });
+      el("circle", { cx: xx(q.g.m), cy: yy, r: 7, fill: q.c, stroke: "var(--surface)", "stroke-width": 2 });
+      el("text", { x: xx(q.g.m), y: yy - 12, "text-anchor": "middle" }, `${e(q.g.m)}  [${n(q.lo, 2)} ; ${n(q.hi, 2)}]`); });
+  }
+  // Corrélation : nuage de points (répondants regroupés quand ils ont donné les mêmes réponses), droite, r ; puis la loi de Student qui teste r = 0
+  function drawCorr() {
+    const C = S.corr, sig = p3 < 0.05, cells = C.cells || [], b = C.r * C.sy / C.sx, a = C.my - b * C.mx, maxX = Math.max(10, ...cells.map(q => q[0]));
+    const XM = niceTicks(0, maxX * 1.05, 6).pop() || maxX, L = 70, R = 620, T = 20, B = 270, x = v => L + v / XM * (R - L), y = v => B - (v - 1) / 4 * (B - T);
+    const caption = `Chaque bulle est un groupe de répondants qui ont donné les mêmes réponses (plus elle est grosse, plus ils sont nombreux, ${C.n} répondants au total). La droite est la tendance du nuage : elle monte, donc les deux nombres varient dans le même sens. `
+      + `r = <strong>${n(C.r, 2)}</strong> résume la force du lien (0 = aucun lien, 1 = alignement parfait) et r² = ${p(C.r ** 2)} : ${p(C.r ** 2)} des écarts de note sont liés à la dépense. Les points restent très dispersés autour de la droite : le lien est réel mais moyen.`;
+    const el = chartFrame("svgT3", "Le nuage de points : dépense en confiserie et note donnée au pack", [["var(--accent)", "Répondants (taille = nombre de personnes)"], ["var(--c-indep)", `Droite de tendance (r = ${n(C.r, 2)})`], ["var(--ink)", "Note moyenne de tous les répondants"]], caption, 320);
+    for (let v = 1; v <= 5; v++) { el("line", { class: "grid", x1: L, x2: R, y1: y(v), y2: y(v) }); el("text", { x: L - 12, y: y(v) + 4, "text-anchor": "end" }, v); }
+    niceTicks(0, XM, 6).forEach(v => el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, v + " €"));
+    el("text", { x: R, y: B + 40, "text-anchor": "end" }, "dépense en confiserie par séance (question 11)");
+    el("text", { x: L - 50, y: T + 4, class: "lbl" }, "note /5");
+    el("line", { x1: L, x2: R, y1: y(C.my), y2: y(C.my), stroke: "var(--ink)", "stroke-width": 1.5, "stroke-dasharray": "6 4" });
+    cells.forEach(([d, v3, c]) => el("circle", { cx: x(d), cy: y(v3 / 3), r: 3 + 3 * Math.sqrt(c), fill: "var(--accent)", "fill-opacity": .55, stroke: "var(--accent)" }));
+    const xEnd = b > 0 ? Math.min(XM, (5 - a) / b) : XM; el("line", { x1: x(0), x2: x(xEnd), y1: y(a), y2: y(a + b * xEnd), stroke: "var(--c-indep)", "stroke-width": 3 });
+    el("text", { x: R - 4, y: y(1.35), "text-anchor": "end", class: "lbl" }, `r = ${n(C.r, 2)}   ·   r² = ${p(C.r ** 2)}   ·   n = ${C.n}`);
+    // deuxième graphique : la significativité de r
+    let svg2 = $("svgT3b");
+    if (!svg2) { const box = document.createElement("div"); box.className = "chart"; box.style.marginTop = "16px"; box.innerHTML = `<h3></h3><svg id="svgT3b" class="sch" role="img" aria-label="Loi de Student qui sert à tester si le coefficient de corrélation est nul"></svg>`; $("svgT3").closest(".chart").after(box); }
+    const v = C.n - 2, tc = STAT.tcrit(v), lim = Math.max(4, Math.abs(t3) * 1.2);
+    const cap2 = `Pour savoir si r = ${n(C.r, 2)} peut venir du hasard, on le transforme en t = r × √(n − 2) ÷ √(1 − r²) = <strong>${n(t3, 2)}</strong>, qui suit la loi de Student à ${v} degrés de liberté si H0 (r = 0) est vraie. `
+      + `Seuils à 5 % : ±${n(tc, 2)}. ${sig ? `Notre t est loin dans la zone rouge (${pvTxt(p3)}) : <strong>on rejette H0</strong>, le lien n'est pas dû au hasard.` : `Notre t reste dans la zone verte (${pvTxt(p3)}) : <strong>on ne peut pas rejeter H0</strong>.`}`;
+    const el2 = chartFrame("svgT3b", `Le test de r : loi de Student à ${v} degrés de liberté`, [["var(--ink)", "Loi de Student : les valeurs de t possibles si r = 0"], ["var(--bad)", "Zones de rejet de H0"], ["var(--accent)", "Notre t calculé"]], cap2, 290);
+    distChart(el2, { pdf: q => pdfT(q, v), xmin: -lim, xmax: lim, rej: [[-Infinity, -tc], [tc, Infinity]], pzone: [[-Infinity, -Math.abs(t3)], [Math.abs(t3), Infinity]], crit: [-tc, tc], critLab: "seuil", fmt: q => n(q, 0), fmt2: q => n(q, 2), xlab: "valeur de t",
+      obs: [{ v: t3, lab: `t = ${n(t3, 2)}`, sub: pvTxt(p3) }], zoneLabels: [{ x: 0, t: "non-rejet (95 %)", c: "var(--good)" }] });
+  }
+  // Régression : les observations, la droite des moindres carrés, les résidus, la pente et la prévision du champ « tester un prix »
+  function drawReg(xp) {
+    const P0 = 16.5, P1 = 19.5, L = 70, R = 620, T = 20, B = 260, x = v => L + (v - P0) / (P1 - P0) * (R - L), y = v => B - v / 0.6 * (B - T);
+    const res = PRIX.map((v, i) => Y[i] - pred(v)), maxRes = Math.max(...res.map(Math.abs));
+    const caption = `Les trois points sont nos observations (part de oui à la question 6). La droite bleue est celle qui passe au plus près des points (moindres carrés) : <strong>part d'acheteurs = ${n(a4 * 100, 1)} × prix + ${n(b4 * 100, 1)}</strong>. `
+      + `Les petits traits entre chaque point et la droite sont les résidus (au plus ${n(maxRes * 100, 1)} point) : la droite explique ${p(r2, 1)} des variations (R²). Le triangle lit la pente : 1 € de plus, ${n(a4 * 100, 1)} points d'acheteurs. `
+      + `Si le prix n'avait aucun effet (H0 : pente nulle), la droite serait plate (pointillés). Nous ne dessinons pas ici de loi de Student : avec 3 points il ne reste qu'un degré de liberté, et la p-value de la pente (${fp(p4)}) reste fragile.`;
+    const el = chartFrame("svgT4", "Le modèle de régression : observations, droite et résidus", [["var(--accent)", "Observations (question 6)"], ["var(--c-indep)", "Droite de régression"], ["var(--ink)", "Si H0 : pente nulle"], ["var(--bad)", "Résidus"]], caption);
+    for (let v = 0; v <= 0.6 + 1e-9; v += 0.1) { el("line", { class: "grid", x1: L, x2: R, y1: y(v), y2: y(v) }); el("text", { x: L - 12, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + " %"); }
+    [17, 18, 19].forEach(v => el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, v + " €"));
+    el("text", { x: R, y: B + 40, "text-anchor": "end" }, "prix du pack");
+    el("line", { x1: L, x2: R, y1: y(mY), y2: y(mY), stroke: "var(--ink)", "stroke-width": 1.5, "stroke-dasharray": "6 4" });
+    el("text", { x: R - 4, y: y(mY) - 7, "text-anchor": "end", class: "h0" }, `si H0 : ${p(mY)} partout`);
+    const xe = Math.min(P1, zero5End());
+    function zero5End() { return Math.max(P0, zero4); }
+    el("line", { x1: x(P0), x2: x(xe), y1: y(pred(P0)), y2: y(Math.max(0, pred(xe))), stroke: "var(--c-indep)", "stroke-width": 3 });
+    // triangle de pente entre 17 € et 18 €
+    const t0 = 17, t1 = 18; el("path", { d: `M${x(t0)},${y(pred(t0))} L${x(t1)},${y(pred(t0))} L${x(t1)},${y(pred(t1))}`, fill: "none", stroke: "var(--muted)", "stroke-width": 1.5 });
+    el("text", { x: (x(t0) + x(t1)) / 2, y: y(pred(t0)) - 6, "text-anchor": "middle" }, "+1 €");
+    el("text", { x: x(t1) + 6, y: (y(pred(t0)) + y(pred(t1))) / 2 + 4 }, `${n(a4 * 100, 1)} pts`);
+    PRIX.forEach((v, i) => { el("line", { x1: x(v), x2: x(v), y1: y(Y[i]), y2: y(pred(v)), stroke: "var(--bad)", "stroke-width": 3 });
+      el("circle", { cx: x(v), cy: y(Y[i]), r: 8, fill: "var(--accent)", stroke: "var(--bg)", "stroke-width": 2 });
+      el("text", { x: x(v) - 12, y: y(Y[i]) + 4, "text-anchor": "end", class: "lbl" }, `${p(Y[i], 1)}`); });
+    el("text", { x: L + 6, y: T + 12, class: "lbl" }, `y = ${n(a4 * 100, 1)} × prix + ${n(b4 * 100, 1)}   ·   R² = ${p(r2, 1)}`);
+    if (Number.isFinite(xp) && xp >= P0 && xp <= P1) { const yp = Math.max(0, pred(xp));
+      el("circle", { cx: x(xp), cy: y(yp), r: 7, fill: "none", stroke: "var(--ink)", "stroke-width": 2.5 });
+      el("text", { x: x(xp) - 10, y: y(yp) + 22, "text-anchor": "end" }, `prévision à ${e(xp)} : ${p(yp)}`); }
+  }
+  // Test Z de proportion : loi normale centrée réduite, seuils ±1,96, et la graduation correspondante en part d'acheteurs
+  function drawZ(o) {
+    const zc = zCrit(), lim = Math.max(4, Math.abs(o.z) * 1.15 + 0.3), sig = o.p5 < 0.05;
+    const caption = `Si la vraie part d'acheteurs était égale à l'objectif de ${p(o.obj)} (H0), l'écart entre notre échantillon et l'objectif, compté en erreurs types (${p(o.se, 1)}), suivrait cette loi normale. Il ne dépasserait <strong>±${n(zc, 2)}</strong> que 5 fois sur 100. `
+      + `À ${e(o.prix)}, nous observons ${p(o.ph, 1)} d'acheteurs, soit <strong>Z = ${n(o.z, 2)}</strong> (${pvTxt(o.p5)}) : ${sig ? "Z tombe dans une zone rouge, donc <strong>on rejette H0</strong>." : "Z reste dans la zone verte, donc <strong>on ne peut pas rejeter H0</strong>."} `
+      + `La graduation du bas traduit chaque valeur de Z en part d'acheteurs : Z = 0 correspond à l'objectif, et les seuils à ${p(Math.max(0, o.obj - zc * o.se), 1)} et ${p(Math.min(1, o.obj + zc * o.se), 1)}.`;
+    const el = chartFrame("svgT5", "Loi normale centrée réduite : où tombe notre écart à l'objectif ?", [["var(--ink)", "Loi normale : les valeurs de Z possibles si H0 est vraie"], ["var(--bad)", "Zones de rejet de H0 (2 × 2,5 %)"], ["var(--accent)", "Notre Z calculé"]], caption, 340);
+    const g = distChart(el, { pdf: pdfN, xmin: -lim, xmax: lim, B: 210, rej: [[-Infinity, -zc], [zc, Infinity]], pzone: [[-Infinity, -Math.abs(o.z)], [Math.abs(o.z), Infinity]], crit: [-zc, zc], critLab: "seuil", fmt: v => n(v, 0), fmt2: v => n(v, 2), xlab: "valeur de Z",
+      obs: [{ v: o.z, lab: `Z = ${n(o.z, 2)}`, sub: pvTxt(o.p5) }], zoneLabels: [{ x: 0, t: "non-rejet (95 %)", c: "var(--good)" }] });
+    // deuxième graduation : la part d'acheteurs qui correspond à chaque Z
+    const ya = 275; el("line", { x1: g.x(-lim), x2: g.x(lim), y1: ya, y2: ya, stroke: "var(--muted)" });
+    niceTicks(-lim, lim).forEach(v => { const q = o.obj + v * o.se; if (q < 0 || q > 1) return; el("line", { x1: g.x(v), x2: g.x(v), y1: ya, y2: ya + 5, stroke: "var(--muted)" }); el("text", { x: g.x(v), y: ya + 19, "text-anchor": "middle" }, p(q, 0)); });
+    el("text", { x: 620, y: ya + 36, "text-anchor": "end" }, "part d'acheteurs correspondante");
+    el("text", { x: g.x(0), y: ya - 8, "text-anchor": "middle", class: "lbl" }, `objectif ${p(o.obj)}`);
+    el("text", { x: g.x(Math.max(-lim, Math.min(lim, o.z))), y: ya - 8, "text-anchor": "middle", class: "lbl", style: "fill:var(--accent)" }, `observé ${p(o.ph, 1)}`);
+  }
   $("calcElas").innerHTML = `<div class="head">Calcul à partir de la question 6</div>` +
     el.map((x, i) => row(`De ${e(PRIX[i])} à ${e(PRIX[i + 1])}`, n(x.v, 1), `prix +${p(x.dp, 1)} ; demande ${p(x.dq, 1).replace("-", "−")} (${S.oui[i]} → ${S.oui[i + 1]} personnes)`, i ? "total" : "")).join("");
   const nEtu = S.situation.etudiant[0];
@@ -394,7 +552,7 @@ td small{color:var(--muted)}
     // contrôle : Q de Cochran (mêmes personnes interrogées aux 3 prix) ; Gabor-Granger progressif : nb de oui par personne
     const exact = [S.n - S.oui[0], S.oui[0] - S.oui[1], S.oui[1] - S.oui[2], S.oui[2]]; // 0, 1, 2 ou 3 oui
     const k = PRIX.length, sR = exact.reduce((s, c, j) => s + c * j, 0), sR2 = exact.reduce((s, c, j) => s + c * j * j, 0);
-    const Q = (k - 1) * (k * S.oui.reduce((s, c) => s + c * c, 0) - totOui ** 2) / (k * sR - sR2), pQ = STAT.chi2p(Q, k - 1);
+    const Q = (k - 1) * (k * S.oui.reduce((s, c) => s + c * c, 0) - totOui ** 2) / (k * sR - sR2), pQ = STAT.chi2p(Q, k - 1); CP.Q = Q; CP.pQ = pQ;
     $("resumeChiPrix").innerHTML = `<span class="label">Résumé</span>
       <p>Nous avons interrogé ${S.n} personnes avec la méthode Gabor-Granger : le pack leur était proposé à 16,90 €, puis 17,90 €, puis 18,90 €. Plus le prix monte, plus les acheteurs disparaissent : <strong>${p(part[0])}</strong> à 16,90 €, <strong>${p(part[1])}</strong> à 17,90 €, seulement <strong>${p(part[2])}</strong> à 18,90 €, le prix étudié.</p>
       <p>Quand le prix augmente d'environ 6 %, la demande baisse de ${p(-el[0].dq)}, puis de ${p(-el[1].dq)} : la demande est <strong>très élastique</strong>. Ce résultat s'explique en partie par notre échantillon : <strong>${p(nEtu / S.n)} des répondants sont étudiants</strong> (${nEtu} sur ${S.n}), qui dépensent en moyenne ${e(S.student.etudiant.m)} en confiserie par séance, contre ${e(S.student.actif.m)} pour les actifs. Prudence donc : chez l'ensemble des clients de Pathé, la demande serait probablement un peu moins élastique.</p>
@@ -405,22 +563,6 @@ td small{color:var(--muted)}
       `<li><strong>Observé contre attendu</strong><span>Si H0 était vraie, on aurait ${p(attendu)} de oui à chaque prix. On observe ${p(part[0])}, ${p(part[1])} et ${p(part[2])}.</span></li>` +
       `<li><strong>Le Chi-2</strong><b class="big">χ² = ${n(rc.chi2, 1)}</b><span>${rc.ddl} degrés de liberté<br>p-value ${rc.p < 0.001 ? "< 0,001" : "= " + fp(rc.p)}</span></li>` +
       `<li class="end"><strong>La décision</strong><b class="big">${sigc ? "H0 rejetée" : "H0 gardée"}</b><span>${sigc ? "p < 0,05 : la réponse dépend bien du prix. La demande est sensible au prix." : "p ≥ 0,05 : on ne peut pas conclure."}</span></li>`;
-    // graphique : barres 100 % oui / non par prix + ligne de la part attendue sous H0
-    const svg = $("svgChiPrix"), NS = "http://www.w3.org/2000/svg"; svg.innerHTML = "";
-    const el2 = (t, a, x) => { const nd = document.createElementNS(NS, t); for (const kk in a) nd.setAttribute(kk, a[kk]); if (x != null) nd.textContent = x; svg.appendChild(nd); return nd; };
-    const T = 20, B = 270, H = B - T, y = v => B - v * H, X0 = 70, W = 120, GAP = 70;
-    [0, .25, .5, .75, 1].forEach(v => { el2("line", { class: "grid", x1: X0 - 10, x2: 630, y1: y(v), y2: y(v) }); el2("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, (v * 100) + " %"); });
-    PRIX.forEach((x, i) => {
-      const bx = X0 + 20 + i * (W + GAP), o = part[i];
-      el2("rect", { x: bx, y: T, width: W, height: H * (1 - o), fill: "var(--line)", rx: 4 });
-      el2("rect", { x: bx, y: y(o), width: W, height: H * o, fill: "var(--accent)", rx: 4 });
-      el2("text", { x: bx + W / 2, y: y(o) + (o > .1 ? 22 : -8), "text-anchor": "middle", class: o > .1 ? "in" : "" }, p(o));
-      el2("text", { x: bx + W / 2, y: T + 22, "text-anchor": "middle" }, "non " + p(1 - o));
-      el2("text", { x: bx + W / 2, y: B + 22, "text-anchor": "middle", class: "lbl" }, e(x));
-      el2("text", { x: bx + W / 2, y: B + 40, "text-anchor": "middle" }, `${S.oui[i]} oui sur ${S.n}`);
-    });
-    el2("line", { x1: X0, x2: 630, y1: y(attendu), y2: y(attendu), stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "7 5" });
-    el2("text", { x: 630, y: y(attendu) - 8, "text-anchor": "end", style: "fill:var(--ink);font-weight:600" }, `si H0 : ${p(attendu)} partout`);
     $("tabChiPrix").innerHTML = `<thead><tr><th>Prix proposé</th><th class="n">Oui observés</th><th class="n">Oui attendus si H0</th><th class="n">Non observés</th><th class="n">Non attendus si H0</th></tr></thead><tbody>` +
       PRIX.map((x, i) => `<tr><td><strong>${e(x)}</strong></td><td class="n">${tp[i][1]}</td><td class="n">${n(th[i][1], 1)}</td><td class="n">${tp[i][0]}</td><td class="n">${n(th[i][0], 1)}</td></tr>`).join("") + `</tbody>`;
     $("calcChiPrix").innerHTML = `<div class="head">Test du Chi-2 (tableau 3 prix × 2 réponses)</div>` +
@@ -456,17 +598,6 @@ td small{color:var(--muted)}
       `Si H0 était vraie, les deux groupes diraient oui dans la même proportion, ${p(tot)}. On observe ${p(pc[0])} et ${p(pc[1])}.`,
       ["Le Chi-2", `χ² = ${n(r.chi2, 1)}`], `${r.ddl} degré de liberté<br>p-value ${r.p < 0.001 ? "< 0,001" : "= " + fp(r.p)}`, sig, null,
       sig ? "p < 0,05 : la confiserie change vraiment l'envie d'acheter le pack." : "p ≥ 0,05 : on ne peut pas conclure.");
-    const el = svgOf("svgChi"), T = 20, B = 270, H = B - T, y = v => B - v * H, X0 = 70, W = 140;
-    [0, .25, .5, .75, 1].forEach(v => { el("line", { class: "grid", x1: X0 - 10, x2: 630, y1: y(v), y2: y(v) }); el("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, (v * 100) + " %"); });
-    [[L[0], C1, pc[0], 110], [L[1], C2, pc[1], 430]].forEach(([l, g, o, bx]) => {
-      el("rect", { x: bx, y: T, width: W, height: H * (1 - o), fill: "var(--line)", rx: 4 });
-      el("rect", { x: bx, y: y(o), width: W, height: H * o, fill: "var(--accent)", rx: 4 });
-      el("text", { x: bx + W / 2, y: y(o) + 22, "text-anchor": "middle", class: "in" }, p(o));
-      el("text", { x: bx + W / 2, y: T + 22, "text-anchor": "middle" }, "non " + p(1 - o));
-      el("text", { x: bx + W / 2, y: B + 22, "text-anchor": "middle", class: "lbl" }, l);
-      el("text", { x: bx + W / 2, y: B + 40, "text-anchor": "middle" }, `${g[1]} oui sur ${g[0]}`);
-    });
-    h0Line(el, X0, 630, y(tot), 340, y(tot) - 9, ["si H0 :", `${p(tot)} pour tous`]);
   }
   $("calcChi").innerHTML = `<div class="head">Test du Chi-2 d'indépendance (tableau 2 × 2)</div>` +
     row("Chi-2 calculé", n(r.chi2, 2), "Somme des (observé − théorique)² ÷ théorique sur les 4 cases, avec la petite correction de Yates utilisée pour les tableaux 2 × 2") +
@@ -510,21 +641,6 @@ td small{color:var(--muted)}
     `<li><strong>Observé contre attendu</strong><span>Si H0 était vraie, les deux groupes seraient proches de la moyenne commune, ${e(mG)}. On observe ${e(E.m)} et ${e(A.m)}.</span></li>` +
     `<li><strong>Le t de Student</strong><b class="big">t = ${n(t2, 2)}</b><span>${n(df2, 0)} degrés de liberté<br>p-value = ${fp(p2)}</span></li>` +
     `<li class="end"><strong>La décision</strong><b class="big">${sig2 ? "H0 rejetée" : "H0 gardée"}</b><span>${sig2 ? "p < 0,05 : les étudiants dépensent vraiment moins que les actifs." : "p ≥ 0,05 : on ne peut pas conclure."}</span></li>`;
-  {
-    const svg = $("svgT2"), NS = "http://www.w3.org/2000/svg"; svg.innerHTML = "";
-    const el2 = (t, a, x) => { const nd = document.createElementNS(NS, t); for (const kk in a) nd.setAttribute(kk, a[kk]); if (x != null) nd.textContent = x; svg.appendChild(nd); return nd; };
-    const MAX = Math.ceil(Math.max(E.m, A.m) * 1.25 / 2) * 2, T = 20, B = 270, H = B - T, y = v => B - v / MAX * H, X0 = 70;
-    for (let v = 0; v <= MAX; v += 2) { el2("line", { class: "grid", x1: X0 - 10, x2: 630, y1: y(v), y2: y(v) }); el2("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, v + " €"); }
-    [["Étudiants", E, "var(--c-indep)", 110], ["Actifs", A, "var(--accent)", 430]].forEach(([l, g, c, bx]) => {
-      el2("rect", { x: bx, y: y(g.m), width: 140, height: B - y(g.m), fill: c, rx: 4 });
-      el2("text", { x: bx + 70, y: y(g.m) + 24, "text-anchor": "middle", class: "in" }, e(g.m));
-      el2("text", { x: bx + 70, y: B + 22, "text-anchor": "middle", class: "lbl" }, l);
-      el2("text", { x: bx + 70, y: B + 40, "text-anchor": "middle" }, `${g.n} répondants`);
-    });
-    el2("line", { x1: X0, x2: 630, y1: y(mG), y2: y(mG), stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "7 5" });
-    el2("text", { x: 340, y: y(mG) - 26, "text-anchor": "middle", style: "fill:var(--ink);font-weight:600" }, "si H0 :");
-    el2("text", { x: 340, y: y(mG) - 9, "text-anchor": "middle", style: "fill:var(--ink);font-weight:600" }, `${e(mG)} pour tous`);
-  }
   $("calcT2").innerHTML = `<div class="head">Test de Student (version de Welch)</div>` +
     row("Moyenne des étudiants", e(E.m), `${E.n} répondants, dont ${E.zero} qui ne dépensent rien (${p(E.zero / E.n)})`) +
     row("Moyenne des actifs", e(A.m), `${A.n} répondants, dont ${A.zero} qui ne dépensent rien (${p(A.zero / A.n)})`) +
@@ -551,14 +667,6 @@ td small{color:var(--muted)}
       `Si H0 était vraie, la note serait à peu près la même dans toutes les tranches, autour de ${n(mV, 2)} sur 5. On observe de ${n(a0.vp, 1)} à ${n(aN.vp, 1)}.`,
       ["Le coefficient r", `r = ${n(C.r, 2)}`], `lien ${force(C.r)} et positif ; r² = ${p(C.r ** 2)}<br>p-value ${p3 < 0.001 ? "< 0,001" : "= " + fp(p3)}`, sig3, null,
       sig3 ? "p < 0,05 : plus on dépense en confiserie, plus le pack paraît avantageux." : "p ≥ 0,05 : on ne peut pas conclure.");
-    const el = svgOf("svgT3"), T = 20, B = 270, H = B - T, y = v => B - v / 5 * H, X0 = 70, W = 100;
-    for (let v = 0; v <= 5; v++) { el("line", { class: "grid", x1: X0 - 10, x2: 630, y1: y(v), y2: y(v) }); el("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, v); }
-    C.cl.forEach((c, i) => { const bx = 95 + i * 135;
-      el("rect", { x: bx, y: y(c.vp), width: W, height: B - y(c.vp), fill: "var(--accent)", "fill-opacity": .45 + .55 * i / (C.cl.length - 1), rx: 4 });
-      el("text", { x: bx + W / 2, y: y(c.vp) + 22, "text-anchor": "middle", class: "in" }, n(c.vp, 1));
-      el("text", { x: bx + W / 2, y: B + 22, "text-anchor": "middle", class: "lbl" }, c.l);
-      el("text", { x: bx + W / 2, y: B + 40, "text-anchor": "middle" }, `${c.n} répondants`); });
-    h0Line(el, X0, 630, y(mV), 75, y(mV) - 9, `si H0 : ${n(mV, 2)} partout`, "start");
   }
   $("calcT3").innerHTML = `<div class="head">Coefficient de corrélation de Pearson</div>` +
     row("r", n(C.r, 2), `Lien ${force(C.r)} et ${C.r > 0 ? "positif" : "négatif"} (repères : 0,1 faible, 0,3 moyen, 0,5 fort)`) +
@@ -587,17 +695,6 @@ td small{color:var(--muted)}
     `Si H0 était vraie, la droite serait plate, à ${p(mY)} pour tous les prix. On observe ${p(Y[0])}, ${p(Y[1])} puis ${p(Y[2])}.`,
     ["La pente a", `a = ${n(a4 * 100, 1)}`], `points de % par euro ; R² = ${p(r2, 1)}<br>p-value = ${fp(p4)} (3 points seulement)`, sig4, null,
     sig4 ? "p < 0,05 : la demande baisse vraiment avec le prix. Prudence : la droite ne repose que sur 3 prix." : "p ≥ 0,05 : avec 3 points seulement, on ne peut pas conclure.");
-  {
-    const el = svgOf("svgT4"), T = 20, B = 270, X0 = 70, XR = 620, P0 = 16.5, P1 = 19.5, x = v => X0 + (v - P0) / (P1 - P0) * (XR - X0), y = v => B - v / 0.6 * (B - T);
-    for (let v = 0; v <= 0.6; v += 0.1) { el("line", { class: "grid", x1: X0 - 10, x2: XR, y1: y(v), y2: y(v) }); el("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + " %"); }
-    [17, 18, 19].forEach(v => el("text", { x: x(v), y: B + 22, "text-anchor": "middle" }, v + " €"));
-    h0Line(el, X0, XR, y(mY), XR, y(mY) - 9, `si H0 : ${p(mY)} partout`, "end");
-    el("line", { x1: x(P0), x2: x(zero4), y1: y(pred(P0)), y2: 0 + y(0), stroke: "var(--c-indep)", "stroke-width": 3 });
-    el("text", { x: Math.min(x(zero4), XR - 60), y: B + 42, "text-anchor": "middle", style: "fill:var(--c-indep);font-weight:600" }, `0 % vers ${e(zero4)}`);
-    PRIX.forEach((v, i) => { el("circle", { cx: x(v), cy: y(Y[i]), r: 8, fill: "var(--accent)", stroke: "var(--bg)", "stroke-width": 2 });
-      el("text", { x: x(v) + 14, y: y(Y[i]) - 8, class: "lbl" }, `${e(v)} : ${p(Y[i])}`); });
-    el("text", { x: x(P0) + 6, y: y(pred(P0)) - 14, style: "fill:var(--c-indep);font-weight:600" }, `${n(a4 * 100, 1)} points par euro`);
-  }
   $("eqT4").textContent = `Part d'acheteurs = ${n(a4 * 100, 1)} × prix + ${n(b4 * 100, 1)}   (en points de %)`;
   $("calcT4").innerHTML = `<div class="head">Droite de régression (moindres carrés)</div>` +
     row("Pente a", n(a4 * 100, 1) + " points", "Chaque euro de plus fait perdre ce nombre de points de % d'acheteurs") +
@@ -608,7 +705,7 @@ td small{color:var(--muted)}
     row("Prix où plus personne n'achète", e(zero4), "Là où la droite coupe 0 % (extrapolation)", "total");
   const upd4 = () => { const x = parseFloat($("inPrixT4").value); if (!Number.isFinite(x)) return; const y = Math.max(0, Math.min(1, pred(x))), out = x < 16.9 || x > 18.9;
     $("predT4").innerHTML = `<span class="label">Prévision</span><p>À <strong>${e(x)}</strong>, la droite prévoit environ <strong>${p(y)}</strong> d'acheteurs, soit ${Math.round(y * 100)} personnes sur 100 et un revenu de ${e(x * y)} par personne interrogée.${out ? " <strong>Attention : ce prix est hors de la zone testée (16,90 € à 18,90 €), la prévision est peu fiable.</strong>" : ""}</p>`; };
-  $("inPrixT4").addEventListener("input", upd4); upd4();
+  const upd4b = () => { upd4(); drawReg(parseFloat($("inPrixT4").value)); }; $("inPrixT4").addEventListener("input", upd4b); upd4b();
   $("lectT4").innerHTML = `<span class="label">Ce qu'on en dit</span><p>L'équation résume la courbe de demande : <strong>chaque euro de plus fait perdre environ ${n(-a4 * 100, 0)} points d'acheteurs</strong>. À ce rythme, plus personne n'achèterait vers ${e(zero4)}. C'est la même idée que l'élasticité, mais sous forme d'équation qui permet de prévoir. Limites : la droite repose sur 3 prix seulement, donc sa p-value (${fp(p4)}) est fragile ; et on ne peut pas prolonger la droite loin des prix testés.</p>` +
     oral(`On a modélisé la demande avec une régression linéaire : Y, la part d'acheteurs, en fonction de X, le prix. On obtient Y = ${n(a4 * 100, 1)} × prix + ${n(b4 * 100, 1)}, avec un R² de ${p(r2, 1)}. Chaque euro de plus fait perdre environ ${n(-a4 * 100, 0)} points d'acheteurs : la demande est très sensible au prix.`);
 
@@ -639,18 +736,7 @@ td small{color:var(--muted)}
       `Si H0 était vraie, le hasard d'un échantillon de ${S.n} personnes donnerait entre ${p(lo0)} et ${p(hi0)}. On observe ${p(ph)}.`,
       ["Le Z", `Z = ${n(z, 2)}`], `seuil : ±1,96<br>p-value ${p5 < 0.001 ? "< 0,001" : "= " + fp(p5)}`, sig5, null,
       sig5 ? `p < 0,05 : la part est vraiment ${ph < obj ? "en dessous" : "au-dessus"} de l'objectif.` : "p ≥ 0,05 : on ne peut pas conclure.");
-    const el = svgOf("svgT5"), T = 20, B = 270, X0 = 70, MAXp = Math.min(1, Math.ceil((Math.max(hi, hi0) + 0.05) * 10) / 10), y = v => B - v / MAXp * (B - T), step = MAXp > 0.6 ? 0.2 : 0.1;
-    for (let v = 0; v <= MAXp + 1e-9; v += step) { el("line", { class: "grid", x1: X0 - 10, x2: 630, y1: y(v), y2: y(v) }); el("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + " %"); }
-    el("rect", { x: X0, y: y(hi0), width: 630 - X0, height: y(lo0) - y(hi0), fill: "var(--info)", "fill-opacity": .18 });
-    el("text", { x: 625, y: y(hi0) + 16, "text-anchor": "end", style: "fill:var(--info);font-weight:600" }, `zone du hasard si H0 : ${p(lo0)} à ${p(hi0)}`);
-    const bx = 150, W = 140;
-    el("rect", { x: bx, y: y(ph), width: W, height: B - y(ph), fill: "var(--accent)", rx: 4 });
-    el("line", { x1: bx + W / 2, x2: bx + W / 2, y1: y(hi), y2: y(lo), stroke: "var(--ink)", "stroke-width": 2 });
-    [lo, hi].forEach(v => el("line", { x1: bx + W / 2 - 14, x2: bx + W / 2 + 14, y1: y(v), y2: y(v), stroke: "var(--ink)", "stroke-width": 2 }));
-    el("text", { x: bx + W + 12, y: y(ph) + 5, class: "lbl" }, `${p(ph)} (marge : ${p(lo)} à ${p(hi)})`);
-    el("text", { x: bx + W / 2, y: B + 22, "text-anchor": "middle", class: "lbl" }, `Observé à ${e(PRIX[i])}`);
-    el("text", { x: bx + W / 2, y: B + 40, "text-anchor": "middle" }, `${k} oui sur ${S.n}`);
-    h0Line(el, X0, 630, y(obj), 625, y(obj) - 9, `objectif : ${p(obj)}`, "end");
+    drawZ({ z, ph, obj, se, lo, hi, k, prix: PRIX[i], p5 });
     return { ph, obj, p5, sig5, i };
   };
   $("inPrixT5").addEventListener("change", upd5); $("inObjT5").addEventListener("input", upd5);
@@ -674,18 +760,6 @@ td small{color:var(--muted)}
     `Si H0 était vraie, A et B diraient oui dans la même proportion, ${p(ab0.pt)}. On observe ${p(ab0.pa)} en A et ${p(ab0.pb)} en B.`,
     ["Le Chi-2", `χ² = ${n(ab0.chi2, 2)}`], `${ab0.ddl} degré de liberté<br>p-value = ${fp(ab0.p)}`, sigAB, sigAB ? null : "Pas de conclusion",
     sigAB ? "p < 0,05 : la mention « 22 € » augmente vraiment les ventes." : "p ≥ 0,05 : B fait mieux, mais l'écart peut encore venir du hasard.");
-  {
-    const el = svgOf("svgAB"), T = 20, B = 270, X0 = 70, MAX = 0.6, y = v => B - v / MAX * (B - T);
-    for (let v = 0; v <= MAX + 1e-9; v += 0.1) { el("line", { class: "grid", x1: X0 - 10, x2: 630, y1: y(v), y2: y(v) }); el("text", { x: X0 - 16, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + " %"); }
-    ab.forEach((a, i) => { const cx = 170 + i * 175;
-      [[a.pa, "var(--c-a)", cx - 68], [a.pb, "var(--c-b)", cx + 8]].forEach(([v, c, bx]) => {
-        el("rect", { x: bx, y: y(v), width: 60, height: B - y(v), fill: c, rx: 4 });
-        const yl = Math.abs(y(v) - 8 - y(a.pt)) < 14 ? Math.min(y(v), y(a.pt)) - 10 : y(v) - 8;
-        el("text", { x: bx + 30, y: yl, "text-anchor": "middle", class: "lbl" }, p(v)); });
-      el("line", { x1: cx - 78, x2: cx + 78, y1: y(a.pt), y2: y(a.pt), stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "6 4" });
-      el("text", { x: cx, y: B + 22, "text-anchor": "middle", class: "lbl" }, e(a.x));
-      el("text", { x: cx, y: B + 40, "text-anchor": "middle" }, `A / B · p = ${fp(a.p)}`); });
-  }
   $("tabAB").innerHTML = `<thead><tr><th>Prix</th><th class="n">Version A</th><th class="n">Version B</th><th class="n">Écart B − A</th><th class="n">Chi-2</th><th class="n">p-value</th><th>Lecture</th></tr></thead><tbody>` +
     ab.map(a => `<tr><td><strong>${e(a.x)}</strong></td><td class="n">${p(a.pa)} <small>(${a.t[0][1]}/${VA[0]})</small></td><td class="n">${p(a.pb)} <small>(${a.t[1][1]}/${VB[0]})</small></td><td class="n">+${n((a.pb - a.pa) * 100, 0)} pts</td><td class="n">${n(a.chi2, 2)}</td><td class="n">${fp(a.p)}</td><td>${a.petit ? '<span class="tag miss">Fragile</span> case théorique < 5' : a.p < 0.05 ? '<span class="tag obs">Significatif</span>' : "Non significatif"}</td></tr>`).join("") + `</tbody>`;
   $("calcAB").innerHTML = `<div class="head">Test du Chi-2 à 16,90 € (tableau 2 × 2)</div>` +
@@ -699,8 +773,18 @@ td small{color:var(--muted)}
     <p>La version B fait mieux à chaque prix (+${ecarts} points), ce qui va dans le sens de la théorie du prix de référence. Mais avec p = ${fp(ab0.p)}, l'écart peut encore venir du hasard du tirage : <strong>on ne peut pas affirmer que la mention « 22 € » fait vendre plus</strong>. Attention, cela ne prouve pas non plus qu'elle est inutile : nos groupes sont trop petits. Il aurait fallu environ ${nAB} personnes par version pour trancher. Autre limite : nous n'avons pas vérifié que les répondants de la version B avaient bien remarqué la mention.</p>
     <p><strong>À dire :</strong> « Nous avons fait un test A/B : la moitié des répondants voyait le prix des produits achetés séparément, 22 €, l'autre non. On a croisé la version vue et la réponse à 16,90 €, deux variables qualitatives, avec un Chi-2. La version B fait mieux, ${p(ab0.pb)} contre ${p(ab0.pa)}, mais p = ${fp(ab0.p)} : on ne peut pas rejeter H0. L'effet va dans le bon sens, mais il faudrait environ ${nAB} personnes par version pour le prouver. »</p>`;
 
-  // ===== Synthèse =====
-  const dec = s => s ? '<span class="tag obs">H0 rejetée</span>' : '<span class="tag miss">Pas de conclusion</span>';
+  // ===== Graphiques des tests, dessinés à partir des résultats ci-dessus =====
+  drawChi("svgChiPrix", { k: CP.ddl, p: CP.p, title: `Loi du Chi-2 à ${CP.ddl} degrés de liberté : où tombe notre Chi-2 ?`, h0: "si la réponse ne dépendait pas du prix",
+    obs: [{ v: CP.chi2, lab: `χ² calculé = ${n(CP.chi2, 1)}`, sub: pvTxt(CP.p) }, { v: CP.Q, lab: `Q de Cochran = ${n(CP.Q, 1)}`, sub: pvTxt(CP.pQ), c: "var(--info)" }],
+    extra: `Le Q de Cochran (en bleu), le test adapté quand les mêmes personnes répondent aux trois prix, suit la même loi à ${CP.ddl} degrés de liberté et mène à la même conclusion.` });
+  drawChi("svgChi", { k: r.ddl, p: r.p, title: `Loi du Chi-2 à ${r.ddl} degré de liberté : confiserie et achat du pack`, h0: "si accepter le pack ne dépendait pas de la confiserie",
+    obs: [{ v: r.chi2, lab: `χ² calculé = ${n(r.chi2, 2)}`, sub: pvTxt(r.p) }], extra: "Chi-2 calculé avec la correction de Yates, utilisée pour les tableaux 2 × 2." });
+  drawStudent();
+  drawCorr();
+  drawChi("svgAB", { k: ab0.ddl, p: ab0.p, title: `Loi du Chi-2 à ${ab0.ddl} degré de liberté : le test A/B à 16,90 €`, h0: "si la mention « 22 € » ne changeait rien",
+    obs: [{ v: ab0.chi2, lab: `χ² calculé = ${n(ab0.chi2, 2)}`, sub: pvTxt(ab0.p) }], extra: "Il aurait fallu un Chi-2 d'au moins la valeur critique pour conclure : l'écart observé entre A et B est trop petit pour nos effectifs." });
+
+  // ===== Synthèse =====  const dec = s => s ? '<span class="tag obs">H0 rejetée</span>' : '<span class="tag miss">Pas de conclusion</span>';
   $("tabSyn").innerHTML = `<thead><tr><th>Test</th><th>Questions croisées</th><th>Résultat</th><th class="n">p-value</th><th>Décision</th></tr></thead><tbody>` +
     `<tr><td><strong>1 · Chi-2</strong></td><td>Prix proposé × Q6 (oui / non)</td><td>${p(part[0])} → ${p(part[1])} → ${p(part[2])} de oui</td><td class="n">${fp(CP.p)}</td><td>${dec(CP.p < 0.05)}</td></tr>` +
     `<tr><td><strong>1 bis · Chi-2</strong></td><td>Q2 confiserie × Q6 pack à 16,90 €</td><td>${p(pc[0])} contre ${p(pc[1])} d'acheteurs</td><td class="n">${fp(r.p)}</td><td>${dec(sig)}</td></tr>` +
