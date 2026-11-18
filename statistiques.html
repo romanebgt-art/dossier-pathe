@@ -23,6 +23,14 @@
 .chart svg .in{fill:#0F1013;font-weight:700}
 .chart svg .h0{fill:var(--ink);font-weight:600}
 td small{color:var(--muted)}
+.oral{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+.oral dl{display:grid;grid-template-columns:150px 1fr;gap:12px 18px;margin:12px 0 0}
+.oral dt{font:700 .78rem var(--display);letter-spacing:.04em;color:var(--muted);padding-top:3px}
+.oral dd{margin:0;font-size:.98rem}
+.oral dd b{color:var(--accent-ink)}
+.calc .row.warn{background:var(--bad-soft)}.calc .row.warn .v,.calc .row.warn strong{color:var(--bad)}
+.vtype{display:block;font:600 .82rem var(--display);color:var(--info);margin-bottom:4px}
+@media (max-width:620px){.oral dl{grid-template-columns:1fr;gap:4px}.oral dd{margin-bottom:10px}}
 </style>
 </head>
 <body>
@@ -43,7 +51,7 @@ td small{color:var(--muted)}
   <div class="hero">
     <p class="eyebrow">Partie 5 · Qui a répondu, et ce que nos réponses permettent de conclure</p>
     <h1>Ce que nos réponses permettent de conclure</h1>
-    <p class="lede">Huit tests statistiques, présentés tous de la même façon. Les chiffres sont recalculés à partir des <span id="nRep">119</span> réponses à <a class="src" href="questionnaire.html">notre questionnaire en ligne, collectées du 12 au 21 octobre 2026</a>.</p>
+    <p class="lede">Les 5 familles de tests du cours (Chi-2, test t, ANOVA, corrélation, régression), présentées toutes de la même façon, puis deux tests complémentaires. Les chiffres sont recalculés à partir des <span id="nRep">119</span> réponses à <a class="src" href="questionnaire.html">notre questionnaire en ligne, collectées du 12 au 21 octobre 2026</a>.</p>
     <p><a href="essentiel.html"><strong>Version courte →</strong> nos résultats en schémas, une phrase chacun</a></p>
   </div>
 
@@ -54,21 +62,37 @@ td small{color:var(--muted)}
   </section>
 
   <section aria-labelledby="lire">
-    <div class="sec-head"><span class="num">Comment lire un test</span><h2 id="lire">Une seule règle pour les huit tests</h2></div>
+    <div class="sec-head"><span class="num">Comment lire un test</span><h2 id="lire">Une seule règle pour tous les tests</h2></div>
     <div class="callout info"><p><strong>H0</strong> dit « il n'y a pas d'effet ». La <strong>p-value</strong> est la probabilité d'obtenir un écart aussi grand que le nôtre par simple hasard si H0 était vraie. <strong>Si p &lt; 0,05, on rejette H0</strong> : l'écart n'est pas dû au hasard. Sinon, on ne peut pas conclure, ce qui ne prouve pas l'absence d'effet.</p></div>
+    <p class="step">Le type des variables décide du test et du graphique</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Variables croisées</th><th>Test</th><th>Graphique</th></tr></thead>
+      <tbody>
+        <tr><td>Qualitative × qualitative</td><td><strong>1 · Chi-2 d'indépendance</strong></td><td>Barres empilées à 100 %</td></tr>
+        <tr><td>Qualitative à 2 groupes × quantitative</td><td><strong>2 · Test t (Welch)</strong></td><td>Boîtes à moustaches</td></tr>
+        <tr><td>Qualitative à 3 groupes ou plus × quantitative</td><td><strong>3 · ANOVA à un facteur</strong></td><td>Boîtes à moustaches côte à côte</td></tr>
+        <tr><td>Quantitative × quantitative</td><td><strong>4 · Corrélation de Pearson</strong></td><td>Nuage de points</td></tr>
+        <tr><td>Quantitative X → quantitative Y</td><td><strong>5 · Régression linéaire simple</strong></td><td>Nuage de points + droite</td></tr>
+      </tbody></table></div>
   </section>
 
-  <section aria-labelledby="t1-q" id="t1"><div class="sec-head"><span class="num">Test 1 · Q de Cochran et McNemar</span><h2 id="t1-q">Le prix fait-il baisser l'envie d'acheter ?</h2></div><div class="stack" id="t1-b"></div></section>
-  <section aria-labelledby="t2-q" id="t2"><div class="sec-head"><span class="num">Test 2 · Chi-2 d'indépendance</span><h2 id="t2-q">Ceux qui achètent de la confiserie veulent-ils plus le pack ?</h2></div><div class="stack" id="t2-b"></div></section>
-  <section aria-labelledby="t3-q" id="t3"><div class="sec-head"><span class="num">Test 3 · Chi-2 d'indépendance</span><h2 id="t3-q">Les étudiants veulent-ils moins le pack que les actifs ?</h2></div><div class="stack" id="t3-b"></div></section>
-  <section aria-labelledby="t4-q" id="t4"><div class="sec-head"><span class="num">Test 4 · Test t de Welch unilatéral</span><h2 id="t4-q">Les étudiants dépensent-ils moins en confiserie que les actifs ?</h2></div><div class="stack" id="t4-b"></div></section>
-  <section aria-labelledby="t5-q" id="t5"><div class="sec-head"><span class="num">Test 5 · Corrélation de Pearson</span><h2 id="t5-q">Plus on dépense en confiserie, plus le pack paraît-il une bonne affaire ?</h2></div><div class="stack" id="t5-b"></div></section>
-  <section aria-labelledby="t6-q" id="t6"><div class="sec-head"><span class="num">Test 6 · Régression linéaire (descriptive)</span><h2 id="t6-q">De combien la part d'acheteurs baisse-t-elle par euro, entre 16,90 et 18,90 € ?</h2></div><div class="stack" id="t6-b"></div></section>
-  <section aria-labelledby="t7-q" id="t7"><div class="sec-head"><span class="num">Test 7 · Test Z de proportion</span><h2 id="t7-q">À 18,90 €, atteint-on l'objectif d'un client sur quatre ?</h2></div><div class="stack" id="t7-b"></div></section>
-  <section aria-labelledby="t8-q" id="t8"><span id="tab"></span><div class="sec-head"><span class="num">Test 8 · Chi-2 d'indépendance (test A/B)</span><h2 id="t8-q">Afficher « achetés séparément : 22 € » fait-il vendre plus ?</h2></div><div class="stack" id="t8-b"></div></section>
+  <section aria-labelledby="t2-q" id="t2"><div class="sec-head"><span class="num">1a · Chi-2 d'indépendance</span><h2 id="t2-q">Ceux qui achètent de la confiserie veulent-ils plus le pack ?</h2></div><div class="stack" id="t2-b"></div></section>
+  <section aria-labelledby="t3-q" id="t3"><div class="sec-head"><span class="num">1b · Chi-2 d'indépendance</span><h2 id="t3-q">Les étudiants veulent-ils moins le pack que les actifs ?</h2></div><div class="stack" id="t3-b"></div></section>
+  <section aria-labelledby="t8-q" id="t8"><span id="tab"></span><div class="sec-head"><span class="num">1c · Chi-2 d'indépendance (test A/B)</span><h2 id="t8-q">Afficher « achetés séparément : 22 € » fait-il vendre plus ?</h2></div><div class="stack" id="t8-b"></div></section>
+  <section aria-labelledby="t4-q" id="t4"><div class="sec-head"><span class="num">2 · Test t de Welch unilatéral</span><h2 id="t4-q">Les étudiants dépensent-ils moins en confiserie que les actifs ?</h2></div><div class="stack" id="t4-b"></div></section>
+  <section aria-labelledby="t9-q" id="t9"><div class="sec-head"><span class="num">3 · ANOVA à un facteur</span><h2 id="t9-q">La dépense en confiserie change-t-elle selon la fréquence de visite ?</h2></div><div class="stack" id="t9-b"></div></section>
+  <section aria-labelledby="t5-q" id="t5"><div class="sec-head"><span class="num">4 · Corrélation de Pearson</span><h2 id="t5-q">Plus on dépense en confiserie, plus le pack paraît-il une bonne affaire ?</h2></div><div class="stack" id="t5-b"></div></section>
+  <section aria-labelledby="t6-q" id="t6"><div class="sec-head"><span class="num">5 · Régression linéaire simple</span><h2 id="t6-q">De combien la part d'acheteurs baisse-t-elle par euro, entre 16,90 et 18,90 € ?</h2></div><div class="stack" id="t6-b"></div></section>
+
+  <section aria-labelledby="annexe">
+    <div class="sec-head"><span class="num">Tests complémentaires</span><h2 id="annexe">Deux tests en plus des 5 familles du cours</h2></div>
+    <p>Le test A est la vraie preuve statistique de l'effet du prix (la régression 5 ne fait que le décrire). Le test B compare notre résultat à l'objectif fixé par le groupe.</p>
+  </section>
+  <section aria-labelledby="t1-q" id="t1"><div class="sec-head"><span class="num">A · Q de Cochran et McNemar</span><h2 id="t1-q">Le prix fait-il baisser l'envie d'acheter ?</h2></div><div class="stack" id="t1-b"></div></section>
+  <section aria-labelledby="t7-q" id="t7"><div class="sec-head"><span class="num">B · Test Z de proportion</span><h2 id="t7-q">À 18,90 €, atteint-on l'objectif d'un client sur quatre ?</h2></div><div class="stack" id="t7-b"></div></section>
 
   <section aria-labelledby="syn-t">
-    <div class="sec-head"><span class="num">En résumé</span><h2 id="syn-t">Les huit tests en un coup d'œil</h2></div>
+    <div class="sec-head"><span class="num">En résumé</span><h2 id="syn-t">Tous les tests en un coup d'œil</h2></div>
     <div class="scroll"><table id="tabSyn"></table></div>
     <div class="callout" id="chaine"></div>
   </section>
@@ -81,7 +105,7 @@ td small{color:var(--muted)}
 
 <footer>
   <span>Dossier « Prix et budgets marketing », M1 Marketing Vente, IAE Clermont Auvergne, 2026-2027</span>
-  <span>Page mise à jour le 10 novembre 2026</span>
+  <span>Page mise à jour le 18 novembre 2026</span>
 </footer>
 
 <script src="modele.js"></script>
@@ -93,6 +117,18 @@ td small{color:var(--muted)}
   const PRIX = [16.90, 17.90, 18.90], COLS = ["gg_16_90", "gg_17_90", "gg_18_90"], OBJ = 0.25;
   const e = FMT.e, p = (v, d = 0) => FMT.p(v, d), n = FMT.n, fp = v => v < 0.001 ? "< 0,001" : n(v, 3), pv = v => v < 0.001 ? "p < 0,001" : "p = " + n(v, 3);
   const NS = "http://www.w3.org/2000/svg";
+  // loi de Fisher : p-value d'un F (d1, d2 degrés de liberté) et seuil de rejet à 5 %
+  const fP = (F, d1, d2) => STAT.betaI(d2 / (d2 + d1 * F), d2 / 2, d1 / 2);
+  const fCrit = (d1, d2) => { let lo = 0, hi = 100; for (let i = 0; i < 200; i++) { const m = (lo + hi) / 2; fP(m, d1, d2) > 0.05 ? lo = m : hi = m; } return (lo + hi) / 2; };
+  // ANOVA à un facteur à partir de l'effectif, la moyenne et la variance de chaque groupe
+  const anovaF = gs => { const nT = gs.reduce((s, g) => s + g.n, 0), M = gs.reduce((s, g) => s + g.n * g.m, 0) / nT, ssb = gs.reduce((s, g) => s + g.n * (g.m - M) ** 2, 0), ssw = gs.reduce((s, g) => s + (g.n - 1) * g.v, 0), d1 = gs.length - 1, d2 = nT - gs.length, F = (ssb / d1) / (ssw / d2);
+    return { nT, M, F, d1, d2, p: fP(F, d1, d2), eta2: ssb / (ssb + ssw) }; };
+  const resume = a => ({ n: a.length, m: STAT.mean(a), v: STAT.var(a) });
+  // Kruskal-Wallis (comparaison des rangs, sans hypothèse de loi normale), avec correction des ex aequo
+  const kruskal = gs => { const all = gs.flatMap((g, i) => g.map(x => [x, i])).sort((a, b) => a[0] - b[0]), Nn = all.length, rk = []; let tie = 0;
+    for (let i = 0; i < Nn;) { let j = i; while (j + 1 < Nn && all[j + 1][0] === all[i][0]) j++; for (let q = i; q <= j; q++) rk[q] = (i + j) / 2 + 1; tie += (j - i + 1) ** 3 - (j - i + 1); i = j + 1; }
+    const R = gs.map(() => 0); all.forEach((a, i) => R[a[1]] += rk[i]);
+    const H = (12 / (Nn * (Nn + 1)) * R.reduce((s, r, i) => s + r * r / gs[i].length, 0) - 3 * (Nn + 1)) / (1 - tie / (Nn ** 3 - Nn)); return STAT.chi2p(H, gs.length - 1); };
 
   /* ===== 1. Les données =====
      Sur l'ordinateur du groupe : les réponses brutes (data/reponses.csv). En ligne : les résultats agrégés (agregats.js),
@@ -108,12 +144,17 @@ td small{color:var(--muted)}
     // note de valeur perçue : seulement les répondants qui ont vu le pack à 16,90 € à la question 8 (le prix affiché a changé le 15/10)
     const pr = rows.filter(r => ok(r) && N(r.prix_pack_affiche) === 16.9).map(r => [dep(r), CM3.vp(r)]).filter(x => x[1] != null);
     const xs = pr.map(x => x[0]), ys = pr.map(x => x[1]), m = new Map(); pr.forEach(([d, v]) => { const k = d + "|" + Math.round(v * 3); m.set(k, (m.get(k) || 0) + 1); });
+    // ANOVA : 3 groupes selon la date de la dernière séance (question 1) ; « jamais » mis de côté
+    const GRP = [["Moins d'un mois", ["1s", "1m"]], ["1 à 6 mois", ["6m"]], ["Plus de 6 mois", ["12m", "plus"]]];
+    const ga = GRP.map(([, c]) => rows.filter(r => c.includes(r.derniere_seance) && ok(r)).map(dep).sort((a, b) => a - b));
     S = { n: rows.length, oui: COLS.map(c => rows.filter(r => N(r[c]) === 1).length),
       confiserie: { oui: grp(r => r.type_client === "B_avec_confiserie"), non: grp(r => r.type_client === "A_sans_confiserie") },
       situation: { etudiant: grp(r => r.situation === "etudiant"), actif: grp(r => r.situation === "actif") },
       version: { A: grp(r => r.version === "A"), B: grp(r => r.version === "B") },
       student: { etudiant: box(vals("etudiant")), actif: box(vals("actif")), ecartees: rows.filter(r => dep(r) != null && dep(r) > 50).length, mwp: STAT.mannWhitney(vals("etudiant"), vals("actif")).p },
       corr: { n: pr.length, r: STAT.corr(xs, ys), mx: STAT.mean(xs), my: STAT.mean(ys), sx: STAT.sd(xs), sy: STAT.sd(ys), cells: [...m].map(([k, c]) => { const [d, v3] = k.split("|"); return [+d, +v3, c]; }) },
+      anova: { groupes: ga.map((g, i) => Object.assign({ l: GRP[i][0] }, box(g))),
+        levp: anovaF(ga.map(g => { const md = STAT.median(g); return resume(g.map(x => Math.abs(x - md))); })).p, kwp: kruskal(ga) },
       // contrôle de la méthode Gabor-Granger : personne ne dit oui à un prix plus haut après un non
       incoherents: rows.filter(r => { const o = COLS.map(c => N(r[c]) === 1 ? 1 : 0); return o[1] > o[0] || o[2] > o[1]; }).length };
   } else S = Object.assign({ incoherents: 0 }, AGREGATS.stats);
@@ -121,16 +162,22 @@ td small{color:var(--muted)}
 
   /* ===== 2. Outils ===== */
   const row = (t, v, o, cls = "") => `<div class="row ${cls}"><span class="t">${t}</span><span class="v">${v}</span><span class="o">${o}</span></div>`;
-  // chaque test suit la même organisation : question (titre), variables, hypothèses, graphique, résultats, interprétation, conclusion
+  // chaque test suit la même organisation : encadré pour l'oral (variables et leur type, hypothèses, résultat, conséquence pour Pathé),
+  // puis tableau croisé éventuel, graphique, résultats détaillés, interprétation, conclusion
   function test(id, o) {
+    const verdict = o.ok === null ? "modèle descriptif, pas de décision sur H0" : o.ok ? "on rejette H0" : "on ne rejette pas H0";
     $(id + "-b").innerHTML =
       (o.methode ? `<div class="methode">${o.methode}</div>` : "") +
-      `<div class="tgrid"><div class="card"><p class="step">Les variables</p><p>${o.vars}</p></div><div class="card"><p class="step">Les hypothèses</p><p><strong>H0</strong> : ${o.h0}<br><strong>H1</strong> : ${o.h1}</p></div></div>` +
+      `<div class="oral"><p class="step">Encadré pour l'oral</p><dl>` +
+      `<dt>Variables croisées</dt><dd><span class="vtype">${o.types}</span>${o.vars}</dd>` +
+      `<dt>Hypothèses</dt><dd><strong>H0</strong> : ${o.h0}<br><strong>H1</strong> : ${o.h1}</dd>` +
+      `<dt>Résultat</dt><dd>${o.cle} → <b>${verdict}</b></dd>` +
+      `<dt>Pour Pathé</dt><dd>${o.pathe}</dd></dl></div>` +
       (o.tab ? `<div class="stack"><p class="step">Le tableau croisé (effectifs observés)</p><div class="scroll"><table>${o.tab}</table></div></div>` : "") +
       `<div class="chart"><p class="step">Le graphique</p><h3>${o.titre}</h3><svg id="${id}-g" viewBox="0 0 640 ${o.h || 320}" role="img" aria-label="${o.titre}"></svg><div class="legend">${o.legende.map(([c, t]) => `<span><span class="dot" style="background:${c}"></span>${t}</span>`).join("")}</div></div>` +
       `<div class="calc"><div class="head">Les résultats</div>${o.res.map(r => row(...r)).join("")}</div>` +
       `<p class="interp"><strong>En clair :</strong> ${o.interp}</p>` +
-      `<div class="concl ${o.ok === null ? "desc" : o.ok ? "ok" : "no"}">Conclusion : <b>${o.ok === null ? "modèle descriptif, pas de décision sur H0" : o.ok ? "on rejette H0" : "on ne rejette pas H0"}</b>. ${o.concl}</div>`;
+      `<div class="concl ${o.ok === null ? "desc" : o.ok ? "ok" : "no"}">Conclusion : <b>${verdict}</b>. ${o.concl}</div>`;
     const svg = $(id + "-g");
     return (t, a, x) => { const nd = document.createElementNS(NS, t); for (const k in a) nd.setAttribute(k, a[k]); if (x != null) nd.textContent = x; svg.appendChild(nd); return nd; };
   }
@@ -173,6 +220,9 @@ td small{color:var(--muted)}
       methode: `<strong>Pourquoi pas un Chi-2 classique ?</strong> Avec la méthode Gabor-Granger, chaque répondant voit 16,90 €, puis 17,90 € seulement s'il a dit oui, puis 18,90 €. Ce sont donc les mêmes personnes aux trois prix, avec des réponses liées : le Chi-2 classique, qui suppose des groupes indépendants, ne convient pas. Nous utilisons le <strong>Q de Cochran</strong> (comparer plusieurs proportions mesurées sur les mêmes personnes) et le <strong>test de McNemar</strong> entre deux prix successifs.${S.incoherents ? "" : " Contrôle : aucun répondant ne dit oui à un prix plus haut après un non."}`,
       vars: `<strong>Le prix proposé</strong> (16,90 €, 17,90 €, 18,90 €) et <strong>la réponse à la question 6</strong> (« Achèteriez-vous ce pack à ce prix ? », oui / non), pour les ${S.n} répondants.`,
       h0: "la part de oui est la même aux trois prix.", h1: "la part de oui change avec le prix.",
+      types: "Qualitative (prix : 3 niveaux, mêmes personnes) × qualitative (oui / non) → barres empilées à 100 %",
+      cle: `Q = ${n(Q, 1)} ; ddl = 2 ; ${pv(pQ)}`,
+      pathe: `Le prix est le premier frein : ${mc[0].b} des ${S.oui[0]} personnes intéressées à 16,90 € abandonnent dès 17,90 €. Le pack ne peut pas compter sur un prix élevé.`,
       titre: "Part de oui et de non à chaque prix (question 6)", legende: [["var(--accent)", "Oui, j'achèterais"], ["var(--line)", "Non"], ["var(--ink)", "- - - Part de oui moyenne sur les trois prix"]],
       res: [["Part de oui", `${p(part[0])} · ${p(part[1])} · ${p(part[2])}`, `${S.oui[0]}, ${S.oui[1]} puis ${S.oui[2]} personnes sur ${S.n}`],
         ["Q de Cochran", n(Q, 1), "2 degrés de liberté (3 prix − 1)"], ["p-value", fp(pQ), "Seuil de rejet : Q > 5,99"],
@@ -187,6 +237,9 @@ td small{color:var(--muted)}
   { const el = test("t2", {
       vars: `<strong>Achat de confiserie</strong> à la dernière séance (question 2 : pop-corn, snacks ou boisson / place seule) et <strong>réponse au pack à 16,90 €</strong> (question 6, oui / non). 16,90 € est le seul prix vu par tout le monde.`,
       h0: "accepter le pack ne dépend pas de la confiserie.", h1: "accepter le pack dépend de la confiserie.", tab: croise(["A acheté de la confiserie", "Place seule"], t2c),
+      types: "Qualitative (confiserie : oui / non) × qualitative (achat du pack : oui / non) → barres empilées à 100 %",
+      cle: `χ² = ${n(t2c.chi2, 2)} ; ddl = ${t2c.ddl} ; ${pv(t2c.p)}`,
+      pathe: "Proposer le pack d'abord à ceux qui prennent déjà pop-corn ou boisson (au comptoir confiserie, dans l'appli au moment de la commande) : c'est chez eux que le « oui » est le plus fréquent.",
       titre: "Part de oui au pack à 16,90 €, selon l'achat de confiserie", legende: [["var(--accent)", "Oui, j'achèterais"], ["var(--line)", "Non"], ["var(--ink)", "- - - Part de oui attendue si H0 était vraie"]],
       res: [["Part de oui", `${p(t2c.pa)} / ${p(t2c.pb)}`, `confiserie : ${C1[1]} sur ${C1[0]} ; place seule : ${C2[1]} sur ${C2[0]}`]].concat(chi2Res(t2c, true)),
       interp: `Ceux qui prennent déjà pop-corn ou boisson disent oui au pack deux fois plus souvent (${p(t2c.pa)} contre ${p(t2c.pb)}). Pour eux, le pack est une économie ; pour les autres, c'est une dépense en plus.`,
@@ -198,9 +251,12 @@ td small{color:var(--muted)}
   { const el = test("t3", {
       vars: `<strong>Situation</strong> (question 5 : étudiant / actif ; les ${S.n - s1[0] - s2[0]} retraités et sans emploi, trop peu nombreux, sont mis de côté) et <strong>réponse au pack à 16,90 €</strong> (question 6).`,
       h0: "accepter le pack ne dépend pas du statut.", h1: "accepter le pack dépend du statut.", tab: croise(["Étudiant", "Actif"], t3c),
+      types: "Qualitative (statut : étudiant / actif) × qualitative (achat du pack : oui / non) → barres empilées à 100 %",
+      cle: `χ² = ${n(t3c.chi2, 2)} ; ddl = ${t3c.ddl} ; ${pv(t3c.p)}`,
+      pathe: "Nos réponses ne justifient pas un pack réservé à un statut (étudiant ou actif) : le statut seul ne fait pas de différence démontrée sur l'envie d'acheter.",
       titre: "Part de oui au pack à 16,90 €, selon le statut", legende: [["var(--accent)", "Oui, j'achèterais"], ["var(--line)", "Non"], ["var(--ink)", "- - - Part de oui attendue si H0 était vraie"]],
       res: [["Part de oui", `${p(t3c.pa)} / ${p(t3c.pb)}`, `étudiants : ${s1[1]} sur ${s1[0]} ; actifs : ${s2[1]} sur ${s2[0]}`]].concat(chi2Res(t3c, true)),
-      interp: `Les actifs disent un peu plus souvent oui (${p(t3c.pb)} contre ${p(t3c.pa)}), mais l'écart est trop petit pour nos effectifs : il peut venir du hasard. Le statut seul n'explique pas le refus ; la confiserie (test 2) l'explique beaucoup mieux.`,
+      interp: `Les actifs disent un peu plus souvent oui (${p(t3c.pb)} contre ${p(t3c.pa)}), mais l'écart est trop petit pour nos effectifs : il peut venir du hasard. Le statut seul n'explique pas le refus ; la confiserie (Chi-2 1a) l'explique beaucoup mieux.`,
       ok: t3c.p < 0.05, concl: "On ne peut pas affirmer que le statut change l'envie d'acheter le pack." });
     barres100(el, [{ l: "Étudiants", sub: `${s1[1]} oui sur ${s1[0]}`, o: t3c.pa }, { l: "Actifs", sub: `${s2[1]} oui sur ${s2[0]}`, o: t3c.pb }], t3c.pt, `si H0 : ${p(t3c.pt)}`); }
 
@@ -213,6 +269,9 @@ td small{color:var(--muted)}
       methode: `<strong>Pourquoi Welch plutôt que Student classique ?</strong> Les dépenses des actifs sont ${n(A.v / E.v, 1)} fois plus dispersées (variance) que celles des étudiants, et les groupes n'ont pas la même taille (${E.n} et ${A.n}). Le test t classique suppose des dispersions égales ; la version de Welch ne le suppose pas, c'est donc elle que nous retenons. <strong>Pourquoi unilatéral ?</strong> Notre question a un sens fixé avant le calcul (« les étudiants dépensent-ils <em>moins</em> ? », partie 4 : un budget étudiant plus serré) : on ne regarde donc que le côté « moins », avec tout le seuil de 5 % de ce côté.`,
       vars: `<strong>Situation</strong> (question 5 : étudiant / actif) et <strong>dépense en confiserie par séance</strong> (question 11, en euros). ${S.student.ecartees} réponse au-dessus de 50 € est écartée comme valeur aberrante.`,
       h0: "les étudiants ne dépensent pas moins que les actifs (moyennes égales).", h1: "les étudiants dépensent en moyenne moins que les actifs.",
+      types: "Qualitative à 2 groupes (étudiant / actif) × quantitative (dépense en €) → boîtes à moustaches",
+      cle: `t = ${n(t4, 2)} ; ddl = ${n(df4, 1)} ; ${pv(p4u)} (unilatéral)`,
+      pathe: "Les étudiants, majoritaires dans notre échantillon, ont un petit budget confiserie : pour eux, le pack doit faire économiser sur ce qu'ils achètent déjà, pas les pousser à dépenser plus.",
       titre: "Dépense en confiserie par séance : boîtes à moustaches et moyennes", h: 260,
       legende: [["var(--c-indep)", "Étudiants"], ["var(--accent)", "Actifs"], ["var(--ink)", "◆ Moyenne ; trait dans la boîte : médiane ; boîte : 50 % central des réponses"]],
       res: [["Moyennes", `${e(E.m)} / ${e(A.m)}`, `étudiants (${E.n}) / actifs (${A.n}) ; médianes : ${e(E.med)} / ${e(A.med)}`], ["t de Welch", n(t4, 2), `${n(df4, 1)} degrés de liberté`],
@@ -233,11 +292,46 @@ td small{color:var(--muted)}
       el("path", { d: `M${x(g.m)},${cy - 9} L${x(g.m) + 9},${cy} L${x(g.m)},${cy + 9} L${x(g.m) - 9},${cy} Z`, fill: "var(--ink)", stroke: "var(--surface)", "stroke-width": 1.5 });
       el("text", { x: x(g.m), y: cy - 30, "text-anchor": "middle", class: "lbl" }, `moyenne ${e(g.m)}`); }); }
 
+  /* ===== 3 · ANOVA : dépense en confiserie selon la date de la dernière séance ===== */
+  const GA = S.anova.groupes, AN = anovaF(GA), fcA = fCrit(AN.d1, AN.d2), hautA = GA.reduce((b, g) => g.m > b.m ? g : b);
+  { const el = test("t9", {
+      methode: `<strong>Pourquoi une ANOVA ?</strong> On compare des moyennes entre 3 groupes : faire trois tests t augmenterait le risque de trouver un écart par hasard, l'ANOVA fait une seule comparaison. <strong>Conditions vérifiées :</strong> les dispersions sont comparables (test de Levene, ${pv(S.anova.levp)}) ; les dépenses ne suivent pas une courbe en cloche (beaucoup de 0 €), donc nous vérifions avec le test de Kruskal-Wallis, qui compare des rangs (${pv(S.anova.kwp)}) : même conclusion.`,
+      types: "Qualitative à 3 groupes (dernière séance) × quantitative (dépense en €) → boîtes à moustaches côte à côte",
+      vars: `<strong>Fréquence de visite</strong>, mesurée par la date de la dernière séance (question 1, en 3 groupes : moins d'un mois, 1 à 6 mois, plus de 6 mois ; le questionnaire ne demandait ni l'âge ni le nombre de séances) et <strong>dépense en confiserie par séance</strong> (question 11, en euros). Les ${S.n - AN.nT} autres réponses (« jamais » et une dépense au-dessus de 50 €) sont mises de côté.`,
+      h0: "la dépense moyenne en confiserie est la même dans les 3 groupes.", h1: "au moins un groupe a une dépense moyenne différente.",
+      cle: `F = ${n(AN.F, 2)} ; ddl = ${AN.d1} et ${AN.d2} ; ${pv(AN.p)}`,
+      titre: "Dépense en confiserie par séance, selon la date de la dernière séance", h: 340,
+      legende: [["var(--info)", GA[0].l], ["var(--accent)", GA[1].l], ["var(--c-indep)", GA[2].l], ["var(--ink)", "◆ Moyenne ; trait : médiane ; - - - moyenne générale (attendue partout si H0)"]],
+      res: [["Moyennes", GA.map(g => e(g.m)).join(" / "), GA.map(g => `${g.l.toLowerCase()} (${g.n})`).join(" / ")], ["Médianes", GA.map(g => e(g.med)).join(" / "), "La moitié des répondants dépense moins que ce montant"],
+        ["F de Fisher", n(AN.F, 2), `Écart entre les groupes ÷ écart à l'intérieur des groupes ; ${AN.d1} et ${AN.d2} degrés de liberté`], ["p-value", fp(AN.p), `Seuil de rejet : F > ${n(fcA, 2)}`],
+        ["η² (êta carré)", p(AN.eta2, 1), "Part des écarts de dépense liée au groupe : 1 % petit, 6 % moyen, 14 % grand"],
+        ["Vérifications", `Levene ${pv(S.anova.levp)}`, `Dispersions comparables (condition de l'ANOVA respectée) ; Kruskal-Wallis ${pv(S.anova.kwp)} : même conclusion`]],
+      interp: `${hautA.l === GA[2].l ? "Ceux qui sont venus il y a plus de 6 mois" : "Le groupe « " + hautA.l + " »"} dépensent un peu plus en moyenne (${e(hautA.m)}), mais la médiane est de ${e(GA[0].med)} dans les 3 groupes : la moyenne est tirée par quelques grosses dépenses${GA.some(g => g.out.length) ? " (" + GA.flatMap(g => g.out).map(v => n(v, 0) + " €").join(", ") + ")" : ""}. L'écart entre les groupes est trop faible pour écarter le hasard.`,
+      ok: AN.p < 0.05, concl: AN.p < 0.05 ? "La dépense en confiserie dépend de la fréquence de visite." : "On ne peut pas affirmer que la dépense en confiserie dépend de la fréquence de visite.",
+      pathe: AN.p < 0.05 ? "La dépense en confiserie varie selon la fréquence de visite : l'offre peut être adaptée selon le profil de visite." : "D'après nos réponses, inutile de réserver le pack aux habitués ou aux clients occasionnels : leur dépense en confiserie est comparable. Ce qui compte, c'est d'acheter déjà de la confiserie (Chi-2 1a)." });
+    const L = 150, R = 610, mx = Math.ceil(Math.max(...GA.map(g => g.max)) / 5) * 5, x = v => L + v / mx * (R - L), cols = ["var(--info)", "var(--accent)", "var(--c-indep)"], T = 26, B = 290;
+    niceTicks(0, mx, 6).forEach(v => { el("line", { class: "grid", x1: x(v), x2: x(v), y1: T, y2: B }); el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, v + " €"); });
+    el("text", { x: R, y: B + 42, "text-anchor": "end" }, "dépense en confiserie par séance");
+    el("line", { x1: x(AN.M), x2: x(AN.M), y1: T, y2: B, stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "7 5" });
+    el("text", { x: x(AN.M) + 6, y: T - 8, class: "h0" }, `moyenne générale ${e(AN.M)}`);
+    GA.forEach((g, i) => { const c = cols[i], cy = T + 50 + i * 88;
+      el("text", { x: 14, y: cy - 2, class: "lbl" }, g.l); el("text", { x: 14, y: cy + 16 }, `n = ${g.n}`);
+      el("line", { x1: x(g.wlo), x2: x(g.q1), y1: cy, y2: cy, stroke: c, "stroke-width": 2 }); el("line", { x1: x(g.q3), x2: x(g.whi), y1: cy, y2: cy, stroke: c, "stroke-width": 2 });
+      [g.wlo, g.whi].forEach(v => el("line", { x1: x(v), x2: x(v), y1: cy - 10, y2: cy + 10, stroke: c, "stroke-width": 2 }));
+      el("rect", { x: x(g.q1), y: cy - 20, width: Math.max(2, x(g.q3) - x(g.q1)), height: 40, fill: c, "fill-opacity": .35, stroke: c, "stroke-width": 2, rx: 3 });
+      el("line", { x1: x(g.med), x2: x(g.med), y1: cy - 20, y2: cy + 20, stroke: "var(--ink)", "stroke-width": 3 });
+      (g.out || []).forEach(v => el("circle", { cx: x(v), cy, r: 5, fill: "none", stroke: c, "stroke-width": 2 }));
+      el("path", { d: `M${x(g.m)},${cy - 9} L${x(g.m) + 9},${cy} L${x(g.m)},${cy + 9} L${x(g.m) - 9},${cy} Z`, fill: "var(--ink)", stroke: "var(--surface)", "stroke-width": 1.5 });
+      el("text", { x: x(g.m) + 12, y: cy - 26, class: "lbl" }, `moyenne ${e(g.m)}`); }); }
+
   /* ===== Test 5 · corrélation dépense × valeur perçue ===== */
   const C = S.corr, t5 = C.r * Math.sqrt(C.n - 2) / Math.sqrt(1 - C.r ** 2), p5 = STAT.tp2(t5, C.n - 2), b5 = C.r * C.sy / C.sx, a5 = C.my - b5 * C.mx;
   { const el = test("t5", {
       vars: `<strong>Dépense en confiserie par séance</strong> (question 11, en euros) et <strong>note de valeur perçue du pack</strong> (question 8 : moyenne de 3 notes de 1 à 5 : bonne affaire, prix acceptable, rapport qualité-prix). On garde les ${C.n} répondants qui ont vu le pack à 16,90 € à cette question (le prix affiché a changé le 15 octobre).`,
       h0: "aucun lien linéaire entre dépense et note (r = 0).", h1: "il existe un lien (r ≠ 0).",
+      types: "Quantitative (dépense en €) × quantitative (note de valeur perçue, de 1 à 5) → nuage de points",
+      cle: `r = ${n(C.r, 2)} ; ddl = ${C.n - 2} ; ${pv(p5)}`,
+      pathe: "Plus un client dépense en confiserie, plus il voit le pack comme une bonne affaire : les gros consommateurs de pop-corn et boissons sont la cible prioritaire.",
       titre: "Chaque point est un répondant : dépense en confiserie et note donnée au pack", h: 320,
       legende: [["var(--accent)", `Un répondant (${C.n} au total)`], ["var(--c-indep)", "Droite de tendance (moindres carrés)"]],
       res: [["r de Pearson", n(C.r, 2), "De −1 à +1 ; repères : 0,1 faible, 0,3 moyen, 0,5 fort"], ["r²", p(C.r ** 2), "Part des écarts de note liée à la dépense"],
@@ -258,17 +352,25 @@ td small{color:var(--muted)}
   const Y = part, mP = STAT.mean(PRIX), mY = STAT.mean(Y), sxx = PRIX.reduce((s, x) => s + (x - mP) ** 2, 0);
   const a6 = PRIX.reduce((s, x, i) => s + (x - mP) * (Y[i] - mY), 0) / sxx, b6 = mY - a6 * mP, pred = x => a6 * x + b6, r2 = 1 - Y.reduce((s, y, i) => s + (y - pred(PRIX[i])) ** 2, 0) / Y.reduce((s, y) => s + (y - mY) ** 2, 0);
   const el6 = [0, 1].map(i => ((S.oui[i + 1] - S.oui[i]) / S.oui[i]) / ((PRIX[i + 1] - PRIX[i]) / PRIX[i]));
+  // p-value classique de la pente (t = pente ÷ erreur type, n − 2 = 1 degré de liberté) : affichée à titre indicatif seulement
+  const ddl6 = PRIX.length - 2, se6 = Math.sqrt(Y.reduce((s, y, i) => s + (y - pred(PRIX[i])) ** 2, 0) / ddl6 / sxx), tt6 = a6 / se6, p6 = STAT.tp2(tt6, ddl6);
+  const eq6 = `Y = ${n(a6 * 100, 1)} × X + ${n(b6 * 100, 1)}`;
   { const el = test("t6", {
-      methode: `<strong>Un modèle pour décrire, pas pour prévoir.</strong> La droite ne repose que sur 3 prix, mesurés sur les mêmes personnes (Gabor-Granger) : les points ne sont pas indépendants et 3 points s'alignent presque toujours bien. Le R² très élevé est donc peu informatif, et nous ne calculons pas de p-value. La droite ne vaut qu'entre 16,90 et 18,90 € ; la prolonger au-delà serait une extrapolation sans fondement. La preuve de l'effet du prix est le test 1.`,
+      methode: `<strong>Un modèle pour décrire, pas pour prévoir.</strong> La droite ne repose que sur 3 prix, mesurés sur les mêmes personnes (Gabor-Granger) : les points ne sont pas indépendants et 3 points s'alignent presque toujours bien. Le R² très élevé est donc peu informatif. <strong>La p-value est affichée à titre indicatif mais n'est pas valide pour conclure</strong> : elle suppose des observations indépendantes et repose sur 1 seul degré de liberté. La droite ne vaut qu'entre 16,90 et 18,90 € ; la prolonger au-delà serait une extrapolation sans fondement. La preuve de l'effet du prix est le test de Cochran (annexe A).`,
+      types: "Quantitative X (prix du pack, en €) → quantitative Y (part d'acheteurs, en %) → nuage de points + droite de régression",
       vars: `<strong>Y : part d'acheteurs</strong> à chaque prix (question 6) et <strong>X : prix du pack</strong> (16,90, 17,90 et 18,90 €).`,
-      h0: "le prix n'a pas d'effet (pente nulle).", h1: "la part d'acheteurs varie avec le prix. <em>Ces hypothèses ne sont pas testées ici (3 points seulement) : c'est le test 1 qui les tranche.</em>",
+      h0: "le prix n'a pas d'effet (pente nulle).", h1: "la part d'acheteurs varie avec le prix. <em>Ces hypothèses ne sont pas tranchées ici (3 points seulement) : c'est le test de Cochran (annexe A) qui les tranche.</em>",
+      cle: `${eq6} (Y en points de %, X en €) ; R² = ${p(r2, 1)} ; p = ${fp(p6)}, <em>indicative, non valide</em>`,
+      pathe: `Entre 16,90 et 18,90 €, chaque euro de plus fait perdre environ ${n(-a6 * 100, 0)} points d'acheteurs : à 18,90 €, le pack perd l'essentiel de sa clientèle potentielle.`,
       titre: "Les 3 observations et la droite de régression (entre 16,90 et 18,90 € seulement)",
       legende: [["var(--accent)", "Observation (question 6)"], ["var(--c-indep)", "Droite de régression"], ["var(--bad)", "Écart entre l'observation et la droite (résidu)"]],
-      res: [["Pente", `${n(a6 * 100, 1)} points par euro`, "Baisse moyenne de la part d'acheteurs pour 1 € de plus, entre 16,90 et 18,90 €"], ["R²", p(r2, 1), "Très élevé, mais avec 3 points seulement : peu informatif"],
-        ["Élasticité-prix", `${n(el6[0], 1)} puis ${n(el6[1], 1)}`, "Variation de la demande (%) ÷ variation du prix (%) ; au-delà de −1, la demande est élastique"], ["p-value", "non calculée", "3 points non indépendants : une p-value classique serait trompeuse"],
+      res: [["Équation", eq6, "Y = part d'acheteurs (en points de %), X = prix du pack (en €)"], ["Pente (a)", `${n(a6 * 100, 1)} points par euro`, "Baisse moyenne de la part d'acheteurs pour 1 € de plus, entre 16,90 et 18,90 €"],
+        ["R²", p(r2, 1), "Part de la variation de Y expliquée par le prix ; très élevé, mais avec 3 points seulement : peu informatif"],
+        ["Élasticité-prix", `${n(el6[0], 1)} puis ${n(el6[1], 1)}`, "Variation de la demande (%) ÷ variation du prix (%) ; au-delà de −1, la demande est élastique"],
+        ["p-value (indicative)", fp(p6), `t = ${n(tt6, 1)} ; ${ddl6} degré de liberté. <strong>Non valide pour conclure</strong> : 3 points non indépendants (mêmes répondants)`, "warn"],
         ["Limites du modèle", "3 prix seulement", "Valable uniquement entre 16,90 et 18,90 € ; les 3 points viennent des mêmes répondants ; R² gonflé par le petit nombre de points ; aucune prévision pour un autre prix"]],
       interp: `Entre 16,90 et 18,90 €, la part d'acheteurs baisse d'environ ${n(-a6 * 100, 0)} points par euro. L'élasticité dépasse largement −1 : la demande est très sensible au prix. Ce chiffre résume nos trois mesures ; ce n'est pas une prévision pour d'autres prix.`,
-      ok: null, concl: "La droite résume la baisse observée ; la preuve statistique de l'effet du prix vient du test 1." });
+      ok: null, concl: "La droite résume la baisse observée ; la preuve statistique de l'effet du prix vient du test de Cochran (annexe A)." });
     const P0 = 16.6, P1 = 19.2, L = 70, R = 620, T = 20, B = 260, x = v => L + (v - P0) / (P1 - P0) * (R - L), y = v => B - v / 0.6 * (B - T);
     for (let v = 0; v <= 0.6 + 1e-9; v += 0.1) { el("line", { class: "grid", x1: L, x2: R, y1: y(v), y2: y(v) }); el("text", { x: L - 12, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + " %"); }
     PRIX.forEach(v => el("text", { x: x(v), y: B + 20, "text-anchor": "middle" }, e(v)));
@@ -284,6 +386,9 @@ td small{color:var(--muted)}
   { const el = test("t7", {
       vars: `<strong>Réponse au pack à 18,90 €</strong> (question 6, oui / non), résumée en une proportion, et <strong>l'objectif de 25 %</strong> (un client sur quatre), fixé par notre groupe <span class="tag hyp">Hypothèse</span> faute de chiffre publié.`,
       h0: "la vraie part d'acheteurs à 18,90 € est égale à 25 %.", h1: "elle est différente de 25 %.",
+      types: "Qualitative (oui / non à 18,90 €) comparée à une valeur cible (25 %) → loi normale",
+      cle: `Z = ${n(z7, 2)} ; ${pv(p7)}`,
+      pathe: "À 18,90 €, l'objectif d'un client sur quatre est hors de portée dans notre échantillon : il faut changer le prix ou la cible.",
       titre: "Loi normale centrée réduite : où tombe notre écart à l'objectif ?", h: 330,
       legende: [["var(--ink)", "Loi normale : valeurs de Z possibles si H0 est vraie"], ["var(--bad)", "Zones de rejet de H0 (2 × 2,5 %)"], ["var(--accent)", "Notre Z calculé"]],
       res: [["Part observée", p(ph, 1), `${k7} oui sur ${S.n} ; intervalle de confiance à 95 % : ${p(lo7, 1)} à ${p(hi7, 1)}`], ["Objectif", p(OBJ), "Fixé par le groupe"],
@@ -315,6 +420,9 @@ td small{color:var(--muted)}
   { const el = test("t8", {
       vars: `<strong>Version vue</strong>, tirée au sort au début du questionnaire (A : sans prix de référence ; B : avec « achetés séparément : 22 € ») et <strong>réponse au pack à 16,90 €</strong> (question 6).`,
       h0: "la mention « 22 € » ne change pas l'envie d'acheter.", h1: "elle la change.", tab: croise(["Version A (sans 22 €)", "Version B (avec 22 €)"], t8),
+      types: "Qualitative (version A / B) × qualitative (achat du pack : oui / non) → barres empilées à 100 %",
+      cle: `χ² = ${n(t8.chi2, 2)} ; ddl = ${t8.ddl} ; ${pv(t8.p)}`,
+      pathe: "Afficher « achetés séparément : 22 € » ne coûte rien et va dans le bon sens, mais son effet n'est pas prouvé avec nos effectifs : à tester sur plus de clients avant d'en faire l'argument principal.",
       titre: "Part de oui au pack à 16,90 €, version A contre version B", legende: [["var(--accent)", "Oui, j'achèterais"], ["var(--line)", "Non"], ["var(--ink)", "- - - Part de oui attendue si H0 était vraie"]],
       res: [["Part de oui", `${p(t8.pa)} / ${p(t8.pb)}`, `A : ${VA[1]} sur ${VA[0]} ; B : ${VB[1]} sur ${VB[0]}`]].concat(chi2Res(t8, false)).concat([["Effectif nécessaire", `≈ ${nAB} par version`, `Pour détecter un écart de ${n((t8.pb - t8.pa) * 100, 0)} points avec 80 % de chances (nous en avions ${VA[0]} et ${VB[0]})`]]),
       interp: `La version avec « 22 € » fait mieux (${p(t8.pb)} contre ${p(t8.pa)}), ce qui va dans le sens d'un effet du prix de référence. Mais l'écart peut encore venir du hasard : nos groupes sont trop petits pour trancher.`,
@@ -323,18 +431,19 @@ td small{color:var(--muted)}
 
   /* ===== Synthèse ===== */
   const dec = v => v === null ? '<span class="tag est">Descriptif</span>' : v ? '<span class="tag obs">H0 rejetée</span>' : '<span class="tag miss">Non rejetée</span>';
-  const L8 = [["1 · Q de Cochran", "Prix × achat (mêmes personnes)", `${p(part[0])} → ${p(part[1])} → ${p(part[2])} de oui`, fp(pQ), pQ < 0.05],
-    ["2 · Chi-2", "Confiserie × achat à 16,90 €", `${p(t2c.pa)} contre ${p(t2c.pb)}`, fp(t2c.p), t2c.p < 0.05],
-    ["3 · Chi-2", "Statut × achat à 16,90 €", `${p(t3c.pa)} contre ${p(t3c.pb)}`, fp(t3c.p), t3c.p < 0.05],
-    ["4 · Welch (unilatéral)", "Étudiants < actifs : dépense en confiserie", `${e(E.m)} contre ${e(A.m)}`, fp(p4u), p4u < 0.05],
-    ["5 · Pearson", "Dépense × valeur perçue", `r = ${n(C.r, 2)}`, fp(p5), p5 < 0.05],
-    ["6 · Régression", "Prix × part d'acheteurs", `${n(a6 * 100, 1)} points par euro`, "—", null],
-    ["7 · Z", "Achat à 18,90 € × objectif 25 %", `${p(ph, 1)} contre 25 %`, fp(p7), p7 < 0.05],
-    ["8 · Chi-2 (A/B)", "Version × achat à 16,90 €", `${p(t8.pa)} contre ${p(t8.pb)}`, fp(t8.p), t8.p < 0.05]];
+  const L8 = [["1a · Chi-2", "Confiserie × achat à 16,90 €", `${p(t2c.pa)} contre ${p(t2c.pb)}`, fp(t2c.p), t2c.p < 0.05],
+    ["1b · Chi-2", "Statut × achat à 16,90 €", `${p(t3c.pa)} contre ${p(t3c.pb)}`, fp(t3c.p), t3c.p < 0.05],
+    ["1c · Chi-2 (A/B)", "Version × achat à 16,90 €", `${p(t8.pa)} contre ${p(t8.pb)}`, fp(t8.p), t8.p < 0.05],
+    ["2 · Test t de Welch (unilatéral)", "Étudiants < actifs : dépense en confiserie", `${e(E.m)} contre ${e(A.m)}`, fp(p4u), p4u < 0.05],
+    ["3 · ANOVA", "Dernière séance × dépense en confiserie", GA.map(g => e(g.m)).join(" / "), fp(AN.p), AN.p < 0.05],
+    ["4 · Pearson", "Dépense × valeur perçue", `r = ${n(C.r, 2)}`, fp(p5), p5 < 0.05],
+    ["5 · Régression", "Prix → part d'acheteurs", `${n(a6 * 100, 1)} points par euro`, `${fp(p6)} <small>(indicative)</small>`, null],
+    ["A · Q de Cochran", "Prix × achat (mêmes personnes)", `${p(part[0])} → ${p(part[1])} → ${p(part[2])} de oui`, fp(pQ), pQ < 0.05],
+    ["B · Z", "Achat à 18,90 € × objectif 25 %", `${p(ph, 1)} contre 25 %`, fp(p7), p7 < 0.05]];
   $("tabSyn").innerHTML = `<thead><tr><th>Test</th><th>Ce qui est croisé</th><th>Résultat</th><th class="n">p-value</th><th>Conclusion</th></tr></thead><tbody>` +
     L8.map(([a, b, c, d, f]) => `<tr><td><strong>${a}</strong></td><td>${b}</td><td>${c}</td><td class="n">${d}</td><td>${dec(f)}</td></tr>`).join("") + `</tbody>`;
   $("chaine").innerHTML = `<span class="label">Ce que nous retenons</span>
-    <p>Le prix fait fortement baisser l'envie d'acheter (tests 1 et 6) : à 18,90 €, on est loin d'un client sur quatre (test 7). Le pack plaît surtout à ceux qui achètent déjà de la confiserie (tests 2 et 5), alors que nos répondants, surtout étudiants, dépensent peu en confiserie (test 4). Le statut seul (test 3) et l'affichage « 22 € » (test 8) ne permettent pas de conclure. La décision qui en découle est en <a href="recommandation.html">partie 6</a>.</p>`;
+    <p>Le prix fait fortement baisser l'envie d'acheter (test A, décrit par la régression 5) : à 18,90 €, on est loin d'un client sur quatre (test B). Le pack plaît surtout à ceux qui achètent déjà de la confiserie (Chi-2 1a et corrélation 4), alors que nos répondants, surtout étudiants, dépensent peu en confiserie (test t 2). Le statut (1b), l'affichage « 22 € » (1c) et la fréquence de visite (ANOVA 3) ne permettent pas de conclure. La décision qui en découle est en <a href="recommandation.html">partie 6</a>.</p>`;
 })();
 </script>
 </body>

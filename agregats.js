@@ -13,6 +13,13 @@ window.AGREGATS = { date: "21/10/2026", reponses: 119, prixMax: { med: 17.9, n: 
     // + résumé en 5 nombres pour la boîte à moustaches (quartiles, moustaches à 1,5 × l'écart interquartile, valeurs atypiques)
     student: { etudiant: { n: 72, m: 4.619444, v: 19.7568, zero: 28, min: 0, q1: 0, med: 5, q3: 8, max: 15, wlo: 0, whi: 15, out: [] },
       actif: { n: 39, m: 7.769231, v: 47.287449, zero: 8, min: 0, q1: 4.5, med: 6, q3: 10, max: 30, wlo: 0, whi: 18, out: [20, 25, 30] }, ecartees: 1, mwp: 0.020925 },
+    // ANOVA : dépense en confiserie (question 11, ≤ 50 €) selon la date de la dernière séance (question 1) ; « jamais » (2 réponses) mis de côté
+    // levp : test de Levene (égalité des dispersions) ; kwp : test de Kruskal-Wallis (contrôle sans hypothèse de loi normale)
+    anova: { groupes: [
+      { l: "Moins d'un mois", n: 43, m: 4.804651, v: 21.917121, zero: 18, min: 0, q1: 0, med: 5, q3: 8, max: 15, wlo: 0, whi: 15, out: [] },
+      { l: "1 à 6 mois", n: 49, m: 5.244898, v: 25.938776, zero: 17, min: 0, q1: 0, med: 5, q3: 8, max: 20, wlo: 0, whi: 20, out: [] },
+      { l: "Plus de 6 mois", n: 24, m: 6.833333, v: 60.84058, zero: 7, min: 0, q1: 0, med: 5, q3: 8.5, max: 30, wlo: 0, whi: 15, out: [25, 30] }],
+      levp: 0.403789, kwp: 0.865030 },
     // test 3 : dépense (question 11) × valeur perçue (question 8, moyenne des 3 phrases), pack affiché à 16,90 € à la question 8
     corr: { n: 114, r: 0.440886, mx: 5.4614, my: 3.193, sx: 5.645, sy: 1.0131,
       // nombre de répondants par couple (dépense en €, note × 3) : un tableau de fréquences, pas des réponses individuelles
