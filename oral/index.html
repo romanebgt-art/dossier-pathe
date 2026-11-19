@@ -26,6 +26,12 @@ td.chaleur{font-weight:700;color:var(--ink)}
 .decision{background:var(--bad-soft);border:1px solid color-mix(in srgb,var(--bad) 45%,transparent);border-radius:var(--radius);padding:22px 24px;display:grid;gap:12px}
 .decision .label{font:700 .72rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--bad)}
 .decision h3{font-size:1.5rem}
+.fig{font:700 .7rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0}
+.chart h3,.titre-tab{font-size:1.05rem;line-height:1.3}
+.retenir{font-size:.9rem;color:var(--muted);margin:2px 0 8px;max-width:none}
+.titre-tab{margin:0}
+section > .fig + .titre-tab{margin-top:-16px}
+section > .titre-tab + .scroll{margin-top:-10px}
 .duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px;align-items:start}
 .part .chart svg{max-width:720px;margin:0 auto}
 .qa{display:grid;gap:12px}
@@ -95,7 +101,7 @@ td.chaleur{font-weight:700;color:var(--ink)}
       </div>
     </details>
     <div class="chart">
-      <h3>Chiffre d'affaires par activité, en millions d'euros</h3>
+      <p class="fig">Graphique 1</p><h3>Chiffre d'affaires de Pathé Cinémas France par activité, en 2024 et 2025 (en millions d'euros)</h3><p class="retenir">À retenir : la billetterie recule, la confiserie progresse.</p>
       <svg id="g-ca" viewBox="0 0 640 300" role="img" aria-label="Billetterie 271,3 puis 252,4 ; confiserie 81,6 puis 86,4 ; ventes diverses 40,7 puis 45,4 ; publicité 14,6 puis 15,1"></svg>
       <div class="legend"><span><span class="dot" style="background:var(--c-indep)"></span>2024</span><span><span class="dot" style="background:var(--accent)"></span>2025</span></div>
       <p class="caption">Source : <a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=30">comptes 2025, note 4.1 p. 30</a>. La billetterie perd 18,9 M€ (−7,0 %) pendant que les charges externes (+8,9 M€) et les salaires (+7,6 M€) augmentent (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=9">compte de résultat, p. 9</a>).</p>
@@ -107,6 +113,7 @@ td.chaleur{font-weight:700;color:var(--ink)}
   <section class="part" id="marche" aria-labelledby="t2">
     <div class="sec-head"><span class="num">2 · Le marché</span><h2 id="t2">Au-dessus de 19,50 €, le client a intérêt à aller chez CGR</h2></div>
     <p>Le marché : passer un bon moment devant un film sur grand écran, avec quelque chose à grignoter, dans l'agglomération de Clermont-Ferrand. Les concurrents se rangent en trois cercles.</p>
+    <p class="fig">Tableau 1</p><h3 class="titre-tab">Les concurrents de Pathé Aubière, rangés en trois cercles</h3>
     <div class="scroll"><table>
       <thead><tr><th>Cercle</th><th>Qui</th><th>Ce qu'il coûte</th></tr></thead>
       <tbody>
@@ -118,7 +125,7 @@ td.chaleur{font-weight:700;color:var(--ink)}
     <p>Aucun concurrent ne vend de pack permanent : Pathé et CGR n'en ont proposé <a class="src" href="https://www.pathe.fr/actualites/les-legendaires-4-places-de-cine-et-2-maxi-popcorn-pour-40-euros">qu'en promotion</a>. Nous comparons donc ce qui est comparable : une sortie complète pour un adulte, place + menu pop-corn et boisson achetés séparément.</p>
     <div class="duo">
       <div class="chart">
-        <h3>Coût d'une sortie complète, place + menu</h3>
+        <p class="fig">Graphique 2</p><h3>Coût d'une sortie complète pour un adulte (place + menu pop-corn et boisson), chez CGR et chez Pathé (en €)</h3><p class="retenir">À retenir : au-dessus de 19,50 €, la même sortie coûte moins cher chez CGR.</p>
         <svg id="g-marche" viewBox="0 0 560 230" role="img" aria-label="CGR 19,50 euros, Pathé 22 euros, plafond 19,50 euros"></svg>
         <p class="caption">La bande grise couvre nos trois prix testés (16,90 à 18,90 €).</p>
       </div>
@@ -154,6 +161,7 @@ td.chaleur{font-weight:700;color:var(--ink)}
       </div>
     </div>
     <p>Le vrai risque n'est pas le coût du menu, mais <strong>qui achète le pack</strong>. Un client qui ne prenait que la place rapporte de la confiserie en plus ; un client qui prenait déjà place + menu paie désormais moins cher.</p>
+    <p class="fig">Tableau 2</p><h3 class="titre-tab">Ce que gagne ou perd Pathé pour chaque client qui passe au pack, selon le prix (en €)</h3>
     <div class="scroll"><table>
       <thead><tr><th>Pack</th><th class="n">Gain : « place seule »</th><th class="n">Perte : déjà le menu</th><th class="n">Ratio</th></tr></thead>
       <tbody>
@@ -178,19 +186,20 @@ td.chaleur{font-weight:700;color:var(--ink)}
     <p class="caption">Les réponses individuelles restent hors ligne, comme le demande le cours ; chaque résultat ci-dessous est recalculé à partir de l'export brut, sur la page du dossier indiquée en lien.</p>
     <div class="duo">
       <div class="chart">
-        <h3>Part de « oui » à chaque prix, avec et sans « 22 € »</h3>
+        <p class="fig">Graphique 3</p><h3>Part des répondants qui achèteraient le pack à chaque prix, sans et avec la mention « 22 € » (en %)</h3><p class="retenir">À retenir : les achats chutent quand le prix monte ; la mention « 22 € » fait un peu mieux à chaque prix.</p>
         <svg id="g-gg" viewBox="0 0 560 280" role="img" aria-label="Sans 22 euros : 42, 22 et 5 pour cent ; avec 22 euros : 54, 33 et 15 pour cent"></svg>
         <div class="legend"><span><span class="dot" style="background:var(--c-a)"></span>Sans « 22 € » (n = 65)</span><span><span class="dot" style="background:var(--c-b)"></span>Avec « 22 € » (n = 54)</span></div>
         <p class="caption">Question 6, résultats détaillés sur la page <a class="src" href="../prix-psychologique.html#gg">Le client</a> : 27, 14 et 3 oui sur 65 sans la mention ; 29, 18 et 8 oui sur 54 avec.</p>
       </div>
       <div class="chart">
-        <h3>Part de « oui » à 16,90 €, selon l'achat habituel</h3>
+        <p class="fig">Graphique 4</p><h3>Part des répondants qui achèteraient le pack à 16,90 €, selon leur achat à la dernière séance (en %)</h3><p class="retenir">À retenir : le pack plaît surtout à ceux qui achètent déjà de la confiserie.</p>
         <svg id="g-conf" viewBox="0 0 560 280" role="img" aria-label="64 pour cent chez ceux qui achètent de la confiserie, 29 pour cent chez ceux qui prennent la place seule"></svg>
         <p class="caption">Écart non dû au hasard : <a class="src" href="../statistiques.html#t2">Chi-2 = 13,1 ; p &lt; 0,001</a>.</p>
       </div>
     </div>
     <h3>Le test A/B est-il fiable ? Le tirage au sort a-t-il fonctionné ?</h3>
     <p>Le hasard doit rendre les deux groupes semblables : s'ils diffèrent sur leur profil, un écart de réponses pourrait venir des personnes et non de la mention « 22 € ». Nos 119 réponses sont toutes exploitables : aucun doublon, aucune réponse de test, aucune incohérence de prix, d'après notre <a class="src" href="https://github.com/romanebgt-art/dossier-pathe/blob/main/cm3.js#L107-L117">script de nettoyage</a>. Le tableau ci-dessous est calculé par notre <a class="src" href="https://github.com/romanebgt-art/dossier-pathe/blob/main/cm3.js#L124-L129">script d'analyse</a> sur ces réponses.</p>
+    <p class="fig">Tableau 3</p><h3 class="titre-tab">Profil des répondants des versions A et B : le tirage au sort a-t-il fonctionné ?</h3>
     <div class="scroll"><table>
       <thead><tr><th>Profil</th><th class="n">Version A (65)</th><th class="n">Version B (54)</th><th>Test</th><th class="n">p</th></tr></thead>
       <tbody>
@@ -207,12 +216,12 @@ td.chaleur{font-weight:700;color:var(--ink)}
     <p>La question 8 mesure la valeur perçue avec trois phrases de l'échelle de <a class="src" href="https://doi.org/10.2307/3172866">Dodds, Monroe et Grewal (1991)</a>, notées de 1 à 5 : « une bonne affaire », « un prix acceptable », « un bon rapport qualité-prix ». Avant d'en faire une note, on vérifie que les trois phrases mesurent bien la même idée.</p>
     <div class="duo">
       <div class="chart">
-        <h3>Les trois phrases vont ensemble : l'échelle est fiable</h3>
+        <p class="fig">Graphique 5</p><h3>Corrélations entre les trois phrases de valeur perçue (question 8) et fiabilité de l'échelle</h3><p class="retenir">À retenir : les trois phrases mesurent la même idée : l'échelle est fiable.</p>
         <svg id="g-echelle" viewBox="0 0 560 290" role="img" aria-label="Corrélations entre les trois phrases : 0,81, 0,72 et 0,82 ; alpha 0,91, CR 0,92, AVE 0,79"></svg>
         <p class="caption">Corrélations entre les réponses aux trois phrases (119 répondants), calculées par notre <a class="src" href="https://github.com/romanebgt-art/dossier-pathe/blob/main/cm3.js#L157-L166">script d'analyse</a>. Seuils du <a class="src" href="https://data.iae-mod.fr/seances/seance-cm-3.html">CM 3 d'analyse de données</a> : alpha et fiabilité composite (CR) ≥ 0,70, variance moyenne extraite (AVE) ≥ 0,50. Les trois sont largement atteints : on peut résumer les trois phrases par leur moyenne.</p>
       </div>
       <div class="chart">
-        <h3>La mention « 22 € » augmente un peu la valeur perçue</h3>
+        <p class="fig">Graphique 6</p><h3>Note de valeur perçue du pack (de 1 à 5), un point par répondant, sans et avec la mention « 22 € »</h3><p class="retenir">À retenir : la mention « 22 € » augmente un peu la valeur perçue, sans que ce soit prouvé.</p>
         <svg id="g-vp" viewBox="0 0 560 290" role="img" aria-label="Note de valeur perçue : moyenne 3,05 en version A, 3,38 en version B"></svg>
         <p class="caption">Chaque point est un répondant qui a vu le pack à 16,90 € (115 sur 119 : le prix affiché a changé le 15/10). Moyennes 3,05 contre 3,38 : test de Welch, t = −1,74, p = 0,084 ; Mann-Whitney p = 0,073 (<a class="src" href="https://github.com/romanebgt-art/dossier-pathe/blob/main/cm3.js#L135-L149">script d'analyse</a>). L'écart va dans le sens attendu mais reste non significatif au seuil de 5 %.</p>
       </div>
@@ -247,13 +256,13 @@ td.chaleur{font-weight:700;color:var(--ink)}
     <p>Le calcul de Gabor-Granger du <a class="src" href="https://data.iae-mod.fr/seances/seance-cm-3.html">CM 3</a> désigne 16,90 € : la marge par répondant, (prix − coût variable) × part qui achète, y est la plus haute, avec un coût variable de <a class="src" href="#calc-gg">9,46 € par pack</a>. Mais ce calcul suppose que chaque pack est une vente nouvelle. Or <strong><a class="src" href="../statistiques.html#t2">38 des 55 acheteurs</a> à 16,90 € (69 %) achetaient déjà de la confiserie</strong> : pour chacun d'eux, nous retirons la marge que Pathé faisait déjà sur sa dépense habituelle, soit <a class="src" href="#calc-spectateur">73,4 %</a> de ce qu'il déclare dépenser à la <a class="src" href="../questionnaire.html">question 11</a>.</p>
     <div class="duo">
       <div class="chart">
-        <h3>Gabor-Granger : le prix qui rapporte, avant et après les clients qui achetaient déjà</h3>
+        <p class="fig">Graphique 7</p><h3>Marge de Pathé pour 100 spectateurs à chaque prix : si chaque pack était une vente nouvelle, puis marge réelle (en €)</h3><p class="retenir">À retenir : une fois retirés les clients qui achetaient déjà, aucun prix ne rapporte.</p>
         <svg id="g-perte" viewBox="0 0 560 300" role="img" aria-label="Si chaque pack était une vente nouvelle : 350, 225 et 86 euros pour 100 spectateurs ; marge réelle : moins 178, moins 97 et moins 39 euros"></svg>
         <div class="legend"><span><span class="dot" style="background:var(--c-indep)"></span>Si chaque pack était une vente nouvelle</span><span><span class="dot" style="background:var(--bad)"></span>Marge réelle</span></div>
         <p class="caption">Pour 100 spectateurs. À 16,90 €, Pathé ne gagne de l'argent que sur <a class="src" href="../recommandation.html#calc">9 des 55 acheteurs</a> : leur dépense médiane en confiserie est déjà de 8,00 €.</p>
       </div>
       <div class="chart">
-        <h3>Il n'existe pas de prix rentable sous le plafond</h3>
+        <p class="fig">Graphique 8</p><h3>Prix du pack : plancher, prix testés, plafond des concurrents et prix sans perte pour l'acheteur type (en €)</h3><p class="retenir">À retenir : il n'existe pas de prix à la fois rentable et sous le plafond.</p>
         <svg id="g-axe" viewBox="0 0 560 260" role="img" aria-label="Plancher 15 euros, prix testés 16,90 à 18,90, plafond 19,50, seuil de l'acheteur type 20,87"></svg>
         <p class="caption">Prix sans perte = 13,50 + (1,36 + dépense ÷ 1,10 × 73,4 %) × 1,10 ; pour l'acheteur type, qui dépense déjà <a class="src" href="../recommandation.html#calc">8,00 €</a> : 13,50 + (1,36 + 8,00 ÷ 1,10 × 0,734) × 1,10 = <a class="src" href="../recommandation.html#equilibre">20,87 €</a>, au-dessus du <a class="src" href="#marche">plafond de 19,50 €</a>.</p>
       </div>
@@ -279,6 +288,7 @@ td.chaleur{font-weight:700;color:var(--ink)}
     </details>
     <h3>À quel moment notre scénario lâche-t-il ?</h3>
     <p>Nous avons malmené nos hypothèses (coûts +15 %, seulement 70 % des clients « place seule » qui ont dit oui achètent vraiment, 10 points de clients qui achètent déjà en plus) : <strong><a class="src" href="../recommandation.html#stress">tous les scénarios du stress test restent négatifs</a></strong>, de −154 € à −176 € pour 100 spectateurs à 16,90 €. Une seule hypothèse peut tout renverser : la fréquentation. Si le pack fait venir les gens plus souvent, chaque séance en plus rapporte la place et le pack.</p>
+    <p class="fig">Tableau 4</p><h3 class="titre-tab">Marge pour 100 spectateurs selon le nombre de séances en plus qu'apporterait le pack (en €)</h3>
     <div class="scroll"><table id="t-sens"></table></div>
     <p class="caption">Marge pour 100 spectateurs = marge prévue (<a class="src" href="#calc-gg">−178, −97, −39 €</a>) + séances en plus × marge d'une séance en plus. Une séance en plus rapporte la place et le pack : 5,71 € (<a class="src" href="#proposition">partie 3</a>) + (prix − 13,50) ÷ 1,10 − 1,36 €, soit 7,44 € à 16,90 €. Seuil : 178,05 ÷ 7,44 = <strong>24 séances de plus pour 100 spectateurs</strong> à 16,90 € (96,64 ÷ 8,35 = 12 à 17,90 € ; 39,28 ÷ 9,26 = 4 à 18,90 €). <span class="tag hyp">Hypothèse</span> chaque séance en plus est un pack vendu. Notre questionnaire ne mesure pas la fréquentation : c'est sa principale limite. L'autre hypothèse fragile est le <a class="src" href="https://www.ugc.fr/comptoir.html">prix du menu (8,50 €, estimé)</a> : à 9,50 €, la perte sur un client qui prenait déjà le menu passe à (9,50 − 3,40) ÷ 1,10 = 5,55 €, et il faudrait 5,55 ÷ 1,73 = 3,2 clients « place seule » pour la compenser.</p>
     <div class="decision">
