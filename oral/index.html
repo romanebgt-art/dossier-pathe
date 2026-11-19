@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oral Pathé · Pack ciné</title>
+<meta name="description" content="Support de l'oral du 25 novembre 2026 : présentation, synthèse, script, questions du jury, calculs et vérifications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{--nuit:#14110F;--nuit2:#1E1A17;--trait:#3A332D;--gris:#9C9087;--creme:#F5EBDD;--beurre:#F2B53A;--rouge:#D23F3A;--vert:#4FAE7E;
+  --display:"Archivo",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--nuit);color:var(--creme);font:17px/1.65 var(--display);padding:0 16px}
+a{color:var(--beurre);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--beurre);outline-offset:2px}
+.haut{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--nuit) 92%,transparent);backdrop-filter:blur(8px);margin:0 -16px;padding:0 16px;border-bottom:1px solid var(--trait)}
+.haut-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:18px;min-height:58px;flex-wrap:wrap}
+.marque{font:800 .95rem var(--display);letter-spacing:.05em;text-transform:uppercase;color:var(--creme);text-decoration:none;white-space:nowrap}
+.marque span{color:var(--beurre)}
+nav.onglets{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-left:auto;padding:6px 0}
+nav.onglets::-webkit-scrollbar{display:none}
+nav.onglets a{font:600 .85rem var(--display);color:var(--gris);text-decoration:none;padding:7px 11px;border-radius:8px;white-space:nowrap}
+nav.onglets a:hover{color:var(--creme);background:var(--nuit2)}
+nav.onglets a[aria-current="page"]{color:var(--creme);background:#2F2412}
+main{max-width:1080px;margin:0 auto;padding:44px 0 72px}
+.hero{display:grid;gap:16px;max-width:860px}
+.sur{font:700 .78rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--beurre);margin:0}
+h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.08;font-weight:800;letter-spacing:-.015em;margin:0;text-wrap:balance}
+h1 .r{color:var(--rouge)} h1 .b{color:var(--beurre)}
+.chapo{font-size:1.15rem;color:var(--gris);margin:0;max-width:62ch}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.bouton{display:inline-flex;align-items:center;gap:10px;font:700 1rem var(--display);padding:13px 20px;border-radius:12px;text-decoration:none;border:1px solid var(--trait);color:var(--creme);background:var(--nuit2)}
+.bouton.principal{background:var(--beurre);color:var(--nuit);border-color:var(--beurre)}
+.bouton:hover{border-color:var(--beurre)}
+.chiffres{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:44px 0}
+.chiffre{background:var(--nuit2);border:1px solid var(--trait);border-radius:14px;padding:18px 20px}
+.chiffre b{display:block;font:700 2.1rem/1 var(--mono);letter-spacing:-.02em}
+.chiffre b.r{color:var(--rouge)} .chiffre b.b{color:var(--beurre)}
+.chiffre span{display:block;color:var(--gris);font-size:.95rem;margin-top:8px;line-height:1.35}
+h2.sec{font:800 1.5rem var(--display);margin:0 0 14px}
+.cartes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.carte{display:grid;gap:6px;background:var(--nuit2);border:1px solid var(--trait);border-radius:14px;padding:18px 20px;text-decoration:none;color:var(--creme)}
+.carte:hover{border-color:var(--beurre)}
+.carte strong{font-size:1.08rem}
+.carte span{color:var(--gris);font-size:.95rem;line-height:1.4}
+.carte small{font:600 .75rem var(--mono);color:var(--beurre)}
+.frise{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:40px 0 0}
+.frise div{border-top:4px solid var(--beurre);padding-top:10px}
+.frise b{display:block;font:700 1.3rem var(--mono);color:var(--beurre)}
+.frise span{font-size:.92rem;color:var(--gris);line-height:1.3;display:block}
+@media (max-width:640px){.frise{grid-template-columns:1fr 1fr}}
+/* documents rendus depuis le Markdown */
+.doc{max-width:860px}
+.doc h1{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:12px}
+.doc h2{font:800 1.45rem var(--display);margin:42px 0 12px;padding-top:6px;border-top:1px solid var(--trait)}
+.doc h3{font:700 1.12rem var(--display);margin:28px 0 8px;color:var(--beurre)}
+.doc p,.doc li{max-width:72ch}
+.doc p{margin:10px 0}
+.doc ul,.doc ol{padding-left:22px}
+.doc li{margin:4px 0}
+.doc strong{color:#fff}
+.doc hr{border:0;border-top:1px solid var(--trait);margin:32px 0}
+.doc code{font:500 .9em var(--mono);background:var(--nuit2);border:1px solid var(--trait);border-radius:6px;padding:1px 6px}
+.doc em{color:var(--gris)}
+.table{overflow-x:auto;margin:14px 0;border:1px solid var(--trait);border-radius:12px}
+.doc table{border-collapse:collapse;width:100%;font-size:.93rem}
+.doc th{font:700 .75rem var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--gris);text-align:left;padding:10px 12px;background:var(--nuit2);border-bottom:1px solid var(--trait)}
+.doc td{padding:9px 12px;border-bottom:1px solid var(--trait);vertical-align:top}
+.doc tr:last-child td{border-bottom:0}
+.doc blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--beurre);background:var(--nuit2);border-radius:0 10px 10px 0}
+.retour{display:inline-block;margin-bottom:22px;font:600 .9rem var(--display);color:var(--gris);text-decoration:none}
+.retour:hover{color:var(--creme)}
+footer{max-width:1080px;margin:0 auto;padding:22px 0 36px;border-top:1px solid var(--trait);color:var(--gris);font-size:.88rem;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+footer a{color:var(--gris)}
+</style>
+</head>
+<body>
+<header class="haut"><div class="haut-in">
+  <a class="marque" href="#accueil">Pathé <span>·</span> oral</a>
+  <nav class="onglets" aria-label="Documents de l'oral">
+    <a href="#accueil">Accueil</a>
+    <a href="presentation.html">Présentation</a>
+    <a href="#synthese">Synthèse</a>
+    <a href="#script">Script</a>
+    <a href="#questions">Questions du jury</a>
+    <a href="#calculs">Calculs</a>
+    <a href="#verifications">Vérifications</a>
+  </nav>
+</div></header>
+
+<main id="vue">
+  <section id="accueil-vue">
+    <div class="hero">
+      <p class="sur">Prix et budgets marketing · M1 Marketing · IAE Clermont Auvergne · oral du 25 novembre 2026</p>
+      <h1>Entre 16,90 et 18,90 €, le pack place + pop-corn + boisson <span class="r">fait perdre de l'argent</span> à Pathé</h1>
+      <p class="chapo">Notre support d'oral en 12 minutes : la présentation, le texte à dire, les réponses aux questions probables du jury et le détail de chaque calcul.</p>
+      <div class="actions">
+        <a class="bouton principal" href="presentation.html">Lancer la présentation →</a>
+        <a class="bouton" href="#synthese">Lire la synthèse</a>
+        <a class="bouton" id="lienPptx" href="presentation.pptx" download>Télécharger le PowerPoint</a>
+      </div>
+    </div>
+    <div class="chiffres">
+      <div class="chiffre"><b class="r">−178 €</b><span>de marge pour 100 spectateurs avec un pack à 16,90 €</span></div>
+      <div class="chiffre"><b>20,87 €</b><span>prix sans perte pour l'acheteur type, au-dessus du plafond de 19,50 €</span></div>
+      <div class="chiffre"><b class="b">24</b><span>séances de plus pour 100 spectateurs feraient basculer le scénario</span></div>
+      <div class="chiffre"><b>119</b><span>répondants à notre questionnaire, 61 % d'étudiants</span></div>
+    </div>
+    <h2 class="sec">Les documents</h2>
+    <div class="cartes">
+      <a class="carte" href="presentation.html"><small>12 min · 11 diapositives + 3 annexes</small><strong>La présentation</strong><span>À projeter : flèches du clavier pour avancer, une idée par diapositive.</span></a>
+      <a class="carte" href="#synthese"><small>5 parties</small><strong>La synthèse</strong><span>Le dossier condensé, chiffres clés et sources, partie par partie.</span></a>
+      <a class="carte" href="#script"><small>≈ 1 560 mots</small><strong>Le script de l'oral</strong><span>Le texte à dire, minuté, diapositive par diapositive.</span></a>
+      <a class="carte" href="#questions"><small>8 + 3 questions</small><strong>Les questions du jury</strong><span>Réponses courtes, chacune appuyée sur un calcul.</span></a>
+      <a class="carte" href="#calculs"><small>Annexe</small><strong>Les calculs</strong><span>Formule, valeurs sourcées, étapes et résultat pour chaque chiffre.</span></a>
+      <a class="carte" href="#verifications"><small>23 points</small><strong>Les vérifications</strong><span>Chiffres fragiles, incohérences et corrections à faire avant l'oral.</span></a>
+    </div>
+    <div class="frise" aria-label="Les 5 parties de l'oral">
+      <div><b>1</b><span>L'entreprise : que disent ses comptes ?</span></div>
+      <div><b>2</b><span>Le marché : quel plafond ?</span></div>
+      <div><b>3</b><span>La proposition : combien coûte-t-elle ?</span></div>
+      <div><b>4</b><span>Le client : quel prix accepte-t-il ?</span></div>
+      <div><b>5</b><span>La décision : quand le scénario lâche-t-il ?</span></div>
+    </div>
+  </section>
+  <article class="doc" id="doc-vue" hidden></article>
+</main>
+
+<footer>
+  <span>Dossier complet : <a href="../index.html">romanebgt-art.github.io/dossier-pathe</a></span>
+  <span>Chaque chiffre est sourcé dans la synthèse et les calculs</span>
+</footer>
+
+<script type="text/markdown" id="md-synthese">
+# Pathé : un pack place + pop-corn + boisson peut-il rapporter ?
+
+Synthèse de notre dossier « Prix et budgets marketing » (M1 Marketing, IAE Clermont Auvergne), pour l'oral du 25 novembre 2026. Le dossier complet est en ligne : [romanebgt-art.github.io/dossier-pathe](https://romanebgt-art.github.io/dossier-pathe/). Le détail de chaque calcul est dans `calculs.md`.
+
+**Notre réponse en une phrase** : à 16,90, 17,90 ou 18,90 €, un pack permanent fait perdre de la marge à Pathé, car il profite surtout aux clients qui achètent déjà pop-corn et boisson.
+
+---
+
+## 1. L'entreprise : la billetterie recule, la confiserie fait la marge
+
+Pathé Cinémas France (SIREN 444 567 127) exploite les cinémas Pathé en France, dont celui d'Aubière près de Clermont-Ferrand. Elle vit des places, de la confiserie, de la publicité à l'écran et de ventes diverses.
+
+| Chiffre clé 2025 | Valeur | Source |
+|---|---|---|
+| Chiffre d'affaires | 399,3 M€, −2,2 % (−9,2 % à cinémas identiques) | [comptes 2025, p. 30 et p. 14](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf#page=30) |
+| Résultat net | −21,7 M€, soit une marge nette de −5,4 % | [comptes 2025, p. 10](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf#page=10) |
+| Confiserie | 86,4 M€, +5,9 %, marge commerciale de 73,4 % | [comptes 2025, p. 9](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf#page=9) |
+| Par spectateur | −0,57 € de résultat d'exploitation | calcul : −20,5 M€ ÷ 35,9 M d'entrées estimées |
+
+La billetterie recule (−7,0 %) pendant que les charges externes (+8,9 M€) et les salaires (+7,6 M€) montent. La confiserie est la seule grande activité en croissance, et la plus rentable : 0,73 € de marge par euro vendu, contre 0,49 € pour la place.
+
+**Notre problématique** : un pack place + pop-corn + boisson peut-il faire acheter de la confiserie à ceux qui n'en prennent pas, sans brader celle que Pathé vend déjà ?
+
+*Transition : avant de fixer un prix, il faut savoir ce que coûte la même sortie chez les concurrents.*
+
+## 2. Le marché : le plafond est de 19,50 €
+
+Le marché : passer un bon moment devant un film sur grand écran, avec quelque chose à grignoter, dans l'agglomération de Clermont-Ferrand.
+
+| Sortie complète (place adulte + menu) | Calcul | Prix |
+|---|---|---|
+| CGR Val Arena | [11,00 €](https://www.cgrcinemas.fr/cinema/p6310-cgr-clermont-ferrand-val-arena/) + 8,50 € | **19,50 €** |
+| Pathé Aubière | [13,50 €](https://www.allocine.fr/salle/cinema-P0956/tarifs/) + 8,50 € | 22,00 € |
+
+Le menu à 8,50 € est la [formule confiserie d'UGC](https://www.ugc.fr/comptoir.html), faute de prix publié à Clermont. Aucun concurrent ne vend de pack permanent : Pathé et CGR n'en ont proposé qu'en promotion.
+
+**Prix plafond retenu : 19,50 €.** Au-dessus, la même sortie revient moins cher chez CGR.
+
+*Transition : sous ce plafond, que proposons-nous, et combien cela coûte-t-il à Pathé ?*
+
+## 3. La proposition : un pack dont le plancher est 15,00 €
+
+**La variation du mix** : un pack permanent place + pop-corn + boisson à prix unique, testé à 16,90, 17,90 et 18,90 €. Dans notre test A/B, la moitié des répondants voit en plus « Achetés séparément : 22,00 € ». Cette mention ne coûte presque rien (≈ 0 € par vente).
+
+**Pourquoi celle-là** : c'est la confiserie qui fait la marge (partie 1), et la moitié de nos répondants n'en a pas acheté à sa dernière séance.
+
+| Chiffre clé | Valeur |
+|---|---|
+| Reste à Pathé sur une place à 13,50 € (après TVA, taxe CNC et distributeur) | 5,71 € |
+| Coût d'un pop-corn + une boisson 50 cl | 1,36 € (0,10 + 1,15 + 0,11) |
+| Prix plancher du pack | 15,00 € = 13,50 + 1,36 × 1,10 |
+| Clients « place seule » à convertir pour compenser 1 client qui prenait déjà le menu, à 16,90 € | 2,7 |
+
+*Transition : reste à savoir combien de clients accepteraient ce pack, et lesquels.*
+
+## 4. Le client : 47 % disent oui à 16,90 €, surtout ceux qui achètent déjà
+
+**Qui a répondu** : 119 personnes à [notre questionnaire](https://romanebgt-art.github.io/dossier-pathe/questionnaire.html) en octobre 2026 ; 61 % d'étudiants ; la moitié n'achète que la place. Échantillon de convenance : il décrit une clientèle jeune au petit budget, pas toute la clientèle de Pathé.
+
+| Prix du pack | Sans « 22 € » (n = 65) | Avec « 22 € » (n = 54) | Ensemble (n = 119) |
+|---|---|---|---|
+| 16,90 € | 42 % | 54 % | 47 % |
+| 17,90 € | 22 % | 33 % | 27 % |
+| 18,90 € | 5 % | 15 % | 9 % |
+
+- **Prix accepté** : 17,53 € en moyenne sans la mention « 22 € », 17,80 € avec (+0,27 €, parmi ceux qui acceptent au moins 16,90 €).
+- **Ce qu'on peut conclure** ([tests statistiques](https://romanebgt-art.github.io/dossier-pathe/statistiques.html)) :
+  - le prix fait nettement baisser l'achat (Q de Cochran, p < 0,001) ;
+  - le pack plaît surtout à ceux qui achètent déjà de la confiserie (64 % contre 29 %, p < 0,001) ;
+  - les étudiants dépensent moins en confiserie (4,62 € contre 7,77 €, p = 0,006).
+- **Ce qu'on ne peut pas conclure** : l'effet de la mention « 22 € » (p = 0,186, il faudrait environ 261 répondants par version).
+
+*Transition : si le pack attire surtout ceux qui achètent déjà, que gagne vraiment Pathé ?*
+
+## 5. La décision : ne pas lancer le pack permanent à ces prix
+
+| Prix du pack | Acheteurs | Marge pour 100 spectateurs |
+|---|---|---|
+| 16,90 € | 47 % | −178 € |
+| 17,90 € | 26 % | −97 € |
+| 18,90 € | 9 % | −39 € |
+
+- **Quel prix ?** Aucun des trois. Pour l'acheteur médian, le pack ne cesse de perdre de l'argent qu'à 20,87 €, au-dessus du plafond de 19,50 € : il n'existe pas de prix à la fois rentable et sous le plafond.
+- **La variation se paie-t-elle ?** Pas le pack. La mention « 22 € », elle, ne coûte rien et fait mieux à chaque prix, mais l'effet n'est pas prouvé.
+- **Quand le scénario lâche-t-il ?**
+  - si le pack fait venir plus souvent : 24 séances de plus pour 100 spectateurs suffiraient à 16,90 € (4 à 18,90 €) ;
+  - si le menu se vend plus cher que 8,50 € au comptoir, la perte augmente.
+
+**Recommandation** : garder la place et le menu vendus séparément ; afficher « 22 € achetés séparément » ; tester un pack quelques semaines à Aubière, en ligne avec le billet, en mesurant combien d'acheteurs prenaient déjà la confiserie et s'ils viennent plus souvent.
+
+</script>
+<script type="text/markdown" id="md-script">
+# Script de l'oral : 12 minutes
+
+Environ 1 560 mots : 11 minutes à un débit posé de 140 mots par minute, plus le temps de montrer les graphiques. Une diapositive par paragraphe numéroté. Les chiffres en gras sont ceux à dire clairement ; tous les calculs sont dans `calculs.md`, à garder sous la main pour les questions.
+
+| Partie | Diapositives | Durée | Repère de temps |
+|---|---|---|---|
+| Ouverture et entreprise | 1 à 3 | 2 min | 0:00 → 2:00 |
+| Marché | 4 | 2 min | 2:00 → 4:00 |
+| Proposition | 5 | 2 min | 4:00 → 6:00 |
+| Client | 6 et 7 | 2 min 30 | 6:00 → 8:30 |
+| Décision | 8 à 11 | 3 min 30 | 8:30 → 12:00 |
+
+Répartition possible entre les membres du groupe : une personne par partie, la décision partagée entre deux. Chacun doit pouvoir refaire les calculs de sa partie.
+
+---
+
+## Partie 1 · L'entreprise (2 min)
+
+**Diapositive 1 · Ouverture (20 s)**
+
+Bonjour. Notre question est simple : Pathé peut-il gagner de l'argent avec un pack place, pop-corn et boisson vendu à prix unique ? Notre réponse aussi : pas aux prix que nous avons testés. Voici comment nous y arrivons, en cinq étapes.
+
+**Diapositive 2 · Les comptes (1 min 10)**
+
+Nous avons étudié Pathé Cinémas France, la société qui exploite les salles Pathé en France, dont celle d'Aubière. Ses comptes 2025 sont publics.
+
+Premier constat : le chiffre d'affaires baisse. **399 millions d'euros**, moins 2,2 %. Et à cinémas identiques, c'est **moins 9,2 %**.
+
+Deuxième constat : Pathé perd de l'argent. **Moins 21,7 millions** de résultat net, soit une marge nette de **moins 5,4 %**. Ramené au spectateur, Pathé perd environ **57 centimes** à chaque entrée.
+
+Pourquoi ? Les recettes baissent, tirées par la billetterie, alors que les coûts fixes montent : plus 8,9 millions de charges externes, plus 7,6 millions de salaires. Ces coûts ne baissent pas quand les salles se vident. Et la trésorerie est faible : 6,7 millions d'euros, à peine six jours d'activité. Pathé n'a donc pas les moyens de financer une offre qui perd de l'argent au départ.
+
+Troisième constat, le plus important pour nous : tout ne va pas mal. La billetterie recule de 7 %, mais la confiserie progresse de **5,9 %**. Et surtout, elle est très rentable : sur 1 euro de confiserie vendu, il reste **73 centimes** à Pathé. Sur 1 euro de place, il en reste 49, parce que la moitié part au distributeur du film.
+
+**Diapositive 3 · La problématique (30 s)**
+
+D'où notre problématique : comment faire acheter de la confiserie à ceux qui n'en prennent pas, sans brader celle que Pathé vend déjà ?
+
+Notre idée : un pack permanent, place plus pop-corn plus boisson, à prix unique. Encore faut-il savoir à quel prix. On commence par regarder les concurrents.
+
+## Partie 2 · Le marché (2 min)
+
+**Diapositive 4 · Le plafond**
+
+Nous avons défini le marché par le besoin : passer un bon moment devant un film sur grand écran, avec quelque chose à grignoter, dans l'agglomération de Clermont-Ferrand. Les concurrents sont donc de trois sortes. Les directs : CGR Val Arena et les cinémas du centre-ville. Les indirects : la soirée film à la maison, avec un abonnement Netflix à 7,99 euros par mois, moins cher qu'une place. Et ceux qu'on oublie : le paquet de bonbons acheté au supermarché avant la séance.
+
+Pour le prix du pack, le concurrent direct de Pathé Aubière, c'est CGR Val Arena. Personne ne vend de pack permanent : les packs n'existent qu'en promotion, comme le pack famille de Pathé en février 2026. Nous avons donc comparé ce qui est comparable : une sortie complète pour un adulte, la place plus un menu pop-corn et boisson, achetés séparément.
+
+Chez CGR, la place coûte **11 euros**. Chez Pathé, **13,50 euros**. Le menu, aucun des deux ne publie son prix : nous avons pris la formule UGC, **8,50 euros**. C'est une estimation, et nous y reviendrons, car c'est notre point le plus fragile.
+
+La sortie complète coûte donc **19,50 euros** chez CGR et 22 euros chez Pathé.
+
+Notre plafond est **19,50 euros**. Au-dessus, le client a intérêt à aller chez CGR. Les trois prix que nous avons testés, de 16,90 à 18,90 euros, sont tous en dessous.
+
+Un point d'attention : Pathé se positionne en haut de gamme, avec des salles IMAX, 4DX et des fauteuils premium, et la place la plus chère de l'agglomération. Un pack trop bon marché risquerait d'abîmer cette image : c'est une raison de plus pour ne pas descendre trop bas.
+
+Sous ce plafond, il faut maintenant savoir ce que le pack coûte à Pathé.
+
+## Partie 3 · La proposition (2 min)
+
+**Diapositive 5 · Le coût et le plancher**
+
+Notre variation du mix, c'est le pack lui-même : au lieu d'acheter la place en ligne, puis le menu au comptoir, le client paie tout d'un coup, à prix unique. Pourquoi celle-là ? Parce que c'est la confiserie qui fait la marge de Pathé, et que la moitié de nos répondants n'en a pas pris à sa dernière séance. Et dans notre questionnaire, nous avons testé une deuxième variation, gratuite : afficher « achetés séparément : 22 euros » à côté du pack. C'est un prix de référence : il doit faire paraître le pack plus avantageux.
+
+Combien coûte le pack ? Il faut regarder deux choses.
+
+La place d'abord. Sur 13,50 euros, Pathé paie la TVA, la taxe du CNC, puis reverse la moitié au distributeur. Il lui reste **5,71 euros**.
+
+Le menu ensuite. Nous l'avons chiffré ingrédient par ingrédient : 10 centimes de pop-corn, 1,15 euro de sirop, 11 centimes de gobelet. Total : **1,36 euro**. Le pop-corn ne coûte presque rien ; c'est la boisson qui pèse.
+
+Le prix plancher du pack est donc **15 euros** : 13,50 pour la place, plus le menu TVA comprise. En dessous, Pathé perd de l'argent même sur un client qui ne prenait que la place.
+
+Mais le vrai risque est ailleurs. Il y a deux types de clients. Celui qui ne prenait que la place : s'il passe au pack, Pathé gagne de la confiserie. Et celui qui prenait déjà place et menu : avec le pack, il paie moins cher pour la même chose. À 16,90 euros, il faut convertir **2,7 clients « place seule »** pour compenser **un seul** client qui achetait déjà le menu.
+
+Toute la question est donc : qui achète le pack ?
+
+## Partie 4 · Le client (2 min 30)
+
+**Diapositive 6 · Le prix accepté (1 min 15)**
+
+Nous avons interrogé **119 personnes** en octobre. Méthode Gabor-Granger : on propose le pack à 16,90 euros ; si la personne dit oui, on monte à 17,90, puis à 18,90.
+
+Le prix monte toujours dans le même ordre, pour tout le monde. Au début du questionnaire, le hasard décide qui voit la mention « 22 euros » : 65 personnes ne la voient pas, 54 la voient. C'est notre test A/B : une seule différence entre les deux groupes.
+
+Résultat : **47 %** achèteraient à 16,90 euros, **27 %** à 17,90, et seulement **9 %** à 18,90. Chaque euro de plus fait perdre environ 19 points d'acheteurs.
+
+Et avec la mention « 22 euros » ? Elle fait mieux à chaque prix : 54 % contre 42 % à 16,90 euros. Le prix moyen accepté passe de 17,53 à 17,80 euros. Mais avec nos effectifs, cet écart peut venir du hasard : la p-value est de 0,19. Il faudrait environ 260 personnes par version pour le prouver.
+
+**Diapositive 7 · Qui a répondu (1 min 15)**
+
+Attention à qui a répondu : un échantillon de convenance, notre entourage, avec **61 % d'étudiants**. Nos résultats décrivent une clientèle jeune au petit budget, pas toute la clientèle de Pathé.
+
+Ce que nos réponses permettent de conclure, avec des tests statistiques :
+le pack plaît surtout à ceux qui achètent déjà de la confiserie : **64 %** de oui chez eux, contre **29 %** chez ceux qui prennent la place seule. Ce n'est pas le hasard : p inférieur à 0,001.
+Et les étudiants dépensent moins en confiserie : 4,62 euros par séance contre 7,77 pour les actifs.
+
+Enfin, une limite que nous assumons : ce sont des réponses déclarées. Dire « j'achèterais » n'est pas acheter, et les vrais acheteurs seront sans doute moins nombreux.
+
+Autrement dit, le pack attire exactement le client qui fait perdre de l'argent à Pathé. Voyons ce que cela donne en euros.
+
+## Partie 5 · La décision (3 min 30)
+
+**Diapositive 8 · Le résultat (50 s)**
+
+Pour chaque répondant qui dit oui, nous avons calculé ce que Pathé gagne ou perd, à partir de ce qu'il dépense aujourd'hui en confiserie. Résultat pour 100 spectateurs : **moins 178 euros** à 16,90, moins 97 euros à 17,90, moins 39 euros à 18,90.
+
+Aucun prix testé ne rapporte. À 16,90 euros, sur 55 acheteurs, Pathé ne gagne de l'argent que sur 9.
+
+Pourquoi la perte diminue-t-elle quand le prix monte ? Parce qu'il y a moins d'acheteurs, et que chaque pack est moins remisé. Mais même à 18,90 euros, le pack reste dans le rouge, et il ne séduit plus que 9 % des répondants.
+
+**Diapositive 9 · Pourquoi aucun prix ne marche (50 s)**
+
+L'acheteur type dépense déjà 8 euros en confiserie par séance. Pour que le pack ne lui fasse pas perdre d'argent, il faudrait le vendre **20,87 euros**. Or le plafond des concurrents est de **19,50 euros**.
+
+Il n'existe donc aucun prix à la fois rentable et sous le plafond. Et ce n'est pas le coût du pop-corn : même avec un pop-corn gratuit, le pack perdrait encore 173 euros pour 100 spectateurs.
+
+**Diapositive 10 · Quand notre scénario lâche (1 min)**
+
+Nous avons malmené nos hypothèses. Coûts plus 15 %, moins d'acheteurs réels, plus de clients déjà acheteurs de confiserie : tous les scénarios restent négatifs.
+
+Mais une hypothèse peut tout changer : la fréquentation. Si le pack fait venir les gens plus souvent, chaque séance en plus rapporte la place et le pack. Il suffirait de **24 séances de plus pour 100 spectateurs** à 16,90 euros, et de seulement **4** à 18,90 euros. Notre questionnaire ne l'a pas mesuré : c'est sa principale limite.
+
+L'autre hypothèse fragile, c'est le prix du menu, estimé à 8,50 euros. S'il est plus cher au comptoir, le pack coûte encore plus : à 9,50 euros, il faudrait convertir 3,2 clients « place seule » pour compenser un seul client qui achetait déjà le menu. C'est donc le premier chiffre que nous irions relever en caisse.
+
+Et si nous nous trompons de prix ? Trop bas, Pathé brade la confiserie, son seul poste en croissance. Trop haut, au-dessus de 19,50 euros, la même sortie revient moins cher chez CGR.
+
+**Diapositive 11 · Notre recommandation (50 s)**
+
+Notre recommandation : **ne pas lancer de pack permanent à ces prix**. Garder la place et le menu vendus séparément.
+
+Afficher « 22 euros achetés séparément » : cela ne coûte rien et va dans le bon sens.
+
+Et avant toute décision, tester un pack quelques semaines à Aubière, vendu en ligne avec le billet, pour mesurer deux choses : combien d'acheteurs prenaient déjà la confiserie, et s'ils viennent plus souvent.
+
+Trois chiffres à retenir : moins 178 euros pour 100 spectateurs à 16,90 ; 20,87 euros de seuil contre 19,50 de plafond ; et 24 séances de plus pour faire basculer le scénario. Merci, nous sommes prêts pour vos questions.
+
+</script>
+<script type="text/markdown" id="md-questions">
+# Les 8 questions les plus probables du jury
+
+Réponses courtes, à dire en 30 secondes, chacune appuyée sur un calcul de `calculs.md` (numéro de section entre parenthèses). Le cours prévient : chacun répond sur ses propres chiffres, et « c'est l'IA qui l'a fait » n'est pas une réponse.
+
+---
+
+### 1. « Votre menu à 8,50 €, d'où vient-il ? Il porte tout votre raisonnement. »
+
+C'est la formule confiserie d'UGC ([ugc.fr](https://www.ugc.fr/comptoir.html), 20/10/2026), parce que ni Pathé ni CGR ne publient leurs prix de comptoir. C'est notre hypothèse la plus fragile, et nous l'avons testée : à 7,50 €, il faut 2,1 clients « place seule » pour compenser un client qui prenait déjà le menu ; à 9,50 €, il en faut 3,2. Dans tous les cas, notre échantillon n'en convertit que 0,45 (5.3 et 5.5). La conclusion tient, mais c'est le premier chiffre que nous relèverions en caisse.
+
+### 2. « Pathé perd de l'argent : pourquoi ne pas simplement baisser le prix des places ? »
+
+Parce que la billetterie est la moins rentable : il reste 0,49 € à Pathé par euro de place, contre 0,73 € par euro de confiserie (1.3 et 1.4). Avec une marge nette de −5,4 % et six jours de trésorerie (1.5 et 1.7), toute baisse de prix sans hausse des volumes tombe directement sur le résultat, comme le montre le CM 1.
+
+### 3. « Votre échantillon est-il représentatif ? »
+
+Non, et nous le disons : 119 répondants, échantillon de convenance, 61 % d'étudiants (4.1). Nos résultats décrivent une clientèle jeune au petit budget. En revanche, le test A/B reste valable à l'intérieur de l'échantillon, puisque le hasard a réparti les versions A et B. La marge d'erreur est d'environ ±9 points sur une proportion (4.2).
+
+### 4. « Votre test A/B ne montre rien de significatif : à quoi a-t-il servi ? »
+
+Il montre une tendance : la version avec « 22 € » fait mieux à chaque prix (+12, +12 et +10 points). Mais p = 0,186 : l'écart peut venir du hasard. Pour le prouver, il faudrait environ 261 répondants par version, contre 65 et 54 (4.3). Comme la mention ne coûte presque rien, nous recommandons quand même de l'afficher, sans prétendre que l'effet est prouvé.
+
+### 5. « Pourquoi parler de perte alors que 47 % des gens achèteraient le pack ? »
+
+Parce que l'important n'est pas combien achètent, mais qui achète. Parmi les acheteurs à 16,90 €, 38 achetaient déjà de la confiserie et 17 seulement prenaient la place seule (4.4). Chaque client qui prenait déjà le menu fait perdre 4,64 € à Pathé ; chaque client converti n'en rapporte que 1,73 € (3.5). Résultat : −178 € pour 100 spectateurs (5.1).
+
+### 6. « Quel est votre seuil de rentabilité ? »
+
+Le seuil du cours (coûts fixes ÷ contribution marginale) est quasi nul, car le pack n'a presque pas de coût fixe. Notre point de rupture est le mélange de clients : à 16,90 €, il faut 2,7 clients « place seule » convertis pour compenser 1 client qui prenait déjà le menu (5.3). Et pour l'acheteur médian, le pack ne cesse de perdre de l'argent qu'à 20,87 €, au-dessus du plafond de 19,50 € (5.2).
+
+### 7. « À quel moment votre scénario lâche-t-il ? »
+
+Les scénarios « plus dur » et « du pire » restent négatifs (5.4). Ce qui peut le renverser, c'est la fréquentation : si le pack fait venir les gens plus souvent, il suffit de 24 séances de plus pour 100 spectateurs à 16,90 €, et de 4 à 18,90 € (5.5). Nous ne l'avons pas mesuré : c'est la limite principale de notre étude et la question à poser en premier dans un test en salle.
+
+### 8. « Comment avez-vous calculé ce qu'il reste à Pathé sur une place ? »
+
+13,50 € ÷ 1,055 pour retirer la TVA à 5,5 % = 12,80 € ; moins la taxe CNC de 10,72 % = 11,42 € ; moins 50 % pour le distributeur = 5,71 € (3.2). Les taux viennent du BOFiP et d'une réponse ministérielle de 2022. Recoupement : la ligne des comptes qui correspond très probablement à la location des films représente 50,6 % de la billetterie (1.4).
+
+---
+
+## Questions de réserve
+
+- **« Pourquoi Gabor-Granger plutôt que Van Westendorp ? »** Nous voulions une part d'acheteurs à des prix précis, sous le plafond, pour la convertir en marge. Le CM 2 accepte les deux, à condition de dire ce qu'on mesure.
+- **« Pourquoi un test t unilatéral ? »** Le sens de la question (« les étudiants dépensent-ils moins ? ») était fixé avant le calcul. En bilatéral, p = 0,012 : la conclusion est la même.
+- **« Votre régression a un R² de 99,9 % : c'est solide ? »** Non : 3 points seulement, donnés par les mêmes personnes. Elle décrit la baisse (−19 points par euro) entre 16,90 et 18,90 €, sans prévoir au-delà. La preuve de l'effet du prix est le Q de Cochran (p < 0,001).
+
+</script>
+<script type="text/markdown" id="md-calculs">
+# Calculs détaillés : le pack Pathé place + pop-corn + boisson
+
+Annexe de l'oral du 25 novembre 2026, réservée au jury. Chaque calcul donne la formule, les valeurs d'entrée avec leur source, les étapes et le résultat. Les formules sont celles du cours ([TD 2](https://prix.iae-mod.fr/seances/seance-td-2.html), [TD 3](https://prix.iae-mod.fr/seances/seance-td-3.html), [CM 1](https://prix.iae-mod.fr/seances/seance-cm-1.html)).
+
+Abréviations des sources :
+
+- **Comptes 2025** : [comptes annuels 2025 de Pathé Cinémas France](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf), SIREN 444 567 127, assemblée du 23/04/2026 (numéro de page indiqué).
+- **Questionnaire** : [notre questionnaire en ligne](https://romanebgt-art.github.io/dossier-pathe/questionnaire.html), 119 réponses, collecte d'octobre 2026. Les réponses individuelles restent hors ligne (consigne du CM 3) ; les chiffres ci-dessous sont des totaux.
+- Statut de chaque chiffre : **observé** (lu dans une source), **estimé** (calculé à partir de sources), **hypothèse** (choix du groupe, justifié).
+
+---
+
+## 1. L'entreprise : que disent ses comptes ?
+
+### 1.1 Évolution du chiffre d'affaires
+
+| Terme | Valeur | Source |
+|---|---|---|
+| Chiffre d'affaires 2025 | 399 336 460 € | Comptes 2025, note 4.1, [p. 30](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf#page=30) (observé) |
+| Chiffre d'affaires 2024 publié | 408 252 871 € | même page (observé) |
+| Chiffre d'affaires 2024 à périmètre comparable | 439 957 166 € | Comptes 2025, note 1.2.1, [p. 14](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf#page=14) (observé) |
+
+- Évolution publiée = (399 336 460 − 408 252 871) ÷ 408 252 871 = **−2,2 %**
+- Évolution à périmètre comparable = (399 336 460 − 439 957 166) ÷ 439 957 166 = **−9,2 %**
+
+Pourquoi deux chiffres : en 2025, la société a reçu trois cinémas par apport et absorbé Cinémazarin (p. 14). Les comptes recalculent 2024 avec ces cinémas : à cinémas identiques, le recul est de 9,2 %.
+
+### 1.2 Chiffre d'affaires par activité
+
+| En M€ (note 4.1, p. 30) | 2024 | 2025 | Évolution | Part 2025 |
+|---|---|---|---|---|
+| Billetterie | 271,3 | 252,4 | −7,0 % | 63,2 % |
+| Confiserie | 81,6 | 86,4 | +5,9 % | 21,6 % |
+| Publicité | 14,6 | 15,1 | +3,3 % | 3,8 % |
+| Ventes diverses | 40,7 | 45,4 | +11,5 % | 11,4 % |
+| Total | 408,3 | 399,3 | −2,2 % | 100 % |
+
+Évolution = (2025 − 2024) ÷ 2024 ; part = activité ÷ total 2025.
+
+### 1.3 Marge commerciale de la confiserie (marge brute)
+
+Formule : (ventes de marchandises − coût d'achat des marchandises vendues) ÷ ventes de marchandises.
+
+| Terme | Valeur | Source |
+|---|---|---|
+| Ventes de marchandises | 86 444 020 € | Comptes 2025, [p. 9](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf#page=9) |
+| Achats de marchandises | 22 902 374 € | p. 9 |
+| Variation de stock de marchandises | 111 145 € | p. 9 |
+
+1. Coût d'achat des marchandises vendues = 22 902 374 + 111 145 = **23 013 519 €**, soit 26,6 % des ventes.
+2. Marge commerciale = 86 444 020 − 23 013 519 = 63 430 501 €.
+3. Taux de marge commerciale = 63 430 501 ÷ 86 444 020 = **73,4 %**.
+
+Sur 1 € de confiserie vendu hors TVA, il reste 0,73 € à Pathé avant salaires, loyers et énergie.
+
+### 1.4 Marge brute de la billetterie (estimée)
+
+Coût direct retenu : 127,8 M€ d'« achats de matières premières et autres approvisionnements » (p. 9), très probablement la location des films (estimé).
+
+- Taux = 127,8 ÷ 252,4 = 50,6 % de la billetterie, cohérent avec la part reversée aux distributeurs, « avoisine les 50 % » d'après la [réponse ministérielle du 11/10/2022](https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537).
+- Marge brute = 252,4 − 127,8 = 124,7 M€, soit **0,49 € par euro de place**, contre 0,73 € par euro de confiserie.
+
+### 1.5 Résultat et marge nette
+
+| En M€ | 2024 | 2025 | Source |
+|---|---|---|---|
+| Résultat d'exploitation | +3,0 | −20,5 | Comptes 2025, p. 9 |
+| Résultat net | +2,8 (2 759 905 €) | −21,7 (−21 727 480 €) | p. 10 |
+| Autres achats et charges externes | 142,0 | 150,9 (+8,9) | p. 9 |
+| Salaires et cotisations | 59,4 | 67,0 (+7,6) | p. 9 |
+
+Formule du cours (CM 1) : marge nette = résultat net ÷ chiffre d'affaires.
+
+- 2024 : 2 759 905 ÷ 408 252 871 = **+0,7 %**
+- 2025 : −21 727 480 ÷ 399 336 460 = **−5,4 %**
+
+### 1.6 Par spectateur (estimé)
+
+Nombre d'entrées 2025 (estimé) :
+
+1. Billetterie hors TVA : 252 447 754 € (note 4.1, p. 30).
+2. TVA réintégrée : × 1,055 = 266 332 380 € ([taux de 5,5 %, BOFiP](https://bofip.impots.gouv.fr/bofip/167-PGP.html/identifiant=BOI-TVA-LIQ-30-20-40-20200923)).
+3. ÷ recette moyenne par entrée en France en 2025 : 7,42 € ([CNC, Les chiffres clés 2025, p. 3](https://www.cnc.fr/professionnels/etudes-et-rapports/bilans/bilan-2025-du-cnc_2589800)).
+4. = **35,9 millions d'entrées**. C'est une estimation haute : la place Pathé est plus chère que la moyenne, donc les entrées réelles sont sans doute moins nombreuses.
+
+| Par spectateur | Calcul | Résultat |
+|---|---|---|
+| Dépense en confiserie hors TVA | 86,4 M€ ÷ 35,9 M | 2,41 € |
+| Marge sur la confiserie | 63,4 M€ ÷ 35,9 M | 1,77 € |
+| Résultat d'exploitation | −20,5 M€ ÷ 35,9 M | **−0,57 €** |
+
+### 1.7 Ce que Pathé peut encaisser (CM 1)
+
+- Trésorerie au 31/12/2025 : 6,7 M€ ([bilan actif, p. 7](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf#page=7)), soit 6,7 ÷ 399,3 × 365 ≈ **6 jours de chiffre d'affaires**.
+- Capitaux propres : 504,5 M€ ([bilan passif, p. 8](https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf#page=8)).
+- Pour effacer la perte d'exploitation avec la seule confiserie : 20,5 ÷ 73,4 % = 28,0 M€ de ventes en plus, soit +32 %.
+
+**Problématique qui en découle** : la billetterie recule et les coûts fixes montent ; la confiserie est la seule activité en croissance, et la plus rentable. Un pack place + menu peut-il faire acheter de la confiserie à ceux qui n'en prennent pas, sans brader celle que Pathé vend déjà ?
+
+---
+
+## 2. Le marché : à quels prix, et quel plafond ?
+
+### 2.1 Prix relevés
+
+| Offre | Prix | Statut | Source |
+|---|---|---|---|
+| Place adulte Pathé Aubière | 13,50 € | observé | [Allociné](https://www.allocine.fr/salle/cinema-P0956/tarifs/), 20/10/2026 |
+| Place adulte CGR Val Arena | 11,00 € | observé | [cgrcinemas.fr](https://www.cgrcinemas.fr/cinema/p6310-cgr-clermont-ferrand-val-arena/), 20/10/2026 |
+| Formule confiserie + boisson UGC | 8,50 € | observé chez UGC ; utilisé comme estimation du menu à Clermont | [ugc.fr](https://www.ugc.fr/comptoir.html), 20/10/2026 |
+| Pack temporaire Pathé : 4 places + 2 grands pop-corn | 40 € | observé, promotion | [pathe.fr](https://www.pathe.fr/actualites/les-legendaires-4-places-de-cine-et-2-maxi-popcorn-pour-40-euros), 10/02/2026 |
+| Club CGR, du lundi au jeudi | 7,70 € la place | observé | cgrcinemas.fr, 20/10/2026 |
+| Netflix avec publicité, par mois | 7,99 € | observé | [Netflix](https://help.netflix.com/fr/node/24926), 08/10/2026 |
+| Pop-corn Pathé en supermarché | 3,49 € les 100 g (sucré) ou 80 g (salé) | observé | [LSA](https://www.lsa-conso.fr/nouveaute-carrefour-va-distribuer-les-pop-corns-des-cinemas-pathe-dans-ses-magasins,465570/), 28/04/2026 |
+
+Les prix du comptoir (pop-corn, boisson) ne sont publiés ni par Pathé ni par CGR : voir `verifications.md`.
+
+### 2.2 Comparer ce qui est comparable (TD 1)
+
+Aucun concurrent ne vend un pack place + confiserie permanent. L'unité comparable est donc **une sortie complète pour un adulte** : place plein tarif + pop-corn + boisson, achetés séparément.
+
+| Sortie complète | Calcul | Prix |
+|---|---|---|
+| CGR Val Arena | 11,00 + 8,50 | 19,50 € |
+| Pathé Aubière | 13,50 + 8,50 | 22,00 € |
+
+Statistiques sur ces deux sorties : minimum 19,50 €, maximum 22,00 €, moyenne et médiane (19,50 + 22,00) ÷ 2 = 20,75 €. Avec deux enseignes seulement, la moyenne n'apporte rien : le chiffre utile est le minimum, qui est le plafond.
+
+Prix au kilo, pour information seulement : le pop-corn Pathé en supermarché revient à 3,49 ÷ 0,100 = 34,90 €/kg (sucré) et 3,49 ÷ 0,080 = 43,63 €/kg (salé). Le poids d'un gobelet de comptoir est estimé à 135 g (743 t ÷ 5,5 millions de gobelets, [LSA](https://www.lsa-conso.fr/nouveaute-carrefour-va-distribuer-les-pop-corns-des-cinemas-pathe-dans-ses-magasins,465570/)), mais son prix n'est pas relevé : pas de comparaison au kilo possible au comptoir.
+
+### 2.3 Prix plafond retenu
+
+Plafond = place la moins chère de l'agglomération + menu = 11,00 + 8,50 = **19,50 €**.
+
+Au-dessus, la même sortie revient moins cher chez CGR. Limite : le menu à 8,50 € est une estimation (formule UGC), pas un relevé à Clermont.
+
+---
+
+## 3. La proposition : ce qu'elle coûte
+
+### 3.1 La variation testée et son coût
+
+- Produit : un pack permanent place + pop-corn + boisson, testé à 16,90, 17,90 et 18,90 €.
+- Variation du test A/B : afficher « Achetés séparément : 22,00 € » à côté du pack (22 € = 13,50 + 8,50).
+- Coût de la variation : **≈ 0 € par vente** (hypothèse : une mention sur l'affiche et dans l'application, faite une fois).
+
+### 3.2 Ce qu'il reste à Pathé sur une place à 13,50 €
+
+| Étape | Calcul | Résultat | Source |
+|---|---|---|---|
+| Prix payé | — | 13,50 € | Allociné, 20/10/2026 |
+| − TVA 5,5 % | 13,50 − 13,50 ÷ 1,055 | 0,70 € | BOFiP |
+| = Prix hors TVA | 13,50 ÷ 1,055 | 12,80 € | |
+| − Taxe CNC (TSA) 10,72 % | 12,80 × 10,72 % | 1,37 € | taux : [réponse ministérielle](https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537) ; assiette hors TVA : hypothèse |
+| = Recette hors taxes | 12,80 − 1,37 | 11,42 € | |
+| − Part du distributeur 50 % | 11,42 × 50 % | 5,71 € | même réponse ministérielle |
+| = **Reste à Pathé** | | **5,71 €** | 42 % du prix payé |
+
+Hypothèse de ventilation : dans le pack, la place reste comptée à 13,50 € ; toute la remise porte sur la confiserie.
+
+### 3.3 Coût variable d'un menu pop-corn + boisson 50 cl
+
+| Ingrédient | Calcul | Coût | Source |
+|---|---|---|---|
+| Pop-corn (maïs, huile, sel ou sucre, cornet) | haut de la fourchette 8 à 10 centimes | 0,10 € | [Le Tribunal du Net](https://www.letribunaldunet.fr/argent/pourquoi-pop-corn-cinema-si-cher-vrai-cout.html), 03/06/2026 (estimé) |
+| Sirop pour 50 cl | 147,70 € HT ÷ 64 L × 0,5 L | 1,15 € | [Foods & Goods](https://www.foodsandgoods.nl/en/product/coca-cola-regular-post-mix-10-liters/), 20/10/2026 |
+| Gobelet carton 50 cl | 107,03 € HT ÷ 1 000 | 0,11 € | [Hellopro / Publiembal](https://www.hellopro.fr/gobelet-50cl-carton-blanc-x1000-publiembal-blanc-7863577123953-2019015-16612113-produit.html), 20/10/2026 |
+| **Coût variable du menu** | 0,10 + 1,154 + 0,107 | **1,36 €** | |
+
+Contrôle : avec le maïs au prix public (2,46 €/kg HT, [Kaufland](https://www.kaufland.fr/product/372800131/), 21/10/2026) et 135 g par gobelet, le pop-corn coûterait 0,40 € ; le menu passerait à 1,66 € et le plancher à 15,33 €. La conclusion ne change pas.
+
+### 3.4 Prix plancher du pack (TD 2)
+
+Prix plancher = place au plein tarif + coût variable du menu TVA comprise = 13,50 + 1,36 × 1,10 = **15,00 €** (TVA de 10 % sur la confiserie, [Service Public](https://entreprendre.service-public.gouv.fr/vosdroits/F22399)).
+
+En dessous, même un client qui ne prenait que la place fait perdre de l'argent en passant au pack.
+
+### 3.5 Contribution marginale du pack par type de client (TD 2)
+
+Contribution marginale = prix − coût variable unitaire, appliquée à la partie confiserie du pack.
+
+- **Client A** (prenait la place seule) : gain = (prix du pack − 13,50) ÷ 1,10 − 1,36
+- **Client B** (prenait déjà place + menu à 8,50 €) : perte = (8,50 − (prix du pack − 13,50)) ÷ 1,10
+- Clients A nécessaires pour compenser 1 client B = perte B ÷ gain A
+
+| Prix du pack | Confiserie dans le pack (TTC) | Gain par client A | Perte par client B | Clients A pour 1 client B |
+|---|---|---|---|---|
+| 16,90 € | 3,40 € | +1,73 € | −4,64 € | **2,7** |
+| 17,90 € | 4,40 € | +2,64 € | −3,73 € | 1,4 |
+| 18,90 € | 5,40 € | +3,55 € | −2,82 € | 0,8 |
+
+---
+
+## 4. Le client : quel prix accepte-t-il ?
+
+### 4.1 Qui a répondu
+
+| Indicateur | Valeur |
+|---|---|
+| Réponses exploitables | 119 |
+| Version A / version B (tirées au sort) | 65 / 54 |
+| Étudiants / actifs | 72 (61 %) / 40 (34 %) |
+| Clients « place seule » à la dernière séance (clients A) | 58 (49 %) |
+| Clients « place + confiserie » (clients B) | 59 (50 %) |
+| Vont surtout chez Pathé | 41 (34 %) |
+
+Biais : échantillon de convenance (entourage et réseaux du groupe), surtout étudiant. Les résultats décrivent une clientèle jeune au petit budget, pas toute la clientèle de Pathé.
+
+### 4.2 Part d'acheteurs à chaque prix (Gabor-Granger, question 6)
+
+Méthode : 16,90 €, puis 17,90 € seulement après un oui, puis 18,90 €. Un prix non montré après un refus compte comme un refus.
+
+| Groupe | n | Oui à 16,90 € | Oui à 17,90 € | Oui à 18,90 € |
+|---|---|---|---|---|
+| Ensemble | 119 | 56 (47,1 %) | 32 (26,9 %) | 11 (9,2 %) |
+| Version A, sans « 22 € » | 65 | 27 (41,5 %) | 14 (21,5 %) | 3 (4,6 %) |
+| Version B, avec « 22 € » | 54 | 29 (53,7 %) | 18 (33,3 %) | 8 (14,8 %) |
+
+Intervalle de confiance à 95 % : p ± 1,96 × √(p × (1 − p) ÷ n).
+
+- Ensemble, à 16,90 € : 47,1 % ± 9,0 points, soit **38,1 % à 56,0 %**.
+- Ensemble, à 18,90 € : 9,2 % ± 5,2 points, soit **4,0 % à 14,4 %**.
+- Version A à 16,90 € : 29,6 % à 53,5 % ; version B : 40,4 % à 67,0 %. Les deux intervalles se chevauchent largement.
+
+### 4.3 Prix accepté avec et sans la variation
+
+Prix maximum accepté par chaque répondant qui accepte au moins 16,90 € :
+
+- Version A (sans « 22 € ») : (13 × 16,90 + 11 × 17,90 + 3 × 18,90) ÷ 27 = **17,53 €** ; médiane 17,90 €.
+- Version B (avec « 22 € ») : (11 × 16,90 + 10 × 17,90 + 8 × 18,90) ÷ 29 = **17,80 €** ; médiane 17,90 €.
+- Écart : +0,27 €, soit +1,5 %.
+
+Limite : la moyenne ne porte que sur ceux qui acceptent au moins 16,90 € (63 refusent dès 16,90 €), et personne n'a vu de prix au-dessus de 18,90 €.
+
+Test de l'effet de la mention « 22 € » (Chi-2 d'indépendance, version × achat à 16,90 €) : χ² = 1,75 ; ddl = 1 ; **p = 0,186**. L'écart peut venir du hasard. Il faudrait environ 261 répondants par version pour le prouver ([page Statistiques](https://romanebgt-art.github.io/dossier-pathe/statistiques.html#t8)).
+
+### 4.4 Ce que les réponses permettent de conclure
+
+| Test ([page Statistiques](https://romanebgt-art.github.io/dossier-pathe/statistiques.html)) | Résultat | Conclusion |
+|---|---|---|
+| Q de Cochran : le prix fait-il baisser les achats ? | Q = 67,6 ; ddl = 2 ; p < 0,001 | oui, très nettement |
+| Chi-2 : confiserie × achat du pack à 16,90 € | 64 % contre 29 % ; χ² = 13,09 ; p < 0,001 | le pack plaît d'abord aux clients B |
+| Test t de Welch (unilatéral) : les étudiants dépensent-ils moins ? | 4,62 € contre 7,77 € ; t = −2,58 ; p = 0,006 | oui |
+| Test Z : atteint-on 25 % d'acheteurs à 18,90 € ? | 9,2 % ; Z = −3,97 ; p < 0,001 | non |
+
+---
+
+## 5. La décision : le pack se paie-t-il, et quand le scénario lâche-t-il ?
+
+### 5.1 Marge du pack pour 100 spectateurs
+
+Pour chaque répondant qui dit oui au prix testé, à partir de sa propre dépense de confiserie déclarée d (question 11) :
+
+variation de marge = (prix − 13,50) ÷ 1,10 − 1,36 − d ÷ 1,10 × 73,4 %
+
+Hypothèses : l'acheteur remplace toute sa confiserie habituelle par le pack ; fréquentation constante ; 118 répondants retenus (1 exclu : dépense supérieure à 50 €). Marge pour 100 spectateurs = somme des variations ÷ 118 × 100.
+
+| Prix | Acheteurs | Pathé y gagne | Dépense actuelle médiane | Variation moyenne par acheteur | Marge pour 100 spectateurs |
+|---|---|---|---|---|---|
+| 16,90 € | 55 (47 %) | 9 sur 55 | 8,00 € | −3,82 € | **−178,05 €** |
+| 17,90 € | 31 (26 %) | 5 sur 31 | 8,00 € | −3,68 € | **−96,64 €** |
+| 18,90 € | 11 (9 %) | 1 sur 11 | 10,00 € | −4,21 € | **−39,28 €** |
+
+Source : [page La décision](https://romanebgt-art.github.io/dossier-pathe/recommandation.html), recalculée par nous à partir des réponses brutes (écart d'arrondi de 0,04 € au plus).
+
+### 5.2 Prix à partir duquel le pack ne fait plus perdre d'argent
+
+Prix sans perte pour un acheteur = 13,50 + (1,36 + d ÷ 1,10 × 73,4 %) × 1,10
+
+- Acheteur sans confiserie (d = 0) : **15,00 €** (le prix plancher).
+- Acheteur médian à 16,90 € (d = 8,00 €) : 13,50 + (1,36 + 8,00 ÷ 1,10 × 0,734) × 1,10 = **20,87 €**.
+
+20,87 € est au-dessus du plafond des concurrents (19,50 €) : pour l'acheteur type, il n'existe pas de prix à la fois rentable et sous le plafond.
+
+### 5.3 Seuil de rentabilité du pack
+
+Le seuil du cours (coûts fixes ÷ contribution marginale) vaut ici presque 0 : le pack n'a pas de coût fixe notable (la mention « 22 € » coûte ≈ 0 €). Le point de rupture est donc le **mélange de clients** :
+
+- à 16,90 €, il faut **2,7 clients A convertis pour 1 client B** (3.5) ;
+- or, parmi les acheteurs à 16,90 €, il y a 38 clients B pour 17 clients A (Chi-2 du 4.4), soit 17 ÷ 38 = 0,45 client A pour 1 client B. On est loin du seuil.
+
+### 5.4 Stress test (TD 3)
+
+Marge pour 100 spectateurs, en euros ([page La décision](https://romanebgt-art.github.io/dossier-pathe/recommandation.html#stress)) :
+
+| Scénario | 16,90 € | 17,90 € | 18,90 € |
+|---|---|---|---|
+| Prévu | −178,05 | −96,64 | −39,28 |
+| Plus dur : coûts +15 %, 70 % des clients A qui ont dit oui achètent | −153,77 | −80,01 | −34,36 |
+| Du pire : en plus, +10 points de clients B | −175,53 | −89,18 | −40,44 |
+
+Tous les scénarios restent négatifs.
+
+### 5.5 Sensibilité : à quel moment le scénario lâche-t-il ?
+
+Hypothèse testée : le pack fait venir certains spectateurs une fois de plus. Une séance de plus rapporte la marge de la place et celle du pack :
+
+marge d'une séance en plus = 5,71 + (prix − 13,50) ÷ 1,10 − 1,36
+
+- 16,90 € : 7,44 € ; 17,90 € : 8,35 € ; 18,90 € : 9,26 €.
+
+Marge pour 100 spectateurs = marge prévue + séances en plus × marge d'une séance :
+
+| Séances en plus pour 100 spectateurs | 16,90 € | 17,90 € | 18,90 € |
+|---|---|---|---|
+| 0 | −178 € | −97 € | −39 € |
+| 5 | −141 € | −55 € | +7 € |
+| 10 | −104 € | −13 € | +53 € |
+| 15 | −66 € | +29 € | +100 € |
+| 20 | −29 € | +70 € | +146 € |
+| 25 | +8 € | +112 € | +192 € |
+| 30 | +45 € | +154 € | +239 € |
+
+Seuils de rupture = −marge prévue ÷ marge d'une séance en plus :
+
+- 16,90 € : 178,05 ÷ 7,44 = **24 séances** pour 100 spectateurs ;
+- 17,90 € : 96,64 ÷ 8,35 = **12 séances** ;
+- 18,90 € : 39,28 ÷ 9,26 = **4 séances**.
+
+Notre questionnaire ne mesure pas la fréquentation : ces seuils disent ce qu'il faudrait observer dans un test en salle.
+
+Sensibilité au prix réel du menu vendu seul (clients A nécessaires pour 1 client B) :
+
+| Prix du menu | 16,90 € | 17,90 € | 18,90 € |
+|---|---|---|---|
+| 7,50 € | 2,1 | 1,1 | 0,5 |
+| 8,50 € (retenu) | 2,7 | 1,4 | 0,8 |
+| 9,50 € | 3,2 | 1,8 | 1,1 |
+
+Plus le menu est cher au comptoir, plus le pack coûte sur chaque client B. L'hypothèse du menu à 8,50 € est celle qui lâche en premier ; c'est la première à remplacer par un relevé en caisse.
+
+</script>
+<script type="text/markdown" id="md-verifications">
+# Vérifications : chiffres fragiles et incohérences repérés
+
+Relecture du dossier en ligne ([romanebgt-art.github.io/dossier-pathe](https://romanebgt-art.github.io/dossier-pathe/)) faite le 19/11/2026, avant l'oral du 25 novembre. Classement : d'abord ce qui peut faire tomber la conclusion, puis ce qui affaiblit un chiffre, puis les erreurs de forme à corriger sur le site.
+
+## À vérifier en priorité (hypothèses qui portent la décision)
+
+| # | Point | Où | Pourquoi c'est fragile | Action proposée |
+|---|---|---|---|---|
+| 1 | **Prix du menu pop-corn + boisson : 8,50 €** | Parties 2, 3, 5 | C'est la formule UGC ([ugc.fr](https://www.ugc.fr/comptoir.html)), pas un relevé au comptoir de Pathé Aubière ni de CGR. Il fixe le plafond (19,50 €), le prix de référence de 22 € montré aux répondants et la perte sur chaque client B. C'est l'hypothèse qui lâche en premier (calculs, 5.5). | Relever les prix au comptoir d'Aubière et de CGR Val Arena (photo datée) avant le 25/11. |
+| 2 | **Fréquentation non mesurée** | Parties 4 et 5 | La conclusion « le pack perd de l'argent » suppose que les gens ne viennent pas plus souvent. Il suffirait de 24 séances de plus pour 100 spectateurs à 16,90 € pour compenser (calculs, 5.5). | Le dire à l'oral comme limite principale ; proposer la question pour une prochaine étude. |
+| 3 | **Échantillon de convenance** | Partie 4 | 119 répondants, 61 % d'étudiants, recrutés dans l'entourage du groupe. La part réelle d'étudiants chez Pathé n'est pas connue. | Ne pas généraliser à toute la clientèle ; l'annoncer d'emblée. |
+| 4 | **Déclaratif** | Partie 4 | Dire « j'achèterais » n'est pas acheter : la part réelle d'acheteurs sera sans doute plus faible. Le scénario « plus dur » en tient compte (70 % des clients A). | Proposer un test en salle de quelques semaines. |
+
+## Chiffres estimés (à présenter comme tels)
+
+| # | Chiffre | Statut | Commentaire |
+|---|---|---|---|
+| 5 | 127,8 M€ de « matières premières et approvisionnements » = location des films | estimé | Les comptes ne le disent pas explicitement ; le niveau (50,6 % de la billetterie) est cohérent avec la part distributeur d'environ 50 %. |
+| 6 | Assiette de la taxe CNC (10,72 % du prix hors TVA) | hypothèse | Le taux est sourcé, pas l'assiette. Effet faible (quelques centimes par place). |
+| 7 | 35,9 millions d'entrées en 2025 | estimé | Billetterie ÷ recette moyenne nationale (CNC). Estimation haute, donc la perte par spectateur (−0,57 €) est sans doute sous-estimée. |
+| 8 | Coût du pop-corn : 0,10 € par gobelet | estimé | Fourchette de 0,10 à 0,40 € ; le haut de la fourchette ne change pas la conclusion (plancher 15,33 € au lieu de 15,00 €). |
+| 9 | Prix du sirop et du gobelet | observé chez un grossiste | Prix pour de petites quantités : Pathé paie probablement moins cher. Estimation haute du coût. |
+| 10 | Ventilation du prix du pack (place au plein tarif, remise sur la confiserie) | hypothèse | À valider avec le CNC et les distributeurs : si la remise portait sur la place, la taxe et la part distributeur baisseraient aussi. |
+
+## Incohérences dans les sources
+
+| # | Point | Détail |
+|---|---|---|
+| 11 | Chiffre d'affaires 2025 | 399,3 M€ dans les comptes de Pathé Cinémas France, 392,0 M€ pour la même société dans les comptes du groupe (p. 33) : écart de 7,3 M€ non expliqué. Nous retenons 399,3 M€. |
+| 12 | Confiserie 2024 | 81,6 M€ dans la note 4.1 (p. 30), 83,3 M€ de ventes de marchandises au compte de résultat (p. 9). La hausse 2025 vaut +5,9 % ou +3,8 % selon la ligne retenue. |
+| 13 | Prix affiché à la question 8 | Le prix du pack montré à la question de valeur perçue est passé de 18,90 € à 16,90 € le 15/10 : les tests de valeur perçue ne portent que sur les répondants qui ont vu 16,90 €. |
+| 14 | Pas de question de contrôle dans le test A/B | On ne vérifie pas que les répondants de la version B ont remarqué la mention « 22 € » (le CM 2 le recommande). |
+
+## Erreurs de forme sur le site (à corriger avant le 25/11)
+
+| # | Page | Problème | Correction |
+|---|---|---|---|
+| 15 | [Version courte](https://romanebgt-art.github.io/dossier-pathe/essentiel.html) | Le schéma 3 donne p = 0,012 (test bilatéral) alors que la page Statistiques donne p = 0,006 (test unilatéral). | Aligner sur 0,006 unilatéral. |
+| 16 | [Version courte](https://romanebgt-art.github.io/dossier-pathe/essentiel.html) | Le schéma 5 présente la régression comme « un modèle pour prévoir » et annonce « 0 % vers 19,37 € » : c'est une extrapolation, que la page Statistiques exclut (3 points, mêmes répondants). | Remplacer par « modèle descriptif, entre 16,90 et 18,90 € seulement ». |
+| 17 | [Version courte](https://romanebgt-art.github.io/dossier-pathe/essentiel.html) | Le schéma 1 cite encore un χ² classique (42,5) à côté du Q de Cochran, alors que le Chi-2 classique ne convient pas aux réponses des mêmes personnes. | Ne garder que le Q de Cochran. |
+| 18 | [La proposition](https://romanebgt-art.github.io/dossier-pathe/couts.html) | « c'est ce que mesure le questionnaire (partie 6) » : le questionnaire est en partie 4. | Remplacer par « partie 4 ». |
+| 19 | [La décision](https://romanebgt-art.github.io/dossier-pathe/recommandation.html) | « C'est le prix plancher de la partie 4 » : le plancher est calculé en partie 3. | Remplacer par « partie 3 ». |
+| 20 | [L'entreprise](https://romanebgt-art.github.io/dossier-pathe/entreprise.html) | Le lien « calcul » des 35,9 millions d'entrées pointe vers `couts.html#complet`, une section qui n'existe plus : le calcul n'est plus visible sur le site. | Remettre le calcul (repris dans `calculs.md`, 1.6) ou corriger le lien. |
+| 21 | Dates des relevés | Le fichier `modele.js` date les prix Allociné du 01/10, CGR et UGC du 08/10 ; les pages affichent 20/10/2026. | Garder une seule date par relevé, celle de la capture. |
+| 22 | Dates de collecte | « du 12 au 21 octobre » dans le texte ; réponses datées du 15/10 au 20/10 sur la page Le client. | Préciser : questionnaire ouvert le 12/10, réponses reçues du 15 au 20/10. |
+
+## Données personnelles
+
+| # | Point | Détail |
+|---|---|---|
+| 23 | Réponses brutes dans l'historique GitHub | Le fichier `data/reponses.csv` a été retiré du dépôt le 21/10 (consigne du CM 3), mais il reste consultable dans l'historique des versions. | À décider par le groupe : réécrire l'historique ou le signaler. |
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<script>
+(function(){
+  const vueAccueil = document.getElementById("accueil-vue"), vueDoc = document.getElementById("doc-vue");
+  const DOCS = ["synthese", "script", "questions", "calculs", "verifications"];
+  // les renvois d'un document à l'autre (« calculs.md ») deviennent des liens internes
+  const FICHIERS = { "synthese.md": "#synthese", "script_oral.md": "#script", "questions_jury.md": "#questions", "calculs.md": "#calculs", "verifications.md": "#verifications" };
+  function rendre(id) {
+    const src = document.getElementById("md-" + id);
+    if (!src || !window.marked) return false;
+    vueDoc.innerHTML = '<a class="retour" href="#accueil">← Retour à l\'accueil</a>' + marked.parse(src.textContent);
+    vueDoc.querySelectorAll("table").forEach(t => { const w = document.createElement("div"); w.className = "table"; t.parentNode.insertBefore(w, t); w.appendChild(t); });
+    vueDoc.querySelectorAll("a[href]").forEach(a => { const h = a.getAttribute("href"); if (FICHIERS[h]) a.setAttribute("href", FICHIERS[h]); else if (/^https?:/.test(h)) { a.target = "_blank"; a.rel = "noopener"; } });
+    vueDoc.querySelectorAll("code").forEach(c => { const f = FICHIERS[c.textContent.trim()]; if (f && !c.closest("a")) { const a = document.createElement("a"); a.href = f; c.replaceWith(a); a.appendChild(c); } });
+    return true;
+  }
+  function route() {
+    const id = location.hash.slice(1) || "accueil", doc = DOCS.includes(id);
+    if (doc && rendre(id)) { vueAccueil.hidden = true; vueDoc.hidden = false; document.title = vueDoc.querySelector("h1")?.textContent + " · Oral Pathé"; }
+    else { vueAccueil.hidden = false; vueDoc.hidden = true; document.title = "Oral Pathé · Pack ciné"; }
+    document.querySelectorAll("nav.onglets a").forEach(a => a.toggleAttribute("aria-current", a.getAttribute("href") === "#" + (doc ? id : "accueil")));
+    if (doc) document.querySelectorAll("nav.onglets a[aria-current]").forEach(a => a.setAttribute("aria-current", "page"));
+    else document.querySelector('nav.onglets a[href="#accueil"]').setAttribute("aria-current", "page");
+    window.scrollTo(0, 0);
+  }
+  addEventListener("hashchange", route); route();
+  // le bouton PowerPoint n'apparaît que si le fichier est bien en ligne
+  const pptx = document.getElementById("lienPptx");
+  fetch("presentation.pptx", { method: "HEAD" }).then(r => { if (!r.ok) pptx.hidden = true; }).catch(() => { pptx.hidden = true; });
+})();
+</script>
+</body>
+</html>

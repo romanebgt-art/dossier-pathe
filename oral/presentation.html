@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pack Pathé · Oral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --nuit:#14110F; --nuit2:#1E1A17; --trait:#3A332D; --gris:#9C9087; --creme:#F5EBDD;
+  --beurre:#F2B53A; --rouge:#D23F3A; --vert:#4FAE7E;
+  --display:"Archivo",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--nuit);color:var(--creme);font-family:var(--display);overflow:hidden}
+#scene{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center}
+.slide{position:absolute;inset:0;padding:96px 72px 76px;display:none;flex-direction:column;gap:22px;background:var(--nuit)}
+.slide.on{display:flex}
+.fil{position:absolute;top:28px;left:72px;right:72px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.fil span{font:600 13px var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--gris);border-top:4px solid var(--trait);padding-top:8px}
+.fil span.vu{border-color:#7A6A4E}
+.fil span.ici{border-color:var(--beurre);color:var(--beurre)}
+.annexe-tag{position:absolute;top:28px;left:72px;font:700 13px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--beurre)}
+h1{font-size:44px;line-height:1.08;font-weight:800;letter-spacing:-.015em;margin:0;max-width:1100px;text-wrap:balance}
+h1 .b{color:var(--beurre)} h1 .r{color:var(--rouge)}
+.sous{font-size:21px;color:var(--gris);margin:0;max-width:1000px;line-height:1.4}
+.corps{flex:1;display:grid;gap:36px;min-height:0;align-items:center}
+.g2{grid-template-columns:1.25fr 1fr} .g2b{grid-template-columns:1fr 1fr}
+.kpis{display:grid;gap:22px}
+.kpi>b{display:block;font:700 54px/1 var(--mono);color:var(--creme);letter-spacing:-.02em}
+.kpi>b.b{color:var(--beurre)} .kpi>b.r{color:var(--rouge)} .kpi>b.v{color:var(--vert)}
+.kpi span{display:block;font-size:18px;color:var(--gris);margin-top:6px;line-height:1.3}
+.kpi span b{font-weight:700}
+.kpi.s>b{font-size:40px}
+.src{position:absolute;left:72px;right:150px;bottom:22px;font-size:12.5px;color:var(--gris);line-height:1.35}
+.src a{color:var(--gris)}
+.transition{font-size:19px;color:var(--creme);border-left:4px solid var(--beurre);padding:4px 0 4px 16px;margin:0}
+svg{display:block;overflow:visible}
+svg text{font-family:var(--display)} svg text:not([fill]){fill:var(--creme)}
+svg .m{fill:var(--gris)} svg .mono{font-family:var(--mono)} svg .bt{fill:var(--beurre)} svg .rt{fill:var(--rouge)} svg .vt{fill:var(--vert)}
+.legende{display:flex;gap:22px;font-size:16px;color:var(--gris);margin-top:10px}
+.legende i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:7px;vertical-align:-2px}
+table.t{border-collapse:collapse;font-size:17px;width:100%}
+table.t th{font:600 13px var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--gris);text-align:left;padding:8px 10px;border-bottom:1px solid var(--trait)}
+table.t td{padding:9px 10px;border-bottom:1px solid var(--trait)}
+table.t td.n,table.t th.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+.carte{background:var(--nuit2);border:1px solid var(--trait);border-radius:14px;padding:22px 26px}
+.frise{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:8px}
+.frise div{border-top:4px solid var(--beurre);padding-top:12px}
+.frise b{display:block;font:700 30px var(--mono);color:var(--beurre)}
+.frise span{font-size:18px;color:var(--creme)}
+.frise small{display:block;font-size:14px;color:var(--gris);margin-top:4px}
+#nav{position:fixed;right:14px;bottom:12px;display:flex;gap:8px;align-items:center;z-index:5;font:600 14px var(--mono);color:var(--gris)}
+#nav button{background:var(--nuit2);color:var(--creme);border:1px solid var(--trait);border-radius:8px;width:40px;height:36px;font-size:18px;cursor:pointer}
+#nav button:hover,#nav a:hover{border-color:var(--beurre)}
+#nav a{display:inline-flex;align-items:center;justify-content:center;background:var(--nuit2);color:var(--creme);border:1px solid var(--trait);border-radius:8px;width:40px;height:36px;font-size:18px;text-decoration:none}
+#nav button:focus-visible{outline:2px solid var(--beurre);outline-offset:2px}
+#barre{position:fixed;left:0;bottom:0;height:5px;background:var(--beurre);transition:width .25s;z-index:5}
+#tourner{display:none;position:fixed;top:10px;left:10px;right:10px;z-index:6;background:var(--nuit2);border:1px solid var(--trait);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--creme);text-align:center}
+@media (orientation:portrait) and (max-width:700px){#tourner{display:block}}
+@media print{
+  @page{size:1280px 720px;margin:0}
+  html,body{overflow:visible;height:auto}
+  #scene{position:static;transform:none!important;width:1280px;height:auto}
+  .slide{position:relative;display:flex!important;width:1280px;height:720px;page-break-after:always;break-after:page;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #nav,#barre,#tourner{display:none!important}
+}
+</style>
+</head>
+<body>
+<div id="tourner">Tournez le téléphone pour lire la présentation en grand.</div>
+<main id="scene" aria-live="polite">
+
+<!-- 1 · Ouverture -->
+<section class="slide" data-part="0" aria-label="Diapositive 1">
+  <p class="annexe-tag">Prix et budgets marketing · M1 Marketing · IAE Clermont Auvergne · 25 novembre 2026</p>
+  <div style="margin-top:40px;display:grid;gap:22px">
+    <p class="sous" style="color:var(--beurre);font-weight:600;font-size:22px">Pathé Aubière · un pack place + pop-corn + boisson à prix unique</p>
+    <h1 style="font-size:58px">Entre 16,90 et 18,90 €, le pack <span class="r">fait perdre de l'argent</span> à Pathé</h1>
+    <p class="sous">Notre question : Pathé peut-il se permettre ce pack, et à quel prix ?</p>
+  </div>
+  <div class="frise" style="margin-top:auto">
+    <div><b>1</b><span>L'entreprise</span><small>que disent ses comptes ?</small></div>
+    <div><b>2</b><span>Le marché</span><small>quel plafond ?</small></div>
+    <div><b>3</b><span>La proposition</span><small>combien coûte-t-elle ?</small></div>
+    <div><b>4</b><span>Le client</span><small>quel prix accepte-t-il ?</small></div>
+    <div><b>5</b><span>La décision</span><small>quand le scénario lâche-t-il ?</small></div>
+  </div>
+  <p class="src">Dossier complet : <a href="https://romanebgt-art.github.io/dossier-pathe/">romanebgt-art.github.io/dossier-pathe</a> · calculs détaillés : oral/calculs.md</p>
+</section>
+
+<!-- 2 · Entreprise -->
+<section class="slide" data-part="1" aria-label="Diapositive 2">
+  <h1>Pathé perd <span class="r">0,57 €</span> par spectateur, mais sa confiserie <span class="b">progresse</span></h1>
+  <div class="corps g2">
+    <div>
+      <p class="sous" style="font-size:17px;margin-bottom:12px">Chiffre d'affaires par activité, en millions d'euros</p>
+      <svg viewBox="0 0 640 330" width="640" role="img" aria-label="Chiffre d'affaires par activité en 2024 et 2025">
+        <g id="ca"></g>
+      </svg>
+      <div class="legende"><span><i style="background:#5A514A"></i>2024</span><span><i style="background:var(--creme)"></i>2025</span></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b>399,3 M€</b><span>de chiffre d'affaires en 2025 : −2,2 %, et −9,2 % à cinémas identiques</span></div>
+      <div class="kpi"><b class="r">−5,4 %</b><span>de marge nette (résultat net : −21,7 M€)</span></div>
+      <div class="kpi"><b class="b">73 %</b><span>de marge sur la confiserie : 0,73 € par euro vendu, contre 0,49 € sur la place</span></div>
+    </div>
+  </div>
+  <p class="transition">La confiserie est la seule grande activité en croissance, et la plus rentable.</p>
+  <p class="src">Source : <a href="https://romanebgt-art.github.io/dossier-pathe/docs/pathe-cinemas-france-comptes-2025.pdf">comptes annuels 2025 de Pathé Cinémas France</a>, p. 9, 10, 14 et 30 · par spectateur : −20,5 M€ de résultat d'exploitation ÷ 35,9 M d'entrées estimées (CNC, recette moyenne 7,42 €) · calculs : nous</p>
+</section>
+
+<!-- 3 · Problématique -->
+<section class="slide" data-part="1" aria-label="Diapositive 3">
+  <p class="sous" style="color:var(--beurre);font-weight:600">Notre problématique</p>
+  <h1 style="font-size:52px">Un pack peut-il faire acheter de la confiserie à ceux qui n'en prennent pas, <span class="b">sans brader celle que Pathé vend déjà ?</span></h1>
+  <div class="corps" style="grid-template-columns:repeat(3,1fr);gap:24px;align-items:center">
+    <div class="carte"><p class="sous" style="font-size:14px;text-transform:uppercase;letter-spacing:.08em">Les comptes</p><p style="font-size:22px;margin:10px 0 0;line-height:1.35">La place recule (−7,0 %) ; la confiserie monte (+5,9 %) et garde 73 % de marge.</p></div>
+    <div class="carte"><p class="sous" style="font-size:14px;text-transform:uppercase;letter-spacing:.08em">Le marché</p><p style="font-size:22px;margin:10px 0 0;line-height:1.35">Les packs place + confiserie n'existent qu'en promotion : un pack permanent serait nouveau.</p></div>
+    <div class="carte"><p class="sous" style="font-size:14px;text-transform:uppercase;letter-spacing:.08em">Les clients</p><p style="font-size:22px;margin:10px 0 0;line-height:1.35">49 % de nos répondants n'ont pris que la place à leur dernière séance.</p></div>
+  </div>
+  <p class="transition">Avant de fixer un prix : combien coûte la même sortie chez les concurrents ?</p>
+  <p class="src">Sources : comptes 2025, note 4.1 p. 30 et p. 9 · <a href="https://www.pathe.fr/actualites/les-legendaires-4-places-de-cine-et-2-maxi-popcorn-pour-40-euros">pathe.fr, 10/02/2026</a> · <a href="https://x.com/CGRCinemas/status/1410562780676165632">CGR, 01/07/2021</a> · notre questionnaire, 119 réponses, octobre 2026</p>
+</section>
+
+<!-- 4 · Marché -->
+<section class="slide" data-part="2" aria-label="Diapositive 4">
+  <h1>Au-dessus de <span class="b">19,50 €</span>, le client a intérêt à aller chez CGR</h1>
+  <p class="sous">Coût d'une sortie complète pour un adulte : place plein tarif + menu pop-corn + boisson, achetés séparément</p>
+  <div class="corps g2">
+    <svg viewBox="0 0 680 300" width="680" role="img" aria-label="Sortie complète : CGR 19,50 euros, Pathé 22 euros, plafond 19,50 euros">
+      <g id="marche"></g>
+    </svg>
+    <div class="kpis">
+      <div class="kpi"><b class="b">19,50 €</b><span>notre plafond : place CGR 11,00 € (relevé) + menu 8,50 € (estimé)</span></div>
+      <div class="kpi s"><b>0</b><span>concurrent vendant un pack permanent : uniquement des promotions</span></div>
+      <div class="kpi s"><b>16,90 → 18,90 €</b><span>nos 3 prix testés, tous sous le plafond</span></div>
+    </div>
+  </div>
+  <p class="transition">Sous ce plafond : que proposons-nous, et combien cela coûte-t-il à Pathé ?</p>
+  <p class="src">Sources : <a href="https://www.cgrcinemas.fr/cinema/p6310-cgr-clermont-ferrand-val-arena/">cgrcinemas.fr</a> et <a href="https://www.allocine.fr/salle/cinema-P0956/tarifs/">Allociné</a>, 20/10/2026 · menu : <a href="https://www.ugc.fr/comptoir.html">formule UGC, ugc.fr</a>, 20/10/2026, faute de prix publié à Clermont (à relever au comptoir)</p>
+</section>
+
+<!-- 5 · Proposition -->
+<section class="slide" data-part="3" aria-label="Diapositive 5">
+  <h1>Le menu coûte <span class="b">1,36 €</span> à Pathé : sous <span class="b">15 €</span>, le pack perd de l'argent</h1>
+  <p class="sous">Un pack à prix unique ; variation testée : « Achetés séparément : 22 € », coût ≈ 0 €</p>
+  <div class="corps g2b" style="align-items:start">
+    <div>
+      <p class="sous" style="font-size:17px;margin-bottom:8px">Une place à 13,50 € (en gris : TVA 0,70 € et taxe CNC 1,37 €)</p>
+      <svg viewBox="0 0 580 136" width="580" role="img" aria-label="Décomposition d'une place à 13,50 euros"><g id="place"></g></svg>
+      <div class="carte" style="margin-top:8px;padding:14px 22px">
+        <p style="margin:0;font-size:19px;line-height:1.4">À 16,90 € : un client « place seule » converti rapporte <b style="color:var(--vert)">+1,73 €</b> ; un client qui prenait déjà le menu fait perdre <b style="color:var(--rouge)">−4,64 €</b>.</p>
+        <p style="margin:8px 0 0;font:700 30px var(--mono);color:var(--beurre)">2,7 pour 1</p>
+        <p style="margin:2px 0 0;font-size:15px;color:var(--gris)">clients « place seule » à convertir pour compenser un seul client qui prenait déjà le menu</p>
+      </div>
+    </div>
+    <div class="kpis">
+      <table class="t">
+        <thead><tr><th>Coût du menu pour Pathé</th><th class="n">Hors TVA</th></tr></thead>
+        <tbody>
+          <tr><td>Pop-corn (maïs, huile, cornet)</td><td class="n">0,10 €</td></tr>
+          <tr><td>Sirop pour 50 cl</td><td class="n">1,15 €</td></tr>
+          <tr><td>Gobelet carton 50 cl</td><td class="n">0,11 €</td></tr>
+          <tr><td><b>Total</b></td><td class="n"><b style="color:var(--beurre)">1,36 €</b></td></tr>
+        </tbody>
+      </table>
+      <div class="kpi s"><b class="b">15,00 €</b><span>prix plancher = 13,50 € + 1,36 € × 1,10 (TVA)</span></div>
+    </div>
+  </div>
+  <p class="transition">Toute la question est donc : qui achète le pack ?</p>
+  <p class="src">Sources : TVA 5,5 % (<a href="https://bofip.impots.gouv.fr/bofip/167-PGP.html/identifiant=BOI-TVA-LIQ-30-20-40-20200923">BOFiP</a>) · taxe CNC 10,72 % et part distributeur ≈ 50 % (<a href="https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537">réponse ministérielle, 11/10/2022</a>) · sirop (<a href="https://www.foodsandgoods.nl/en/product/coca-cola-regular-post-mix-10-liters/">Foods &amp; Goods</a>), gobelet (<a href="https://www.hellopro.fr/gobelet-50cl-carton-blanc-x1000-publiembal-blanc-7863577123953-2019015-16612113-produit.html">Hellopro</a>), 20/10/2026 · pop-corn (<a href="https://www.letribunaldunet.fr/argent/pourquoi-pop-corn-cinema-si-cher-vrai-cout.html">Le Tribunal du Net</a>, 03/06/2026, estimé)</p>
+</section>
+
+<!-- 6 · Client : prix accepté -->
+<section class="slide" data-part="4" aria-label="Diapositive 6">
+  <h1><span class="b">47 %</span> achèteraient à 16,90 €, seulement <span class="r">9 %</span> à 18,90 €</h1>
+  <div class="corps g2">
+    <div>
+      <p class="sous" style="font-size:17px;margin-bottom:8px">Part de « oui » à chaque prix (question 6, méthode Gabor-Granger)</p>
+      <svg viewBox="0 0 640 320" width="640" role="img" aria-label="Part d'acheteurs avec et sans la mention 22 euros"><g id="gg"></g></svg>
+      <div class="legende"><span><i style="background:var(--creme)"></i>Sans « 22 € » (n = 65)</span><span><i style="background:var(--beurre)"></i>Avec « 22 € » (n = 54)</span></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi s"><b>17,53 €</b><span>prix moyen accepté <b style="color:var(--creme)">sans</b> la mention « 22 € »</span></div>
+      <div class="kpi s"><b class="b">17,80 €</b><span>prix moyen accepté <b style="color:var(--beurre)">avec</b> la mention (+0,27 €)</span></div>
+      <div class="kpi s"><b>p = 0,19</b><span>l'écart peut venir du hasard : il faudrait ≈ 261 répondants par version pour le prouver</span></div>
+    </div>
+  </div>
+  <p class="src">Source : notre questionnaire, 119 réponses, octobre 2026 · prix moyen parmi ceux qui acceptent au moins 16,90 € (27 en version A, 29 en version B) · test du Chi-2 version × achat à 16,90 € · calculs : <a href="https://romanebgt-art.github.io/dossier-pathe/prix-psychologique.html">partie 4 du dossier</a></p>
+</section>
+
+<!-- 7 · Client : qui a répondu -->
+<section class="slide" data-part="4" aria-label="Diapositive 7">
+  <h1>Le pack séduit surtout ceux qui <span class="b">achètent déjà</span> de la confiserie</h1>
+  <div class="corps g2">
+    <div>
+      <p class="sous" style="font-size:17px;margin-bottom:8px">Part de « oui » au pack à 16,90 €, selon l'achat à la dernière séance</p>
+      <svg viewBox="0 0 640 230" width="640" role="img" aria-label="64 pour cent de oui chez les acheteurs de confiserie contre 29 pour cent chez les clients place seule"><g id="conf"></g></svg>
+      <p style="font-size:18px;margin:14px 0 0;line-height:1.4">Écart non dû au hasard : Chi-2 = 13,1 ; p &lt; 0,001. Les étudiants dépensent moins en confiserie : 4,62 € contre 7,77 € (p = 0,006).</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b>119</b><span>répondants, version A ou B tirée au sort (65 / 54)</span></div>
+      <div class="kpi"><b>61 %</b><span>d'étudiants : échantillon de convenance, jeune et au petit budget</span></div>
+      <div class="kpi s"><b class="r">Déclaratif</b><span>dire « j'achèterais » n'est pas acheter : à ne pas généraliser à toute la clientèle de Pathé</span></div>
+    </div>
+  </div>
+  <p class="transition">Le pack attire le client qui fait perdre de l'argent à Pathé. Combien, en euros ?</p>
+  <p class="src">Source : notre questionnaire, octobre 2026 (questions 2, 5, 6 et 11) · tests : <a href="https://romanebgt-art.github.io/dossier-pathe/statistiques.html">page Statistiques du dossier</a></p>
+</section>
+
+<!-- 8 · Décision : résultat -->
+<section class="slide" data-part="5" aria-label="Diapositive 8">
+  <h1><span class="r">Aucun prix testé</span> ne rapporte de marge à Pathé</h1>
+  <p class="sous">Marge gagnée ou perdue pour 100 spectateurs, à partir de ce que chaque acheteur dépense déjà en confiserie</p>
+  <div class="corps g2">
+    <svg viewBox="0 0 640 330" width="640" role="img" aria-label="Marge pour 100 spectateurs : moins 178, moins 97, moins 39 euros"><g id="perte"></g></svg>
+    <div class="kpis">
+      <div class="kpi"><b class="r">−178 €</b><span>pour 100 spectateurs à 16,90 €, le prix qui attire le plus d'acheteurs</span></div>
+      <div class="kpi"><b>9 sur 55</b><span>acheteurs seulement font gagner de l'argent à Pathé à 16,90 €</span></div>
+      <div class="kpi s"><b>8,00 €</b><span>dépense médiane en confiserie de ces acheteurs : le pack les remise</span></div>
+    </div>
+  </div>
+  <p class="src">Calcul : variation de marge = (prix − 13,50) ÷ 1,10 − 1,36 − dépense actuelle ÷ 1,10 × 73,4 %, pour chaque répondant qui dit oui ; total ÷ 118 répondants × 100 · hypothèse : fréquentation constante · <a href="https://romanebgt-art.github.io/dossier-pathe/recommandation.html">partie 6 du dossier</a></p>
+</section>
+
+<!-- 9 · Décision : point de rupture -->
+<section class="slide" data-part="5" aria-label="Diapositive 9">
+  <h1>Pour l'acheteur type, le pack ne rapporte qu'à partir de <span class="r">20,87 €</span> : plus cher que CGR</h1>
+  <div class="corps" style="grid-template-columns:1fr">
+    <svg viewBox="0 0 1136 250" width="1136" role="img" aria-label="Prix plancher 15 euros, prix testés 16,90 à 18,90, plafond 19,50, seuil de l'acheteur médian 20,87"><g id="axe"></g></svg>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+    <div class="kpi s"><b>15,00 €</b><span>sans perte pour un acheteur qui ne prenait jamais de confiserie</span></div>
+    <div class="kpi s"><b class="r">20,87 €</b><span>sans perte pour l'acheteur médian, qui dépense déjà 8 € en confiserie</span></div>
+    <div class="kpi s"><b>−173 €</b><span>pour 100 spectateurs à 16,90 €, même avec un pop-corn gratuit</span></div>
+  </div>
+  <p class="src">Calcul : prix sans perte = 13,50 + (1,36 + dépense ÷ 1,10 × 73,4 %) × 1,10 ; avec 8,00 € de dépense : 20,87 € · plafond : place CGR 11,00 € + menu 8,50 € (estimé) · <a href="https://romanebgt-art.github.io/dossier-pathe/recommandation.html">partie 6 du dossier</a></p>
+</section>
+
+<!-- 10 · Décision : stress test -->
+<section class="slide" data-part="5" aria-label="Diapositive 10">
+  <h1>Le scénario bascule si le pack fait venir <span class="b">24 séances de plus</span> pour 100 spectateurs</h1>
+  <div class="corps g2" style="align-items:start">
+    <div>
+      <p class="sous" style="font-size:17px;margin-bottom:8px">Marge pour 100 spectateurs selon les séances en plus qu'apporterait le pack</p>
+      <table class="t" id="chaleur" style="font-size:16px"></table>
+    </div>
+    <div class="kpis" style="gap:18px">
+      <div class="kpi s"><b>24 · 12 · 4</b><span>séances en plus pour 100 spectateurs pour ne plus perdre, à 16,90, 17,90 et 18,90 €</span></div>
+      <div class="kpi s"><b class="r">3 sur 3</b><span>scénarios du stress test négatifs (prévu, plus dur, du pire), quel que soit le prix</span></div>
+      <div class="kpi s"><b class="b">8,50 €</b><span>l'hypothèse qui lâche en premier : le prix du menu, estimé ; à 9,50 €, il faut 3,2 clients pour 1</span></div>
+      <p style="font-size:16px;color:var(--gris);margin:0;line-height:1.4">Notre questionnaire ne mesure pas la fréquentation : c'est sa principale limite.</p>
+    </div>
+  </div>
+  <p class="src">Une séance en plus rapporte 5,71 € (place) + (prix − 13,50) ÷ 1,10 − 1,36 € (pack) : 7,44 € à 16,90 €, 8,35 € à 17,90 €, 9,26 € à 18,90 € · hypothèse : chaque séance en plus est un pack vendu · calculs : oral/calculs.md, 5.4 et 5.5</p>
+</section>
+
+<!-- 11 · Recommandation -->
+<section class="slide" data-part="5" aria-label="Diapositive 11">
+  <p class="sous" style="color:var(--beurre);font-weight:600">Notre recommandation</p>
+  <h1 style="font-size:50px">Ne pas lancer le pack permanent à ces prix : garder place et menu séparés, et <span class="b">afficher « 22 € achetés séparément »</span></h1>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:14px">
+    <div class="kpi"><b class="r">−178 €</b><span>pour 100 spectateurs à 16,90 €</span></div>
+    <div class="kpi"><b>20,87 €</b><span>seuil de l'acheteur type, au-dessus du plafond de 19,50 €</span></div>
+    <div class="kpi"><b class="b">24</b><span>séances de plus pour 100 spectateurs feraient basculer le scénario</span></div>
+  </div>
+  <div class="carte" style="margin-top:auto">
+    <p style="margin:0;font-size:21px;line-height:1.45"><b style="color:var(--beurre)">Prochaine étape :</b> tester le pack quelques semaines à Aubière, vendu en ligne avec le billet, et mesurer deux choses : la part d'acheteurs qui prenaient déjà la confiserie, et s'ils viennent plus souvent. Relever d'abord le prix du menu au comptoir.</p>
+  </div>
+  <p class="src">Calculs : oral/calculs.md · dossier : <a href="https://romanebgt-art.github.io/dossier-pathe/">romanebgt-art.github.io/dossier-pathe</a></p>
+</section>
+
+<!-- Annexe A · calculs de coût -->
+<section class="slide" data-part="A" aria-label="Annexe A">
+  <p class="annexe-tag">Annexe A · pour les questions du jury</p>
+  <h1>Les calculs de coût, terme par terme</h1>
+  <div class="corps g2b" style="align-items:start">
+    <table class="t">
+      <thead><tr><th>Une place à 13,50 €</th><th class="n">Montant</th></tr></thead>
+      <tbody>
+        <tr><td>Prix payé</td><td class="n">13,50 €</td></tr>
+        <tr><td>− TVA 5,5 % (13,50 ÷ 1,055)</td><td class="n">0,70 €</td></tr>
+        <tr><td>− Taxe CNC 10,72 % du prix hors TVA</td><td class="n">1,37 €</td></tr>
+        <tr><td>− Part du distributeur, 50 %</td><td class="n">5,71 €</td></tr>
+        <tr><td><b>= Reste à Pathé</b></td><td class="n"><b>5,71 €</b></td></tr>
+      </tbody>
+    </table>
+    <table class="t">
+      <thead><tr><th>Prix du pack</th><th class="n">Gain client A</th><th class="n">Perte client B</th><th class="n">A pour 1 B</th></tr></thead>
+      <tbody>
+        <tr><td>16,90 €</td><td class="n">+1,73 €</td><td class="n">−4,64 €</td><td class="n">2,7</td></tr>
+        <tr><td>17,90 €</td><td class="n">+2,64 €</td><td class="n">−3,73 €</td><td class="n">1,4</td></tr>
+        <tr><td>18,90 €</td><td class="n">+3,55 €</td><td class="n">−2,82 €</td><td class="n">0,8</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:17px;color:var(--gris);margin:0;line-height:1.5">Gain A = (prix − 13,50) ÷ 1,10 − 1,36 · Perte B = (8,50 − (prix − 13,50)) ÷ 1,10 · Plancher = 13,50 + 1,36 × 1,10 = 15,00 € · Marge confiserie = (86 444 020 − 23 013 519) ÷ 86 444 020 = 73,4 % · Marge nette 2025 = −21 727 480 ÷ 399 336 460 = −5,4 %</p>
+  <p class="src">Sources : comptes 2025 de Pathé Cinémas France, p. 9, 10 et 30 · BOFiP · réponse ministérielle du 11/10/2022 · calculs complets : oral/calculs.md</p>
+</section>
+
+<!-- Annexe B · tests statistiques -->
+<section class="slide" data-part="A" aria-label="Annexe B">
+  <p class="annexe-tag">Annexe B · pour les questions du jury</p>
+  <h1>Ce que nos 119 réponses permettent de conclure</h1>
+  <table class="t" style="font-size:18px">
+    <thead><tr><th>Test</th><th>Question</th><th>Résultat</th><th>Conclusion</th></tr></thead>
+    <tbody>
+      <tr><td>Q de Cochran</td><td>Le prix fait-il baisser l'achat (mêmes personnes aux 3 prix) ?</td><td class="n">Q = 67,6 ; p &lt; 0,001</td><td>Oui</td></tr>
+      <tr><td>Chi-2</td><td>Confiserie × achat du pack à 16,90 €</td><td class="n">64 % / 29 % ; p &lt; 0,001</td><td>Oui</td></tr>
+      <tr><td>Chi-2 (A/B)</td><td>La mention « 22 € » fait-elle vendre plus ?</td><td class="n">54 % / 42 % ; p = 0,186</td><td>Non prouvé</td></tr>
+      <tr><td>Test t de Welch</td><td>Les étudiants dépensent-ils moins en confiserie ?</td><td class="n">4,62 € / 7,77 € ; p = 0,006</td><td>Oui</td></tr>
+      <tr><td>Test Z</td><td>Atteint-on 25 % d'acheteurs à 18,90 € ?</td><td class="n">9,2 % ; p &lt; 0,001</td><td>Non, bien en dessous</td></tr>
+      <tr><td>Intervalle à 95 %</td><td>Part d'acheteurs à 16,90 €</td><td class="n">47 % (38 % à 56 %)</td><td>± 9 points</td></tr>
+    </tbody>
+  </table>
+  <p class="src">Source : notre questionnaire, octobre 2026 · détail des tests, hypothèses et graphiques : <a href="https://romanebgt-art.github.io/dossier-pathe/statistiques.html">page Statistiques du dossier</a></p>
+</section>
+
+<!-- Annexe C · stress test et points fragiles -->
+<section class="slide" data-part="A" aria-label="Annexe C">
+  <p class="annexe-tag">Annexe C · pour les questions du jury</p>
+  <h1>Stress test et chiffres à vérifier</h1>
+  <div class="corps g2b" style="align-items:start">
+    <table class="t">
+      <thead><tr><th>Scénario, pour 100 spectateurs</th><th class="n">16,90 €</th><th class="n">17,90 €</th><th class="n">18,90 €</th></tr></thead>
+      <tbody>
+        <tr><td>Prévu</td><td class="n">−178 €</td><td class="n">−97 €</td><td class="n">−39 €</td></tr>
+        <tr><td>Plus dur : coûts +15 %, 70 % des clients A achètent</td><td class="n">−154 €</td><td class="n">−80 €</td><td class="n">−34 €</td></tr>
+        <tr><td>Du pire : en plus, +10 points de clients B</td><td class="n">−176 €</td><td class="n">−89 €</td><td class="n">−40 €</td></tr>
+      </tbody>
+    </table>
+    <div class="kpis" style="gap:14px;font-size:18px;line-height:1.4">
+      <p style="margin:0"><b style="color:var(--rouge)">Menu à 8,50 €</b> : formule UGC, pas un relevé au comptoir de Pathé ni de CGR.</p>
+      <p style="margin:0"><b style="color:var(--rouge)">Fréquentation</b> : non mesurée ; elle seule peut renverser la conclusion.</p>
+      <p style="margin:0"><b style="color:var(--beurre)">Échantillon</b> : convenance, 61 % d'étudiants, réponses déclarées.</p>
+      <p style="margin:0"><b style="color:var(--beurre)">Estimés</b> : location des films (50,6 %), 35,9 M d'entrées, coût du pop-corn (0,10 à 0,40 €).</p>
+    </div>
+  </div>
+  <p class="src">Sources : <a href="https://romanebgt-art.github.io/dossier-pathe/recommandation.html#stress">partie 6 du dossier, stress test</a> · liste complète : oral/verifications.md</p>
+</section>
+
+</main>
+<nav id="nav" aria-label="Navigation">
+  <a id="accueil" href="index.html" aria-label="Retour à l'accueil de l'oral" title="Accueil">⌂</a>
+  <button id="prec" aria-label="Diapositive précédente">‹</button>
+  <span id="num">1 / 14</span>
+  <button id="suiv" aria-label="Diapositive suivante">›</button>
+</nav>
+<div id="barre"></div>
+<script>
+(function(){
+  const NS = "http://www.w3.org/2000/svg";
+  const fr = (v, d = 2) => v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace("-", "−");
+  const svgEl = (g, t, a, x) => { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); if (x != null) n.textContent = x; g.appendChild(n); return n; };
+  const C = { creme: "#F5EBDD", beurre: "#F2B53A", rouge: "#D23F3A", vert: "#4FAE7E", gris: "#9C9087", trait: "#3A332D", ancien: "#5A514A" };
+
+  /* espace insécable entre un nombre et son unité, pour ne jamais couper « 16,90 / € » en fin de ligne */
+  { const w = document.createTreeWalker(document.getElementById("scene"), NodeFilter.SHOW_TEXT); let t;
+    while ((t = w.nextNode())) if (/\d [€%]/.test(t.nodeValue)) t.nodeValue = t.nodeValue.replace(/(\d) ([€%])/g, "$1 $2"); }
+
+  /* fil d'Ariane des 5 parties, ajouté sur chaque diapositive de 2 à 11 */
+  const PARTIES = ["Entreprise", "Marché", "Proposition", "Client", "Décision"];
+  document.querySelectorAll('.slide').forEach(s => { const p = +s.dataset.part; if (!(p >= 1)) return;
+    const f = document.createElement("div"); f.className = "fil";
+    f.innerHTML = PARTIES.map((t, i) => `<span class="${i + 1 === p ? "ici" : i + 1 < p ? "vu" : ""}">${i + 1} · ${t}</span>`).join("");
+    s.prepend(f); });
+
+  /* 2 · chiffre d'affaires par activité (comptes 2025, note 4.1 p. 30) */
+  { const g = document.getElementById("ca"), D = [["Billetterie", 271.3, 252.4, "−7,0 %"], ["Confiserie", 81.6, 86.4, "+5,9 %"], ["Ventes diverses", 40.7, 45.4, "+11,5 %"], ["Publicité", 14.6, 15.1, "+3,3 %"]];
+    const L = 150, W = 380, x = v => L + v / 300 * W;
+    D.forEach(([l, a, b, ev], i) => { const y = 10 + i * 80;
+      svgEl(g, "text", { x: 0, y: y + 30, "font-size": 18 }, l);
+      svgEl(g, "rect", { x: L, y, width: x(a) - L, height: 24, rx: 3, fill: C.ancien });
+      svgEl(g, "rect", { x: L, y: y + 28, width: x(b) - L, height: 24, rx: 3, fill: C.creme });
+      svgEl(g, "text", { x: x(a) + 8, y: y + 18, "font-size": 15, class: "m mono" }, fr(a, 1));
+      svgEl(g, "text", { x: x(b) + 8, y: y + 46, "font-size": 15, class: "mono" }, fr(b, 1));
+      svgEl(g, "text", { x: 640, y: y + 36, "font-size": 20, "font-weight": 700, "text-anchor": "end", class: ev[0] === "−" ? "rt mono" : "mono" }, ev); }); }
+
+  /* 4 · sortie complète et plafond */
+  { const g = document.getElementById("marche"), L = 150, x = v => L + v / 24 * 500;
+    [0, 5, 10, 15, 20].forEach(v => { svgEl(g, "line", { x1: x(v), x2: x(v), y1: 20, y2: 230, stroke: C.trait }); svgEl(g, "text", { x: x(v), y: 252, "font-size": 15, "text-anchor": "middle", class: "m mono" }, v + " €"); });
+    svgEl(g, "rect", { x: x(16.9), y: 14, width: x(18.9) - x(16.9), height: 216, fill: C.creme, "fill-opacity": .1 });
+    svgEl(g, "text", { x: (x(16.9) + x(18.9)) / 2, y: 282, "font-size": 15, "text-anchor": "middle", class: "m" }, "prix testés 16,90 à 18,90 €");
+    [["CGR Val Arena", 11, 19.5, 50], ["Pathé Aubière", 13.5, 22, 140]].forEach(([l, pl, tot, y]) => {
+      svgEl(g, "text", { x: 0, y: y + 34, "font-size": 19 }, l);
+      svgEl(g, "rect", { x: L, y, width: x(pl) - L, height: 52, rx: 4, fill: C.creme });
+      svgEl(g, "rect", { x: x(pl), y, width: x(tot) - x(pl), height: 52, rx: 4, fill: C.creme, "fill-opacity": .45 });
+      svgEl(g, "text", { x: L + 12, y: y + 33, "font-size": 15, fill: "#14110F", "font-weight": 600 }, "place " + fr(pl));
+      svgEl(g, "text", { x: x(pl) + 10, y: y + 33, "font-size": 15, fill: "#14110F", "font-weight": 600 }, "+ menu 8,50");
+      svgEl(g, "text", { x: x(tot) + 10, y: y + 34, "font-size": 21, "font-weight": 700, class: "mono" }, fr(tot) + " €"); });
+    svgEl(g, "line", { x1: x(19.5), x2: x(19.5), y1: 6, y2: 236, stroke: C.rouge, "stroke-width": 4, "stroke-dasharray": "9 6" });
+    svgEl(g, "text", { x: x(19.5) + 8, y: 14, "font-size": 16, "font-weight": 700, class: "rt" }, "plafond 19,50 €"); }
+
+  /* 5 · décomposition d'une place à 13,50 € */
+  { const g = document.getElementById("place"), W = 560, x = v => v / 13.5 * W;
+    const S = [["TVA", 0.70, C.ancien], ["CNC", 1.37, C.ancien], ["distributeur", 5.71, C.rouge], ["reste à Pathé", 5.71, C.creme]]; let c = 0;
+    S.forEach(([l, v, col]) => { svgEl(g, "rect", { x: x(c), y: 10, width: x(v) - 2, height: 56, fill: col, "fill-opacity": col === C.rouge ? .75 : 1 });
+      if (v > 2) svgEl(g, "text", { x: x(c) + 10, y: 45, "font-size": 18, "font-weight": 700, fill: col === C.creme ? "#14110F" : C.creme, class: "mono" }, fr(v) + " €");
+      if (v > 2) svgEl(g, "text", { x: x(c) + 10, y: 92, "font-size": 15, class: "m" }, l); c += v; });
+    svgEl(g, "text", { x: 0, y: 124, "font-size": 17 }, "Pathé garde 42 % du prix payé, avant salaires, loyers et énergie"); }
+
+  /* 6 · Gabor-Granger, avec et sans « 22 € » */
+  { const g = document.getElementById("gg"), P = [16.9, 17.9, 18.9], L = 60, R = 600, T = 10, B = 270, x = i => L + 40 + i * (R - L - 80) / 2, y = v => B - v / 60 * (B - T);
+    [0, 20, 40, 60].forEach(v => { svgEl(g, "line", { x1: L, x2: R, y1: y(v), y2: y(v), stroke: C.trait }); svgEl(g, "text", { x: L - 10, y: y(v) + 5, "font-size": 15, "text-anchor": "end", class: "m mono" }, v + " %"); });
+    P.forEach((p, i) => svgEl(g, "text", { x: x(i), y: B + 28, "font-size": 17, "text-anchor": "middle", class: "mono" }, fr(p) + " €"));
+    [[[41.5, 21.5, 4.6], C.creme, 1], [[53.7, 33.3, 14.8], C.beurre, -1]].forEach(([d, col, s]) => {
+      svgEl(g, "polyline", { points: d.map((v, i) => `${x(i)},${y(v)}`).join(" "), fill: "none", stroke: col, "stroke-width": 4 });
+      d.forEach((v, i) => { svgEl(g, "circle", { cx: x(i), cy: y(v), r: 7, fill: col });
+        svgEl(g, "text", { x: x(i) + (s > 0 ? -12 : 12), y: y(v) + (s > 0 ? 26 : -12), "font-size": 17, "font-weight": 700, fill: col, "text-anchor": s > 0 ? "end" : "start", class: "mono" }, fr(v, 0) + " %"); }); }); }
+
+  /* 7 · confiserie × achat à 16,90 € */
+  { const g = document.getElementById("conf"), L = 230, W = 400;
+    [["Achetaient déjà de la confiserie", 38, 59, 20], ["Place seule", 17, 58, 120]].forEach(([l, k, n, y]) => { const o = k / n;
+      svgEl(g, "text", { x: 0, y: y + 30, "font-size": 18 }, l.length > 22 ? "Achetaient déjà" : l);
+      if (l.length > 22) svgEl(g, "text", { x: 0, y: y + 52, "font-size": 18 }, "de la confiserie");
+      svgEl(g, "rect", { x: L, y, width: W, height: 60, rx: 4, fill: C.trait });
+      svgEl(g, "rect", { x: L, y, width: W * o, height: 60, rx: 4, fill: C.creme });
+      svgEl(g, "text", { x: L + 14, y: y + 39, "font-size": 24, "font-weight": 800, fill: "#14110F", class: "mono" }, fr(o * 100, 0) + " %");
+      svgEl(g, "text", { x: L + W, y: y + 84, "font-size": 15, "text-anchor": "end", class: "m" }, `${k} oui sur ${n}`); }); }
+
+  /* 8 · marge pour 100 spectateurs */
+  { const g = document.getElementById("perte"), D = [[16.9, -178.05, "47 %"], [17.9, -96.64, "26 %"], [18.9, -39.28, "9 %"]], T = 40, H = 220, y = v => T + (-v) / 200 * H;
+    svgEl(g, "line", { x1: 40, x2: 620, y1: T, y2: T, stroke: C.creme, "stroke-width": 2 });
+    svgEl(g, "text", { x: 30, y: T + 5, "font-size": 15, "text-anchor": "end", class: "m mono" }, "0 €");
+    D.forEach(([p, v, a], i) => { const cx = 140 + i * 180;
+      svgEl(g, "rect", { x: cx - 55, y: T, width: 110, height: y(v) - T, rx: 4, fill: C.rouge });
+      svgEl(g, "text", { x: cx, y: y(v) + 28, "font-size": 22, "font-weight": 700, "text-anchor": "middle", class: "rt mono" }, fr(v, 0) + " €");
+      svgEl(g, "text", { x: cx, y: T - 14, "font-size": 18, "text-anchor": "middle", class: "mono" }, fr(p) + " €");
+      svgEl(g, "text", { x: cx, y: y(v) + 50, "font-size": 15, "text-anchor": "middle", class: "m" }, a + " achètent"); }); }
+
+  /* 9 · axe des prix : plancher, prix testés, plafond, seuil de l'acheteur médian */
+  { const g = document.getElementById("axe"), L = 40, R = 1100, P0 = 14, P1 = 22, x = v => L + (v - P0) / (P1 - P0) * (R - L), Y = 140;
+    svgEl(g, "rect", { x: x(15), y: Y - 34, width: x(19.5) - x(15), height: 68, fill: C.creme, "fill-opacity": .06 });
+    svgEl(g, "line", { x1: L, x2: R, y1: Y, y2: Y, stroke: C.gris, "stroke-width": 2 });
+    for (let v = P0; v <= P1; v++) { svgEl(g, "line", { x1: x(v), x2: x(v), y1: Y - 6, y2: Y + 6, stroke: C.gris }); svgEl(g, "text", { x: x(v), y: Y + 30, "font-size": 15, "text-anchor": "middle", class: "m mono" }, v + " €"); }
+    svgEl(g, "rect", { x: x(16.9), y: Y - 12, width: x(18.9) - x(16.9), height: 24, rx: 4, fill: C.creme, "fill-opacity": .5 });
+    svgEl(g, "text", { x: (x(16.9) + x(18.9)) / 2, y: Y - 22, "font-size": 16, "text-anchor": "middle" }, "prix testés");
+    svgEl(g, "circle", { cx: x(15), cy: Y, r: 9, fill: C.creme });
+    svgEl(g, "text", { x: x(15), y: Y + 62, "font-size": 16, "text-anchor": "middle" }, "plancher 15,00 €");
+    svgEl(g, "line", { x1: x(19.5), x2: x(19.5), y1: 40, y2: 220, stroke: C.rouge, "stroke-width": 4, "stroke-dasharray": "9 6" });
+    svgEl(g, "text", { x: x(19.5), y: 30, "font-size": 17, "font-weight": 700, "text-anchor": "middle", class: "rt" }, "plafond CGR 19,50 €");
+    svgEl(g, "circle", { cx: x(20.87), cy: Y, r: 13, fill: C.rouge });
+    svgEl(g, "text", { x: x(20.87), y: Y + 62, "font-size": 17, "font-weight": 700, "text-anchor": "middle", class: "rt" }, "acheteur type : 20,87 €");
+    svgEl(g, "line", { x1: x(19.5) + 6, x2: x(20.87) - 18, y1: Y - 46, y2: Y - 46, stroke: C.creme, "stroke-width": 2 });
+    svgEl(g, "text", { x: (x(19.5) + x(20.87)) / 2, y: Y - 56, "font-size": 16, "text-anchor": "middle" }, "aucun prix rentable ici");
+    svgEl(g, "text", { x: (x(15) + x(19.5)) / 2, y: 225, "font-size": 15, "text-anchor": "middle", class: "m" }, "zone de prix possible sous le plafond"); }
+
+  /* 10 · tableau de sensibilité : marge pour 100 spectateurs = marge prévue + séances en plus × marge d'une séance */
+  { const RESTE = 13.5 / 1.055 * (1 - 0.1072) * 0.5, MENU = 0.10 + 147.70 / 64 * 0.5 + 107.03 / 1000;
+    const BASE = { 16.9: -178.05, 17.9: -96.64, 18.9: -39.28 }, P = [16.9, 17.9, 18.9], K = [0, 5, 10, 15, 20, 25, 30];
+    const m = p => RESTE + (p - 13.5) / 1.10 - MENU;
+    const fond = v => { const a = Math.min(1, Math.abs(v) / 180) * .85 + .12; return v < 0 ? `rgba(210,63,58,${a})` : `rgba(79,174,126,${a})`; };
+    document.getElementById("chaleur").innerHTML = `<thead><tr><th>Séances en plus</th>${P.map(p => `<th class="n">${fr(p)} €</th>`).join("")}</tr></thead><tbody>` +
+      K.map(k => `<tr><td>${k}</td>${P.map(p => { const v = BASE[p] + k * m(p); return `<td class="n" style="background:${fond(v)};color:#F5EBDD;font-weight:700">${v > 0 ? "+" : ""}${fr(v, 0)} €</td>`; }).join("")}</tr>`).join("") + `</tbody>`; }
+
+  /* navigation : flèches, espace, Début / Fin, boutons, glisser du doigt ; #n dans l'adresse */
+  const slides = [...document.querySelectorAll(".slide")], scene = document.getElementById("scene");
+  let i = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+  const montrer = n => { i = Math.max(0, Math.min(slides.length - 1, n)); slides.forEach((s, k) => s.classList.toggle("on", k === i));
+    document.getElementById("num").textContent = `${i + 1} / ${slides.length}`; document.getElementById("barre").style.width = ((i + 1) / slides.length * 100) + "%";
+    history.replaceState(null, "", "#" + (i + 1)); };
+  const echelle = () => { const s = Math.min(innerWidth / 1280, innerHeight / 720); scene.style.transform = `translate(-50%,-50%) scale(${s})`; };
+  addEventListener("resize", echelle); echelle(); montrer(i);
+  addEventListener("keydown", e => { if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); montrer(i + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); montrer(i - 1); }
+    else if (e.key === "Home") montrer(0); else if (e.key === "End") montrer(slides.length - 1); });
+  document.getElementById("prec").onclick = () => montrer(i - 1); document.getElementById("suiv").onclick = () => montrer(i + 1);
+  let x0 = null; addEventListener("touchstart", e => x0 = e.touches[0].clientX, { passive: true });
+  addEventListener("touchend", e => { if (x0 == null) return; const d = e.changedTouches[0].clientX - x0; if (Math.abs(d) > 50) montrer(i + (d < 0 ? 1 : -1)); x0 = null; });
+  addEventListener("hashchange", () => montrer((parseInt(location.hash.slice(1), 10) || 1) - 1));
+})();
+</script>
+</body>
+</html>
