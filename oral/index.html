@@ -51,10 +51,10 @@ td.chaleur{font-weight:700;color:var(--ink)}
     <h1>Un pack place + pop-corn + boisson peut-il rapporter à Pathé ?</h1>
     <p class="lede">Notre réponse : <strong style="color:var(--ink)">non, pas entre 16,90 et 18,90 €</strong>. Le pack attire surtout les clients qui achètent déjà pop-corn et boisson, et leur fait payer moins cher ce qu'ils prenaient déjà. Voici l'essentiel de notre dossier, en cinq étapes.</p>
     <div class="chiffres">
-      <div><b class="neg">−178 €</b><span>de marge pour 100 spectateurs avec un pack à 16,90 €</span></div>
-      <div><b>19,50 €</b><span>plafond fixé par la concurrence (CGR)</span></div>
-      <div><b>20,87 €</b><span>prix minimum pour que le pack ne perde rien sur l'acheteur type</span></div>
-      <div><b class="acc">119</b><span>personnes interrogées en octobre 2026</span></div>
+      <div><b class="neg">−178 €</b><span>de marge pour 100 spectateurs avec un pack à 16,90 € (<a class="src" href="#decision">calcul en partie 5</a>)</span></div>
+      <div><b>19,50 €</b><span>plafond fixé par la concurrence, CGR (<a class="src" href="#marche">calcul en partie 2</a>)</span></div>
+      <div><b>20,87 €</b><span>prix minimum pour que le pack ne perde rien sur l'acheteur type (<a class="src" href="#decision">calcul en partie 5</a>)</span></div>
+      <div><b class="acc">119</b><span>personnes interrogées en octobre 2026 avec <a class="src" href="../questionnaire.html">notre questionnaire</a></span></div>
     </div>
   </div>
 
@@ -63,18 +63,44 @@ td.chaleur{font-weight:700;color:var(--ink)}
     <div class="sec-head"><span class="num">1 · L'entreprise</span><h2 id="t1">La billetterie recule, la confiserie fait la marge</h2></div>
     <p>Pathé Cinémas France (SIREN 444 567 127) exploite les cinémas Pathé, dont celui d'Aubière près de Clermont-Ferrand. Elle vit des places, de la confiserie, de la publicité à l'écran et de ventes diverses. Ses <a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf">comptes 2025</a> montrent une entreprise qui perd de l'argent :</p>
     <div class="chiffres">
-      <div><b>399,3 M€</b><span>de chiffre d'affaires en 2025 : −2,2 %, et <strong>−9,2 %</strong> à cinémas identiques (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=14">p. 14</a>)</span></div>
-      <div><b class="neg">−21,7 M€</b><span>de résultat net, soit une marge nette de −5,4 % (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=10">p. 10</a>)</span></div>
-      <div><b class="neg">−0,57 €</b><span>de résultat d'exploitation par spectateur (35,9 millions d'entrées estimées)</span></div>
-      <div><b class="acc">73 %</b><span>de marge sur la confiserie, contre 49 % sur la place (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a>)</span></div>
+      <div><b>399,3 M€</b><span>de chiffre d'affaires en 2025 (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=30">p. 30</a>) : −2,2 % sur 2024, et <strong>−9,2 %</strong> à cinémas identiques (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=14">p. 14</a>)</span></div>
+      <div><b class="neg">−21,7 M€</b><span>de résultat net (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=10">p. 10</a>), soit une marge nette de −5,4 % (−21,7 ÷ 399,3)</span></div>
+      <div><b class="neg">−0,57 €</b><span>de résultat d'exploitation par spectateur <span class="tag est">Estimé</span> (<a class="src" href="#calc-spectateur">calcul ci-dessous</a>)</span></div>
+      <div><b class="acc">73 %</b><span>de marge sur la confiserie (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a>), contre 49 % sur la place <span class="tag est">Estimé</span></span></div>
     </div>
+    <details id="calc-spectateur">
+      <summary>Construction des calculs : marge sur la confiserie, marge sur la place, résultat par spectateur</summary>
+      <div class="inner">
+        <div class="calc">
+          <div class="head">Marge commerciale de la confiserie <span class="tag obs">Observé</span></div>
+          <div class="row"><span class="t">Ventes de marchandises</span><span class="v">86 444 020 €</span><span class="o"><a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=9">compte de résultat, p. 9</a></span></div>
+          <div class="row"><span class="t">− Achats de marchandises + variation de stock</span><span class="v">23 013 519 €</span><span class="o">22 902 374 + 111 145, <a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=9">même page</a></span></div>
+          <div class="row total"><span class="t">= Taux de marge commerciale</span><span class="v">73,4 %</span><span class="o">(86 444 020 − 23 013 519) ÷ 86 444 020</span></div>
+        </div>
+        <div class="calc">
+          <div class="head">Marge sur la place <span class="tag est">Estimé</span></div>
+          <div class="row"><span class="t">Billetterie 2025</span><span class="v">252,4 M€</span><span class="o"><a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=30">note 4.1, p. 30</a></span></div>
+          <div class="row"><span class="t">− « Achats de matières premières et approvisionnements »</span><span class="v">127,8 M€</span><span class="o"><a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=9">p. 9</a> : très probablement la location des films, que les comptes ne nomment pas. Nous la retenons parce qu'elle fait 50,6 % de la billetterie, le niveau de la part reversée aux distributeurs, qui « avoisine les 50 % » selon une <a class="src" href="https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537">réponse ministérielle de 2022</a></span></div>
+          <div class="row total"><span class="t">= Marge sur la place</span><span class="v">49 %</span><span class="o">(252,4 − 127,8) ÷ 252,4 = 0,49 € par euro de place</span></div>
+        </div>
+        <div class="calc">
+          <div class="head">Résultat d'exploitation par spectateur <span class="tag est">Estimé</span></div>
+          <div class="row"><span class="t">Billetterie 2025, hors TVA</span><span class="v">252 447 754 €</span><span class="o"><a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=30">note 4.1, p. 30</a></span></div>
+          <div class="row"><span class="t">× 1,055, TVA réintégrée</span><span class="v">266 332 380 €</span><span class="o">pour comparer à un prix payé ; taux de 5,5 % du <a class="src" href="https://bofip.impots.gouv.fr/bofip/167-PGP.html/identifiant=BOI-TVA-LIQ-30-20-40-20200923">BOFiP</a></span></div>
+          <div class="row"><span class="t">÷ Recette moyenne par entrée en France</span><span class="v">7,42 €</span><span class="o"><a class="src" href="https://www.cnc.fr/professionnels/etudes-et-rapports/bilans/bilan-2025-du-cnc_2589800">CNC, chiffres clés 2025, p. 3</a> : Pathé ne publie pas ses entrées</span></div>
+          <div class="row sub"><span class="t">= Entrées estimées</span><span class="v">35,9 millions</span><span class="o">estimation haute : la place Pathé est plus chère que la moyenne, donc les entrées réelles sont sans doute moins nombreuses</span></div>
+          <div class="row"><span class="t">Résultat d'exploitation 2025</span><span class="v">−20,5 M€</span><span class="o"><a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=9">compte de résultat, p. 9</a></span></div>
+          <div class="row total"><span class="t">= Par spectateur</span><span class="v">−0,57 €</span><span class="o">−20,5 M€ ÷ 35,9 millions d'entrées</span></div>
+        </div>
+      </div>
+    </details>
     <div class="chart">
       <h3>Chiffre d'affaires par activité, en millions d'euros</h3>
       <svg id="g-ca" viewBox="0 0 640 300" role="img" aria-label="Billetterie 271,3 puis 252,4 ; confiserie 81,6 puis 86,4 ; ventes diverses 40,7 puis 45,4 ; publicité 14,6 puis 15,1"></svg>
       <div class="legend"><span><span class="dot" style="background:var(--c-indep)"></span>2024</span><span><span class="dot" style="background:var(--accent)"></span>2025</span></div>
-      <p class="caption">Source : <a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=30">comptes 2025, note 4.1 p. 30</a>. La billetterie perd 18,9 M€ (−7,0 %) pendant que les charges externes (+8,9 M€) et les salaires (+7,6 M€) augmentent.</p>
+      <p class="caption">Source : <a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=30">comptes 2025, note 4.1 p. 30</a>. La billetterie perd 18,9 M€ (−7,0 %) pendant que les charges externes (+8,9 M€) et les salaires (+7,6 M€) augmentent (<a class="src" href="../docs/pathe-cinemas-france-comptes-2025.pdf#page=9">compte de résultat, p. 9</a>).</p>
     </div>
-    <div class="callout"><span class="label">Notre problématique</span><p>La confiserie est la seule grande activité en croissance, et la plus rentable : sur 1 € vendu, il reste 0,73 € à Pathé. Un pack place + pop-corn + boisson peut-il faire acheter de la confiserie à ceux qui n'en prennent pas, <strong>sans brader celle que Pathé vend déjà</strong> ?</p></div>
+    <div class="callout"><span class="label">Notre problématique</span><p>La confiserie est la seule grande activité en croissance, et la plus rentable : sur 1 € vendu, il reste <a class="src" href="#calc-spectateur">0,73 € à Pathé</a>. Un pack place + pop-corn + boisson peut-il faire acheter de la confiserie à ceux qui n'en prennent pas, <strong>sans brader celle que Pathé vend déjà</strong> ?</p></div>
   </section>
 
   <!-- ========== 2 · LE MARCHÉ ========== -->
@@ -84,7 +110,7 @@ td.chaleur{font-weight:700;color:var(--ink)}
     <div class="scroll"><table>
       <thead><tr><th>Cercle</th><th>Qui</th><th>Ce qu'il coûte</th></tr></thead>
       <tbody>
-        <tr><td><strong>Directs</strong></td><td>CGR Val Arena, cinémas du centre de Clermont</td><td>Place CGR : 11,00 € contre 13,50 € chez Pathé</td></tr>
+        <tr><td><strong>Directs</strong></td><td>CGR Val Arena, cinémas du centre de Clermont</td><td>Place adulte : <a class="src" href="https://www.cgrcinemas.fr/cinema/p6310-cgr-clermont-ferrand-val-arena/">11,00 € chez CGR</a> contre <a class="src" href="https://www.allocine.fr/salle/cinema-P0956/tarifs/">13,50 € chez Pathé Aubière</a> (relevés du 20/10/2026)</td></tr>
         <tr><td><strong>Indirects</strong></td><td>Soirée film à la maison (Netflix, Disney+, Prime Video)</td><td>Netflix avec pub : <a class="src" href="https://help.netflix.com/fr/node/24926">7,99 € par mois</a>, moins qu'une place</td></tr>
         <tr><td><strong>Ceux qu'on oublie</strong></td><td>Snacks du supermarché, fast-food avant la séance</td><td>Le client qui trouve la confiserie chère grignote ailleurs</td></tr>
       </tbody>
@@ -99,7 +125,7 @@ td.chaleur{font-weight:700;color:var(--ink)}
       <div class="calc">
         <div class="head">Notre plafond</div>
         <div class="row"><span class="t">Place adulte CGR Val Arena</span><span class="v">11,00 €</span><span class="o"><span class="tag obs">Observé</span> <a class="src" href="https://www.cgrcinemas.fr/cinema/p6310-cgr-clermont-ferrand-val-arena/">cgrcinemas.fr, 20/10/2026</a></span></div>
-        <div class="row"><span class="t">+ Menu pop-corn + boisson</span><span class="v">8,50 €</span><span class="o"><span class="tag est">Estimé</span> <a class="src" href="https://www.ugc.fr/comptoir.html">formule UGC</a>, faute de prix publié à Clermont</span></div>
+        <div class="row"><span class="t">+ Menu pop-corn + boisson</span><span class="v">8,50 €</span><span class="o"><span class="tag est">Estimé</span> prix de la <a class="src" href="https://www.ugc.fr/comptoir.html">formule confiserie + boisson d'UGC</a>, retenu parce que ni Pathé ni CGR ne publient leurs prix de comptoir ; c'est notre hypothèse la plus fragile, à relever en caisse</span></div>
         <div class="row total"><span class="t">= Plafond des concurrents</span><span class="v">19,50 €</span><span class="o">Au-dessus, la même sortie coûte moins cher chez CGR</span></div>
       </div>
     </div>
@@ -108,22 +134,23 @@ td.chaleur{font-weight:700;color:var(--ink)}
   <!-- ========== 3 · LA PROPOSITION ========== -->
   <section class="part" id="proposition" aria-labelledby="t3">
     <div class="sec-head"><span class="num">3 · La proposition</span><h2 id="t3">Un pack qui ne peut pas descendre sous 15 €</h2></div>
-    <p><strong>La variation du mix</strong> : un pack permanent place + pop-corn + boisson à prix unique, testé à 16,90, 17,90 et 18,90 €. Dans notre questionnaire, la moitié des répondants voit en plus la mention « Achetés séparément : 22,00 € » (13,50 + 8,50), une mention qui ne coûte presque rien (≈ 0 € par vente). <strong>Pourquoi celle-là</strong> : c'est la confiserie qui fait la marge, et la moitié de nos répondants n'en a pas acheté à sa dernière séance.</p>
+    <p><strong>La variation du mix</strong> : un pack permanent place + pop-corn + boisson à prix unique, testé à 16,90, 17,90 et 18,90 €. Dans notre questionnaire, la moitié des répondants voit en plus la mention « Achetés séparément : 22,00 € » (13,50 + 8,50), une mention qui ne coûte presque rien : une ligne sur l'affiche et dans l'application, faite une fois, soit ≈ 0 € par vente <span class="tag hyp">Hypothèse</span>. <strong>Pourquoi celle-là</strong> : c'est la confiserie qui fait la marge (<a class="src" href="#calc-spectateur">73 % contre 49 % sur la place</a>), et <a class="src" href="../prix-psychologique.html#qui">49 % de nos répondants</a> n'en ont pas acheté à leur dernière séance.</p>
     <div class="duo">
       <div class="calc">
         <div class="head">Ce qu'il reste à Pathé sur une place à 13,50 €</div>
-        <div class="row"><span class="t">Prix payé</span><span class="v">13,50 €</span><span class="o"><span class="tag obs">Observé</span> <a class="src" href="https://www.allocine.fr/salle/cinema-P0956/tarifs/">Allociné</a></span></div>
-        <div class="row"><span class="t">− TVA 5,5 %</span><span class="v">0,70 €</span><span class="o"><a class="src" href="https://bofip.impots.gouv.fr/bofip/167-PGP.html/identifiant=BOI-TVA-LIQ-30-20-40-20200923">BOFiP</a></span></div>
-        <div class="row"><span class="t">− Taxe CNC 10,72 %</span><span class="v">1,37 €</span><span class="o"><a class="src" href="https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537">réponse ministérielle</a></span></div>
-        <div class="row"><span class="t">− Part du distributeur, 50 %</span><span class="v">5,71 €</span><span class="o">même source</span></div>
+        <div class="row"><span class="t">Prix payé</span><span class="v">13,50 €</span><span class="o"><span class="tag obs">Observé</span> <a class="src" href="https://www.allocine.fr/salle/cinema-P0956/tarifs/">Allociné, 20/10/2026</a></span></div>
+        <div class="row"><span class="t">− TVA 5,5 %</span><span class="v">0,70 €</span><span class="o">13,50 − 13,50 ÷ 1,055 ; taux du <a class="src" href="https://bofip.impots.gouv.fr/bofip/167-PGP.html/identifiant=BOI-TVA-LIQ-30-20-40-20200923">BOFiP</a></span></div>
+        <div class="row"><span class="t">− Taxe CNC 10,72 %</span><span class="v">1,37 €</span><span class="o">12,80 × 10,72 % ; taux de la <a class="src" href="https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537">réponse ministérielle du 11/10/2022</a>, appliqué au prix hors TVA <span class="tag hyp">Hypothèse</span></span></div>
+        <div class="row"><span class="t">− Part du distributeur, 50 %</span><span class="v">5,71 €</span><span class="o">11,42 × 50 % ; part qui « avoisine les 50 % » selon la <a class="src" href="https://www.assemblee-nationale.fr/dyn/16/questions/QANR5L16QE537">même réponse ministérielle</a></span></div>
         <div class="row total"><span class="t">= Reste à Pathé</span><span class="v">5,71 €</span><span class="o">42 % du prix, avant salaires et loyers</span></div>
       </div>
       <div class="calc">
         <div class="head">Ce que coûte le menu à Pathé</div>
-        <div class="row"><span class="t">Pop-corn</span><span class="v">0,10 €</span><span class="o"><span class="tag est">Estimé</span> <a class="src" href="https://www.letribunaldunet.fr/argent/pourquoi-pop-corn-cinema-si-cher-vrai-cout.html">Le Tribunal du Net</a></span></div>
-        <div class="row"><span class="t">Sirop pour 50 cl</span><span class="v">1,15 €</span><span class="o"><span class="tag obs">Observé</span> <a class="src" href="https://www.foodsandgoods.nl/en/product/coca-cola-regular-post-mix-10-liters/">grossiste</a> : 147,70 € ÷ 64 L × 0,5</span></div>
-        <div class="row"><span class="t">Gobelet 50 cl</span><span class="v">0,11 €</span><span class="o"><span class="tag obs">Observé</span> <a class="src" href="https://www.hellopro.fr/gobelet-50cl-carton-blanc-x1000-publiembal-blanc-7863577123953-2019015-16612113-produit.html">107,03 € les 1 000</a></span></div>
-        <div class="row total"><span class="t">= Prix plancher du pack</span><span class="v">15,00 €</span><span class="o">13,50 + 1,36 € × 1,10 (TVA) ; en dessous, chaque pack perd de l'argent</span></div>
+        <div class="row"><span class="t">Pop-corn</span><span class="v">0,10 €</span><span class="o"><span class="tag est">Estimé</span> « 8 à 10 centimes » d'ingrédients selon <a class="src" href="https://www.letribunaldunet.fr/argent/pourquoi-pop-corn-cinema-si-cher-vrai-cout.html">Le Tribunal du Net</a> ; nous retenons le haut de la fourchette</span></div>
+        <div class="row"><span class="t">Sirop pour 50 cl</span><span class="v">1,15 €</span><span class="o"><span class="tag obs">Observé</span> 147,70 € HT les 10 L de sirop, qui donnent 64 L de boisson, chez un <a class="src" href="https://www.foodsandgoods.nl/en/product/coca-cola-regular-post-mix-10-liters/">grossiste</a> : 147,70 ÷ 64 × 0,5</span></div>
+        <div class="row"><span class="t">Gobelet 50 cl</span><span class="v">0,11 €</span><span class="o"><span class="tag obs">Observé</span> <a class="src" href="https://www.hellopro.fr/gobelet-50cl-carton-blanc-x1000-publiembal-blanc-7863577123953-2019015-16612113-produit.html">107,03 € HT les 1 000</a></span></div>
+        <div class="row sub"><span class="t">= Coût du menu pour Pathé</span><span class="v">1,36 €</span><span class="o">0,10 + 1,15 + 0,11, hors TVA ; prix de petites quantités, donc plutôt une estimation haute</span></div>
+        <div class="row total"><span class="t">= Prix plancher du pack</span><span class="v">15,00 €</span><span class="o">13,50 + 1,36 × 1,10 (TVA de 10 % sur la confiserie, <a class="src" href="https://entreprendre.service-public.gouv.fr/vosdroits/F22399">Service Public</a>) ; en dessous, chaque pack perd de l'argent</span></div>
       </div>
     </div>
     <p>Le vrai risque n'est pas le coût du menu, mais <strong>qui achète le pack</strong>. Un client qui ne prenait que la place rapporte de la confiserie en plus ; un client qui prenait déjà place + menu paie désormais moins cher.</p>
@@ -135,7 +162,7 @@ td.chaleur{font-weight:700;color:var(--ink)}
         <tr><td class="n" style="text-align:left">18,90 €</td><td class="n pos">+3,55 €</td><td class="n neg">−2,82 €</td><td class="n">0,8 pour 1</td></tr>
       </tbody>
     </table></div>
-    <p class="caption">Ratio : nombre de clients « place seule » à convertir pour compenser un seul client qui prenait déjà le menu. Gain = (prix − 13,50) ÷ 1,10 − 1,36 ; perte = (8,50 − (prix − 13,50)) ÷ 1,10. Hypothèse : la place reste comptée à 13,50 € et toute la remise porte sur la confiserie <span class="tag hyp">Hypothèse</span>.</p>
+    <p class="caption">Ratio : nombre de clients « place seule » à convertir pour compenser un seul client qui prenait déjà le menu, soit perte ÷ gain. Gain = (prix − 13,50) ÷ 1,10 − 1,36 : la part confiserie du pack, hors TVA, moins le coût du menu. Perte = (8,50 − (prix − 13,50)) ÷ 1,10 : la remise accordée sur un <a class="src" href="https://www.ugc.fr/comptoir.html">menu à 8,50 €</a>, hors TVA. Exemple à 16,90 € : (16,90 − 13,50) ÷ 1,10 − 1,36 = 1,73 € ; (8,50 − 3,40) ÷ 1,10 = 4,64 € ; 4,64 ÷ 1,73 = 2,7. Hypothèse : la place reste comptée à 13,50 € et toute la remise porte sur la confiserie <span class="tag hyp">Hypothèse</span>.</p>
   </section>
 
   <!-- ========== 4 · LE CLIENT ========== -->
@@ -143,25 +170,27 @@ td.chaleur{font-weight:700;color:var(--ink)}
     <div class="sec-head"><span class="num">4 · Le client</span><h2 id="t4">47 % achèteraient à 16,90 €, mais surtout ceux qui achètent déjà</h2></div>
     <p><strong>Qui a répondu</strong> : <a class="src" href="../questionnaire.html">notre questionnaire en ligne</a>, en octobre 2026. Méthode Gabor-Granger : le pack est proposé à 16,90 €, puis 17,90 € après un oui, puis 18,90 €. Le hasard décide qui voit la mention « 22 € » (test A/B).</p>
     <div class="chiffres">
-      <div><b>119</b><span>répondants, 65 en version A et 54 en version B</span></div>
-      <div><b>61 %</b><span>d'étudiants : échantillon de convenance, jeune et au petit budget</span></div>
-      <div><b>49 %</b><span>n'avaient pris que la place à leur dernière séance</span></div>
-      <div><b>34 %</b><span>vont surtout chez Pathé</span></div>
+      <div><b>119</b><span>répondants, <a class="src" href="../prix-psychologique.html#qui">65 en version A et 54 en version B</a></span></div>
+      <div><b>61 %</b><span>d'<a class="src" href="../prix-psychologique.html#qui">étudiants</a> : échantillon de convenance, jeune et au petit budget</span></div>
+      <div><b>49 %</b><span>n'avaient pris <a class="src" href="../prix-psychologique.html#qui">que la place</a> à leur dernière séance</span></div>
+      <div><b>34 %</b><span>vont <a class="src" href="../prix-psychologique.html#qui">surtout chez Pathé</a></span></div>
     </div>
+    <p class="caption">Les réponses individuelles restent hors ligne, comme le demande le cours ; chaque résultat ci-dessous est recalculé à partir de l'export brut, sur la page du dossier indiquée en lien.</p>
     <div class="duo">
       <div class="chart">
         <h3>Part de « oui » à chaque prix, avec et sans « 22 € »</h3>
         <svg id="g-gg" viewBox="0 0 560 280" role="img" aria-label="Sans 22 euros : 42, 22 et 5 pour cent ; avec 22 euros : 54, 33 et 15 pour cent"></svg>
         <div class="legend"><span><span class="dot" style="background:var(--c-a)"></span>Sans « 22 € » (n = 65)</span><span><span class="dot" style="background:var(--c-b)"></span>Avec « 22 € » (n = 54)</span></div>
+        <p class="caption">Question 6, résultats détaillés sur la page <a class="src" href="../prix-psychologique.html#gg">Le client</a> : 27, 14 et 3 oui sur 65 sans la mention ; 29, 18 et 8 oui sur 54 avec.</p>
       </div>
       <div class="chart">
         <h3>Part de « oui » à 16,90 €, selon l'achat habituel</h3>
         <svg id="g-conf" viewBox="0 0 560 280" role="img" aria-label="64 pour cent chez ceux qui achètent de la confiserie, 29 pour cent chez ceux qui prennent la place seule"></svg>
-        <p class="caption">Écart non dû au hasard : Chi-2 = 13,1 ; p &lt; 0,001.</p>
+        <p class="caption">Écart non dû au hasard : <a class="src" href="../statistiques.html#t2">Chi-2 = 13,1 ; p &lt; 0,001</a>.</p>
       </div>
     </div>
     <h3>Le test A/B est-il fiable ? Le tirage au sort a-t-il fonctionné ?</h3>
-    <p>Le hasard doit rendre les deux groupes semblables : s'ils diffèrent sur leur profil, un écart de réponses pourrait venir des personnes et non de la mention « 22 € ». Nos 119 réponses sont toutes exploitables : aucun doublon, aucune réponse de test, aucune incohérence de prix.</p>
+    <p>Le hasard doit rendre les deux groupes semblables : s'ils diffèrent sur leur profil, un écart de réponses pourrait venir des personnes et non de la mention « 22 € ». Nos 119 réponses sont toutes exploitables : aucun doublon, aucune réponse de test, aucune incohérence de prix, d'après notre <a class="src" href="https://github.com/romanebgt-art/dossier-pathe/blob/main/cm3.js#L107-L117">script de nettoyage</a>. Le tableau ci-dessous est calculé par notre <a class="src" href="https://github.com/romanebgt-art/dossier-pathe/blob/main/cm3.js#L124-L129">script d'analyse</a> sur ces réponses.</p>
     <div class="scroll"><table>
       <thead><tr><th>Profil</th><th class="n">Version A (65)</th><th class="n">Version B (54)</th><th>Test</th><th class="n">p</th></tr></thead>
       <tbody>
@@ -180,51 +209,84 @@ td.chaleur{font-weight:700;color:var(--ink)}
       <div class="chart">
         <h3>Les trois phrases vont ensemble : l'échelle est fiable</h3>
         <svg id="g-echelle" viewBox="0 0 560 290" role="img" aria-label="Corrélations entre les trois phrases : 0,81, 0,72 et 0,82 ; alpha 0,91, CR 0,92, AVE 0,79"></svg>
-        <p class="caption">Corrélations entre les réponses aux trois phrases (119 répondants). Seuils du cours : alpha et fiabilité composite (CR) ≥ 0,70, variance moyenne extraite (AVE) ≥ 0,50. Les trois sont largement atteints : on peut résumer les trois phrases par leur moyenne.</p>
+        <p class="caption">Corrélations entre les réponses aux trois phrases (119 répondants), calculées par notre <a class="src" href="https://github.com/romanebgt-art/dossier-pathe/blob/main/cm3.js#L157-L166">script d'analyse</a>. Seuils du <a class="src" href="https://data.iae-mod.fr/seances/seance-cm-3.html">CM 3 d'analyse de données</a> : alpha et fiabilité composite (CR) ≥ 0,70, variance moyenne extraite (AVE) ≥ 0,50. Les trois sont largement atteints : on peut résumer les trois phrases par leur moyenne.</p>
       </div>
       <div class="chart">
         <h3>La mention « 22 € » augmente un peu la valeur perçue</h3>
         <svg id="g-vp" viewBox="0 0 560 290" role="img" aria-label="Note de valeur perçue : moyenne 3,05 en version A, 3,38 en version B"></svg>
-        <p class="caption">Chaque point est un répondant (pack affiché à 16,90 €). Moyennes 3,05 contre 3,38 : test de Welch, t = −1,74, p = 0,084 ; Mann-Whitney p = 0,073. L'écart va dans le sens attendu mais reste non significatif au seuil de 5 %.</p>
+        <p class="caption">Chaque point est un répondant qui a vu le pack à 16,90 € (115 sur 119 : le prix affiché a changé le 15/10). Moyennes 3,05 contre 3,38 : test de Welch, t = −1,74, p = 0,084 ; Mann-Whitney p = 0,073 (<a class="src" href="https://github.com/romanebgt-art/dossier-pathe/blob/main/cm3.js#L135-L149">script d'analyse</a>). L'écart va dans le sens attendu mais reste non significatif au seuil de 5 %.</p>
       </div>
     </div>
 
     <div class="calc">
       <div class="head">Ce que nos réponses permettent de conclure</div>
-      <div class="row"><span class="t">Le prix fait-il baisser l'achat ?</span><span class="v">47 → 27 → 9 %</span><span class="o">Oui, nettement (Q de Cochran, p &lt; 0,001) : environ −19 points d'acheteurs par euro</span></div>
-      <div class="row"><span class="t">Prix moyen accepté, sans / avec « 22 € »</span><span class="v">17,53 / 17,80 €</span><span class="o">+0,27 €, parmi ceux qui acceptent au moins 16,90 €</span></div>
-      <div class="row"><span class="t">La mention « 22 € » fait-elle vendre plus ?</span><span class="v">p = 0,186</span><span class="o">Non prouvé : il faudrait environ 261 répondants par version</span></div>
-      <div class="row"><span class="t">Les étudiants dépensent-ils moins en confiserie ?</span><span class="v">4,62 / 7,77 €</span><span class="o">Oui (test t de Welch, p = 0,006) : notre échantillon a un petit budget</span></div>
-      <div class="row"><span class="t">Atteint-on un client sur quatre à 18,90 € ?</span><span class="v">9,2 %</span><span class="o">Non, bien en dessous des 25 % visés (test Z, p &lt; 0,001)</span></div>
+      <div class="row"><span class="t">Le prix fait-il baisser l'achat ?</span><span class="v">47 → 27 → 9 %</span><span class="o">Oui, nettement (<a class="src" href="../statistiques.html#t1">Q de Cochran, p &lt; 0,001</a>) : environ <a class="src" href="../statistiques.html#t6">−19 points d'acheteurs par euro</a></span></div>
+      <div class="row"><span class="t">Prix moyen accepté, sans / avec « 22 € »</span><span class="v">17,53 / 17,80 €</span><span class="o">+0,27 €, parmi ceux qui acceptent au moins 16,90 € (<a class="src" href="#calc-prix-accepte">calcul ci-dessous</a>)</span></div>
+      <div class="row"><span class="t">La mention « 22 € » fait-elle vendre plus ?</span><span class="v">p = 0,186</span><span class="o">Non prouvé (<a class="src" href="../statistiques.html#t8">Chi-2, test A/B</a>) : il faudrait environ 261 répondants par version</span></div>
+      <div class="row"><span class="t">Les étudiants dépensent-ils moins en confiserie ?</span><span class="v">4,62 / 7,77 €</span><span class="o">Oui (<a class="src" href="../statistiques.html#t4">test t de Welch, p = 0,006</a>) : notre échantillon a un petit budget</span></div>
+      <div class="row"><span class="t">Atteint-on un client sur quatre à 18,90 € ?</span><span class="v">9,2 %</span><span class="o">Non, bien en dessous des 25 % visés (<a class="src" href="../statistiques.html#t7">test Z, p &lt; 0,001</a>)</span></div>
     </div>
+    <details id="calc-prix-accepte">
+      <summary>Construction du calcul : prix moyen accepté avec et sans la mention « 22 € »</summary>
+      <div class="inner">
+        <div class="calc">
+          <div class="head">Prix maximum accepté par chaque répondant qui accepte au moins 16,90 € (question 6)</div>
+          <div class="row"><span class="t">Sans « 22 € » : 27 acheteurs sur 65</span><span class="v">17,53 €</span><span class="o">13 s'arrêtent à 16,90 €, 11 à 17,90 €, 3 vont jusqu'à 18,90 € : (13 × 16,90 + 11 × 17,90 + 3 × 18,90) ÷ 27</span></div>
+          <div class="row"><span class="t">Avec « 22 € » : 29 acheteurs sur 54</span><span class="v">17,80 €</span><span class="o">11 à 16,90 €, 10 à 17,90 €, 8 à 18,90 € : (11 × 16,90 + 10 × 17,90 + 8 × 18,90) ÷ 29</span></div>
+          <div class="row total"><span class="t">= Écart</span><span class="v">+0,27 €</span><span class="o">soit +1,5 %. Limite : personne n'a vu de prix au-dessus de 18,90 €, et les 63 répondants qui refusent dès 16,90 € ne sont pas comptés</span></div>
+        </div>
+        <p class="caption">Effectifs : <a class="src" href="../prix-psychologique.html#gg">page Le client, question 6</a> (oui à 16,90, 17,90 et 18,90 € : 27, 14 et 3 en version A ; 29, 18 et 8 en version B ; le nombre qui s'arrête à un prix est la différence entre deux prix successifs).</p>
+      </div>
+    </details>
     <p class="caption">Limites : réponses déclarées (dire « j'achèterais » n'est pas acheter) ; échantillon surtout étudiant, à ne pas généraliser à toute la clientèle de Pathé. Détail des tests : <a class="src" href="../statistiques.html">page Statistiques</a>.</p>
   </section>
 
   <!-- ========== 5 · LA DÉCISION ========== -->
   <section class="part" id="decision" aria-labelledby="t5">
     <div class="sec-head"><span class="num">5 · La décision</span><h2 id="t5">Aucun prix testé ne rapporte : ne pas lancer le pack</h2></div>
-    <p>Le calcul de Gabor-Granger du cours désigne 16,90 € : la marge par répondant y est la plus haute, (prix − coût variable) × part qui achète, avec un coût variable d'environ 9,46 € par pack (TVA, taxe CNC, distributeur, TVA de la confiserie, menu). Mais ce calcul suppose que chaque pack est une vente nouvelle. Or <strong>69 % des acheteurs à 16,90 € achetaient déjà de la confiserie</strong> : pour chacun d'eux, nous retirons la marge que Pathé faisait déjà sur sa dépense habituelle (73,4 % de ce qu'il payait).</p>
+    <p>Le calcul de Gabor-Granger du <a class="src" href="https://data.iae-mod.fr/seances/seance-cm-3.html">CM 3</a> désigne 16,90 € : la marge par répondant, (prix − coût variable) × part qui achète, y est la plus haute, avec un coût variable de <a class="src" href="#calc-gg">9,46 € par pack</a>. Mais ce calcul suppose que chaque pack est une vente nouvelle. Or <strong><a class="src" href="../statistiques.html#t2">38 des 55 acheteurs</a> à 16,90 € (69 %) achetaient déjà de la confiserie</strong> : pour chacun d'eux, nous retirons la marge que Pathé faisait déjà sur sa dépense habituelle, soit <a class="src" href="#calc-spectateur">73,4 %</a> de ce qu'il déclare dépenser à la <a class="src" href="../questionnaire.html">question 11</a>.</p>
     <div class="duo">
       <div class="chart">
         <h3>Gabor-Granger : le prix qui rapporte, avant et après les clients qui achetaient déjà</h3>
         <svg id="g-perte" viewBox="0 0 560 300" role="img" aria-label="Si chaque pack était une vente nouvelle : 350, 225 et 86 euros pour 100 spectateurs ; marge réelle : moins 178, moins 97 et moins 39 euros"></svg>
         <div class="legend"><span><span class="dot" style="background:var(--c-indep)"></span>Si chaque pack était une vente nouvelle</span><span><span class="dot" style="background:var(--bad)"></span>Marge réelle</span></div>
-        <p class="caption">Pour 100 spectateurs. À 16,90 €, Pathé ne gagne de l'argent que sur 9 des 55 acheteurs : leur dépense médiane en confiserie est déjà de 8,00 €.</p>
+        <p class="caption">Pour 100 spectateurs. À 16,90 €, Pathé ne gagne de l'argent que sur <a class="src" href="../recommandation.html#calc">9 des 55 acheteurs</a> : leur dépense médiane en confiserie est déjà de 8,00 €.</p>
       </div>
       <div class="chart">
         <h3>Il n'existe pas de prix rentable sous le plafond</h3>
         <svg id="g-axe" viewBox="0 0 560 260" role="img" aria-label="Plancher 15 euros, prix testés 16,90 à 18,90, plafond 19,50, seuil de l'acheteur type 20,87"></svg>
-        <p class="caption">Prix sans perte = 13,50 + (1,36 + dépense ÷ 1,10 × 73,4 %) × 1,10 ; pour l'acheteur type (8,00 € de dépense) : 20,87 €.</p>
+        <p class="caption">Prix sans perte = 13,50 + (1,36 + dépense ÷ 1,10 × 73,4 %) × 1,10 ; pour l'acheteur type, qui dépense déjà <a class="src" href="../recommandation.html#calc">8,00 €</a> : 13,50 + (1,36 + 8,00 ÷ 1,10 × 0,734) × 1,10 = <a class="src" href="../recommandation.html#equilibre">20,87 €</a>, au-dessus du <a class="src" href="#marche">plafond de 19,50 €</a>.</p>
       </div>
     </div>
+    <details id="calc-gg">
+      <summary>Construction des calculs : coût variable d'un pack, marge « vente nouvelle » et marge réelle</summary>
+      <div class="inner">
+        <div class="calc">
+          <div class="head">Coût variable d'un pack à 16,90 €, pour Pathé</div>
+          <div class="row"><span class="t">TVA, taxe CNC et part du distributeur sur la place</span><span class="v">7,79 €</span><span class="o">0,70 + 1,37 + 5,71 (<a class="src" href="#proposition">partie 3</a>), soit 13,50 − 5,71</span></div>
+          <div class="row"><span class="t">+ TVA sur la confiserie du pack</span><span class="v">0,31 €</span><span class="o">confiserie du pack = 16,90 − 13,50 = 3,40 € TTC ; TVA 10 % = 3,40 − 3,40 ÷ 1,10</span></div>
+          <div class="row"><span class="t">+ Coût du menu</span><span class="v">1,36 €</span><span class="o">pop-corn, sirop, gobelet (<a class="src" href="#proposition">partie 3</a>)</span></div>
+          <div class="row sub"><span class="t">= Coût variable</span><span class="v">9,46 €</span><span class="o">9,55 € à 17,90 € et 9,64 € à 18,90 €, car la TVA de la confiserie augmente avec le prix</span></div>
+          <div class="row total"><span class="t">Marge par pack vendu</span><span class="v">7,44 €</span><span class="o">16,90 − 9,46 ; 8,35 € à 17,90 € ; 9,26 € à 18,90 €</span></div>
+        </div>
+        <div class="calc">
+          <div class="head">Les deux barres du schéma, pour 100 spectateurs</div>
+          <div class="row"><span class="t">Si chaque pack était une vente nouvelle</span><span class="v">+350 €</span><span class="o">7,44 € × 47,1 % d'acheteurs × 100 ; 8,35 × 26,9 % = 225 € ; 9,26 × 9,2 % = 86 €. Parts d'acheteurs : <a class="src" href="../prix-psychologique.html#gg">question 6</a></span></div>
+          <div class="row"><span class="t">Marge réelle, par acheteur</span><span class="v">formule</span><span class="o">(prix − 13,50) ÷ 1,10 − 1,36 − dépense habituelle ÷ 1,10 × 73,4 %, avec la dépense que chaque acheteur déclare à la <a class="src" href="../questionnaire.html">question 11</a> <span class="tag hyp">Hypothèse</span> : le pack remplace toute sa confiserie habituelle</span></div>
+          <div class="row total"><span class="t">= Marge réelle pour 100 spectateurs</span><span class="v">−178 €</span><span class="o">somme sur les 55 acheteurs ÷ 118 répondants × 100 (1 dépense au-dessus de 50 € écartée) ; −97 € à 17,90 €, −39 € à 18,90 € (<a class="src" href="../recommandation.html#calc">page La décision</a>)</span></div>
+        </div>
+      </div>
+    </details>
     <h3>À quel moment notre scénario lâche-t-il ?</h3>
-    <p>Nous avons malmené nos hypothèses (coûts +15 %, moins d'acheteurs réels, plus de clients qui achètent déjà) : <strong>tous les scénarios restent négatifs</strong>. Une seule hypothèse peut tout renverser : la fréquentation. Si le pack fait venir les gens plus souvent, chaque séance en plus rapporte la place et le pack.</p>
+    <p>Nous avons malmené nos hypothèses (coûts +15 %, seulement 70 % des clients « place seule » qui ont dit oui achètent vraiment, 10 points de clients qui achètent déjà en plus) : <strong><a class="src" href="../recommandation.html#stress">tous les scénarios du stress test restent négatifs</a></strong>, de −154 € à −176 € pour 100 spectateurs à 16,90 €. Une seule hypothèse peut tout renverser : la fréquentation. Si le pack fait venir les gens plus souvent, chaque séance en plus rapporte la place et le pack.</p>
     <div class="scroll"><table id="t-sens"></table></div>
-    <p class="caption">Marge pour 100 spectateurs = marge prévue + séances en plus × (5,71 € de place + (prix − 13,50) ÷ 1,10 − 1,36 € de menu). Il suffirait de <strong>24 séances de plus pour 100 spectateurs</strong> à 16,90 € (4 à 18,90 €). Notre questionnaire ne l'a pas mesuré : c'est sa principale limite. L'autre hypothèse fragile est le prix du menu (8,50 €, estimé) : à 9,50 €, il faudrait 3,2 clients « place seule » pour en compenser un.</p>
+    <p class="caption">Marge pour 100 spectateurs = marge prévue (<a class="src" href="#calc-gg">−178, −97, −39 €</a>) + séances en plus × marge d'une séance en plus. Une séance en plus rapporte la place et le pack : 5,71 € (<a class="src" href="#proposition">partie 3</a>) + (prix − 13,50) ÷ 1,10 − 1,36 €, soit 7,44 € à 16,90 €. Seuil : 178,05 ÷ 7,44 = <strong>24 séances de plus pour 100 spectateurs</strong> à 16,90 € (96,64 ÷ 8,35 = 12 à 17,90 € ; 39,28 ÷ 9,26 = 4 à 18,90 €). <span class="tag hyp">Hypothèse</span> chaque séance en plus est un pack vendu. Notre questionnaire ne mesure pas la fréquentation : c'est sa principale limite. L'autre hypothèse fragile est le <a class="src" href="https://www.ugc.fr/comptoir.html">prix du menu (8,50 €, estimé)</a> : à 9,50 €, la perte sur un client qui prenait déjà le menu passe à (9,50 − 3,40) ÷ 1,10 = 5,55 €, et il faudrait 5,55 ÷ 1,73 = 3,2 clients « place seule » pour la compenser.</p>
     <div class="decision">
-      <span class="label">Notre recommandation</span>
+      <span class="label">Notre décision</span>
       <h3>Ne pas lancer le pack permanent à ces prix</h3>
-      <p>Garder la place et le menu vendus séparément, et afficher « 22 € achetés séparément », qui ne coûte rien et va dans le bon sens. Avant toute décision : <strong>tester le pack quelques semaines à Aubière</strong>, vendu en ligne avec le billet, pour mesurer la part d'acheteurs qui prenaient déjà la confiserie et s'ils viennent plus souvent. Relever d'abord le prix du menu au comptoir.</p>
+      <p><strong>Quel prix recommandons-nous ?</strong> Aucun des trois prix testés : à 16,90, 17,90 comme à 18,90 €, le pack fait perdre de la marge (<a class="src" href="#calc-gg">−178 à −39 € pour 100 spectateurs</a>), et le seul prix sans perte pour l'acheteur type, <a class="src" href="../recommandation.html#equilibre">20,87 €</a>, dépasse le <a class="src" href="#marche">plafond de 19,50 €</a>. Nous recommandons de garder la place et le menu vendus séparément.</p>
+      <p><strong>La variation se paie-t-elle ?</strong> Le pack, non : la remise profite surtout aux clients qui achetaient déjà pop-corn et boisson. La mention « 22 € achetés séparément », oui probablement : elle ne coûte presque rien et fait mieux à chaque prix (<a class="src" href="../prix-psychologique.html#ab">+12, +12 et +10 points</a>), sans que notre test suffise à le prouver (<a class="src" href="../statistiques.html#t8">p = 0,186</a>). Nous recommandons de l'afficher.</p>
+      <p><strong>À quel moment notre scénario lâche-t-il ?</strong> Si le pack fait venir les gens plus souvent (24 séances de plus pour 100 spectateurs suffiraient à 16,90 €), ou si le menu se vend plus cher que 8,50 € au comptoir. D'où notre prochaine étape : <strong>tester le pack quelques semaines à Aubière</strong>, vendu en ligne avec le billet, en mesurant la part d'acheteurs qui prenaient déjà la confiserie et s'ils viennent plus souvent, après avoir relevé le prix du menu au comptoir.</p>
     </div>
   </section>
 
@@ -241,6 +303,10 @@ td.chaleur{font-weight:700;color:var(--ink)}
 
 <script>
 (function(){
+  // un lien vers un calcul replié l'ouvre (#calc-spectateur, #calc-prix-accepte, #calc-gg)
+  const ouvrir = id => { const d = document.getElementById(id); if (d && d.tagName === "DETAILS") d.open = true; };
+  document.addEventListener("click", e => { const a = e.target.closest('a[href^="#calc"]'); if (a) ouvrir(a.getAttribute("href").slice(1)); });
+  if (location.hash.startsWith("#calc")) ouvrir(location.hash.slice(1));
   const NS = "http://www.w3.org/2000/svg";
   const fr = (v, d = 2) => v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace("-", "−");
   const svg = id => { const s = document.getElementById(id); return (t, a, x) => { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); if (x != null) n.textContent = x; s.appendChild(n); return n; }; };
